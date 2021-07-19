@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <!-- 누르면 홈 화면으로 돌아가도록 설정함. -->
+    <a href="{% url 'home' %}"><h1>ALLCAKES🍰</h1></a>
+    <p>✨인스타에 흩어져있던 주문 제작 케이크 가게들을 한눈에✨</p>
+
+    <h3><a href="{% url 'new' %}">새 케이크집 등록</a></h3>
+    <hr>
+
+    <!-- 가게이름, 이미지 클릭하면 상세페이지로 넘어감. -->
+    {% for post in posts_list %}
+        <div class="store">
+            <a href="{% url 'detail' pk=post.pk %}"><img src="{{post.store_image.url}}" width="300", height="200"></a>
+            <!-- 아래 텍스트는 위치와 상세설명임, 편한대로 변경 혹은 삭제 -->
+            <a href="{% url 'detail' pk=post.pk %}"><h3>{{post.name}}</h3></a>
+            <span>{{post.location}}</span>
+            <section>{{post.text|slice:"20"}}...</section>
+            <hr>
+        </div>
+        <br>
+    {% endfor %}
+
+    <div class="paginator">
+        {% if posts_list.has_previous %}
+        <a href="?page=1">처음</a>
+        <a href="?page={{posts_list.previous_page_number}}">이전</a>
+        {% endif %}
+        <span>{{posts_list.number}}</span>
+        <span>of</span>
+        <span>{{posts_list.paginator.num_pages}}</span>
+        {% if posts_list.has_next %}
+        <a href="?page={{posts_list.next_page_number}}">다음</a>
+        <a href="?page={{posts_list.paginator.num_pages}}">마지막</a>
+        {% endif %}
+    </div>
+</body>
+</html>

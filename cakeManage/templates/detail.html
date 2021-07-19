@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake Store Detail</title>
+</head>
+<body>
+    <h1>케이크집 상세</h1>
+    
+    <!-- 대표이미지, 가게이름, 위치, 연락처, 설명, 케잌이미지 -->
+    <div class="store-detail">
+        <img src="{{post.store_image.url}}" width="300", height="200">
+        <h1>{{post.name}}</h1>
+        <b>{{post.location}}</b>
+        <span>{{post.contact}}</span>
+        <section>{{post.text}}</section>
+        {% for image in post.cakeimage_set.all %}
+            <img src="{{image.cake_image.url}}" width="150" height="150">
+        {% endfor %}
+        <!-- {% if post.pub_date %}
+            {{post.pub_date}}
+        {% endif %}
+        게시일자는 일단 주석처리-->
+    </div>
+    
+    <!-- 이하 수정 및 삭제는 작성한 유저만이 수정 및 삭제할 수 있도록 수정할 예정 -->
+    <a href="{% url 'edit' pk=post.pk %}">정보 수정</a>
+    <a href="{% url 'image_edit' pk=post.pk %}">사진 수정</a>
+    <a href="{% url 'delete' pk=post.pk %}">삭제</a>
+</body>
+</html>
