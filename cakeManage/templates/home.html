@@ -1,31 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
     <title>Home</title>
 </head>
+
 <body>
     <!-- 누르면 홈 화면으로 돌아가도록 설정함. -->
-    <a href="{% url 'home' %}"><h1>ALLCAKES🍰</h1></a>
-    <p>✨인스타에 흩어져있던 주문 제작 케이크 가게들을 한눈에✨</p>
+    <a href="{% url 'home' %}">
+        <h1>ALLCAKES🍰</h1>
+    </a>
+    <p>✨인스타에 흩어져있던 주문 제작 케이크 가게들을 한눈에✨</p><br><br>
+
+    <!-- 케러셀 부트스트랩 -->
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div id="home-img1" class="carousel-item home-img-display active">
+            </div>
+            <div id="home-img2" class="carousel-item home-img-display active">
+            </div>
+            <div id="home-img3" class="carousel-item home-img-display active">
+            </div>
+            <div class="carousel-caption home-caption-display">
+                <h5> 케이크 공지사항</h5>
+                <a href="#" class="btn btn-warning text white">자세히 보기</a>
+            </div>
+        </div>
+
+        <!-- 버튼 부분 -->
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 
     <h3><a href="{% url 'new' %}">새 케이크집 등록</a></h3>
+    <a href="{% url 'mypage' %}">마이페이지</a>
     <hr>
 
     <!-- 가게이름, 이미지 클릭하면 상세페이지로 넘어감. -->
-    {% for post in posts_list %}
-        <div class="store">
-            <a href="{% url 'detail' pk=post.pk %}"><img src="{{post.store_image.url}}" width="300", height="200"></a>
-            <!-- 아래 텍스트는 위치와 상세설명임, 편한대로 변경 혹은 삭제 -->
-            <a href="{% url 'detail' pk=post.pk %}"><h3>{{post.name}}</h3></a>
-            <span>{{post.location}}</span>
-            <section>{{post.text|slice:"20"}}...</section>
-            <hr>
+    <div class="container">
+        <div class="row">
+            {% for post in posts_list %}
+            <div class="col-lg-4 col-12 pb-5">
+                <div class="card store" style="width: 18rem;">
+                    <img src="{{post.store_image.url}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.name}}</h5>
+                        <p class="card-text">{{post.location}}</p>
+                        <a href="{% url 'detail' pk=post.pk %}" class="btn btn-primary">케이크집 살펴보기</a>
+                        <section>{{post.text|slice:"20"}}...</section>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        <br>
-    {% endfor %}
+    </div>
 
     <div class="paginator">
         {% if posts_list.has_previous %}
@@ -41,4 +83,6 @@
         {% endif %}
     </div>
 </body>
+
 </html>
+{% endblock %}

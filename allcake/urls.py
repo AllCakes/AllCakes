@@ -28,6 +28,10 @@ urlpatterns = [
     path('edit/<int:pk>/images', cakemanage.image_edit, name="image_edit"),
     path('detail/<int:pk>/delete', cakemanage.delete, name="delete"),
     path('edit/<int:pk>/images/<int:image_pk>/delete', cakemanage.image_delete, name="image_delete"),
+    path('newcake/<int:pk>', cakemanage.newcake, name="newcake"),
+    path('order/<int:pk>', cakemanage.order, name="order"),
+    path('mypage/', cakemanage.mypage, name="mypage"),
+    path('review/<int:pk>', cakemanage.review, name="review"),
 ]
 
 if settings.DEBUG:
