@@ -1,3 +1,4 @@
+# 별점 처리 구현에 필요한 py
 from django import forms
 
 class starWidget(forms.TextInput):

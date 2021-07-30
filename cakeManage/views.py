@@ -114,12 +114,13 @@ def order(request, pk):
 
     return render(request, 'order.html', {'form': form, 'cake':cake})
 
-# 회원번호 pk로 주문내역을 확인하고, 회원번호로 입력된 주문내역을 확인
+# 추후 회원가입 추가시, 회원번호로 주문내역을 확인할 수 있도록 수정
 def mypage(request):
     orders = Order.objects.all()
     return render(request, 'mypage.html', {'order_list':orders})
 
 # 리뷰 작성하기
+# 현재 별점추가 진행중 .. 
 def review(request, pk):
     cake = get_object_or_404(Cake, pk=pk)
     if request.method == 'POST':

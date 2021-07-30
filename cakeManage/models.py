@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.utils import timezone
 from django.db import models
+# 별점처리에 필요 .. 현재 진행중
 from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
 

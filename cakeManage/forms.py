@@ -21,6 +21,7 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields =  ['body']
+        # 별점처리 필요한 정보
         # widgets = {
         #     'grade': starWidget,
         # }
