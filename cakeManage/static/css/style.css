@@ -1,66 +1,13 @@
-/* 폰트 */
-@font-face {
-    font-family: 'EliceDigitalBaeum_Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
+@import "font.css";
+@import "bootstrap.css";
+@import "button.css";
+@import "home.css";
+@import "base.css";
+@import "storeDetail.css";
+@import "mypage.css";
+@import "searchResult.css";
 
-*{
-    font-family: 'EliceDigitalBaeum_Bold';
-}
-/* 부트스트랩 - 캐러셀 부분 style css */
-#home-img1{
-    background-image: url(../img/케이크일러스트.png);
-}
-#home-img2{
-    background-image:  url(../img/케이크일러스트.png);
-}
-#home-img3{
-    background-image: url(../img/케이크일러스트.png);
-}
-.home-img-display{
-    height: 50vh;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.home-caption-display{
-    top : 37%;
-    color : wheat;
-}
 
-/* 부트스트랩 card 부분 */
-.posting-header{
-    padding: 120px 0;
-    text-align: center;
-}
-.posting-en{
-    font-size: 1.2em;
-    font-weight: 700;
-    line-height: 3;
-}
-.posting-h{
-    font-size: 2.7em;
-    line-height: 1.5;
-}
+/*kdy : 앞으로 각 페이지마다 css 입히는 것이 달라질 가능성이 높아서
+css를 페이지별로 나눠서 보면 좋을듯해서 파일을 분배함*/
 
-/* 버튼 관련 */
-button{
-    width:100px;
-    border-radius: 25px 25px 25px 25px;
-    border-width: 5px;
-    border-color: black;
-    padding: 15px 0;
-    text-align: center;
-    text-decoration: none;
-    display: inline;
-    font-size: 8px;
-    margin: 4px;
-    cursor: pointer;
-}
-
-.items{
-    display: none;
-}
-/* 전체 뼈대 */

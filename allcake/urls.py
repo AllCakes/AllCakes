@@ -14,25 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from cakeManage import views as cakemanage
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', cakemanage.home, name="home"),
-    path('new/', cakemanage.new, name="new"),
-    path('detail/<int:pk>', cakemanage.detail, name="detail"),
-    path('edit/<int:pk>', cakemanage.edit, name="edit"),
-    path('edit/<int:pk>/images', cakemanage.image_edit, name="image_edit"),
-    path('detail/<int:pk>/delete', cakemanage.delete, name="delete"),
-    path('edit/<int:pk>/images/<int:image_pk>/delete', cakemanage.image_delete, name="image_delete"),
-    path('newcake/<int:pk>', cakemanage.newcake, name="newcake"),
-    path('order/<int:pk>', cakemanage.order, name="order"),
-    path('mypage/', cakemanage.mypage, name="mypage"),
-    path('review/<int:pk>', cakemanage.review, name="review"),
+    path("", include("cakeManage.urls")),
+    path('account/', include("account.urls")), #kdy : 앱마다 url 관리 해줄 수 있도록 url 분리했어용
+
+
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

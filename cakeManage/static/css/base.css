@@ -1,0 +1,19 @@
+/*헤더 고정 부분 flexbox*/
+.fixed{
+
+    /*flex-wrap: wrap;*/
+    display : flex;
+    align-items: baseline;
+    justify-content:space-between;
+}
+
+
+.fixed > div{
+    text-align: center;
+}
+
+.footer{
+    position: absolute;
+    justify-content: center;
+    text-align: center;
+}

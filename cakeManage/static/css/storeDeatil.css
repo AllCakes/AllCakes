@@ -1,0 +1,74 @@
+/*가게 상세페이지 css*/
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 106px 918px 150px;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "header"
+    "body"
+    "footer";
+}
+
+.footer { grid-area: footer; }
+
+.header { grid-area: header; }
+
+.body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 300px 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "store-name"
+    "storeinfo-body";
+  grid-area: body;
+}
+
+.store-name {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "store-name---info store-button";
+  grid-area: store-name;
+}
+
+.store-button { grid-area: store-button; }
+
+.store-name---info { grid-area: store-name---info; }
+
+.storeinfo-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 96px 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "menu"
+    "menu-detail";
+  grid-area: storeinfo-body;
+}
+
+.menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "menu-item info-item review-item";
+  grid-area: menu;
+}
+
+.menu-item { grid-area: menu-item; }
+
+.info-item { grid-area: info-item; }
+
+.review-item { grid-area: review-item; }
+
+.menu-detail { grid-area: menu-detail; }

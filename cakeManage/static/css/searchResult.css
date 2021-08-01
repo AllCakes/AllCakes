@@ -1,0 +1,58 @@
+/*검색결과 페이지*/
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 106px 918px 150px;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "header"
+      "body"
+      "footer";
+  }
+  
+  .header { grid-area: header; }
+  
+  .footer { grid-area: footer; }
+  
+  .body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 100px 1fr 60px;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "search-info"
+      "search-result"
+      "paginator";
+    grid-area: body;
+  }
+  
+  .search-info { grid-area: search-info; }
+  
+  .search-result {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "search-item1 search-item2 search-item3"
+      "search-item4 search-item5 search-item6";
+    grid-area: search-result;
+  }
+  
+  .search-item1 { grid-area: search-item1; }
+  
+  .search-item2 { grid-area: search-item2; }
+  
+  .search-item3 { grid-area: search-item3; }
+  
+  .search-item4 { grid-area: search-item4; }
+  
+  .search-item5 { grid-area: search-item5; }
+  
+  .search-item6 { grid-area: search-item6; }
+  
+  .paginator { grid-area: paginator; }
+  

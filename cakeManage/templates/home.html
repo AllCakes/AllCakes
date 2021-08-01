@@ -1,23 +1,20 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ko">
+{% block content %}
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <script type="text/javascript" src="/static/js/userLocation.js">
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d5f6c310a78632612936d0ea60df74&libraries=services">
+    </script>
+
     <title>Home</title>
 </head>
-
-<body>
-    <!-- 누르면 홈 화면으로 돌아가도록 설정함. -->
-    <a href="{% url 'home' %}">
-        <h1>ALLCAKES🍰</h1>
-    </a>
-    <p>✨인스타에 흩어져있던 주문 제작 케이크 가게들을 한눈에✨</p><br><br>
+<div class="container">
+    <div class="body">
 
     <!-- 케러셀 부트스트랩 -->
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -31,6 +28,7 @@
             <div class="carousel-caption home-caption-display">
                 <h5> 케이크 공지사항</h5>
                 <a href="#" class="btn btn-warning text white">자세히 보기</a>
+
             </div>
         </div>
 
@@ -43,13 +41,37 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
-    </div>
+    </div> <!--캐러셀 부트스트랩 끝-->
 
-    <h3><a href="{% url 'new' %}">새 케이크집 등록</a></h3>
-    <a href="{% url 'mypage' %}">마이페이지</a>
+
+    <!--
+    <h3><a href="{% url 'new' %}">새 케이크집 등록</a></h3> kdy : 이거는 지금 홈페이지에 없어도 될 것 같아서 주석 처리함
     <hr>
 
-    <!-- 가게이름, 이미지 클릭하면 상세페이지로 넘어감. -->
+    가게이름, 이미지 클릭하면 상세페이지로 넘어감-->
+
+    <div class="컨">
+        <div class="오늘의-케이크">
+          <div class="오늘의-케이크-head"></div>
+          <div class="오늘의-케이크-container">
+            <div class="오늘의-케이크-item1"></div>
+            <div class="오늘의-케이크-item2"></div>
+            <div class="오늘의-케이크-item3"></div>
+            <div class="오늘의-케이크-item4"></div>
+          </div>
+        </div>
+        <div class="최신리뷰">
+          <div class="최신리뷰-head"></div>
+          <div class="최신-리뷰-container">
+            <div class="최신-리뷰-item1"></div>
+            <div class="최신리뷰-item2"></div>
+            <div class="최신리뷰-item3"></div>
+            <div class="최신리뷰-item4"></div>
+          </div>
+        </div>
+      </div>
+
+
     <div class="container">
         <div class="row">
             {% for post in posts_list %}
@@ -82,7 +104,9 @@
         <a href="?page={{posts_list.paginator.num_pages}}">마지막</a>
         {% endif %}
     </div>
+
+
 </body>
 
-</html>
+</div>
 {% endblock %}

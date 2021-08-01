@@ -1,0 +1,36 @@
+
+/* 부트스트랩 - 캐러셀 부분 style css */
+#home-img1{
+    background-image: url(../img/케이크일러스트.png);
+}
+#home-img2{
+    background-image:  url(../img/케이크일러스트.png);
+}
+#home-img3{
+    background-image: url(../img/케이크일러스트.png);
+}
+.home-img-display{
+    height: 50vh;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.home-caption-display{
+    top : 37%;
+    color : wheat;
+}
+
+/* 부트스트랩 card 부분 */
+.posting-header{
+    padding: 120px 0;
+    text-align: center;
+}
+.posting-en{
+    font-size: 1.2em;
+    font-weight: 700;
+    line-height: 3;
+}
+.posting-h{
+    font-size: 2.7em;
+    line-height: 1.5;
+}

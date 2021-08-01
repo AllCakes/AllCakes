@@ -1,0 +1,110 @@
+
+// 홈페이지 css
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 106px 3.8fr 150px;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "head"
+    "body"
+    "footer";
+}
+
+.head { grid-area: head; }
+
+.body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 617px 600px;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "캐러셀"
+    "컨";
+  grid-area: body;
+}
+
+.캐러셀 { grid-area: 캐러셀; }
+
+.컨 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 250px 350px;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "오늘의-케이크"
+    "최신리뷰";
+  grid-area: 컨;
+}
+
+.오늘의-케이크 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 70px 180fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "오늘의-케이크-head"
+    "오늘의-케이크-container";
+  grid-area: 오늘의-케이크;
+}
+
+.오늘의-케이크-head { grid-area: 오늘의-케이크-head; }
+
+.오늘의-케이크-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "오늘의-케이크-item1 오늘의-케이크-item2 오늘의-케이크-item3 오늘의-케이크-item4";
+  grid-area: 오늘의-케이크-container;
+}
+
+.오늘의-케이크-item1 { grid-area: 오늘의-케이크-item1; }
+
+.오늘의-케이크-item2 { grid-area: 오늘의-케이크-item2; }
+
+.오늘의-케이크-item3 { grid-area: 오늘의-케이크-item3; }
+
+.오늘의-케이크-item4 { grid-area: 오늘의-케이크-item4; }
+
+.최신리뷰 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 70px fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "최신리뷰-head"
+    "최신-리뷰-container";
+  grid-area: 최신리뷰;
+}
+
+.최신리뷰-head { grid-area: 최신리뷰-head; }
+
+.최신-리뷰-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "최신-리뷰-item1 최신리뷰-item2"
+    "최신리뷰-item3 최신리뷰-item4";
+  grid-area: 최신-리뷰-container;
+}
+
+.최신-리뷰-item1 { grid-area: 최신-리뷰-item1; }
+
+.최신리뷰-item2 { grid-area: 최신리뷰-item2; }
+
+.최신리뷰-item3 { grid-area: 최신리뷰-item3; }
+
+.최신리뷰-item4 { grid-area: 최신리뷰-item4; }
+
+.footer { grid-area: footer; }
