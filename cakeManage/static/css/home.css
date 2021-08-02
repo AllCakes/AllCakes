@@ -1,5 +1,4 @@
-
-// 홈페이지 css
+/*홈페이지 css*/
 .container {
   display: grid;
   grid-template-columns: 1fr;
