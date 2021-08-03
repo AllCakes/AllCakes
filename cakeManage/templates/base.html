@@ -1,75 +1,173 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
-    <!-- CSS only -->
+    <meta charset="UTF-8">
+    <!--부트스트랩 불러온 것-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Document</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css" />
+    <!--부트스트랩-->
+    <!--여기까지-->
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" /> <!--연결 안됨-->
     <script type="text/javascript" src="/static/js/userLocation.js"></script>
     <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d5f6c310a78632612936d0ea60df74&libraries=services"></script>
-    <!--헤더 flexbox 자리.
-    kdy : home.html에 있던 홈 화면 아이콘, 마이페이지, 로그인 고정 헤더를 base로 옮김-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="fixed">
-            <div>
-                <!-- 1)홈 화면 아이콘 -->
-                <a href="{% url 'home' %}">
-                    <h1>ALLCAKES🍰</h1>
-                    <!--   <img src="{%static 'images/우리이미지로고나중에...png' %}" alt="" width=100>-->
-                </a>
-            </div>
-            {% if user.is_authenticated %}
-            <!--2) authenticated 되었으면 로그아웃-->
 
-            <a href="{% url 'logout' %}" style="margin-left: 900px;">Log out</a>
-            </li>
-            {% endif %}
-            <ul>
-                <!--3) authenticated 되지 않았으면 로그인/회원가입-->
-                {% if not user.is_authenticated %}
-                <a class="nav-link" href="{%url 'login' %}" style="margin-left: 900px;">Join/Log in</a>
-                {% endif %}
-            </ul>
-            <!--kdy : 아마도 검색창 들어가야 되는 자리-->
-            <div>
+    <!--부트스트랩 기본 디자인 변경 위해 -->
+    <style>
+        @font-face {
+            font-family: 'SF_HambakSnow';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_HambakSnow.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-            </div>
-            </ul>
-            <!--4) authenticated 되었으면 마이페이지-->
-            {% if user.is_authenticated %}
-            <div>
-                <a href="{% url 'mypage' %}">마이페이지</a>
-            </div>
-            {% endif %}
-            <!--kdy : 접속한 사용자의 현재 위치를 반환-->
-            <div id="location_input">
-                <span></span>
-            </div>
-            </div>
-    </nav>
-    <!---->
 
+        .fixed-top {
+            border-bottom: 4px solid rgba(151, 151, 151, 0.1);
+        }
+
+        .btn-secondary {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+            background-color: white;
+            border: 1px solid #bbbdbe;
+            border-radius: 5%;
+            margin-top: 5px;
+
+
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: black;
+        }
+
+
+        .nav-item a::after {
+            /*after 가상요소*/
+            display: block;
+            /*a요소를 블록 요소라고 선언*/
+
+            content: '';
+            border-bottom: solid 1px rgb(116, 117, 201);
+            transform: scaleX(0);
+            /*크기를 0으로 줌으로써 평상시엔 밑줄 없음*/
+            transition: transform 250ms ease-in-out;
+            /*변형 방식*/
+        }
+
+
+        .nav-item a:hover:after {
+            transform: scaleX(1);
+            /*a 속성에 hover시 기존 크기로*/
+        }
+
+        .btn-secondary:hover {
+            background-color: rgb(116, 117, 201);
+        }
+
+        .navbar-brand {
+            margin-left: 10px;
+            margin-right: 22px;
+            padding-bottom: 3px;
+            font-family: 'SF_HambakSnow';
+            font-size: 30px;
+        }
+
+        .navbar-nav {
+            margin-top: 6px;
+        }
+
+        .navbar-nav a {
+            font-family: 'SF_HambakSnow';
+            font-size: 17px;
+            color: rgb(29, 29, 29);
+
+        }
+    </style>
 
 </head>
 
 <body>
+
+
+    <!--새로 붙여넣은 header-->
+    <header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="home.html">ALLCAKES</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item ">
+                            <a class="nav-link px-2 active" aria-current="page" href="#">Home</a>
+                        </li>
+
+                        <!--로그인, 회원가입, 로그아웃-->
+                        <li class="nav-item ">
+                            {% if user.is_authenticated %}
+                            <!-- authenticated 되었으면 로그아웃-->
+
+                            <a class="nav-link px-2" href="{% url 'logout' %}">Log Out</a>
+                            {% endif %}
+
+                            <!--3 authenticated 되지 않았으면 로그인/회원가입-->
+                            {% if not user.is_authenticated %}
+                            <a class="nav-link px-2" href="{%url 'login' %}">Join / Log In</a>
+                            {% endif %}
+                        </li>
+                        <!--로그인, 회원가입, 로그아웃 끝-->
+
+                        <!--마이페이지, about us-->
+                        <li class="nav-item ">
+
+                            {% if user.is_authenticated %}
+                            <a class="nav-link px-2" href="{% url 'mypage' %}">My Page</a>
+                            {% endif %}
+
+                            {% if not user.is_authenticated %}
+                            <a class="nav-link px-2" href="#">About Us</a>
+                            <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
+                            {% endif %}
+                        </li>
+                        <!--마이페이지, about us 끝-->
+                    </ul>
+
+
+                    <form class="d-flex">
+                        <!--이유는 모르겠는데 head에 style태그 넣어서 검색바 크기 조절하면 적용이 안되어서 input 태그에 스타일 집어넣음.-->
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                            style="width: 200px; height: 30px; margin-top: 5px; font-family: 'SF_HambakSnow'; border-radius: 0%; border-color: black;">
+                        <button class="btn btn-secondary btn-sm" type="submit">🔍</button>
+                    </form>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <!---->
     {% block content %}
     {% endblock %}
 
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-        </script>
-    <footer>
+    </script>
 
-    </footer>
+
+
 </body>
 
 

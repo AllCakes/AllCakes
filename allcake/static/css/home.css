@@ -1,5 +1,27 @@
+#home-img1{
+  background-image: url(../img/carousel1.png);
+}
+
+#home-img2{
+  background-image: url(../img/carousel2.png);
+}
+
+#home-img3{
+  background-image: url(../img/carousel3.png);
+}
+
+.home-img-display{
+  height: 600px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.carousel-caption{
+  color: black;
+}
 /*홈페이지 css*/
-.container {
+/*.container {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 106px 3.8fr 150px;
@@ -106,4 +128,4 @@
 
 .최신리뷰-item4 { grid-area: 최신리뷰-item4; }
 
-.footer { grid-area: footer; }
+.footer { grid-area: footer; }*/
