@@ -1,3 +1,4 @@
+
 #home-img1{
   background-image: url(../img/carousel1.png);
 }
@@ -20,6 +21,9 @@
 .carousel-caption{
   color: black;
 }
+
+
+
 /*홈페이지 css*/
 /*.container {
   display: grid;

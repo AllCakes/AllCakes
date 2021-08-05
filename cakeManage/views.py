@@ -12,6 +12,7 @@ def home(request):
     posts = paginator.get_page(page)
     return render(request, 'home.html', {'posts_list': posts})
 
+
 # 가게 등록
 def new(request):
     if request.method == 'POST':
