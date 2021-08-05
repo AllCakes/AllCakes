@@ -7,7 +7,7 @@ from .forms import StoreForm, CakeForm, OrderForm, ReviewForm
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
     posts = Store.objects.order_by('-pub_date')
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 4) 
     page = request.GET.get('page', 1)
     posts = paginator.get_page(page)
     return render(request, 'home.html', {'posts_list': posts})

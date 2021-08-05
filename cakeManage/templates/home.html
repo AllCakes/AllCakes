@@ -8,296 +8,7 @@
 {% endblock %}
 
 {% block content %}
-    <!-- css가 사진 내용들 외에는 적용이 안돼서 여기로 넘어옴,, 아니 대체 왜,,, 아무튼 home.css 손대면 ❌-->
-    <head>
-        <style>
-            @font-face {
-            font-family: 'SF_HambakSnow';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_HambakSnow.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-            }
-
-            @font-face {
-            font-family: 'NotoSerifKR';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NotoSerifKR.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-            }
-
-            @font-face {
-            font-family: 'Cafe24Oneprettynight';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Oneprettynight.woff')
-            format('woff');
-            font-weight: normal;
-            font-style: normal;
-            }
-            #body{
-            height: 2300px;
-            background-color: rgba(217, 225, 235, 0.336);
-            }
-
-            .today{
-            height: 560px;
-            margin-top: 80px;
-            }
-
-            .underToday{
-                border: 1.5px black solid;
-                width: 85%;
-                align-items: center;
-                margin-left: 3%;
-            }
-            .todayHeader{
-                font-size: 33px;
-                font-family: 'SF_HambakSnow';
-                margin-left: 50px;
-                margin-top: 50px;
-            }
-
-            .todayCakes{
-                padding-top: 30px;
-                display: flex;
-                justify-content: space-evenly;
-            }
-
-            .cakeItem{
-                width: 17%; 
-                background-color: #ffffff;
-                height: 350px;  
-                border-radius: 5px;            
-                border: rgba(112, 128, 144, 0.185) 2px solid;
-            }
-
-            .cakeStore{
-                font-size: 20px;
-                margin: 10px 10px 6px 10px;
-                border-bottom: solid 2px rgb(194, 198, 204);
-            }
-
-            .cakeStore p{
-                font-family: 'NotoSerifKR';
-            }
-
-            .cakeTags{
-                font-family: 'Cafe24Oneprettynight';
-                font-size: 16px;
-                width: 90%;
-                padding-left: 5%;
-                padding-right: 5%;
-            }
-            .cakeImage{
-            width: 100%;
-            height: 65%;
-            border-radius: 5px;
-            }
-
-
-
-            .cakeStore a:link{
-                color: rgb(0, 0, 0);
-                text-decoration: none;
-            }
-            .cakeStore a:visited{
-                color: rgb(80, 106, 145);
-            }
-            .cakeStore a:hover{
-                color: rgb(38, 29, 48);
-            } 
-
-
-/*리뷰 내용 css*/
-
-            .review{
-                height: 660px;
-            }
-
-
-            .underReview{
-                border: 1.5px black solid;
-                width: 90%;
-                align-items: center;
-                margin-left: 3%;
-            }
-            .reviewHeader{
-                font-size: 33px;
-                font-family: 'SF_HambakSnow';
-                margin-left: 50px;
-                margin-top: 50px;
-            }
-
-            .fourReviews{
-                padding-top: 30px;
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-evenly;
-            }
-
-            .reviewItem{
-                width: 40%;
-                background-color: #ffffff;
-                height: 200px;
-                margin-bottom: 40px;
-                display: flex;
-                border-radius: 5px;
-                border: rgba(112, 128, 144, 0.185) 2px solid;
-            }
-
-
-            
-
-            .reviewImage{
-                width: 90%;
-                height: 100%;
-                border-radius: 5px;
-            }
-
-            .reviewText{
-                padding: 14px 10px 10px 10px;
-            }
-            .reviewTitle{
-                font-family: 'NotoSerifKR';
-                font-size: 20px;
-                border-bottom: solid 2px rgb(194, 198, 204);
-            }
-
-            .reviewDetail{
-                font-family: 'Cafe24Oneprettynight';
-                font-size: 18px;
-                line-height: 1.7rem;
-                margin-bottom: 5%;
-
-            }
-
-            .userId{
-                font-family: 'Cafe24Oneprettynight';
-                font-size: 16px;
-                font-weight: bold;
-                color: rgb(110, 107, 133);
-                margin-left: 5px;
-            }
-
-
-            .reviewTitle a:link{
-                color: rgb(0, 0, 0);
-                text-decoration: none;
-            }
-            .reviewTitle a:visited{
-                color: rgb(80, 106, 145);
-            }
-            .reviewTitle a:hover{
-                color: rgb(38, 29, 48);
-            }  
-            
-
-/*리뷰 내용 css 끝*/
-
-/*footer*/
-            footer{
-                height: 360px;
-                background-color: black;
-            }
-
-            .footerContent1{
-                display: flex;
-                justify-content: space-around;
-                color: white;
-                padding-top: 30px;
-            }
-
-            .about{
-                width: 30%;
-            }
-            
-            .aboutTitle, .categoryTitle, .linkTitle{
-                font-family: 'NotoSerifKR';
-                font-size: 20px;
-                font-weight: bold;
-            }
-
-            .aboutContent{
-                font-family: 'Cafe24Oneprettynight';
-            }
-
-            .categories{
-                width: 15%;
-            }
-
-
-            .categories li{
-                list-style: none;
-            }
-
-            .categories a:link{
-                color: white;
-                text-decoration: none;
-            }
-            .categories a:visited{
-                color: rgb(255, 255, 255);
-            }
-            .categories a:hover{
-                color: rgb(237, 167, 255);
-            }
-
-            .categories li ul{
-                padding-left: 0;
-                font-family: 'Cafe24Oneprettynight';
-            }
-
-            .links{
-                width: 15%;
-            }
-
-            .links li{
-                list-style: none;
-            }
-
-            .links a:link{
-                color: white;
-                text-decoration: none;
-            }
-            .links a:visited{
-                color: rgb(255, 255, 255);
-            }
-            .links a:hover{
-                color: rgb(162, 195, 255);
-            }
-
-
-            .links li ul{
-                padding-left: 0;
-                font-family: 'Cafe24Oneprettynight';
-            }
-
-            .underline{
-                border: 1.5px rgb(255, 255, 255) solid;
-                width: 90%;
-                align-items: center;
-                margin-left: 1%;
-            }
-
-            .underline2{
-                border: 1px rgb(221, 199, 255) solid;
-                width: 90%;
-                align-items: center;
-                margin-left: 5%;
-            }
-
-            .footerContent2 p{
-                font-size: 20px;
-                margin-top: 10px;
-                margin-left: 6%;
-                font-family: 'Cafe24Oneprettynight';
-                color: white;
-                font-weight: bold;
-            }
-        </style>
-    </head>
-
-
-
-
-
+    
     <div id="body">
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
@@ -347,37 +58,28 @@
             <p class="todayHeader">오늘의 케이크</p>
             <hr class="underToday">
 
-            
             <div class="todayCakes">
                 <article class="cakeItem">
-                    <a href="#"><img src="https://i.pinimg.com/originals/c0/38/de/c038de2c20b240af8de30bce4eb6c38f.jpg" class="cakeImage"></a>
-                    <p class="cakeStore"><a href="#">[케익 가게]</a> <a href="#">상품명</a></p>
-                    <p class="cakeTags"># 보라색 케이크 # 생일 케이크 # 키치 케이크 # 레터링 케이크</p>
-                    <!--케이크 헤시태그와 연결 필요-->
-                </article>
+                    {% for post in posts_list %}
+                        <div class="cardStore">
+                            <img src="{{post.store_image.url}}" class="cardImg" alt="">
 
-                <article class="cakeItem">
-                    <a href="#"><img src="https://i.pinimg.com/originals/c0/38/de/c038de2c20b240af8de30bce4eb6c38f.jpg" class="cakeImage"></a>
-                    <p class="cakeStore"><a href="#">[케익 가게]</a> <a href="#">상품명</a></p>
-                    <p class="cakeTags"># 보라색 케이크 # 생일 케이크 # 키치 케이크 # 레터링 케이크</p>
-                    <!--케이크 헤시태그와 연결 필요-->
-                </article>
+                            <div class="titleText">
+                                <p class="cardTitle">{{post.name}}</p>
+                                <p class="cardText">[{{post.location}}]</p>
+                            </div>
+                            <hr class="underCard">
 
-                <article class="cakeItem">
-                    <a href="#"><img src="https://i.pinimg.com/originals/c0/38/de/c038de2c20b240af8de30bce4eb6c38f.jpg" class="cakeImage"></a>
-                    <p class="cakeStore"><a href="#">[케익 가게]</a> <a href="#">상품명</a></p>
-                    <p class="cakeTags"># 보라색 케이크 # 생일 케이크 # 키치 케이크 # 레터링 케이크</p>
-                    <!--케이크 헤시태그와 연결 필요-->
-                </article>
+                            <a href="{% url 'detail' pk=post.pk %}" class="goDetail">케이크 가게 살펴보기</a>
 
-                <article class="cakeItem">
-                    <a href="#"><img src="https://i.pinimg.com/originals/c0/38/de/c038de2c20b240af8de30bce4eb6c38f.jpg" class="cakeImage"></a>
-                    <p class="cakeStore"><a href="#">[케익 가게]</a> <a href="#">상품명</a></p>
-                    <p class="cakeTags"># 보라색 케이크 # 생일 케이크 # 키치 케이크 # 레터링 케이크</p>
-                    <!--케이크 헤시태그와 연결 필요-->
-                </article>
+                            <section>{{post.text|slice:"30"}}...</section>
 
+                        </div>
+                    {% endfor %}
+                </article>
             </div>
+        
+
         </div>
 
 
@@ -394,7 +96,7 @@
                     <div class="reviewText">
                         <p class="reviewTitle"><a href="#">[케익 가게]</a><a href="#"> 상품명</a></p>
                         <p class="reviewDetail">여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯  </p> <!--공백포함 90자 정도-->
-                        <p class="userId">작성자 아이디</p> <!--별점 기능도 추가하면 좋겠음-->
+                        <p class="userId">( 작성자 아이디 )</p> <!--별점 기능도 추가하면 좋겠음-->
                     </div>
                     
                 </article>
@@ -404,7 +106,7 @@
                     <div class="reviewText">
                         <p class="reviewTitle"><a href="#">[케익 가게]</a><a href="#"> 상품명</a></p>
                         <p class="reviewDetail">여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 </p>
-                        <p class="userId">작성자 아이디</p> <!--별점 기능도 추가하면 좋겠음-->
+                        <p class="userId">( 작성자 아이디 )</p> <!--별점 기능도 추가하면 좋겠음-->
                     </div>
                     
                 </article>
@@ -414,7 +116,7 @@
                     <div class="reviewText">
                         <p class="reviewTitle"><a href="#">[케익 가게]</a><a href="#"> 상품명</a></p>
                         <p class="reviewDetail">여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 </p>
-                        <p class="userId">작성자 아이디</p> <!--별점 기능도 추가하면 좋겠음-->
+                        <p class="userId">( 작성자 아이디 )</p> <!--별점 기능도 추가하면 좋겠음-->
                     </div>
                 </article>
 
@@ -423,7 +125,7 @@
                     <div class="reviewText">
                         <p class="reviewTitle"><a href="#">[케익 가게]</a><a href="#"> 상품명</a></p>
                         <p class="reviewDetail">여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 </p>
-                        <p class="userId">작성자 아이디</p> <!--별점 기능도 추가하면 좋겠음-->
+                        <p class="userId">( 작성자 아이디 )</p> <!--별점 기능도 추가하면 좋겠음-->
                     </div>
                     
                 </article>

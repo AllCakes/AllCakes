@@ -1,135 +1,362 @@
-
-#home-img1{
+#home-img1 {
   background-image: url(../img/carousel1.png);
 }
 
-#home-img2{
+#home-img2 {
   background-image: url(../img/carousel2.png);
 }
 
-#home-img3{
+#home-img3 {
   background-image: url(../img/carousel3.png);
 }
 
-.home-img-display{
+.home-img-display {
   height: 600px;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.carousel-caption{
+.carousel-caption {
+  color: rgb(0, 0, 0);
+}
+
+
+
+@font-face {
+  font-family: 'SF_HambakSnow';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_HambakSnow.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NotoSerifKR';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NotoSerifKR.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cafe24Oneprettynight';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Oneprettynight.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+#body {
+  height: 2300px;
+  background-color: rgba(142, 163, 170, 0.068);
+}
+
+
+/*오늘의 케이크 css*/
+.today {
+  height: 560px;
+  margin-top: 80px;
+}
+
+.underToday {
+  border: 1.5px black solid;
+  width: 92%;
+  align-items: center;
+  margin-left: 3%;
+}
+
+.todayHeader {
+  font-size: 33px;
+  font-family: 'SF_HambakSnow';
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+.todayCakes {
+  padding-top: 30px;
+  height: 380px;
+
+
+}
+
+.cakeItem {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.cardStore {
+  width: 18%;
+  height: 360px;
+  border: rgba(112, 128, 144, 0.185) solid 2px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.cardImg {
+  width: 100%;
+  height: 50%;
+  object-fit: cover;
+  background-color: white;
+  margin-bottom: 10px;
+
+}
+
+.titleText {
+  display: flex;
+  font-family: 'NotoSerifKR';
+}
+
+.cardTitle {
+  font-size: 20px;
+  padding-left: 8%;
+  margin-bottom: 0;
+}
+
+.cardText {
+  font-size: 15px;
+  color: rgb(80, 106, 145);
+  padding-left: 4%;
+  padding-top: 2%;
+  margin-bottom: 0;
+
+}
+
+
+.goDetail {
+  background-color: rgba(163, 153, 196, 0.295);
+  margin-left: 7%;
+  font-family: 'Cafe24Oneprettynight';
+  border-radius: 5px;
+  border: solid rgba(112, 128, 144, 0.185) 1.3px;
+  padding: 5px;
+}
+
+
+.cardStore section {
+  font-family: 'Cafe24Oneprettynight';
+  font-size: 15px;
+  color: rgb(0, 0, 0);
+  padding: 6% 7% 3% 7%;
+}
+
+.underCard{
+  border: 1.5px rgb(170, 170, 170) solid;
+  width: 85%;
+  align-items: center;
+  margin-left: 7.5%;
+}
+
+.cardStore a:link {
+  text-decoration: none;
   color: black;
 }
 
-
-
-/*홈페이지 css*/
-/*.container {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 106px 3.8fr 150px;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "head"
-    "body"
-    "footer";
+.cardStore a:visited {
+  color: rgb(36, 17, 54);
 }
 
-.head { grid-area: head; }
-
-.body {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 617px 600px;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "캐러셀"
-    "컨";
-  grid-area: body;
+.cardStore a:hover {
+  color: rgb(128, 77, 98);
 }
 
-.캐러셀 { grid-area: 캐러셀; }
 
-.컨 {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 250px 350px;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "오늘의-케이크"
-    "최신리뷰";
-  grid-area: 컨;
+
+
+/*리뷰 내용 css*/
+
+.review {
+  height: 660px;
 }
 
-.오늘의-케이크 {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 70px 180fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "오늘의-케이크-head"
-    "오늘의-케이크-container";
-  grid-area: 오늘의-케이크;
+
+.underReview {
+  border: 1.5px black solid;
+  width: 90%;
+  align-items: center;
+  margin-left: 3%;
 }
 
-.오늘의-케이크-head { grid-area: 오늘의-케이크-head; }
-
-.오늘의-케이크-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "오늘의-케이크-item1 오늘의-케이크-item2 오늘의-케이크-item3 오늘의-케이크-item4";
-  grid-area: 오늘의-케이크-container;
+.reviewHeader {
+  font-size: 33px;
+  font-family: 'SF_HambakSnow';
+  margin-left: 50px;
+  margin-top: 50px;
 }
 
-.오늘의-케이크-item1 { grid-area: 오늘의-케이크-item1; }
-
-.오늘의-케이크-item2 { grid-area: 오늘의-케이크-item2; }
-
-.오늘의-케이크-item3 { grid-area: 오늘의-케이크-item3; }
-
-.오늘의-케이크-item4 { grid-area: 오늘의-케이크-item4; }
-
-.최신리뷰 {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 70px fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "최신리뷰-head"
-    "최신-리뷰-container";
-  grid-area: 최신리뷰;
+.fourReviews {
+  padding-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
-.최신리뷰-head { grid-area: 최신리뷰-head; }
-
-.최신-리뷰-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "최신-리뷰-item1 최신리뷰-item2"
-    "최신리뷰-item3 최신리뷰-item4";
-  grid-area: 최신-리뷰-container;
+.reviewItem {
+  width: 35%;
+  background-color: #ffffff;
+  height: 200px;
+  margin-bottom: 40px;
+  display: flex;
+  border-radius: 5px;
+  border: rgba(112, 128, 144, 0.185) 2px solid;
 }
 
-.최신-리뷰-item1 { grid-area: 최신-리뷰-item1; }
 
-.최신리뷰-item2 { grid-area: 최신리뷰-item2; }
 
-.최신리뷰-item3 { grid-area: 최신리뷰-item3; }
 
-.최신리뷰-item4 { grid-area: 최신리뷰-item4; }
+.reviewImage {
+  width: 90%;
+  height: 100%;
+  border-radius: 5px;
+}
 
-.footer { grid-area: footer; }*/
+.reviewText {
+  padding: 14px 10px 10px 10px;
+}
+
+.reviewTitle {
+  font-family: 'NotoSerifKR';
+  font-size: 20px;
+  border-bottom: solid 2px rgb(194, 198, 204);
+}
+
+.reviewDetail {
+  font-family: 'Cafe24Oneprettynight';
+  font-size: 16px;
+  line-height: 1.7rem;
+  margin-bottom: 5%;
+  padding-left: 2%;
+  padding-right: 2%;
+
+}
+
+.userId {
+  font-family: 'Cafe24Oneprettynight';
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(110, 107, 133);
+  margin-left: 2%;
+}
+
+
+.reviewTitle a:link {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+
+.reviewTitle a:visited {
+  color: rgb(80, 106, 145);
+}
+
+.reviewTitle a:hover {
+  color: rgb(38, 29, 48);
+}
+
+
+/*리뷰 내용 css 끝*/
+
+/*footer*/
+
+footer {
+  height: 360px;
+  background-color: black;
+}
+
+.footerContent1 {
+  display: flex;
+  justify-content: space-around;
+  color: white;
+  padding-top: 30px;
+}
+
+.about {
+  width: 30%;
+}
+
+.aboutTitle,
+.categoryTitle,
+.linkTitle {
+  font-family: 'NotoSerifKR';
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.aboutContent {
+  font-family: 'Cafe24Oneprettynight';
+}
+
+.categories {
+  width: 15%;
+}
+
+
+.categories li {
+  list-style: none;
+}
+
+.categories a:link {
+  color: white;
+  text-decoration: none;
+}
+
+.categories a:visited {
+  color: rgb(255, 255, 255);
+}
+
+.categories a:hover {
+  color: rgb(237, 167, 255);
+}
+
+.categories li ul {
+  padding-left: 0;
+  font-family: 'Cafe24Oneprettynight';
+}
+
+.links {
+  width: 15%;
+}
+
+.links li {
+  list-style: none;
+}
+
+.links a:link {
+  color: white;
+  text-decoration: none;
+}
+
+.links a:visited {
+  color: rgb(255, 255, 255);
+}
+
+.links a:hover {
+  color: rgb(162, 195, 255);
+}
+
+
+.links li ul {
+  padding-left: 0;
+  font-family: 'Cafe24Oneprettynight';
+}
+
+.underline {
+  border: 1.5px rgb(255, 255, 255) solid;
+  width: 90%;
+  align-items: center;
+  margin-left: 1%;
+}
+
+.underline2 {
+  border: 1px rgb(221, 199, 255) solid;
+  width: 90%;
+  align-items: center;
+  margin-left: 5%;
+}
+
+.footerContent2 p {
+  font-size: 20px;
+  margin-top: 10px;
+  margin-left: 6%;
+  font-family: 'Cafe24Oneprettynight';
+  color: white;
+  font-weight: bold;
+}
+
+

@@ -1,0 +1,72 @@
+
+@font-face {
+    font-family: 'SF_HambakSnow';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_HambakSnow.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+.fixed-top {
+    border-bottom: 4px solid rgba(151, 151, 151, 0.1);
+}
+
+.btn-secondary {
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+    background-color: white;
+    border: 1px solid #bbbdbe;
+    border-radius: 5%;
+    margin-top: 5px;
+
+
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+}
+
+
+.nav-item a::after {
+    /*after 가상요소*/
+    display: block;
+    /*a요소를 블록 요소라고 선언*/
+
+    content: '';
+    border-bottom: solid 1px rgb(116, 117, 201);
+    transform: scaleX(0);
+    /*크기를 0으로 줌으로써 평상시엔 밑줄 없음*/
+    transition: transform 250ms ease-in-out;
+    /*변형 방식*/
+}
+
+
+.nav-item a:hover:after {
+    transform: scaleX(1);
+    /*a 속성에 hover시 기존 크기로*/
+}
+
+.btn-secondary:hover {
+    background-color: rgb(116, 117, 201);
+}
+
+.navbar-brand {
+    margin-left: 10px;
+    margin-right: 22px;
+    padding-bottom: 3px;
+    font-family: 'SF_HambakSnow';
+    font-size: 30px;
+}
+
+.navbar-nav {
+    margin-top: 6px;
+}
+
+.navbar-nav a {
+    font-family: 'SF_HambakSnow';
+    font-size: 17px;
+    color: rgb(29, 29, 29);
+
+}

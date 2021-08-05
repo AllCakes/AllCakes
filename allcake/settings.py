@@ -131,9 +131,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
+
+STATIC_ROOT = ''
+
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = ( os.path.join('static'), )
+STATIC_URL = '/static/' 
+
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (
+STATICFILES_DIRS = ( 
 #    os.path.join(BASE_DIR, "static"),
     BASE_DIR / 'allcake' / 'static',
 
