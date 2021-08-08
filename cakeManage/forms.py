@@ -1,6 +1,5 @@
 from django import forms
-from .models import Store, Cake, Order, Review
-from .widgets import starWidget
+from .models import Store, Cake, Order
 
 class StoreForm(forms.ModelForm):
     class Meta:
@@ -15,13 +14,4 @@ class CakeForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields=['name','연락처','희망픽업일','희망픽업시간','맛','모양','사이즈','원하시는도안사진첨부',]
-    
-class ReviewForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields =  ['body']
-        # 별점처리 필요한 정보
-        # widgets = {
-        #     'grade': starWidget,
-        # }
+        fields=['희망픽업일','희망픽업시간','맛','모양','사이즈','크림종류','레터링위치','레터링색','원하시는도안사진첨부',]
