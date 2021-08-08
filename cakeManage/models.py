@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
+from account import models, views
 from django.utils import timezone
 from django.db import models
-# 별점처리에 필요 .. 현재 진행중
-from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 
 class Store(models.Model):
     # 순서대로 가게이름, 대표이미지, 설명, 게시일자, 연락처, 가게위치(OO구)
@@ -58,23 +59,14 @@ class CakeImage(models.Model):
     referred_cake = models.ForeignKey(Cake, on_delete=models.CASCADE)
     cake_image = models.ImageField(upload_to='cakeimages/', blank=True, null=True)
 
-
-# 리뷰 관련 정보
-class Review(models.Model):
-    referred_store = models.ForeignKey(Store,on_delete=models.CASCADE)
-    referred_cake = models.ForeignKey(Cake,on_delete=models.CASCADE)
-    pub_date = models.DateTimeField(default = timezone.now)
-    body = models.TextField(default='', blank=True)
-    # grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-    #  별점기능 추가
-
 # 주문 관련 정보
+# 글씨체, 데코레이션 추가 필요
 class Order(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     referred_store = models.ForeignKey(Store,on_delete=models.CASCADE)
     referred_cake = models.ForeignKey(Cake,on_delete=models.CASCADE)
     pub_date = models.DateTimeField(default = timezone.now)
-    name=models.CharField(max_length=200)
-    연락처=models.CharField(max_length=200)
+    reviewing = models.IntegerField(default=1)
     희망픽업일= models.CharField(null=True,max_length=30,default=datetime.date.today)
     TIME_CHOICES=[
         ('10:00','10:00'),
@@ -112,6 +104,21 @@ class Order(models.Model):
         ('2호(3~4인)','2호(3~4인)'),
         ('3호(4~5인)','2호(4~5인)'),
     ]
+    CREAM=[
+        ('버터','버터'),
+        ('생크림','생크림'),
+        ('크림치즈','크림치즈'),
+    ]
+    LETTER_POS=[
+        ('판 위에 레터링','판 위에 레터링'),
+        ('케이크에 직접 레터링','케이크에 직접 레터링'),
+    ]
+    LETTER_COLOR=[
+        ('RED','RED'),
+        ('PINK','PINK'),
+        ('YELLOW','YELLOW'),
+        ('BLUE','BLUE'),
+    ]
     희망픽업시간=models.CharField(
         null=True,
         max_length=30,
@@ -134,4 +141,35 @@ class Order(models.Model):
         choices=SIZE_CHOICES,
         default="도시락케이크"
     )
-    원하시는도안사진첨부 = models.ImageField(null=True,upload_to='images/',blank=False)
+    크림종류=models.CharField(
+        null=True,
+        max_length=30,
+        choices=CREAM,
+        default="버터"
+    )
+    레터링위치=models.CharField(
+        null=True,
+        max_length=30,
+        choices=LETTER_POS,
+        default="케이크에 직접 레터링"
+    )
+    레터링색=models.CharField(
+        null=True,
+        max_length=30,
+        choices=LETTER_COLOR,
+        default="RED"
+    )
+    원하시는도안사진첨부 = models.ImageField(null=True,upload_to='images/',blank=True)
+
+# 리뷰 관련 정보
+class Review(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, unique = True, on_delete=models.CASCADE)
+    referred_store = models.ForeignKey(Store,on_delete=models.CASCADE)
+    referred_cake = models.ForeignKey(Cake,on_delete=models.CASCADE)
+    pub_date = models.DateTimeField(default = timezone.now)
+    comment = models.TextField(default='', blank=True)
+    rate = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.id)

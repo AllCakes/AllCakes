@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.core.paginator import Paginator
 from .models import Store, CakeImage, Cake, Order, Review
-from .forms import StoreForm, CakeForm, OrderForm, ReviewForm
+from .forms import StoreForm, CakeForm, OrderForm
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
@@ -104,7 +104,7 @@ def order(request, pk):
         form = OrderForm(request.POST, request.FILES)
         if form.is_valid():
             content = form.save(commit=False)
-            content.author = request.user
+            content.user = request.user
             content.published_date = timezone.now()
             content.referred_cake = cake
             content.referred_store = cake.referred_store
@@ -120,20 +120,28 @@ def mypage(request):
     orders = Order.objects.all()
     return render(request, 'mypage.html', {'order_list':orders})
 
-# 리뷰 작성하기
-# 현재 별점추가 진행중 .. 
-def review(request, pk):
+# 리뷰 페이지
+def review_page(request, pk, orderpk):
     cake = get_object_or_404(Cake, pk=pk)
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            content = form.save(commit=False)
-            content.author = request.user
-            content.published_date = timezone.now()
-            content.referred_store = cake.referred_store
-            content.referred_cake = cake
-            content.save()
-            return redirect('home')
-    else:
-        form = ReviewForm()
-    return render(request, 'review.html', {'form': form})
+    store = get_object_or_404(Store, pk=cake.referred_store_id)
+    order =  get_object_or_404(Order, pk=orderpk)
+    return render(request, 'review_page.html', {'cake' : cake, 'store' : store, 'order':order })
+
+def review_rating(request):
+    if request.method == 'GET':
+        order_id = request.GET.get('order')
+        store_id = request.GET.get('referred_store')
+        cake_id =  request.GET.get('referred_cake')
+        referred_store = Store.objects.get(id = store_id)
+        referred_cake = Cake.objects.get(id = cake_id)
+        order = Order.objects.get(id = order_id)
+        comment = request.GET.get('comment')
+        rate = request.GET.get('rate')
+        Review(user=request.user,order = order, referred_store=referred_store, referred_cake=referred_cake, comment=comment, rate=rate).save()
+        # 모델상의 일부 필드 변경
+        Ord = Order.objects.get(id = order_id)
+        Ord.reviewing = 2
+        Ord.save()
+        return redirect('mypage')
+
+# 리뷰 수정하기

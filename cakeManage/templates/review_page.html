@@ -1,0 +1,100 @@
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <title>review</title>
+</head>
+
+<body>
+    <h1>케이크집 리뷰작성</h1>
+    <form class="review-form" method="GET" action="/review">
+        <input type="hidden" name ="referred_store" id = "referred_store" value="{{store.id}}"/>
+        <input type="hidden" name ="referred_cake" id = "referred_cake" value="{{cake.id}}"/>
+        <input type="hidden" name ="order" id = "order" value="{{order.id}}"/>
+
+        <div class="form-group">
+            <textarea class="input" type="text" name="comment" placeholder="Your Review"></textarea>
+        </div>
+        <div class="form-group">
+            <div class="input rating">
+                <div class="rating-wrapper">
+                    <label for="s1" class = "fa fa-star fa-2x" id="star-1" onclick="select('star1')">
+                        <input type="radio"  name="rate" value="1" id="s1" /></label>
+                    <label for="s2" class = "fa fa-star fa-2x" id="star-2" onclick="select('star2')">
+                        <input type="radio" name="rate" value="2" id="s2" /></label>
+                    <label for="s3" class = "fa fa-star fa-2x" id="star-3" onclick="select('star3')">
+                        <input type="radio" name="rate" value="3" id="s3"/></label>
+                    <label for="s4" class = "fa fa-star fa-2x" id="star-4" onclick="select('star4')">
+                        <input type="radio" name="rate" value="4" id="s4" /></label>
+                    <label for="s5" class = "fa fa-star fa-2x" id="star-5" onclick="select('star5')">
+                        <input type="radio" name="rate" value="5" id="s5"/></label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit">저장</button>
+    </form>
+<script defer>
+    const star1 = document.getElementById('star-1')
+    const star2 = document.getElementById('star-2')
+    const star3 = document.getElementById('star-3')
+    const star4 = document.getElementById('star-4')
+    const star5 = document.getElementById('star-5')
+
+    const select = (sel) =>{
+        switch(sel){
+            case 'star1':{
+                star1.classList.add('checked')
+                star2.classList.remove('checked')
+                star3.classList.remove('checked')
+                star4.classList.remove('checked')
+                star5.classList.remove('checked')
+                return
+            }
+            case 'star2':{
+                star1.classList.add('checked')
+                star2.classList.add('checked')
+                star3.classList.remove('checked')
+                star4.classList.remove('checked')
+                star5.classList.remove('checked')
+                return
+            }
+            case 'star3':{
+                star1.classList.add('checked')
+                star2.classList.add('checked')
+                star3.classList.add('checked')
+                star4.classList.remove('checked')
+                star5.classList.remove('checked')
+                return
+            }
+            case 'star4':{
+                star1.classList.add('checked')
+                star2.classList.add('checked')
+                star3.classList.add('checked')
+                star4.classList.add('checked')
+                star5.classList.remove('checked')
+                return
+            }
+            case 'star5':{
+                star1.classList.add('checked')
+                star2.classList.add('checked')
+                star3.classList.add('checked')
+                star4.classList.add('checked')
+                star5.classList.add('checked')
+                return
+            }
+        }
+    }
+</script>
+</body>
+
+</html>
+{% endblock %}

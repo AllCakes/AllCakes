@@ -20,11 +20,15 @@
   </div>
 
 {% for order in order_list %}
-    주문 번호 : {{order.pk}}<br>
-    가게 이름 : {{order.referred_store}}<br>
-    케이크 이름 : {{order.referred_cake.cakename}}<br>
-    주문자 이름 : {{order.name}}<br>
-    <a href="{% url 'review' pk=order.referred_cake_id %}">리뷰 작성하기</a>
-    <br><br>
+    {% if order.user_id == user.id %}
+      주문 번호 : {{order.pk}}<br>
+      가게 이름 : {{order.referred_store}}<br>
+      케이크 이름 : {{order.referred_cake.cakename}}<br>
+      주문자 이름 : {{order.user.username}}<br>
+      주문 일자 : {{order.pub_date}}
+      {% if order.reviewing == 1%}
+      <a href="{% url 'review_page' pk=order.referred_cake_id  orderpk=order.id %}">리뷰 작성하기</a>
+        <br><br>
+      {% endif %}
+    {% endif %}
 {% endfor %}
-
