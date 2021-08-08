@@ -66,6 +66,8 @@
     <br>
     가게명 : {{cake.referred_store}}<br><br>
     케이크 명 : {{cake.cakename}}<br><br>
+    주문자 이름 : {{ user.username }}<br><br>
+    주문자 핸드폰 : {{ user.phone }}<br><br>
     {% csrf_token %}
     {{ form.as_p }}
 

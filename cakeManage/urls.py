@@ -13,5 +13,6 @@ urlpatterns = [
     path('newcake/<int:pk>', cakemanage.newcake, name="newcake"),
     path('order/<int:pk>', cakemanage.order, name="order"),
     path('mypage/', cakemanage.mypage, name="mypage"),
-    path('review/<int:pk>', cakemanage.review, name="review"),
+    path('review_page/<int:pk>/order/<int:orderpk>', cakemanage.review_page, name="review_page"),
+    path('review/', cakemanage.review_rating, name="review"),
 ]

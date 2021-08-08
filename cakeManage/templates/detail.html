@@ -100,16 +100,25 @@
             </body>
 
     </div>
-    <!-- 리뷰 관련 페이지 -->
-    <div class ="items">
+   <!-- 리뷰 관련 페이지 -->
+   <div class ="items">
+    <br><br>
+    <h3>리뷰</h3>
+    {% for review in reviewlist %}
+        id : {{review.user.username}}<br>
+        리뷰일시 : {{review.pub_date}}<br>
+        가게 이름 : {{review.referred_store.name}}<br>
+        주문 케이크 : {{review.referred_cake.cakename}}<br>
+        리뷰 내용 : {{review.comment}}<br>
+        <span class="fa fa-star fa-2x checked"></span>
+        <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
+        <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
+        <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
+        <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
         <br><br>
-        <h3>리뷰</h3>
-        {% for review in reviewlist %}
-            {{review.body}}<br>
-            {{review.grade}}<br>
-        {% endfor %}
-        <br><br>
-    </div>
+    {% endfor %}
+    <br><br>
+</div>
 
     <script>
         function 열기(num){
