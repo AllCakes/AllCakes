@@ -1,0 +1,55 @@
+@font-face {
+    font-family: 'NotoSerifKR';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NotoSerifKR.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cafe24Oneprettynight';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Oneprettynight.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GongGothicMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BBTreeGB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeGB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+#order-main {
+    margin-top: 70px;
+}
+
+
+.main-header {
+    height: 250px;
+    background-image: url('../img/carousel3.png');
+    background-size: cover;
+}
+
+
+
+.main-header a {
+    text-decoration: none;
+    color: black;
+    font-family: 'BBTreeGB';
+
+}
+
+.main-header input {
+    font-family: 'BBTreeGB';
+    border: none;
+    background-color: none;
+}

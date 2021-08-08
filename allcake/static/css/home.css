@@ -23,12 +23,6 @@
 
 
 
-@font-face {
-  font-family: 'SF_HambakSnow';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_HambakSnow.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
 
 @font-face {
   font-family: 'NotoSerifKR';
@@ -44,10 +38,28 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'GongGothicMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BBTreeGB';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeGB.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 #body {
   height: 2300px;
   background-color: rgba(142, 163, 170, 0.068);
+  padding-bottom: 0;
+  margin-bottom: 0%;
 }
+
 
 
 /*오늘의 케이크 css*/
@@ -65,7 +77,7 @@
 
 .todayHeader {
   font-size: 33px;
-  font-family: 'SF_HambakSnow';
+  font-family: 'GongGothicMedium';
   margin-left: 50px;
   margin-top: 50px;
 }
@@ -101,7 +113,7 @@
 
 .titleText {
   display: flex;
-  font-family: 'NotoSerifKR';
+  font-family: 'BBTreeGB';
 }
 
 .cardTitle {
@@ -121,20 +133,23 @@
 
 
 .goDetail {
-  background-color: rgba(163, 153, 196, 0.295);
+  background-color: rgba(190, 177, 230, 0.295);
   margin-left: 7%;
-  font-family: 'Cafe24Oneprettynight';
+  font-family: 'BBTreeGB';
   border-radius: 5px;
-  border: solid rgba(112, 128, 144, 0.185) 1.3px;
+  border: solid rgba(44, 44, 44, 0.507) 1.3px;
   padding: 5px;
+  font-size: 14px;
 }
 
 
 .cardStore section {
-  font-family: 'Cafe24Oneprettynight';
-  font-size: 15px;
-  color: rgb(0, 0, 0);
-  padding: 6% 7% 3% 7%;
+  font-family: 'BBTreeGB';
+  font-size: 14px;
+  color: rgba(61, 61, 61, 0.767);
+  padding: 6% 9% 3% 9%;
+  line-height: 1.5rem;
+
 }
 
 .underCard{
@@ -151,6 +166,7 @@
 
 .cardStore a:visited {
   color: rgb(36, 17, 54);
+
 }
 
 .cardStore a:hover {
@@ -176,7 +192,7 @@
 
 .reviewHeader {
   font-size: 33px;
-  font-family: 'SF_HambakSnow';
+  font-family: 'GongGothicMedium';
   margin-left: 50px;
   margin-top: 50px;
 }
@@ -208,7 +224,7 @@
 }
 
 .reviewText {
-  padding: 14px 10px 10px 10px;
+  padding: 14px 10px 10px 16px;
 }
 
 .reviewTitle {
@@ -218,18 +234,19 @@
 }
 
 .reviewDetail {
-  font-family: 'Cafe24Oneprettynight';
-  font-size: 16px;
+  font-family: 'BBTreeGB';
+  font-size: 15px;
   line-height: 1.7rem;
   margin-bottom: 5%;
   padding-left: 2%;
   padding-right: 2%;
+  color: rgb(63, 63, 63);
 
 }
 
 .userId {
-  font-family: 'Cafe24Oneprettynight';
-  font-size: 16px;
+  font-family: 'BBTreeGB';
+  font-size: 14px;
   font-weight: bold;
   color: rgb(110, 107, 133);
   margin-left: 2%;
@@ -358,5 +375,3 @@ footer {
   color: white;
   font-weight: bold;
 }
-
-
