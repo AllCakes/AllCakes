@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Allcakes 로그인 홈{% endblock %}
+
+{% block content %}
+<h1>Allcake Login</h1>
+
+<!-- 프론트: a태그 위치를 필요한 곳에 넣으면 됨. -->
+
+<!-- 카카오 로그인을 적극 추천하는 느낌으로 페이지 만들기 
+카카오 로그인으로 유저가 들어와야 이후 알림메세지 동의를 받을 수 있음. 
+앱이 아닌 웹서비스인 이상 알림의 편의성을 위해 카카오가 편함. 
+일반 로그인으로는 주문 알림을 어떻게 할지 생각해보기(ex. 연락처, 이메일, 일반로그인 삭제, ...) -->
+
+<br><br><br>
+<!-- nav바에 가려져서 임시로 줄바꿈 br -->
+
+<a href="{%url 'kakao_login' %}">카카오 로그인</a>
+
+
+<!-- 즉, 카카오로 소셜 토큰 받아와서 인증 후 처음이면 가입까지 시키고 돌아와야 함. -->
+<hr><hr><br>
+<a href="{%url 'email_login' %}">이메일로 로그인</a>
+<a href="{%url 'signup_email' %}">이메일로 가입하기</a>
+{% endblock %}

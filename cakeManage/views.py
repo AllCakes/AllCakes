@@ -1,132 +1,135 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.core.paginator import Paginator
-from .models import Store, CakeImage, Cake, Order, Review
+from .models import Store, Cake, Order, Review
 from .forms import StoreForm, CakeForm, OrderForm
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
-    posts = Store.objects.order_by('-pub_date')
-    paginator = Paginator(posts, 4) 
+    stores = Store.objects.order_by('-pub_date')
+    paginator = Paginator(stores, 4) 
     page = request.GET.get('page', 1)
-    posts = paginator.get_page(page)
-    return render(request, 'home.html', {'posts_list': posts})
+    stores = paginator.get_page(page)
+    return render(request, 'home.html', {'stores': stores})
 
-
-# 가게 등록
-def new(request):
+# 가게 등록 C (필요 없을 예정)
+def store_new(request):
     if request.method == 'POST':
         form = StoreForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
+            store = form.save(commit=False)
+            store.author = request.user
+            store.published_date = timezone.now()
+            store.save()
             return redirect('home')
     else:
         form = StoreForm()
-    return render(request, 'new.html', {'form': form})
+    return render(request, 'store_new.html', {'form': form})
 
-# 가게 디테일
-def detail(request, pk):
-    post = get_object_or_404(Store, pk=pk)
-    cake_list = Cake.objects.filter(referred_store=post)
-    review_list = Review.objects.filter(referred_store=post)
-    return render(request, 'detail.html', {'post': post, 'cakelist':cake_list, 'reviewlist':review_list})
+# 가게 디테일 R
+def store_detail(request, pk):
+    store = get_object_or_404(Store, pk=pk)
+    cake_list = Cake.objects.filter(referred_store=store)
+    review_list = Review.objects.filter(referred_store=store)
+    return render(request, 'store_detail.html', {'store': store, 'cakelist':cake_list, 'reviewlist':review_list})
 
-# 가게 수정
-def edit(request, pk):
-    post = get_object_or_404(Store, pk=pk)
+# 가게 수정 U
+def store_edit(request, pk):
+    store = get_object_or_404(Store, pk=pk)
     if request.method == "POST":
-        form = StoreForm(request.POST, request.FILES, instance=post)
+        form = StoreForm(request.POST, request.FILES, instance=store)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.pub_date = timezone.now()
-            post.save()
+            store = form.save(commit=False)
+            store.author = request.user
+            # store.pub_date = timezone.now() # 게시일자(pub_date) 대신, 새로운 필드로 수정 일자를 넣는 것을 고려 
+            store.save()
             return redirect('detail', pk= pk)
     else:
-        form = StoreForm(instance=post)
+        form = StoreForm(instance=store)
 
-    return render(request, 'edit.html', {'form': form})
+    return render(request, 'store_edit.html', {'form': form})
 
-# 가게 삭제
-def delete(request, pk):
-    post = get_object_or_404(Store, pk=pk)
-    post.delete()
+# 가게 삭제 D (필요 없을 예정, 생성과 삭제는 관리자 측)
+def store_delete(request, pk):
+    store = get_object_or_404(Store, pk=pk)
+    store.delete()
     return redirect('home')
 
-# 가게의 새 케이크 등록
-def newcake(request, pk):
-    post = get_object_or_404(Store, pk=pk)
+# 케이크 등록 C (사장님측 UX, 관리자측이 사용할 수도..)
+def cake_new(request, pk): #가게 pk값
+    store = get_object_or_404(Store, pk=pk)
     if request.method == 'POST':
         form = CakeForm(request.POST, request.FILES)
         if form.is_valid():
-            content = form.save(commit=False)
-            content.author = request.user
-            content.published_date = timezone.now()
-            content.referred_store = post
-            content.save()
-            for img in request.FILES.getlist('imgs'):
-                image = CakeImage()
-                image.referred_cake = content
-                image.cake_image = img
-                image.save()
+            cake = form.save(commit=False)
+            cake.author = request.user # author 저장이 필요한지?
+            cake.pub_date = timezone.now()
+            cake.referred_store = store
+            cake.save()
             return redirect('detail', pk=pk)
     else:
         form = CakeForm()
 
-    return render(request, 'newcake.html', {'form': form})
+    return render(request, 'cake_new.html', {'form': form})
 
-# 케이크 이미지 수정
-def image_edit(request, pk):
-    post = get_object_or_404(Cake, pk=pk)
+# 케이크 상세 R
+def cake_detail(request, pk): #cake의 pk값
+    cake = Cake.objects.get(pk=pk)
+    return render(request, 'cake_detail.html',{'cake':cake})
+
+# 케이크 수정 U
+def cake_edit(request, pk): #cake의 pk값
+    cake = get_object_or_404(Cake, pk=pk)
     if request.method == "POST":
-        for img in request.FILES.getlist('imgs'):
-            image = CakeImage()
-            image.referred_cake = post
-            image.cake_image = img
-            image.save()
-        return redirect('detail', pk= post.pk)
+        form = CakeForm(request.POST, request.FILES, instance=cake)
+        if form.is_valid():
+            cake = form.save(commit=False)
+            cake.author = request.user # author 저장이 필요한지?
+            # store.pub_date = timezone.now() # 게시일자(pub_date) 대신, 새로운 필드로 수정 일자를 넣는 것을 고려 
+            cake.save()
+            # 현재 케이크 역참조를 위해 모델에 related_name 추가 (reverse lookup of foreign keys)
+            # The related_name is what we use for the reverse lookup. In general, it is a good practice to provide a related_name for all the foreign keys rather than using Django’s default-related name.
+            store_pk = cake.referred_store.pk
+            return redirect('store_detail', pk= store_pk) # 케이크 관리페이지, 혹은 일단 가게페이지로 가도록 구현
     else:
-        return render(request, 'image_edit.html',{'post':post})
+        form = StoreForm(instance=cake)
 
-# 케이크 등록 이미지 삭제
-def image_delete(request, pk, image_pk):
-    image = get_object_or_404(CakeImage, pk=image_pk)
-    image.delete()
-    return redirect('image_edit', pk=pk)
+    return render(request, 'cake_edit.html', {'form': form})
 
-# 케이크 주문
-def order(request, pk):
+# 케이크 삭제 D
+def cake_delete(request, pk): #cake의 pk값
+    cake = get_object_or_404(Cake, pk=pk)
+    store_pk = cake.referred_store.pk
+    cake.delete()
+    return redirect('store_detail', pk= store_pk) # 케이크 관리페이지, 혹은 일단 가게페이지로 가도록 구현
+
+# 주문 C (RUD 구현 필요!)
+def order_new(request, pk): #cake의 pk값
     cake = get_object_or_404(Cake, pk=pk)
     if request.method == 'POST':
         form = OrderForm(request.POST, request.FILES)
         if form.is_valid():
-            content = form.save(commit=False)
-            content.user = request.user
-            content.published_date = timezone.now()
-            content.referred_cake = cake
-            content.referred_store = cake.referred_store
-            content.save()
+            order = form.save(commit=False)
+            order.user = request.user
+            order.pub_date = timezone.now()
+            order.referred_cake = cake
+            order.referred_store = cake.referred_store
+            order.save()
+            # 주문 결과 페이지로 가도록 수정하기!
             return redirect('detail', pk=cake.referred_store_id)
     else:
         form = OrderForm()
 
     return render(request, 'order.html', {'form': form, 'cake':cake})
 
-# 추후 회원가입 추가시, 회원번호로 주문내역을 확인할 수 있도록 수정
-def mypage(request):
-    orders = Order.objects.all()
-    return render(request, 'mypage.html', {'order_list':orders})
-
-# 리뷰 페이지
+# 리뷰 페이지 C (R- 더보기 U - 수정 D- 삭제 구현 필요)
 def review_page(request, pk, orderpk):
     cake = get_object_or_404(Cake, pk=pk)
     store = get_object_or_404(Store, pk=cake.referred_store_id)
     order =  get_object_or_404(Order, pk=orderpk)
     return render(request, 'review_page.html', {'cake' : cake, 'store' : store, 'order':order })
 
+# 
 def review_rating(request):
     if request.method == 'GET':
         order_id = request.GET.get('order')
@@ -137,11 +140,11 @@ def review_rating(request):
         order = Order.objects.get(id = order_id)
         comment = request.GET.get('comment')
         rate = request.GET.get('rate')
-        Review(user=request.user,order = order, referred_store=referred_store, referred_cake=referred_cake, comment=comment, rate=rate).save()
+        Review(user=request.user, order = order, referred_store=referred_store, referred_cake=referred_cake, comment=comment, rate=rate).save()
         # 모델상의 일부 필드 변경
         Ord = Order.objects.get(id = order_id)
         Ord.reviewing = 2
         Ord.save()
         return redirect('mypage')
 
-# 리뷰 수정하기
+# 찜 기능 구현 필요 (유저 경험: 아마.. 케이크, 케잌집 상세페이지에서 찜하기 -> 케이크, 케잌집 모델에 필드 추가 필요)

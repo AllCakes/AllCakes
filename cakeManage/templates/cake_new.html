@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}케이크 등록{% endblock %}
+
+{% block content %}
+<br><br><br>
+<h1>케이크 메뉴 등록</h1>
+<form method="POST" class="post-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <!-- <p>예시 케이크 사진을 첨부해주세요.</p> -->
+    <!-- <input type="file" name="imgs" multiple> -->
+    <button type="submit">저장</button>
+</form>
+{% endblock %}

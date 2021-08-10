@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}케이크 가게 정보 수정{% endblock %}
+
+{% block content %}
+
+<br><br><br>
+<h1>주문케이크집 수정</h1>
+<form method="POST" class="post-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">저장</button>
+</form>
+{% endblock %}

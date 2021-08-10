@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}케이크 수정{% endblock %}
+
+{% block content %}
+
+<h2>이전 사진 삭제</h2>
+{% for image in post.cakeimage_set.all %}
+    <a href="{% url 'image_delete' pk=post.pk image_pk=image.pk %}">아래 사진 삭제하기</a>
+    <img src="{{image.cake_image.url}}" width="150" height="150">
+    <br><br>
+{% endfor %}
+<br>
+<h2>케이크 사진 추가</h2>
+<form method="POST" class="post-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="imgs" multiple>
+    <button type="submit">저장</button>
+</form>
+{% endblock %}
+

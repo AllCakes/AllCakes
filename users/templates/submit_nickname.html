@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Allcakes 닉네임 설정{% endblock %}
+
+{% block content %}
+<br><br><br>
+<!-- nav바에 가려져서 임시로 줄바꿈 br -->
+<h1>닉네임 설정</h1>
+
+<form action="{% url 'submit_nickname' %}" method="POST">
+    {% csrf_token %} 
+    {{ form.as_p }}
+    <button type="submit">제출</button>
+</form>
+{% endblock %}

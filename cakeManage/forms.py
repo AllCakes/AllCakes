@@ -9,7 +9,7 @@ class StoreForm(forms.ModelForm):
 class CakeForm(forms.ModelForm):
     class Meta:
         model = Cake
-        fields = ['cakename','body']
+        fields = ['cakename', 'body', 'cake_image']
 
 class OrderForm(forms.ModelForm):
     class Meta:

@@ -1,10 +1,9 @@
 from django.contrib import admin
 from django.forms.formsets import ORDERING_FIELD_NAME
-from .models import Store, CakeImage, Cake, Order, Review
+from .models import Store, Cake, Order, Review
 # Register your models here.
 
 admin.site.register(Store)
-admin.site.register(CakeImage)
 admin.site.register(Order)
 admin.site.register(Cake)
 
