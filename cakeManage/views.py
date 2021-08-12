@@ -28,6 +28,7 @@ def store_new(request):
 
 # 가게 디테일 R
 # 별점 정리 -- 문제점 : 정렬 후 홈페이지 돌아가면 리뷰가 닫혀있음.
+# 리뷰 정렬후 리뷰 페이지만 어떻게 열것인가?? js를 어떻게 구현할지?
 def store_detail(request, pk):
     store = get_object_or_404(Store, pk=pk)
     cake_list = Cake.objects.filter(referred_store=store)
