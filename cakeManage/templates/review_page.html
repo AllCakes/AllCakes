@@ -8,20 +8,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Font Awesome Icon Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <link rel="stylesheet" href="{% static '/css/style.css'%}">
     <title>케이크 리뷰 작성</title>
+    <script defer src="/static/js/rating.js"></script>
 </head>
 
 <body>
     <h1>케이크집 리뷰작성</h1>
+    <!-- 리뷰 GET 방식으로 가져옴 -->
     <form class="review-form" method="GET" action="/review">
+        <!-- referred store,cake, order의 정보는 hidden으로 숨겨서 넘겨줌 -->
         <input type="hidden" name ="referred_store" id = "referred_store" value="{{store.id}}"/>
         <input type="hidden" name ="referred_cake" id = "referred_cake" value="{{cake.id}}"/>
         <input type="hidden" name ="order" id = "order" value="{{order.id}}"/>
-
+        <!-- comment 부분은 text 박스로 받아서 넘김 -->
         <div class="form-group">
             <textarea class="input" type="text" name="comment" placeholder="Your Review"></textarea>
         </div>
+        <!-- 별점 부분
+            class fa fa-star는 별모양의 그림이고 fa-2x는 크기이다. 여기에 check라는 class를 추가하면 별모양의 색깔이 바뀐다.
+            onclick 함수를 사용하여 해당 별모양을 누르면 select이라는 함수가 호출되게 함.
+            select이라는 함수는 class를 추가하고 삭제하는 함수이다.
+            만약 첫번째 별모양을 누르면 js에 있는 select 함수를 통해서 1은 check 클래스를 추가하고
+            나머지 2~5 별은 check 클래스를 remove한다. 
+        -->
         <div class="form-group">
             <div class="input rating">
                 <div class="rating-wrapper">
@@ -41,58 +51,6 @@
 
         <button type="submit">저장</button>
     </form>
-<script defer>
-    const star1 = document.getElementById('star-1')
-    const star2 = document.getElementById('star-2')
-    const star3 = document.getElementById('star-3')
-    const star4 = document.getElementById('star-4')
-    const star5 = document.getElementById('star-5')
-
-    const select = (sel) =>{
-        switch(sel){
-            case 'star1':{
-                star1.classList.add('checked')
-                star2.classList.remove('checked')
-                star3.classList.remove('checked')
-                star4.classList.remove('checked')
-                star5.classList.remove('checked')
-                return
-            }
-            case 'star2':{
-                star1.classList.add('checked')
-                star2.classList.add('checked')
-                star3.classList.remove('checked')
-                star4.classList.remove('checked')
-                star5.classList.remove('checked')
-                return
-            }
-            case 'star3':{
-                star1.classList.add('checked')
-                star2.classList.add('checked')
-                star3.classList.add('checked')
-                star4.classList.remove('checked')
-                star5.classList.remove('checked')
-                return
-            }
-            case 'star4':{
-                star1.classList.add('checked')
-                star2.classList.add('checked')
-                star3.classList.add('checked')
-                star4.classList.add('checked')
-                star5.classList.remove('checked')
-                return
-            }
-            case 'star5':{
-                star1.classList.add('checked')
-                star2.classList.add('checked')
-                star3.classList.add('checked')
-                star4.classList.add('checked')
-                star5.classList.add('checked')
-                return
-            }
-        }
-    }
-</script>
 </body>
 
 </html>

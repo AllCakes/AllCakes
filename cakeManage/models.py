@@ -84,7 +84,7 @@ class Order(models.Model):
     referred_store = models.ForeignKey(Store,on_delete=models.CASCADE, verbose_name="가게")
     referred_cake = models.ForeignKey(Cake,on_delete=models.CASCADE, verbose_name="선택 케이크")
     pub_date = models.DateTimeField(default = timezone.now, verbose_name="주문 날짜")
-    reviewing = models.IntegerField(default=1, verbose_name="(평점)")
+    reviewing = models.IntegerField(default=1)
     희망픽업일 = models.CharField(null=True, max_length=30, default=datetime.date.today)
     # 주문 상태 확인을 위해 승인 상태, 진행 상태(픽업 완료, 미완료), 결제 상태를 DB 저장 및 업데이트해야 함.
     # 각각 승인 : is_accepted, 진행 상태: is_active, 결제 상태: is_paid로 설정. 이후 더 필요하면 추가.

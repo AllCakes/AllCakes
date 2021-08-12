@@ -19,7 +19,7 @@ urlpatterns = [
     path('cake/delete/<int:pk>', cake_delete, name="cake_delete"),
 
     # 주문 CRUD (주문 결과화면 + R-상세보기 U-수정 D-주문취소 구현필요) (앱 새로 파야 되는지..?)
-    path('order/<int:pk>', order_new, name="order"),
+    path('order_submit/<int:pk>', order_new, name="order_submit"),
 
     # 마이페이지 users로 옮김
 
