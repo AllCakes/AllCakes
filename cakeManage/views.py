@@ -27,10 +27,20 @@ def store_new(request):
     return render(request, 'store_new.html', {'form': form})
 
 # 가게 디테일 R
+# 별점 정리 -- 문제점 : 정렬 후 홈페이지 돌아가면 리뷰가 닫혀있음.
 def store_detail(request, pk):
     store = get_object_or_404(Store, pk=pk)
     cake_list = Cake.objects.filter(referred_store=store)
     review_list = Review.objects.filter(referred_store=store)
+    # 최신순, 별점 낮은순, 높은순의 option을 post로 받아서 해당에 따라 정렬한다.
+    if request.method == "POST":
+        sort = request.POST.get('sort')
+        if sort == 'highrate':
+            review_list = Review.objects.filter(referred_store=store).order_by('-rate','-pub_date')
+        elif sort == 'lowerate':
+            review_list = Review.objects.filter(referred_store=store).order_by('rate','-pub_date')
+        else :
+            review_list = Review.objects.filter(referred_store=store).order_by('-pub_date')
     return render(request, 'store_detail.html', {'store': store, 'cakelist':cake_list, 'reviewlist':review_list})
 
 # 가게 수정 U
