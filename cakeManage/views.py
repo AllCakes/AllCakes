@@ -27,10 +27,21 @@ def store_new(request):
     return render(request, 'store_new.html', {'form': form})
 
 # 가게 디테일 R
+# 별점 정리 -- 문제점 : 정렬 후 홈페이지 돌아가면 리뷰가 닫혀있음.
+# 리뷰 정렬후 리뷰 페이지만 어떻게 열것인가?? js를 어떻게 구현할지?
 def store_detail(request, pk):
     store = get_object_or_404(Store, pk=pk)
     cake_list = Cake.objects.filter(referred_store=store)
     review_list = Review.objects.filter(referred_store=store)
+    # 최신순, 별점 낮은순, 높은순의 option을 post로 받아서 해당에 따라 정렬한다.
+    if request.method == "POST":
+        sort = request.POST.get('sort')
+        if sort == 'highrate':
+            review_list = Review.objects.filter(referred_store=store).order_by('-rate','-pub_date')
+        elif sort == 'lowerate':
+            review_list = Review.objects.filter(referred_store=store).order_by('rate','-pub_date')
+        else :
+            review_list = Review.objects.filter(referred_store=store).order_by('-pub_date')
     return render(request, 'store_detail.html', {'store': store, 'cakelist':cake_list, 'reviewlist':review_list})
 
 # 가게 수정 U
@@ -116,11 +127,11 @@ def order_new(request, pk): #cake의 pk값
             order.referred_store = cake.referred_store
             order.save()
             # 주문 결과 페이지로 가도록 수정하기!
-            return redirect('detail', pk=cake.referred_store_id)
+            return redirect('store_detail', pk=cake.referred_store_id)
     else:
         form = OrderForm()
 
-    return render(request, 'order.html', {'form': form, 'cake':cake})
+    return render(request, 'order_submit.html', {'form': form, 'cake':cake})
 
 # 리뷰 페이지 C (R- 더보기 U - 수정 D- 삭제 구현 필요)
 def review_page(request, pk, orderpk):
@@ -129,7 +140,8 @@ def review_page(request, pk, orderpk):
     order =  get_object_or_404(Order, pk=orderpk)
     return render(request, 'review_page.html', {'cake' : cake, 'store' : store, 'order':order })
 
-# 
+# 리뷰 별점처리
+# 항목을 get으로 가져와서 Review 양식에 저장
 def review_rating(request):
     if request.method == 'GET':
         order_id = request.GET.get('order')
@@ -137,14 +149,14 @@ def review_rating(request):
         cake_id =  request.GET.get('referred_cake')
         referred_store = Store.objects.get(id = store_id)
         referred_cake = Cake.objects.get(id = cake_id)
-        order = Order.objects.get(id = order_id)
         comment = request.GET.get('comment')
         rate = request.GET.get('rate')
-        Review(user=request.user, order = order, referred_store=referred_store, referred_cake=referred_cake, comment=comment, rate=rate).save()
-        # 모델상의 일부 필드 변경
+        order = Order.objects.get(pk=order_id)
+        Review(user=request.user, order= order, referred_store=referred_store, referred_cake=referred_cake, comment=comment, rate=rate).save()
+         # 모델상의 일부 필드 변경
         Ord = Order.objects.get(id = order_id)
         Ord.reviewing = 2
         Ord.save()
-        return redirect('mypage')
+        return redirect('home')
 
 # 찜 기능 구현 필요 (유저 경험: 아마.. 케이크, 케잌집 상세페이지에서 찜하기 -> 케이크, 케잌집 모델에 필드 추가 필요)
