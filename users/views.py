@@ -333,7 +333,7 @@ def logout_with_kakao(request):
 def mypage(request, pk):
     user_pk = pk
     reviews = Review.objects.filter(user=user_pk).order_by('-pub_date')[:4] # 최근 것 4개
-    orders = Order.objects.filter(is_active=True)[:2] #진행 중 주문 최근걸로 최대 2개
+    orders = Order.objects.filter(is_active=True)[:4] #진행 중 주문 최근걸로 최대 2개
     liked_cakes = Cake.objects.filter(users_liked=user_pk)[:4]
     liked_stores = Store.objects.filter(users_liked=user_pk)[:4]
     return render(request, 'mypage.html', {'user_pk': user_pk,'reviews':reviews, 'orders':orders,'liked_cakes':liked_cakes, 'liked_stores':liked_stores})

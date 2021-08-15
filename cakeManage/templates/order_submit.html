@@ -93,9 +93,14 @@
                 <br>
                 가게명 : {{cake.referred_store}}<br><br>
                 케이크 명 : {{cake.cakename}}<br><br>
+                주문자 이름 : {{ user.nickname }}<br><br>
                 {% csrf_token %}
                 {{ form.as_p }}
-
+                {% for i in 맛%} <input type="radio" name = "맛" value= {{i}} >{{i}} {% endfor %} <br>
+                {% for i in 모양%} <input type="radio" name = "모양" value= {{i}} >{{i}} {% endfor %} <br>
+                {% for i in 사이즈%} <input type="radio" name = "사이즈" value= {{i}} >{{i}} {% endfor %} <br>
+                {% for i in 크림종류%} <input type="radio" name = "크림종류" value= {{i}} >{{i}} {% endfor %} <br>
+                {% for i in 레터링색%} <input type="radio" name = "레터링색" value= {{i}} >{{i}} {% endfor %} <br>
                 <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
             </form>
 
