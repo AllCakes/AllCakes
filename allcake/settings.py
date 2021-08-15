@@ -1,3 +1,4 @@
+#kdy : superuser : milkcream qpqpqp0614
 """
 Django settings for allcake project.
 
@@ -17,7 +18,7 @@ import os
 load_dotenv()
 KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY") # 대문자로 적어줘야 함.
 KAKAO_ADNIN_KEY = os.getenv("KAKAO_ADMIN_KEY")
-
+KAKAO_MAP_API_KEY=os.getenv("KAKAO_MAP_API_KEY")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

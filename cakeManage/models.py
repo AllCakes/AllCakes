@@ -56,7 +56,10 @@ class Store(models.Model):
     # ... Two fields of the Student model are referencing the Teacher model. In Django, when referencing the same model more than once, we have to provide a related_name for all the fields because Django’s default related_name for a single referencing field clashes with other referencing fields. Otherwise, Django will throw an exception. The related_name is what we use for the reverse lookup. In general, it is a good practice to provide a related_name for all the foreign keys rather than using Django’s default-related name.
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_store", related_name="users_liked_store")
     # 같이 알면 좋을 것 같아서 주석 많이 달았음! 찜 구현할 때 필드랑 내용 다 삭제 해도 괜찮! 
-
+    lat = models.CharField(max_length=20, verbose_name="위도", default= 37.2,
+    )
+    lon = models.CharField(max_length=20, verbose_name="경도", default= 125.3,
+    )
     def __str__(self):
         return self.name
 
