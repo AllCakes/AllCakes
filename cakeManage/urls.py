@@ -1,6 +1,7 @@
 #kdy : url을 앱별로 분리
-from django.urls import path
+from django.urls import path, include
 from .views import *
+
 urlpatterns = [
     path('', home, name="home"),
     
@@ -19,7 +20,7 @@ urlpatterns = [
     path('cake/delete/<int:pk>', cake_delete, name="cake_delete"),
 
     # 주문 CRUD (주문 결과화면 + R-상세보기 U-수정 D-주문취소 구현필요) (앱 새로 파야 되는지..?)
-    path('order/<int:pk>', order_new, name="order"),
+    path('order_submit/<int:pk>', order_new, name="order_submit"),
 
     # 마이페이지 users로 옮김
 
@@ -27,6 +28,10 @@ urlpatterns = [
     # 리뷰 작성, 수정 시 사진 멀티업로드 구현 필요할듯  
     path('review_page/<int:pk>/order/<int:orderpk>', review_page, name="review_page"),
     path('review/', review_rating, name="review"),
+    path('review/update', review_update,name="review_update"),
+    path('review/delete/<int:pk>', review_delete, name="review_delete"),
+    path('review/edit/<int:pk>', review_edit, name="review_edit"),
+
 
     # 검색 및 필터(검색이 주된 내용)
     # cake와 store의 기본정보(장소,이름 등등...), 상세설명(store.text, cake.body, ...부족하면 리뷰도) 등을 토대로 검색 구현

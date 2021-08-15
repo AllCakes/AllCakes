@@ -72,3 +72,11 @@ header{
     color: rgb(29, 29, 29);
 
 }
+
+/* 별점 */
+.checked {
+    color: orange;
+}
+.rating-wrapper input[type=radio] {
+    display: none;
+}
