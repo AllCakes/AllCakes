@@ -6,7 +6,6 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css"> 
 {% endblock %}
-<!-- ggit 테스트 -->
 {% block content %}
 <div id="body">
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
@@ -90,45 +89,24 @@
 
         
         <div class="fourReviews">
+            {% for r in reviews%}
             <article class="reviewItem">
-                <img src="https://i.pinimg.com/originals/c0/38/de/c038de2c20b240af8de30bce4eb6c38f.jpg" class="reviewImage">
+                <img src={{r.order.referred_cake.cake_image.url}} class="reviewImage">
                 <div class="reviewText">
-                    <p class="reviewTitle"><a href="#">[케익 가게]</a><a href="#"> 상품명</a></p>
-                    <p class="reviewDetail">여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯  </p> <!--공백포함 90자 정도-->
-                    <p class="userId">( 작성자 아이디 )</p> <!--FE: 추후 별점 기능도 추가음-->
-                </div>
-                
-            </article>
-
-            <article class="reviewItem">
-                <img src="https://i.pinimg.com/originals/c0/38/de/c038de2c20b240af8de30bce4eb6c38f.jpg" class="reviewImage">
-                <div class="reviewText">
-                    <p class="reviewTitle"><a href="#">[케익 가게]</a><a href="#"> 상품명</a></p>
-                    <p class="reviewDetail">여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 </p>
-                    <p class="userId">( 작성자 아이디 )</p> 
-                </div>
-                
-            </article>
-
-            <article class="reviewItem">
-                <img src="https://i.pinimg.com/originals/c0/38/de/c038de2c20b240af8de30bce4eb6c38f.jpg" class="reviewImage">
-                <div class="reviewText">
-                    <p class="reviewTitle"><a href="#">[케익 가게]</a><a href="#"> 상품명</a></p>
-                    <p class="reviewDetail">여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 </p>
-                    <p class="userId">( 작성자 아이디 )</p> 
+                    <p class="reviewTitle"><a href="#">{{r.order.referred_store}} - </a><a href="#">{{r.order.referred_cake}}</a></p>
+                    <p class="reviewDetail">{{r.comment}}</p> <!--공백포함 90자 정도-->
+                    <p class="userId">{{r.order.user}}</p>
+                    <!-- 별점추가 -->
+                    <a>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star {% if r.rate > 1 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if r.rate > 2 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if r.rate > 3 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if r.rate > 4 %} checked {% endif %}"></span>
+                    </a>
                 </div>
             </article>
-
-            <article class="reviewItem">
-                <img src="https://i.pinimg.com/originals/c0/38/de/c038de2c20b240af8de30bce4eb6c38f.jpg" class="reviewImage">
-                <div class="reviewText">
-                    <p class="reviewTitle"><a href="#">[케익 가게]</a><a href="#"> 상품명</a></p>
-                    <p class="reviewDetail">여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 여기에는 리뷰 들어갑니다! 몇 자씩 끊어서 넣어야 할 듯 </p>
-                    <p class="userId">( 작성자 아이디 )</p> 
-                </div>
-                
-            </article>
-
+            {% endfor %}
         </div>
     </div>
     <!--최신 리뷰 부분 끝-->

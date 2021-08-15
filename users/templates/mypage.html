@@ -18,6 +18,7 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+<body>
     <h1> 마이 페이지 </h1>
 
 
@@ -95,13 +96,14 @@
                     {% else %}
                     <td>결제미완료</td>
                     {% endif %}
-
+                    
                     <td>{{ order.order }}{{order.pub_date}}</td>
                     
-                    {% if order.reviewing == 1%}
+                    {% if order.reviewing == 1 %}
                     <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
                     {% else %}
-                    <td>리뷰 수정<br><a>리뷰 삭제</a></td>
+                    <td><a href="{% url 'review_edit' pk=order.pk %}">리뷰 수정</a><br>
+                        <a href="{% url 'review_delete' pk=order.pk %}">리뷰 삭제</a></td>
                     {% endif %}
                 </tr>
                 {% endfor %}
@@ -153,5 +155,5 @@
         </div>
     </div>
 {% endif %}
-
+</body>
 {% endblock %}
