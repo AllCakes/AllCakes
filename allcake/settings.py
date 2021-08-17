@@ -15,6 +15,7 @@ from dotenv import load_dotenv      # python-dotenv : API, AWS서버 연결 등�
 import os
 # .env에 있는 내용을 os environment에 불러오고, 이후 os.getenv로 가져오면 된다.
 load_dotenv()
+
 KAKAO_REST_API_KEY = os.getenv("KAKAO_REST_API_KEY") # 대문자로 적어줘야 함.
 KAKAO_ADNIN_KEY = os.getenv("KAKAO_ADMIN_KEY")
 

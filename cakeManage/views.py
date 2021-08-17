@@ -7,10 +7,18 @@ from .forms import StoreForm, CakeForm, OrderForm
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
     stores = Store.objects.order_by('-pub_date')
-    paginator = Paginator(stores, 4) 
-    page = request.GET.get('page', 1)
-    stores = paginator.get_page(page)
-    return render(request, 'home.html', {'stores': stores})
+    store_paginator = Paginator(stores, 4) 
+    stores = store_paginator.get_page(1)
+
+    reviews = Review.objects.order_by('-pub_date')
+    review_paginator = Paginator(reviews, 4)
+    reviews = review_paginator.get_page(1)
+    # page = request.GET.get('page', 1)
+
+    content = {'stores': stores , 'reviews': reviews}
+    return render(request, 'home.html', content)
+
+
 
 # 가게 등록 C (필요 없을 예정)
 def store_new(request):
@@ -116,7 +124,7 @@ def order_new(request, pk): #cake의 pk값
             order.referred_store = cake.referred_store
             order.save()
             # 주문 결과 페이지로 가도록 수정하기!
-            return redirect('detail', pk=cake.referred_store_id)
+            return redirect('order', pk=cake.referred_store_id)
     else:
         form = OrderForm()
 

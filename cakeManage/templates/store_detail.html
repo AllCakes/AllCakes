@@ -58,13 +58,12 @@
             <!--버튼 누르면 나오는 설명까지 하나의 div에 묶기-->
             <br><br>
             <p class="items-header">📍 "{{store.name}}"의 모든 케이크</p>
-            <hr class="underToday">
 
             {% for cake in cakelist %}
             
             <div class="cake-item">
                 <div class="cake-img">
-                    <img src="{{cake.cake_image.url}}" width="240px" height="237px"><br>
+                    <img src="{{cake.cake_image.url}}" width="200px" height= "206px"><br>
                     <!-- 케이크 수정 버튼 지웠음 -->
                     <br>
                     
@@ -72,10 +71,23 @@
                 
 
                 <div class="cake-body">
-                    <p class="cake-name">{{cake.cakename}}</p>
-                    <hr>
-                    <p class="cake-detail">{{cake.body}}</p>
-                    <a href="{% url 'order' pk=cake.pk  %}">해당 케이크 주문</a>
+
+                    <div class="cake-name-button">
+                        <p class="cake-name">{{cake.cakename}}</p>
+                        <div id="detail-buttons">
+                            <a href="{% url 'order' pk=cake.pk  %}" class="order-button">✔️ 주문하기</a>
+                            <a href="{% url 'order' pk=cake.pk  %}" class="like-button">✔️ 찜하기</a>
+                        </div>
+                        
+
+                    </div>
+
+                    <!-- <hr class="underToday"> -->
+
+                    <div class="cake-detail-box">
+                        <p class="cake-detail">{{cake.body}}</p>
+                    </div>
+                    
                     <!--FE: 케이크 자세히 보기 버튼도 있으면 좋을 듯-->
                 </div>
                 </a><br>
@@ -170,11 +182,14 @@
             {% for review in reviewlist %}         
             <div class="store-review">
                 <!-- 순서대로 작성자, 케이크, 본문, 별점 -->
-                <span>{{review.user}}</span>
-                <br>
-                <span>케이크: {{review.referred_cake}}</span>
-                <section>{{review.comment|slice:"100"}}</section>
-                <p>{{review.rate}}/5점</p>
+                <span class="review-cake">[ {{review.referred_cake}} ]</span>
+
+                <div class="under-user-id">
+                    <span class="user-id">• 작성자 : {{review.user}}</span>
+                    <p>• 별점 : {{review.rate}}/5점</p>
+                    <section>{{review.comment|slice:"100"}}</section>
+                </div>
+                
             </div>
 
 
@@ -220,73 +235,6 @@
 </div>
 
 
-    <footer>
-        <div class="footerContent1">
-            <div class="about">
-                <p class="aboutTitle">About</p>
-                <hr class="underline">
-
-                <p class="aboutContent">이 어둠을 빨간 코로 비춰줄래
-                    어디서부터 잘못된 건지
-                    온 세상이 all black black black
-                    지금 너와 난
-                    다 깨져버린 1000피스
-                    lego block block block
-                    차라리 더 어두워지면 좋겠어
-                    이 세상에 스위치가 있다면
-                    꺼버릴거야
-                    그리고 널 향한 노랠 부르겠어</p>
-
-            </div>
-
-            <div class="categories">
-                <p class="categoryTitle">Categories</p>
-                <hr class="underline">
-
-                <li>
-                    <a href="#" target="_blank">
-                        <ul>HOME</ul>
-                    </a>
-                    <a href="#" target="_blank">
-                        <ul>ABOUT US</ul>
-                    </a>
-                    <a href="#" target="_blank">
-                        <ul>CONTACT</ul>
-                    </a>
-                    <a href="#" target="_blank">
-                        <ul>JOIN</ul>
-                    </a>
-
-                </li>
-            </div>
-
-            <div class="links">
-                <p class="linkTitle">Links</p>
-                <hr class="underline">
-
-                <li>
-                    <a href="#" target="_blank">
-                        <ul>CONTRIBUTE</ul>
-                    </a>
-                    <a href="#" target="_blank">
-                        <ul a href="#">ABOUT US</ul>
-                    </a>
-                    <a href="#" target="_blank">
-                        <ul a href="#">CONTACT</ul>
-                    </a>
-                    <a href="#" target="_blank">
-                        <ul a href="#">PRIVACY POLICY</ul>
-                    </a>
-                </li>
-            </div>
-        </div>
-        <hr class="underline2">
-
-
-        <div class="footerContent2">
-            <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
-        </div>
-    </footer>
 </body>
 
 </html>
