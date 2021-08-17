@@ -52,6 +52,22 @@ const select = (sel) =>{
 // 가게 디테일 부분 열고 닫기 
 function 열기(num) {
     document.getElementsByClassName('items')[num].style.display = 'block';
-    document.getElementsByClassName('items')[(num + 1) % 3].style.display = 'none';
-    document.getElementsByClassName('items')[(num + 2) % 3].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 1) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 2) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 3) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 4) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 5) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 6) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 7) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 8) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 9) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 10) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 11) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 12) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 13) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 14) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 15) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 16) % 18].style.display = 'none';
+    document.getElementsByClassName('items')[(num + 17) % 18].style.display = 'none';
+    
 }

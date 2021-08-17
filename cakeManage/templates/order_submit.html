@@ -1,4 +1,5 @@
 {% load static %}
+
 <style>
     .cakeorder {
         display: table;
@@ -96,7 +97,8 @@
                 주문자 이름 : {{ user.nickname }}<br><br>
                 {% csrf_token %}
                 {{ form.as_p }}
-                {% for i in 맛%} <input type="radio" name = "맛" value= {{i}} >{{i}} {% endfor %} <br>
+
+                {% for i in 맛%} <input type="radio" name = "맛" value= {{i}} >{{i}} {% endfor %}
                 {% for i in 모양%} <input type="radio" name = "모양" value= {{i}} >{{i}} {% endfor %} <br>
                 {% for i in 사이즈%} <input type="radio" name = "사이즈" value= {{i}} >{{i}} {% endfor %} <br>
                 {% for i in 크림종류%} <input type="radio" name = "크림종류" value= {{i}} >{{i}} {% endfor %} <br>

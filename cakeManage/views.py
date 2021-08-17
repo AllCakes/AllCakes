@@ -1,9 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls.resolvers import LocaleRegexDescriptor
 from django.utils import timezone
 from django.core.paginator import Paginator
 from users.urls import mypage
 from .models import Store, Cake, Order, Review
-from .forms import StoreForm, CakeForm, OrderForm
+from django.views.generic import FormView #formview 형 클래스형 제네릭 뷰 임포트 추가
+from .forms import StoreForm, CakeForm, OrderForm, LocationSearchForm
+from django.db.models import Q 
+from django.shortcuts import render
+
+
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
@@ -200,3 +206,35 @@ def review_update(request):
 
 
 # 찜 기능 구현 필요 (유저 경험: 아마.. 케이크, 케잌집 상세페이지에서 찜하기 -> 케이크, 케잌집 모델에 필드 추가 필요)
+
+# 위치 검색 필터 - 클래스형 뷰로 작성함
+#(1) 검색어로 검색 : 테스트용이라서 삭제해도 돼용!
+class search_location(FormView):
+    form_class=LocationSearchForm
+    template_name='location_search.html'
+
+    def form_valid(self,form):
+        searchWord=form.cleaned_data['search_word']
+        post_list=Store.objects.filter(Q(name__icontains=searchWord) | Q(location__icontains=searchWord)).distinct()
+
+        context={}
+        context['form']=form
+        context['search_term']=searchWord
+        context['objects_list']=post_list
+
+        return render(self.request, self.template_name,context)
+#(2) 원하는 장소만 검색
+def search_location2(request):
+    #HTML에서 폼 제출하면 사용자가 선택한 지역구들을 리스트에 받아서 델꼬온다
+    searchWord=request.POST.getlist('locations[]')
+    #post_list=[] #변수 미리 어떤 형태로든 지정해놔야지 지역변수로 인식을 안한다
+    post_list=[]
+    if searchWord :
+        for word in searchWord:
+            post_list+=Store.objects.filter(Q(location__icontains=word)).distinct()
+            # '+' 붙여서 리스트에 요소를 추가추가해주는 방식으로 가야함
+            # 안 붙여주면 구로구,노원구 두개 이상 선택시 둘 중에 한 구만 필터링됨
+    context={}
+    context['search_term']=searchWord
+    context['objects_list']=post_list
+    return render(request,'location_search2.html',context)

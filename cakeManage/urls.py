@@ -37,4 +37,9 @@ urlpatterns = [
     # cake와 store의 기본정보(장소,이름 등등...), 상세설명(store.text, cake.body, ...부족하면 리뷰도) 등을 토대로 검색 구현
     # 필터는 장소 필터링만
 
+    # 장소만 필터링 기능 url 
+    path('search/',search_location.as_view(), name="search_location"),
+
+    path('search2/',search_location2, name="search_location2"),
+
 ]

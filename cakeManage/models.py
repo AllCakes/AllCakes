@@ -4,6 +4,10 @@ from django.utils import timezone
 from django.db import models
 import datetime
 
+
+class Search(models.Model):
+    검색단어 = models.CharField(max_length=30)
+
 class Store(models.Model):
     # 순서대로 가게이름, 대표이미지, 설명, 게시일자, 연락처, 가게위치(OO구)
     name = models.CharField(max_length=20)
