@@ -6,7 +6,6 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css"> 
 {% endblock %}
-
 {% block content %}
 <div id="body">
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
@@ -88,28 +87,27 @@
         <p class="reviewHeader">최신 리뷰</p>
         <hr class="underReview">
 
-        <div class="items">
-            
-            {% for review in reviews %}         
-            <div class="store-review">
-                <!-- 순서대로 작성자, 케이크, 본문, 별점 -->
-                <span class="review-cake">[ {{review.referred_cake}} ]</span>
-
-                <div class="under-user-id">
-                    <span class="user-id">• 작성자 : {{review.user}}</span>
-                    <p>• 별점 : {{review.rate}}/5점</p>
-                    <section>{{review.comment|slice:"100"}}</section>
+        
+        <div class="fourReviews">
+            {% for r in reviews%}
+            <article class="reviewItem">
+                <img src={{r.order.referred_cake.cake_image.url}} class="reviewImage">
+                <div class="reviewText">
+                    <p class="reviewTitle"><a href="#">{{r.order.referred_store}} - </a><a href="#">{{r.order.referred_cake}}</a></p>
+                    <p class="reviewDetail">{{r.comment}}</p> <!--공백포함 90자 정도-->
+                    <p class="userId">{{r.order.user}}</p>
+                    <!-- 별점추가 -->
+                    <a>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star {% if r.rate > 1 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if r.rate > 2 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if r.rate > 3 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if r.rate > 4 %} checked {% endif %}"></span>
+                    </a>
                 </div>
-                
-            </div>
-
-
+            </article>
             {% endfor %}
         </div>
-
-
-        
-        
     </div>
     <!--최신 리뷰 부분 끝-->
 

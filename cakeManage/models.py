@@ -65,9 +65,15 @@ class Cake(models.Model):
     cakename = models.CharField(default='',max_length=200)
     referred_store = models.ForeignKey(Store ,on_delete=models.CASCADE)
     pub_date = models.DateTimeField(default = timezone.now)
-    body = models.TextField(default='')
+    body = models.TextField(default='')  # 케이크 소개
     cake_image = models.ImageField(upload_to='cakeimages/', blank=False, null=True)
-    
+    # 케이크 추가할 선택사항
+    맛 = models.CharField(max_length=200)
+    모양 = models.CharField(max_length=200)
+    사이즈=models.CharField(max_length=200)
+    크림종류=models.CharField(max_length=200)
+    레터링색=models.CharField(max_length=200)
+
     # 찜을 위한 필드 (임시)
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_cake", related_name="users_liked_cake")
     
@@ -84,14 +90,8 @@ class Order(models.Model):
     referred_store = models.ForeignKey(Store,on_delete=models.CASCADE, verbose_name="가게")
     referred_cake = models.ForeignKey(Cake,on_delete=models.CASCADE, verbose_name="선택 케이크")
     pub_date = models.DateTimeField(default = timezone.now, verbose_name="주문 날짜")
-    reviewing = models.IntegerField(default=1, verbose_name="(평점)")
+    reviewing = models.IntegerField(default=1)
     희망픽업일 = models.CharField(null=True, max_length=30, default=datetime.date.today)
-    # 주문 상태 확인을 위해 승인 상태, 진행 상태(픽업 완료, 미완료), 결제 상태를 DB 저장 및 업데이트해야 함.
-    # 각각 승인 : is_accepted, 진행 상태: is_active, 결제 상태: is_paid로 설정. 이후 더 필요하면 추가.
-    # 관리자가 보기 편하도록 verbose_name='이름' 추가 verbose_name 추가해주세용.
-    is_accepted = models.BooleanField(verbose_name="가게 승인", default=False)
-    is_active = models.BooleanField(verbose_name="진행중",default=True)
-    is_paid = models.BooleanField(verbose_name="결제완료",default=False)
     TIME_CHOICES=[
         ('10:00','10:00'),
         ('10:30','10:30'),
@@ -109,80 +109,37 @@ class Order(models.Model):
         ('17:30','17:30'),
         ('18:00','18:00'),
         ('18:30','18:30'),
-        
-    ]
-    FLAVOR_CHOICES=[
-    ('초콜릿','초콜릿'),
-    ('딸기','딸기'),
-    ('바닐라','바닐라'),
-    ('레드벨벳','레드벨벳'),
-    ]
-    SHAPE_CHOICES=[
-        ('원형','원형'),
-        ('하트','하트'),
-        ('사각형','사각형'),
-    ]
-    SIZE_CHOICES=[
-        ('도시락케이크(1~2인)','도시락케이크(1~2인)'),
-        ('1호(2~3인)','1호(2~3인)'),
-        ('2호(3~4인)','2호(3~4인)'),
-        ('3호(4~5인)','2호(4~5인)'),
-    ]
-    CREAM=[
-        ('버터','버터'),
-        ('생크림','생크림'),
-        ('크림치즈','크림치즈'),
     ]
     LETTER_POS=[
         ('판 위에 레터링','판 위에 레터링'),
         ('케이크에 직접 레터링','케이크에 직접 레터링'),
-    ]
-    LETTER_COLOR=[
-        ('RED','RED'),
-        ('PINK','PINK'),
-        ('YELLOW','YELLOW'),
-        ('BLUE','BLUE'),
     ]
     희망픽업시간=models.CharField(
         null=True,
         max_length=30,
         choices=TIME_CHOICES,
         default='10:00')
-    맛=models.CharField(
-        null=True,
-        max_length=4,
-        choices=FLAVOR_CHOICES,
-        default='초콜릿')
-    모양=models.CharField(
-        null=True,
-        max_length=5,
-        choices=SHAPE_CHOICES,
-        default="원형"
-    )
-    사이즈=models.CharField(
-        null=True,
-        max_length=30,
-        choices=SIZE_CHOICES,
-        default="도시락케이크"
-    )
-    크림종류=models.CharField(
-        null=True,
-        max_length=30,
-        choices=CREAM,
-        default="버터"
-    )
     레터링위치=models.CharField(
         null=True,
         max_length=30,
         choices=LETTER_POS,
         default="케이크에 직접 레터링"
     )
-    레터링색=models.CharField(
-        null=True,
-        max_length=30,
-        choices=LETTER_COLOR,
-        default="RED"
-    )
+
+    # 주문 상태 확인을 위해 승인 상태, 진행 상태(픽업 완료, 미완료), 결제 상태를 DB 저장 및 업데이트해야 함.
+    # 각각 승인 : is_accepted, 진행 상태: is_active, 결제 상태: is_paid로 설정. 이후 더 필요하면 추가.
+    # 관리자가 보기 편하도록 verbose_name='이름' 추가 verbose_name 추가해주세용.
+    is_accepted = models.BooleanField(verbose_name="가게 승인", default=False)
+    is_active = models.BooleanField(verbose_name="진행중",default=True)
+    is_paid = models.BooleanField(verbose_name="결제완료",default=False)
+    
+    # 선택사항
+    맛 = models.CharField(max_length=15)
+    모양 = models.CharField(max_length=15)
+    사이즈=models.CharField(max_length=15)
+    크림종류=models.CharField(max_length=15)
+    레터링색=models.CharField(max_length=15)
+
     원하시는도안사진첨부 = models.ImageField(null=True,upload_to='images/',blank=True, verbose_name="사진 첨부(도시락케이크 선택시)")
 
     def __str__(self):

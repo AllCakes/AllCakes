@@ -15,7 +15,10 @@
     <h1> 잘못된 접근입니다 (Allcakes)</h1>
 {% else %}
     <!-- 모든 정보가 들어가는 곳 O -->
-
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
     <h1> 마이 페이지 </h1>
 
 
@@ -50,8 +53,14 @@
             <br>
             <span>Store: {{review.referred_store}}</span>
             <br>
-            <span>{{review.rate}}/5 점</span>
             <section>{{review.comment|slice:"15"}}</section>
+            <span class="fa fa-star fa-2x checked"></span>
+            <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
+            <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
+            <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
+            <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
+            <br><br>
+            
             {% endfor %}
             <a href=""><button>더보기</button></a> 
             <!-- 내 리뷰 전체 페이지 구현 필요 -->
@@ -87,9 +96,15 @@
                     {% else %}
                     <td>결제미완료</td>
                     {% endif %}
-
-                    <td>{{order.pub_date}}</td>
+                    
+                    <td>{{ order.order }}{{order.pub_date}}</td>
+                    
+                    {% if order.reviewing == 1 %}
                     <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
+                    {% else %}
+                    <td><a href="{% url 'review_edit' pk=order.pk %}">리뷰 수정</a><br>
+                        <a href="{% url 'review_delete' pk=order.pk %}">리뷰 삭제</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </table>
@@ -140,5 +155,5 @@
         </div>
     </div>
 {% endif %}
-
+</body>
 {% endblock %}
