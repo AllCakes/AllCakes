@@ -56,12 +56,11 @@
             <!--버튼 누르면 나오는 설명까지 하나의 div에 묶기-->
             <br><br>
             <p class="items-header">📍 "{{store.name}}"의 모든 케이크</p>
-            <hr class="underToday">
 
             {% for cake in cakelist %}
             <div class="cake-item">
                 <div class="cake-img">
-                    <img src="{{cake.cake_image.url}}" width="240px" height="237px"><br>
+                    <img src="{{cake.cake_image.url}}" width="200px" height= "206px"><br>
                     <!-- 케이크 수정 버튼 지웠음 -->
                     <br>
                 </div>
@@ -153,6 +152,17 @@
             </form>
 
             <div class="store-review">
+<<<<<<< HEAD
+                <!-- 순서대로 작성자, 케이크, 본문, 별점 -->
+                <span class="review-cake">[ {{review.referred_cake}} ]</span>
+
+                <div class="under-user-id">
+                    <span class="user-id">• 작성자 : {{review.user}}</span>
+                    <p>• 별점 : {{review.rate}}/5점</p>
+                    <section>{{review.comment|slice:"100"}}</section>
+                </div>
+                
+=======
                 {% for review in reviewlist %}
                 id : {{review.user.nickname}}<br>
                 리뷰일시 : {{review.pub_date}}<br>
@@ -166,6 +176,7 @@
                 <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
                 <br><br>
                 {% endfor %}
+>>>>>>> main
             </div>
         </div>
     </div>
@@ -187,6 +198,30 @@
                 꺼버릴거야
                 그리고 널 향한 노랠 부르겠어</p>
 
+<<<<<<< HEAD
+   <!-- 리뷰 관련 페이지 -->
+   <div class ="items">
+    <br><br>
+    <h3>리뷰</h3>
+    {% for review in reviewlist %}
+        id : {{review.user.username}}<br>
+        리뷰일시 : {{review.pub_date}}<br>
+        가게 이름 : {{review.referred_store.name}}<br>
+        주문 케이크 : {{review.referred_cake.cakename}}<br>
+        리뷰 내용 : {{review.comment}}<br>
+        <span class="fa fa-star fa-2x checked"></span>
+        <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
+        <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
+        <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
+        <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
+        <br><br>
+    {% endfor %}
+    <br><br>
+</div>
+
+
+</body>
+=======
         </div>
 
         <div class="categories">
@@ -237,6 +272,7 @@
         <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
     </div>
 </footer>
+>>>>>>> main
 
 </html>
 {% endblock %}

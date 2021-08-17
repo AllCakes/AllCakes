@@ -12,12 +12,9 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!--부트스트랩-->
     <!--여기까지-->
-    
     <!-- 별점 필요 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" /> 
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
     {% block css %}
     {% endblock %}
     <script type="text/javascript" src="/static/js/userLocation.js"></script>
@@ -49,7 +46,7 @@
 
                         <!--로그인, 로그아웃-->
                         <li class="nav-item ">
-                        {% if user.is_authenticated %}
+                            {% if user.is_authenticated %}
                             {% if user.is_kakao == True %}
                             <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
                             <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}">Logout</a>
@@ -57,25 +54,25 @@
                             <a class="nav-link px-2" href="{% url 'logout' %}">Logout</a>
                             {% endif %}
 
-                        {% else %}
+                            {% else %}
                             <!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
                             <a class="nav-link px-2" href="{% url 'login_home' %}">Login</a>
-                        {% endif %}
+                            {% endif %}
                         </li>
                         <!--로그인과 로그아웃만 뜸 -->
 
                         <!--마이페이지, about us-->
                         <li class="nav-item ">
 
-                        {% if user.is_authenticated %}
+                            {% if user.is_authenticated %}
                             <!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
                             <a class="nav-link px-2" href="{% url 'mypage' pk=user.pk %}">My Page</a>
-                        {% endif %}
+                            {% endif %}
 
-                        {% if not user.is_authenticated %}
+                            {% if not user.is_authenticated %}
                             <a class="nav-link px-2" href="#">About Us</a>
                             <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
-                        {% endif %}
+                            {% endif %}
                         </li>
                         <!--마이페이지, about us 끝-->
                     </ul>
@@ -98,11 +95,78 @@
     {% block content %}
     {% endblock %}
 
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+    
+    <footer>
+        <div class="footerContent1">
+            <div class="about">
+                <p class="aboutTitle">About</p>
+                <hr class="underline">
 
+                <p class="aboutContent">이 어둠을 빨간 코로 비춰줄래
+                    어디서부터 잘못된 건지
+                    온 세상이 all black black black
+                    지금 너와 난
+                    다 깨져버린 1000피스
+                    lego block block block
+                    차라리 더 어두워지면 좋겠어
+                    이 세상에 스위치가 있다면
+                    꺼버릴거야
+                    그리고 널 향한 노랠 부르겠어</p>
+
+            </div>
+
+            <div class="categories">
+                <p class="categoryTitle">Categories</p>
+                <hr class="underline">
+
+                <li>
+                    <a href="#" target="_blank">
+                        <ul>HOME</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>ABOUT US</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>CONTACT</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>JOIN</ul>
+                    </a>
+
+                </li>
+            </div>
+
+            <div class="links">
+                <p class="linkTitle">Links</p>
+                <hr class="underline">
+
+                <li>
+                    <a href="#" target="_blank">
+                        <ul>CONTRIBUTE</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">ABOUT US</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">CONTACT</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">PRIVACY POLICY</ul>
+                    </a>
+                </li>
+            </div>
+        </div>
+        <hr class="underline2">
+
+
+        <div class="footerContent2">
+            <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
+        </div>
+    </footer>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+</script>
 
 
 </body>

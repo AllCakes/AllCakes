@@ -5,7 +5,7 @@
     font-style: normal;
 }
 
-header{
+header {
     padding-bottom: 0%;
 }
 
@@ -73,10 +73,118 @@ header{
 
 }
 
+
+footer {
+    /* height: 360px; */
+    height: auto;
+    background-color: black;
+}
+
+.footerContent1 {
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    padding-top: 30px;
+}
+
+.about {
+    width: 30%;
+}
+
+.aboutTitle,
+.categoryTitle,
+.linkTitle {
+    font-family: 'NotoSerifKR';
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.aboutContent {
+    font-family: 'Cafe24Oneprettynight';
+}
+
+.categories {
+    width: 15%;
+}
+
+
+.categories li {
+    list-style: none;
+}
+
+.categories a:link {
+    color: white;
+    text-decoration: none;
+}
+
+.categories a:visited {
+    color: rgb(255, 255, 255);
+}
+
+.categories a:hover {
+    color: rgb(237, 167, 255);
+}
+
+.categories li ul {
+    padding-left: 0;
+    font-family: 'Cafe24Oneprettynight';
+}
+
+.links {
+    width: 15%;
+}
+
+.links li {
+    list-style: none;
+}
+
+.links a:link {
+    color: white;
+    text-decoration: none;
+}
+
+.links a:visited {
+    color: rgb(255, 255, 255);
+}
+
+.links a:hover {
+    color: rgb(162, 195, 255);
+}
+
+
+.links li ul {
+    padding-left: 0;
+    font-family: 'Cafe24Oneprettynight';
+}
+
+.underline {
+    border: 1.5px rgb(255, 255, 255) solid;
+    width: 90%;
+    align-items: center;
+    margin-left: 1%;
+}
+
+.underline2 {
+    border: 1px rgb(221, 199, 255) solid;
+    width: 90%;
+    align-items: center;
+    margin-left: 5%;
+}
+
+.footerContent2 p {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-left: 6%;
+    font-family: 'Cafe24Oneprettynight';
+    color: white;
+    font-weight: bold;
+}
+
 /* 별점 */
 .checked {
     color: orange;
 }
 .rating-wrapper input[type=radio] {
     display: none;
+
 }

@@ -1,0 +1,224 @@
+
+@font-face {
+    font-family: 'NotoSerifKR';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NotoSerifKR.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cafe24Oneprettynight';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Oneprettynight.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GongGothicMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BBTreeGB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeGB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+#login-img1 {
+    background-image: url(../img/login.jpeg);
+}
+
+#login-img2 {
+    background-image: url(../img/kakao.jpeg);
+}
+
+#login-img3 {
+    background-image: url(../img/login2.jpeg);
+}
+
+.login-img-display {
+    height: 300px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.carousel-caption {
+    color: rgb(0, 0, 0);
+    bottom: 55px; /* caption 높이 수정 */
+}
+
+#color-black{
+    color: white;
+}
+
+.carousel-caption h3{
+    margin-bottom: 4%;
+    font-family: 'NotoSerifKR';
+    color: rgb(255, 247, 200);
+    font-weight: bold;
+}
+
+.carousel-caption p{
+    margin-top: 3%;
+    font-family: 'NotoSerifKR';
+    font-size: 18px;
+    color: rgb(255, 252, 236);
+
+}
+#carouselExampleCaptions{
+    margin-top: 70px;
+}
+
+#second-car h5{
+    margin-bottom: 4%;
+    font-family: 'NotoSerifKR';
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    text-shadow: 2px 2px rgb(163, 163, 163);
+}
+
+
+#second-car {
+    color: rgb(0, 0, 0);
+    bottom: 50px; /* caption 높이 수정 */
+}
+.login-go-today { 
+    display:block; 
+    width:200px; 
+    height:40px; 
+    line-height:40px; 
+    border:1px #3399dd solid;; 
+    margin:15px auto; 
+    background-color:#66aaff; 
+    text-align:center; 
+    cursor: pointer; 
+    color:#333; 
+    transition:all 0.9s, color 0.3; 
+} 
+
+.login-go-today:hover{
+    color:#fff;
+    box-shadow: 200px 0 0 0 rgba(0,0,0,0.25) inset,
+                -200px 0 0 0 rgba(0,0,0,0.25) inset; 
+
+}
+
+
+
+#thrid-car{
+    color: rgb(0, 0, 0);
+    bottom: 55px; /* caption 높이 수정 */
+}
+
+#third-car h2{
+    margin-bottom: 4%;
+    font-family: 'NotoSerifKR';
+    color: rgb(255, 247, 200);
+    text-shadow: rgba(211, 211, 211, 0.664) 1px 1px;
+    font-weight: bold;
+}
+
+#third-car p{
+    margin-top: 3%;
+    font-family: 'NotoSerifKR';
+    font-size: 20px;
+    color: rgb(255, 253, 241);
+    font-weight: bold;
+}
+
+.login-box{
+    height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* email-box 부분 */
+
+
+.email-box{
+    width: 50%;
+}
+
+.email-box1{
+    height: 20%;
+    padding-top: 4%;
+}
+
+.email-box1 p{
+    font-family: 'GongGothicMedium';
+    font-size: 20px;
+    text-align: center;
+}
+
+.email-box a{
+    border: 1px black solid;
+    text-decoration: none;
+    color: black;
+    font-family: 'GongGothicMedium';
+    padding:  1.5% 3%;
+}
+
+.email-login{
+    margin-bottom: 10%;
+}
+
+
+
+.email-box2-1{
+    margin-bottom: 8%;
+    padding-left: 44.3%;
+    margin-top: 17%;
+}
+
+.email-box2-2{
+    padding-left: 43.5%;
+
+}
+
+
+/* 여기까지 */
+
+
+.kakao-box{
+    width: 50%;
+    border-left: solid rgba(182, 182, 182, 0.623) 2px;
+    background-color: rgba(235, 235, 235, 0.199);
+}
+
+.kakao-box1{
+    height: 20%;
+    padding-top: 4%;
+
+}
+
+.kakao-box1 p{
+    font-family: 'GongGothicMedium';
+    font-size: 20px;
+    text-align: center;
+}
+
+.kakao-box a{
+    border: 1px black solid;
+    text-decoration: none;
+    color: black;
+    font-family: 'GongGothicMedium';
+    padding:  1.5% 3%;
+
+}
+
+.kakao-box2{
+    padding-top: 15%;
+    padding-left: 41%;
+}
+
+
+.kakao-box2-1{
+    margin-top: 17%;
+}
