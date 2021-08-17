@@ -10,7 +10,7 @@ class Search(models.Model):
 
 class Store(models.Model):
     # 순서대로 가게이름, 대표이미지, 설명, 게시일자, 연락처, 가게위치(OO구)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=15)
     store_image = models.ImageField(upload_to='storeimages/', blank=False)
     text = models.TextField(default='', blank=True)
     pub_date = models.DateTimeField(default=timezone.now)
