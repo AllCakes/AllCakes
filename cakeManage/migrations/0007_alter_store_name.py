@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cakeManage', '0006_alter_order_원하시는도안사진첨부'),
+        ('cakeManage', '0001_initial'),
     ]
 
     operations = [

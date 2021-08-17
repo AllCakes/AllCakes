@@ -141,11 +141,7 @@ def order_new(request, pk): #cake의 pk값
             order.referred_store = cake.referred_store
             order.save()
             # 주문 결과 페이지로 가도록 수정하기!
-<<<<<<< HEAD
-            return redirect('order', pk=cake.referred_store_id)
-=======
             return redirect('store_detail', pk=cake.referred_store_id)
->>>>>>> main
     else:
         form = OrderForm()
     return render(request, 'order_submit.html', {'form': form, 'cake':cake, '맛':맛, '모양':모양, '사이즈':사이즈, '크림종류':크림종류, '레터링색':레터링색})
