@@ -7,36 +7,42 @@
 {% block content %}
 
 <!------------------------------------------------------------->
-
-<body id="mainBody" onload="열기('{{num}}')">
+<script defer src="/static/js/rating.js"></script>
+<body id="mainBody" onload="열기1('0')">
 
     <div class="option-box">
         <div class="locationButton">
-            <input type="button" class="btn btn-outline-primary" onclick="열기(0)" value="서 울"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(1)" value="경 기"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(2)" value="인 천"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(3)" value="강 원"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(4)" value="대 전"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(5)" value="세 종"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(6)" value="충 남"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(7)" value="충 북"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(8)" value="부 산"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(9)" value="울 산"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(10)" value="경 남"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(11)" value="경 북"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(12)" value="대 구"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(13)" value="광 주"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(14)" value="전 남"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(15)" value="전 북"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(16)" value="제 주"></input>
-            <input type="button" class="btn btn-outline-primary" onclick="열기(17)" value="전 국"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(0)" value="서 울"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(1)" value="경 기"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(2)" value="인 천"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(3)" value="강 원"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(4)" value="대 전"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(5)" value="세 종"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(6)" value="충 남"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(7)" value="충 북"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(8)" value="부 산"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(9)" value="울 산"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(10)" value="경 남"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(11)" value="경 북"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(12)" value="대 구"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(13)" value="광 주"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(14)" value="전 남"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(15)" value="전 북"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(16)" value="제 주"></input>
+            <input type="button" class="btn btn-outline-primary" onclick="열기1(17)" value="전 국"></input>
 
         </div>
 <!---------------------------------------------------------------->
-        <div class="items" id="Seoul">
+        <div class="items1" id="Seoul">
             <fieldset>
                 <form action="{% url 'search_location2' %}" method="post">
                     {% csrf_token %}
+
+                <div>
+                    <input type="checkbox" name="locations[]" id="seoul26" value="서울">
+                    <label for="seoul26"><p>서울 전체</p></label>
+                </input>
+                </div>
                 <div>
                     <input type="checkbox" name="locations[]" id="seoul1" value="강남구">
                     <label for="seoul1"><p>강남구</p></label>
@@ -77,7 +83,7 @@
                 </div>
                 
                 <div>
-                    <input type="checkbox" name="locations[]" id="seoul8" value="금천구”>
+                    <input type="checkbox" name="locations[]" id="seoul8" value="금천구">
                     <label for="seoul8"><p>금천구</p></label>
                 </input>
                 </div>
@@ -97,7 +103,7 @@
                 
                 <div>
                     <input type="checkbox" name="locations[]" id="seoul11" value="동대문구">
-                    <label for="seoul11”><p>동대문구</p></label>
+                    <label for="seoul11"><p>동대문구</p></label>
                 </input>
                 </div>
                 
@@ -159,7 +165,7 @@
                 
                 
                 <div>
-                    <input type="checkbox" name="locations[]" id="seoul21" value="용산구”>
+                    <input type="checkbox" name="locations[]" id="seoul21" value="용산구">
                     <label for="seoul21"><p>용산구</p></label>
                 </input>
                 </div>
@@ -191,70 +197,64 @@
                     <label for="seoul25"><p>중랑구</p></label>
                 </input>
                 </div>
-                
-                
-                <div>
-                    <input type="checkbox" name="locations[]" id="seoul26" value="서울">
-                    <label for="seoul26"><p>서울 전체</p></label>
-                </input>
-                </div>
-                
+
                 <input type="submit" value="검색" class="btn btn-primary btn-sm">
                 </form>
                 </fieldset>
                 
         </div>
 <!----------------------------------------------------------------->
-        <div class="items">
-            하윙
+        <div class="items1">
+            하윙2
         </div>
 
-        <div class="items">
+        <div class="items1">
+            하윙3
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙4
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙5
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙6
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙7
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙8
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙9
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙10
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙11
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙12
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙13
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙14
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙15
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙16
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙17
         </div>
-
-        <div class="items">
+        <div class="items1">
+            하윙18
         </div>
 
 
@@ -264,18 +264,27 @@
 <div class="location-result" style="margin-left: 10%; text-align: center;"> <!--locationSearch에 css 적용했는데 안되서 일단 이렇게 적용-->
 {% if objects_list %}
     {{search_term}}에 위치한 케이크 가게들입니다<br><br>
-{% for post in objects_list %}
-    <h2><a href='{{ post.get_absolute_url }}'>{{post.name}}</a></h2>
+    {% for post in objects_list %}
+    <div class="cardStore" style="margin-left: 40%;">
+        <a href="{% url 'store_detail' pk=post.pk %}" class="goDetail"><img src="{{post.store_image.url}}" class="cardImg" alt=""></a>
+        <div class="cardStore-last">
+            <div class="titleText">
+                <p class="cardTitle">📍 {{post.name}} [{{ post.location}}]</p>
+            </div>
+        </div>
+        </div>
+            <br>
     <!--{{ post.pub_date|date:"N d, Y" }}-->
-    {{ post.location }}
-
-{% endfor %}
+    
+    {% endfor %}
 
 {% elif search_term %}
     <b><i> 검색하신 {{ search_term }} 에 있는 케이크 가게는 없습니다 </i></b>
 {% endif %}
+{% endblock %}
+<!---검색결과 끝-->
 </div>
 </body>
 
-{% endblock %}
+
 
