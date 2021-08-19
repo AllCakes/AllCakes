@@ -1,15 +1,17 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.core.paginator import Paginator
 from users.urls import mypage
 from .models import Store, Cake, Order, Review
 from .forms import StoreForm, CakeForm, OrderForm
+from django.db.models import Q
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
     stores = Store.objects.order_by('-pub_date')
     reviews = Review.objects.order_by('-pub_date')[:4]
-    paginator = Paginator(stores, 4) 
+    paginator = Paginator(stores, 4)
     page = request.GET.get('page', 1)
     stores = paginator.get_page(page)
     return render(request, 'home.html', {'stores': stores, 'reviews':reviews})
@@ -79,7 +81,7 @@ def cake_new(request, pk): #가게 pk값
             cake.pub_date = timezone.now()
             cake.referred_store = store
             cake.save()
-            return redirect('detail', pk=pk)
+            return redirect('store_detail', pk=pk)
     else:
         form = CakeForm()
 
@@ -116,6 +118,7 @@ def cake_delete(request, pk): #cake의 pk값
     cake.delete()
     return redirect('store_detail', pk= store_pk) # 케이크 관리페이지, 혹은 일단 가게페이지로 가도록 구현
 
+
 # 주문 C (RUD 구현 필요!)
 def order_new(request, pk): #cake의 pk값
     cake = get_object_or_404(Cake, pk=pk)
@@ -141,10 +144,65 @@ def order_new(request, pk): #cake의 pk값
             order.referred_store = cake.referred_store
             order.save()
             # 주문 결과 페이지로 가도록 수정하기!
-            return redirect('store_detail', pk=cake.referred_store_id)
+            return redirect('order_detail', order_pk=order.pk)
     else:
         form = OrderForm()
     return render(request, 'order_submit.html', {'form': form, 'cake':cake, '맛':맛, '모양':모양, '사이즈':사이즈, '크림종류':크림종류, '레터링색':레터링색})
+
+# 주문 상세 R
+def order_detail(request, order_pk):
+    order = get_object_or_404(Order, pk=order_pk)
+    if request.user != order.user:
+        raise ValidationError("잘못된 접근입니다.")
+    return render(request, 'order_detail.html',{'order':order})
+
+# 주문 전체 R
+def order_all(request, user_pk):
+    if request.user.pk != user_pk:
+        raise ValidationError("잘못된 접근입니다.")
+    orders = Order.objects.get(user=user_pk)
+    return render(request, 'order_all.html', {'orders':orders})
+
+# 주문 수정 U (고칠 예정)
+def order_edit(request, order_pk):
+    order = get_object_or_404(Order, pk=order_pk)
+    if request.user != order.user:
+        raise ValidationError("잘못된 접근입니다.")
+    cake = order.referred_cake
+    # 가게별 요청 - 선택사항 콤마로 분리
+    맛 = cake.맛.replace(" ","").split(',')
+    모양 = cake.모양.replace(" ","").split(',')
+    사이즈 = cake.사이즈.replace(" ","").split(',')
+    크림종류 = cake.크림종류.replace(" ","").split(',')
+    레터링색 = cake.레터링색.replace(" ","").split(',')
+    if request.method == 'POST':
+        form = OrderForm(request.POST, request.FILES, instance=order)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.user = request.user
+            # get 방식으로 가져와 저장
+            order.맛 = request.POST.get('맛')
+            order.모양 = request.POST.get('모양')
+            order.사이즈 = request.POST.get('사이즈')
+            order.크림종류 = request.POST.get('크림종류')
+            order.레터링색 = request.POST.get('레터링색')
+            order.pub_date = timezone.now()
+            # 케이크선택과 가게 선택은 못 바꿈. 삭제하고 다시 주문 필요.
+            order.save()
+            # 주문 결과 페이지로 가도록 수정하기!
+            return redirect('order_detail', order_pk=order.pk)
+    else:
+        form = OrderForm(instance=order)
+    return render(request, 'order_edit.html', {'form': form, 'cake':cake, '맛':맛, '모양':모양, '사이즈':사이즈, '크림종류':크림종류, '레터링색':레터링색})
+
+# 주문 삭제 D
+def order_delete(request, order_pk):
+    order = get_object_or_404(Order, pk=order_pk)
+    if request.user != order.user:
+        raise ValidationError("잘못된 접근입니다.")
+    order.delete()
+    return redirect('mypage', pk=request.user.pk)
+
 
 # 리뷰 페이지 C (R- 더보기 U - 수정 D- 삭제 구현 필요)
 def review_page(request, pk, orderpk):
@@ -200,3 +258,27 @@ def review_update(request):
 
 
 # 찜 기능 구현 필요 (유저 경험: 아마.. 케이크, 케잌집 상세페이지에서 찜하기 -> 케이크, 케잌집 모델에 필드 추가 필요)
+
+# 검색 - 검색어 분리, 모든 쿼리 한번에!
+def search(request):
+    # 빈 쿼리 오브젝트 생성 (결과를 담음)
+    store_result = Store.objects.none()
+    cake_result = Cake.objects.none()
+    if request.GET.get('q'):
+        # 입력을 제대로 했으면
+        # 'q' 값의 value를 가져와서 split으로 띄어쓰기대로 나눈다.
+        query_set= request.GET.get('q').split()
+        # 검색 예시 : 마포 도시락케이크, 마포 하므케이크
+        # 검색 기능: 가게 이름name, 가게 텍스트text, 가게 장소(OO구)location, 검색을 위한 본문meta_body
+        # 케이크 이름cakename, 케이크 설명body, 맛, 모양, 사이즈, 검색을 위한 본문meta_body 로 검색하도록
+        
+        # 가게 검색결과와 케이크 검색결과를 나눈다.
+        for query in query_set:
+            question = Q(name__contains=query) | Q(location__startswith=query) | Q(text__icontains=query) | Q(meta_body__icontains=query)
+            store_result |= Store.objects.filter(question) #  계속 합연산
+            question = Q(cakename__contains=query) | Q(referred_store__location__startswith=query) | Q(body__contains=query) | Q(맛__contains=query) | Q(모양__contains=query) | Q(사이즈__contains=query) | Q(meta_body__icontains=query)
+            cake_result |= Cake.objects.filter(question)        
+        return render(request, 'search.html', {'query_set':query_set, 'store_result':store_result, 'cake_result':cake_result})
+    else:
+        # 입력이 없으면 홈으로 돌림
+        return redirect('home')

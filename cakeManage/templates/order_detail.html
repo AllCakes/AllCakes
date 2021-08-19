@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}주문 {{order.pk}} 상세{% endblock %}
+
+
+{% block content %}
+<br><br><br>
+<img src="{{order.referred_cake.cake_image.url}}" aria-label="케이크 이미지" width="300">
+<a href="{% url 'cake_detail' pk=order.referred_cake.pk %}">케이크 정보</a>
+<!-- 클릭 시 케이크 상세보기 -->
+
+<!-- 주문 상태, 주문 가게(가게 상세보기), 주문 케이크, 주문 일시, 결제금액, 결제방법, 기타 요청사항 등등.. -->
+{% if not order.is_active %}
+<h2>픽업 완료</h2>
+{% else %}
+<!-- 진행중 -->
+    {% if order.is_accepted %}
+    <h2>승인 완료</h2>
+    {% else %}
+    <h2>승인 요청 중</h2>
+    {% endif %}
+{% endif %}
+
+<h2>'{{order.referred_store}}'에서</h2>
+<h3>{{order.referred_cake}} 케이크를 주문했어요!</h3>
+<span>주문 일시: {{order.pub_date}}</span>
+<br>
+<b>픽업 희망일시: {{order.희망픽업일}}{{order.희망픽업시간}}</b>
+<br>
+
+<p>
+    맛: {{order.맛}} |
+    모양: {{order.모양}} |
+    사이즈: {{order.사이즈}} |
+    크림종류: {{order.크림종류}} |
+    레터링 위치: {{order.레터링위치}} |
+    레터링 색: {{order.레터링색}}
+</p>
+
+{% if order.원하시는도안사진첨부 %}
+<img src="{{order.원하시는도안사진첨부.url}}" alt="내가 첨부한 참고 사진">
+{% endif %}
+
+
+
+{% if order.is_paid %}
+<h4>결제 내역</h4>
+<span>OO금액 결제 완료</span>
+<!-- 결제 수단 및 금액 적기 -->
+{% else %}
+<span>결제 미완료</span>
+{% endif %}
+<!-- 주문 수정 및 삭제 버튼 넣기 -->
+<a href="{% url 'order_edit' order_pk=order.pk %}"><button>주문 수정</button></a>
+<a href="{% url 'order_delete' order_pk=order.pk %}"><button>주문 취소</button></a>
+
+{% endblock %}
