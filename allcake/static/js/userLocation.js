@@ -1,3 +1,4 @@
+
 function getapi() {
     fetch(`//dapi.kakao.com/v2/maps/sdk.js?appkey=46d5f6c310a78632612936d0ea60df74&libraries=services`
     );
@@ -33,8 +34,12 @@ function getLocation() {
                                 console.log(latitude + " " + longitude + " " + address);
                                 // const element = document.querySelector(`.location`);
                                 //  element.style.display = "block";
-                                const input = document.querySelector("#location_input span:first-child");
-                                input.innerText = address;
+                                const input1 = document.getElementById("location_input");
+                                input1.innerText = address;
+                                const input2 = document.getElementById("mylatlon");
+                                input2.innerText = latitude; 
+                                const input3 = document.getElementById("mylatlon");
+                                input3.innerText = longitude;                                 
                                 //console.log(element);
                                 break;
                             }
@@ -59,5 +64,6 @@ function getLocation() {
 const onLocation = () => {
     getLocation();
 };
+
 
 onLocation(); //실행을 시켜줘야지

@@ -1,4 +1,5 @@
 {% load static %}
+
 <style>
     .cakeorder {
         display: table;
@@ -92,6 +93,7 @@
                 width="600px" height="500px">
             <form method='POST' enctype="multipart/form-data" class='post-form'>
 
+
                 <div class="order-form">
                     <div class="order-fixed">
                         <p class="order-fixed-store">가게명 : {{cake.referred_store}}</p>
@@ -110,6 +112,7 @@
                     {% for i in 레터링색%} <input type="radio" name="레터링색" value={{i}}>{{i}} {% endfor %} <br>
                     <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
                 </div>
+
 
             </form>
 
