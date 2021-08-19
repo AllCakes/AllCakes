@@ -5,12 +5,12 @@ from django.forms import Form
 class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
-        fields = ['name', 'store_image', 'text', 'contact', 'location']
+        fields = ['name', 'store_image','meta_body', 'text', 'contact', 'location']
         
 class CakeForm(forms.ModelForm):
     class Meta:
         model = Cake
-        fields = ['cakename', 'body', 'cake_image', '맛','모양','사이즈','크림종류','레터링색']
+        fields = ['cakename', 'body', 'meta_body', 'cake_image', '맛','모양','사이즈','크림종류','레터링색']
 
 
 class OrderForm(forms.ModelForm):

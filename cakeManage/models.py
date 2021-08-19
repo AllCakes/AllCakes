@@ -14,6 +14,7 @@ class Store(models.Model):
     name = models.CharField(max_length=15)
     store_image = models.ImageField(upload_to='storeimages/', blank=False)
     text = models.TextField(default='', blank=True)
+    meta_body = models.CharField(max_length=100, default='', verbose_name="검색을 위한 키워드(100자 이내)") # 검색을 위한 필드
     pub_date = models.DateTimeField(default=timezone.now)
     contact = models.CharField(max_length=15)
     si_choices=[
@@ -108,6 +109,7 @@ class Cake(models.Model):
     referred_store = models.ForeignKey(Store ,on_delete=models.CASCADE)
     pub_date = models.DateTimeField(default = timezone.now)
     body = models.TextField(default='')  # 케이크 소개
+    meta_body = models.CharField(max_length=100, default='', verbose_name="검색을 위한 키워드(100자 이내)") # 검색을 위한 필드
     cake_image = models.ImageField(upload_to='cakeimages/', blank=False, null=True)
     # 케이크 추가할 선택사항
     맛 = models.CharField(max_length=200)
@@ -188,6 +190,7 @@ class Order(models.Model):
         return str(self.pk)
 
 # 리뷰 관련 정보
+
 class Review(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     # An order object can have one and only one review on each order.

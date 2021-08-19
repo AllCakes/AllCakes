@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}내 주문{% endblock %}
+
+{% block content %}
+<!-- 마이페이지의 내용과 같지만, 모든 주문이 온다는 것이 다름. -->
+<div class="user-order">
+    <h2> 주문 전체 </h2>
+    <div class="order-info">
+        <table style="width:100%">
+            <tr>
+                <th>주문 번호</th>
+                <th>케이크 사진</th>
+                <th>가게 이름</th>
+                <th>진행 상태</th> <!--진행상태 예시: 결제완료(is_paid=True), 접수완료(is_accepted=True), 픽업완료(is_active=False) -->
+                <th>주문 일시</th>
+                <th>리뷰 작성</th>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                <!-- 순서대로 주문번호, 케이크사진, 가게이름, 진행상태, 주문일시, 리뷰작성 -->
+                <td>{{order.pk}}</td>
+
+                <!-- 아래 부분 이미지 링크 주문 상세 페이지로 가도록 바꿔야 함. -->
+                <td><a href="{% url 'order_detail' pk=order.pk %}"><img src="{{order.referred_cake.cake_image.url}}" aria-label="주문한 케이크" width ="100" height="100"></a></td>
+                
+                <td>{{order.referred_store}}</td>
+
+                {% if order.is_paid %}
+                <td>결제완료</td>
+                {% else %}
+                <td>결제미완료</td>
+                {% endif %}
+                
+                <td>{{ order.order }}{{order.pub_date}}</td>
+                
+                {% if not order.review %}
+                <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
+                {% else %}
+                <td><a href="{% url 'review_edit' pk=order.pk %}">리뷰 수정</a><br>
+                    <a href="{% url 'review_delete' pk=order.pk %}">리뷰 삭제</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+        <br><br>
+        <a href=""><button>더보기</button></a> 
+        <!-- 주문 내역 전체 페이지 구현 필요 -->
+    </div>
+</div>
+<!-- 주문 수정 및 삭제 버튼 넣기 -->
+{% endblock %}

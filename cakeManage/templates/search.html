@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}주문제작케이크 검색 결과{% endblock %}
+{% block content %}
+<!-- 'query_set':query_set, 'store_result':store_result, 'cake_result':cake_result -->
+<div class="container">
+    <div class="header"></div>
+    <div class="footer"></div>
+    <div class="body">
+      <div class="search-info">{{query_set}}의 검색결과</div>
+      <div class="search-result">
+        {% for store in store_result %}
+        <div class="search-item">
+          <h4>{{store.name}}</h4>
+          <span>{{store.location}}</span>
+          <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}" alt="가게 이미지"></a>
+        </div>
+        {% endfor %}
+        {% for cake in cake_result %}
+        <div class="search-item">
+          <h4>{{cake.cakename}}</h4>
+          <span>{{cake.referred_store}}</span>
+          <span>{{cake.referred_store.location}}</span>
+          <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" alt="케이크 이미지"></a>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="paginator"></div>
+    </div>
+  </div>
+
+  {% endblock %}

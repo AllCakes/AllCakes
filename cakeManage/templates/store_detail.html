@@ -68,8 +68,10 @@
 
             <div class="cake-item">
                 <div class="cake-img">
-                    <img src="{{cake.cake_image.url}}" width="200px" height= "206px"><br>
+                    <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" width="240px" height="237px"></a><br>
+
                     <!-- 케이크 수정 버튼 지웠음 -->
+                    <!-- 클릭 시 자세히보기로 들어감. -->
                     <br>
 
                 </div>
@@ -79,7 +81,9 @@
                     <p class="cake-name">{{cake.cakename}}</p>
                     <hr>
                     <p class="cake-detail">{{cake.body}}</p>
-                    <a href="{% url 'order_submit' pk=cake.pk  %}" class="order-button">해당 케이크 주문</a>
+
+                    <a href="{% url 'order_submit' cake_pk=cake.pk  %}">해당 케이크 주문</a>
+
                     <!--FE: 케이크 자세히 보기 버튼도 있으면 좋을 듯-->
                 </div>
                 </a><br>

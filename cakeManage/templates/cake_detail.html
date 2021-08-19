@@ -6,7 +6,7 @@
 
 {% block content %}
 <br><br><br>
-<a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" aria-label="케이크 이미지" width="300"></a>
+<img src="{{cake.cake_image.url}}" aria-label="케이크 이미지" width="300">
 
 <!-- 케이크 이름, 가게 이름, 텍스트 -->
 <h1>Cake: {{cake.cakename}}</h1>
