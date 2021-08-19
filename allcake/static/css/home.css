@@ -1,13 +1,13 @@
 #home-img1 {
-  background-image: url(../img/carousel1.png);
+  background-image: url(../img/carousel1.jpeg);
 }
 
 #home-img2 {
-  background-image: url(../img/carousel2.png);
+  background-image: url(../img/carousel2.jpeg);
 }
 
 #home-img3 {
-  background-image: url(../img/carousel3.png);
+  background-image: url(../img/carousel3.jpeg);
 }
 
 .home-img-display {
@@ -54,8 +54,9 @@
 
 
 #body {
-  height: 2300px;
-  background-color: rgba(142, 163, 170, 0.068);
+  height: auto;
+  /* background-color: rgba(142, 163, 170, 0.068); */
+  background-color: rgba(202, 202, 202, 0.151);
   padding-bottom: 0;
   margin-bottom: 0%;
 }
@@ -92,21 +93,21 @@
 .cakeItem {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 .cardStore {
-  width: 18%;
-  height: 360px;
-  border: rgba(112, 128, 144, 0.185) solid 2px;
-  border-radius: 5px;
-  background-color: white;
+  width: 17%;
+}
+.cardStore-last{
+  background-color: rgb(255, 255, 255);
+  border: 1px rgb(196, 196, 196) solid;
 }
 
 .cardImg {
   width: 100%;
-  height: 50%;
+  height: 60%;
   object-fit: cover;
-  background-color: white;
   margin-bottom: 10px;
 
 }
@@ -114,49 +115,48 @@
 .titleText {
   display: flex;
   font-family: 'BBTreeGB';
+  padding: 4%;
+  margin-bottom: 3%;
 }
 
 .cardTitle {
-  font-size: 20px;
-  padding-left: 8%;
+  font-size: 1.1rem;
   margin-bottom: 0;
-}
+  margin-left: 0;
+  padding-left: 0;
 
-.cardText {
-  font-size: 15px;
-  color: rgb(80, 106, 145);
-  padding-left: 4%;
-  padding-top: 2%;
-  margin-bottom: 0;
-
-}
-
-
-.goDetail {
-  background-color: rgba(190, 177, 230, 0.295);
-  margin-left: 7%;
-  font-family: 'BBTreeGB';
-  border-radius: 5px;
-  border: solid rgba(44, 44, 44, 0.507) 1.3px;
-  padding: 5px;
-  font-size: 14px;
 }
 
 
 .cardStore section {
   font-family: 'BBTreeGB';
-  font-size: 14px;
+  font-size: 0.9rem;
   color: rgba(61, 61, 61, 0.767);
-  padding: 6% 9% 3% 9%;
-  line-height: 1.5rem;
+  padding: 0 2% 0 1% ;
+  margin-left: 2%;
+  line-height: 1.7rem;
 
 }
+
+
+/* .goDetail {
+  background-color: rgba(190, 177, 230, 0.295);
+  font-family: 'BBTreeGB';
+  border-radius: 5px;
+  border: solid rgba(44, 44, 44, 0.507) 1.3px;
+  padding: 3px;
+  font-size: 0.8rem;
+  float: right;
+  margin-right: 6%;
+} */
+
+
 
 .underCard{
   border: 1.5px rgb(170, 170, 170) solid;
   width: 85%;
   align-items: center;
-  margin-left: 7.5%;
+  margin-left: 5%;
 }
 
 .cardStore a:link {
@@ -179,7 +179,7 @@
 /*리뷰 내용 css*/
 
 .review {
-  height: 660px;
+  height: auto;
 }
 
 
@@ -204,51 +204,80 @@
   justify-content: space-evenly;
 }
 
+article{
+  display: flex;
+}
+
+
+/* 수정 */
 .reviewItem {
-  width: 35%;
+  width: 530px;
   background-color: #ffffff;
   height: 200px;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   display: flex;
-  border-radius: 5px;
-  border: rgba(112, 128, 144, 0.185) 2px solid;
+  border: 1px rgb(182, 181, 181) solid;
 }
 
 
 
-
-.reviewImage {
-  width: 90%;
+/* 수정 */
+.reviewImage img {
+  width: 180px;
   height: 100%;
-  border-radius: 5px;
+  border-right: 1px rgb(182, 181, 181) solid;
 }
+
+
 
 .reviewText {
-  padding: 14px 10px 10px 16px;
+  padding: 14px 10px 5px 20px;
+  width: 70%;
 }
 
-.reviewTitle {
-  font-family: 'NotoSerifKR';
-  font-size: 20px;
-  border-bottom: solid 2px rgb(194, 198, 204);
+.reviewTitle{
+  margin-bottom: 13px;
+}
+
+.review-title1{
+  font-family: 'GongGothicMedium';
+  font-size: 19px;
+  margin-right: 10px;
+}
+
+.review-title2{
+  font-family: 'GongGothicMedium';
+  font-size: 16px;
+}
+
+.reviewText a{ 
+  padding-left: 2%;
 }
 
 .reviewDetail {
   font-family: 'BBTreeGB';
-  font-size: 15px;
-  line-height: 1.7rem;
-  margin-bottom: 5%;
-  padding-left: 2%;
-  padding-right: 2%;
-  color: rgb(63, 63, 63);
+  color: rgba(61, 61, 61, 0.767);
+  font-size: 14px;
+  padding: 3% 3% 3% 2%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* 라인수 */
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  line-height: 1.4em;
+  height: 4.7em;
+  }
 
-}
+
+
+
 
 .userId {
   font-family: 'BBTreeGB';
   font-size: 14px;
-  font-weight: bold;
-  color: rgb(110, 107, 133);
+  color: rgb(105, 105, 105);
   margin-left: 2%;
 }
 
@@ -259,119 +288,48 @@
 }
 
 .reviewTitle a:visited {
-  color: rgb(80, 106, 145);
+  color: rgb(95, 95, 95);
 }
 
 .reviewTitle a:hover {
-  color: rgb(38, 29, 48);
+  color: rgb(158, 180, 206);
 }
 
 
 /*리뷰 내용 css 끝*/
 
-/*footer*/
 
-footer {
-  height: 360px;
-  background-color: black;
+/* 반응형 */
+
+
+
+
+
+@media screen and (max-width:768px) {
+
+  #body{
+    height: auto;
+  }
+
+  .today{
+    height: 900px;
+  }
+
+  .review{
+    height: auto;
+  }
+
+  .cakeItem{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .cardStore{
+    width: 35%;
+  }
+    
+  .cardStore-last{
+    margin-bottom: 10%;
+  }
 }
 
-.footerContent1 {
-  display: flex;
-  justify-content: space-around;
-  color: white;
-  padding-top: 30px;
-}
-
-.about {
-  width: 30%;
-}
-
-.aboutTitle,
-.categoryTitle,
-.linkTitle {
-  font-family: 'NotoSerifKR';
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.aboutContent {
-  font-family: 'Cafe24Oneprettynight';
-}
-
-.categories {
-  width: 15%;
-}
-
-
-.categories li {
-  list-style: none;
-}
-
-.categories a:link {
-  color: white;
-  text-decoration: none;
-}
-
-.categories a:visited {
-  color: rgb(255, 255, 255);
-}
-
-.categories a:hover {
-  color: rgb(237, 167, 255);
-}
-
-.categories li ul {
-  padding-left: 0;
-  font-family: 'Cafe24Oneprettynight';
-}
-
-.links {
-  width: 15%;
-}
-
-.links li {
-  list-style: none;
-}
-
-.links a:link {
-  color: white;
-  text-decoration: none;
-}
-
-.links a:visited {
-  color: rgb(255, 255, 255);
-}
-
-.links a:hover {
-  color: rgb(162, 195, 255);
-}
-
-
-.links li ul {
-  padding-left: 0;
-  font-family: 'Cafe24Oneprettynight';
-}
-
-.underline {
-  border: 1.5px rgb(255, 255, 255) solid;
-  width: 90%;
-  align-items: center;
-  margin-left: 1%;
-}
-
-.underline2 {
-  border: 1px rgb(221, 199, 255) solid;
-  width: 90%;
-  align-items: center;
-  margin-left: 5%;
-}
-
-.footerContent2 p {
-  font-size: 20px;
-  margin-top: 10px;
-  margin-left: 6%;
-  font-family: 'Cafe24Oneprettynight';
-  color: white;
-  font-weight: bold;
-}

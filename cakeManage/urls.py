@@ -39,5 +39,10 @@ urlpatterns = [
     # 검색 및 필터(검색이 주된 내용)
     # cake와 store의 기본정보(장소,이름 등등...), 상세설명(store.text, cake.body, ...부족하면 리뷰도) 등을 토대로 검색 구현
     # 필터는 장소 필터링만
+
     path('search/',search, name="search"),
+    # 지역 필터링 (알바몬)
+    path('search2/',search_location2, name="search_location2"),
+    # 거리 가까운 순 정렬
+    path('search3/',search_location3, name="location_result"),
 ]

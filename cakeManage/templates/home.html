@@ -53,24 +53,24 @@
     <!--오늘의 케이크 div-->
     <div class="today">
 
-        <p class="todayHeader">오늘의 케이크</p>
+        <p class="todayHeader">오늘의 가게</p>
         <hr class="underToday">
 
         <div class="todayCakes">
             <article class="cakeItem">
                 {% for store in stores %}
                     <div class="cardStore">
-                        <img src="{{store.store_image.url}}" class="cardImg" alt="">
+                        <a href="{% url 'store_detail' pk=store.pk %}" class="goDetail"><img src="{{store.store_image.url}}" class="cardImg" alt=""></a>
 
-                        <div class="titleText">
-                            <p class="cardTitle">{{store.name}}</p>
-                            <p class="cardText">[{{store.location}}]</p>
+                        <div class="cardStore-last">
+                            <div class="titleText">
+                                <p class="cardTitle">📍 {{store.name}}</p>
+                            </div>
+                            <section>{{store.text|slice:"25"}}...</section>
+
+                            <!-- <hr class="underCard"> -->
+
                         </div>
-                        <hr class="underCard">
-
-                        <a href="{% url 'store_detail' pk=store.pk %}" class="goDetail">케이크 가게 살펴보기</a>
-
-                        <section>{{store.text|slice:"30"}}...</section>
 
                     </div>
                 {% endfor %}
@@ -91,12 +91,11 @@
         <div class="fourReviews">
             {% for r in reviews%}
             <article class="reviewItem">
-                <img src={{r.order.referred_cake.cake_image.url}} class="reviewImage">
+                <div class="reviewImage">
+                    <img src={{r.order.referred_cake.cake_image.url}}>
+                </div>
                 <div class="reviewText">
-                    <p class="reviewTitle"><a href="#">{{r.order.referred_store}} - </a><a href="#">{{r.order.referred_cake}}</a></p>
-                    <p class="reviewDetail">{{r.comment}}</p> <!--공백포함 90자 정도-->
-                    <p class="userId">{{r.order.user}}</p>
-                    <!-- 별점추가 -->
+                    <p class="reviewTitle"><a href="#" class="review-title1">{{r.order.referred_cake }}</a><a href="#" class="review-title2"> [{{r.order.referred_store}}]</a></p>
                     <a>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star {% if r.rate > 1 %} checked {% endif %}"></span>
@@ -104,6 +103,9 @@
                         <span class="fa fa-star {% if r.rate > 3 %} checked {% endif %}"></span>
                         <span class="fa fa-star {% if r.rate > 4 %} checked {% endif %}"></span>
                     </a>
+                    <p class="reviewDetail">{{r.comment}}</p> <!--공백포함 90자 정도-->
+                    <p class="userId">➤ User: {{r.order.user}}</p>
+                    
                 </div>
             </article>
             {% endfor %}
@@ -112,57 +114,7 @@
     <!--최신 리뷰 부분 끝-->
 
     <!--footer 부분-->
-    <footer>
-        <div class="footerContent1">
-            <div class="about">
-                <p class="aboutTitle">About</p>
-                <hr class="underline">
-
-                <p class="aboutContent">이 어둠을 빨간 코로 비춰줄래
-                    어디서부터 잘못된 건지
-                    온 세상이 all black black black
-                    지금 너와 난
-                    다 깨져버린 1000피스
-                    lego block block block
-                    차라리 더 어두워지면 좋겠어
-                    이 세상에 스위치가 있다면
-                    꺼버릴거야
-                    그리고 널 향한 노랠 부르겠어</p>
-
-            </div>
-
-            <div class="categories">
-                <p class="categoryTitle">Categories</p>
-                <hr class="underline">
-
-                <li>
-                    <a href="#" target="_blank"><ul>HOME</ul></a>
-                    <a href="#" target="_blank"><ul>ABOUT US</ul></a>
-                    <a href="#" target="_blank"><ul>CONTACT</ul></a>
-                    <a href="#" target="_blank"><ul>JOIN</ul></a>
-
-                </li>
-            </div>
-
-            <div class="links">
-                <p class="linkTitle">Links</p>
-                <hr class="underline">
-
-                <li>
-                    <a href="#" target="_blank"><ul>CONTRIBUTE</ul></a>
-                    <a href="#" target="_blank"><ul a href="#">ABOUT US</ul></a>
-                    <a href="#" target="_blank"><ul a href="#">CONTACT</ul></a>
-                    <a href="#" target="_blank"><ul a href="#">PRIVACY POLICY</ul></a>
-                </li>
-            </div>
-        </div>
-        <hr class="underline2">
-
-
-        <div class="footerContent2">
-            <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
-        </div>
-    </footer>
+    
 
 </div>
 {% endblock %}

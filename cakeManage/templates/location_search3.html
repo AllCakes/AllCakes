@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<h1 lang="ko">
+
+{% block title %}Cake Store Detail{% endblock %}
+
+{% block css %}
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+<br><br><br><br><br><br><br><br><br><br>
+<a href="{% url 'location_result'%}" style="margin-left:45%;">거리 가까운 순으로 정렬</a>
+
+<p class = "store_list"> 
+{% if list %}
+    {% for post in list %}
+    <div class="cardStore" style="margin-left: 40%;">
+        <a href="{% url 'store_detail' pk=post.pk %}" class="goDetail"><img src="{{post.store_image.url}}" class="cardImg" alt=""></a>
+        <div class="cardStore-last">
+            <div class="titleText">
+                <p class="cardTitle">📍 {{post.name}} - {{ post.location}}</p>
+            </div>
+        </div>
+        </div>
+    {% endfor %}
+
+{% elif search_term %}
+<b><i> 주변 2km에 있는 케이크 가게는 없습니다 ㅠㅠ..</i></b>
+{% endif %}
+</p>
+
+
+<script>
+// 현재 위치를 가져오는 getPosition 프로미스 생성
+var getPosition = function (options) {
+  return new Promise(function (resolve, reject) {
+    var options = {
+    enableHighAccuracy: true,
+    maximumAge: 0,
+    timeout: 10000
+  }
+    navigator.geolocation.getCurrentPosition(resolve, reject, options);
+  })
+}
+// getPosition 프로미스 실행
+// 결과값이 있을 경우 쿠키에 정보를 저장하고, 없을 경우 Error를 Log에 찍는다
+getPosition()
+  .then((position) => {
+    $.cookie("latitude", position.coords.latitude, { path: '/' })
+    $.cookie("longitude", position.coords.longitude, { path: '/' })
+  })
+  .catch((err)=> {
+    console.log(err)
+  })
+</script>
+
+</html>
+{% endblock %}

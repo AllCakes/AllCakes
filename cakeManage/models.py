@@ -1,18 +1,43 @@
 from __future__ import unicode_literals
+#from _typeshed import Self
 from users.models import User
 from django.utils import timezone
 from django.db import models
 import datetime
+from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는 구를 다르게 핸주는 옵션
+
+class Search(models.Model):
+    검색단어 = models.CharField(max_length=30)
 
 class Store(models.Model):
     # 순서대로 가게이름, 대표이미지, 설명, 게시일자, 연락처, 가게위치(OO구)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=15)
     store_image = models.ImageField(upload_to='storeimages/', blank=False)
     text = models.TextField(default='', blank=True)
     meta_body = models.CharField(max_length=100, default='', verbose_name="검색을 위한 키워드(100자 이내)") # 검색을 위한 필드
     pub_date = models.DateTimeField(default=timezone.now)
     contact = models.CharField(max_length=15)
-    location_choices =[
+    si_choices=[
+        ('서울', '서울'),
+        ('경기', '경기'),
+        ('인천', '인천'),
+        ('강원', '강원'),
+        ('대전', '대전'),
+        ('세종', '세종'),
+        ('충남', '충남'),
+        ('충북', '충북'),
+        ('부산', '부산'),
+        ('울산', '울산'),
+        ('경남', '경남'),
+        ('경북', '경북'),
+        ('대구', '대구'),
+        ('광주', '광주'),
+        ('전남', '전남'),
+        ('전북', '전북'),
+        ('제주', '제주'),
+    ]
+    location_choices1 =[
+        ('-','-'),
         ('종로구','종로구'),
         ('중구','중구'),
         ('용산구','용산구'),
@@ -39,11 +64,24 @@ class Store(models.Model):
         ('송파구','송파구'),
         ('강동구','강동구'),
 ]
+
+    location_choices2 =[
+        ('-','-'),
+        ('경기시','경기시'),
+        ('평택','평택'),     
+]
+    locationSi = models.CharField(
+        max_length=10,
+        choices=si_choices,
+        default='서울',
+    )
     location = models.CharField(
         max_length = 10,
-        choices = location_choices,
-        default = '마포구',
+        choices = location_choices1,
+        default = '-',
     )
+
+
     # 가게 사장 user는 관리자에서 설정하도록 할 것, 이후 그 가게의 사장이면
     # Store 수정(U), Cake 등록과 수정 (CRUD) 가능하도록!
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True) # ForeignKeyField가 바라보는 값이 삭제될 때 ForeignKeyField값을 null로 바꾼다. (null=True일 때만 가능)
@@ -57,6 +95,10 @@ class Store(models.Model):
     # ... Two fields of the Student model are referencing the Teacher model. In Django, when referencing the same model more than once, we have to provide a related_name for all the fields because Django’s default related_name for a single referencing field clashes with other referencing fields. Otherwise, Django will throw an exception. The related_name is what we use for the reverse lookup. In general, it is a good practice to provide a related_name for all the foreign keys rather than using Django’s default-related name.
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_store", related_name="users_liked_store")
     # 같이 알면 좋을 것 같아서 주석 많이 달았음! 찜 구현할 때 필드랑 내용 다 삭제 해도 괜찮! 
+    lat = models.CharField(max_length=20, verbose_name="위도", default= 37.2,
+    )
+    lon = models.CharField(max_length=20, verbose_name="경도", default= 125.3,
+    )
 
     def __str__(self):
         return self.name

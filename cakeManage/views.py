@@ -1,11 +1,18 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls.resolvers import LocaleRegexDescriptor
 from django.utils import timezone
 from django.core.paginator import Paginator
+from django.views.generic.base import View
 from users.urls import mypage
 from .models import Store, Cake, Order, Review
 from .forms import StoreForm, CakeForm, OrderForm
-from django.db.models import Q
+from django.views.generic import FormView #formview 형 클래스형 제네릭 뷰 임포트 추가
+from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는 구를 다르게 해주는 옵션 구현 위해 추가
+from django.db import models # views에서 models.Char~ 기능 사용 위해
+import math # 현재 위치 계산 위해 추가
+from django.shortcuts import render
+import simplejson as json #제이쿼리 사용위해 추가
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
@@ -147,7 +154,7 @@ def order_new(request, pk): #cake의 pk값
             return redirect('order_detail', order_pk=order.pk)
     else:
         form = OrderForm()
-    return render(request, 'order_submit.html', {'form': form, 'cake':cake, '맛':맛, '모양':모양, '사이즈':사이즈, '크림종류':크림종류, '레터링색':레터링색})
+    return render(request, 'order.html', {'form': form, 'cake':cake, '맛':맛, '모양':모양, '사이즈':사이즈, '크림종류':크림종류, '레터링색':레터링색})
 
 # 주문 상세 R
 def order_detail(request, order_pk):
@@ -256,7 +263,6 @@ def review_update(request):
         review.save()
         return redirect('mypage',pk=order.user_id)
 
-
 # 찜 기능 구현 필요 (유저 경험: 아마.. 케이크, 케잌집 상세페이지에서 찜하기 -> 케이크, 케잌집 모델에 필드 추가 필요)
 
 # 검색 - 검색어 분리, 모든 쿼리 한번에!
@@ -282,3 +288,46 @@ def search(request):
     else:
         # 입력이 없으면 홈으로 돌림
         return redirect('home')
+
+        return render(self.request, self.template_name,context)
+#(2) 원하는 장소만 검색
+def search_location2(request):
+    #HTML에서 폼 제출하면 사용자가 선택한 지역구들을 리스트에 받아서 델꼬온다
+    searchWord=request.POST.getlist('locations[]')
+    #post_list=[] #변수 미리 어떤 형태로든 지정해놔야지 지역변수로 인식을 안한다
+    post_list=[]
+    if searchWord :
+        for word in searchWord:
+            post_list+=Store.objects.filter(Q(location__icontains=word)|Q(locationSi__icontains=word)).distinct()
+            # '+' 붙여서 리스트에 요소를 추가추가해주는 방식으로 가야함
+            # 안 붙여주면 구로구,노원구 두개 이상 선택시 둘 중에 한 구만 필터링됨
+    context={}
+    context['search_term']=searchWord
+    context['objects_list']=post_list
+    return render(request,'location_search2.html',context)
+
+#거리 계산 함수
+def latlng_calculator(lat, lng):
+  # 2km 구간
+  lat_change = 2 / 111.2 # 1도=111Km
+  lng_change = abs(math.cos(lat * (math.pi / 180))) 
+  # √ 경도거리제곱+위도거리제곱 
+  bounds = { #범위 정해주는 것
+    "lat_min": lat - lat_change,
+    "lng_min": lng - lng_change,
+    "lat_max": lat + lat_change,
+    "lng_max": lng + lng_change
+  }
+  return bounds
+
+def search_location3(request):
+    lat = request.COOKIES['latitude']
+    lng = request.COOKIES['longitude']
+    list=[]
+    LC = latlng_calculator(float(lat), float(lng))
+    list += Store.objects.filter(
+      Q(lat__range=[LC['lat_min'], LC['lat_max']]) & Q(lon__range=[LC['lng_min'], LC['lng_max']])
+    )
+    return render(request, 'location_search3.html', {'list' : list,})
+
+

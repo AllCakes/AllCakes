@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
-{% block content %}
+
 {% load static %}
 
 <!DOCTYPE html>
 <html lang="ko">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/storeDetail.css' %}" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="/static/js/marketLocation.js"></script>
-    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+{% block title %}Nearby Store{% endblock %}
 
-    <title>Cake Store Detail</title>
-    <script defer src="/static/js/rating.js">    </script>
-</head>
-
-
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/storeDetail.css' %}" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="/static/js/marketLocation.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script defer src="/static/js/rating.js"></script>
+<!--지도 깨짐 방지 위한 jquery api 추가-->
+<!--head 중복 처리 했습니다-->
+{% endblock %}
+{% block content %}
+<script defer src="/static/js/rating.js"></script>
 <body id="mainBody" onload="열기('{{num}}')">
+
     <!-- 대표이미지, 가게이름, 위치, 연락처, 설명, 케잌이미지 -->
 
 
@@ -30,6 +30,8 @@
             <b class="store-location">📍 위치 : {{store.location}} </b><br>
             <span class="store-contact">📍 연락처 : {{store.contact}}</span>
             <section class="store-des">[ {{store.text}} ]</section>
+            <p id="maplat" style="display: none;">{{store.lat}}</p>
+            <p id="maplon" style="display: none;">{{store.lon}}</p>
         </div>
     </div>
 
@@ -46,8 +48,13 @@
     <div class="option-box">
         <div class="buttons">
             <input type="button" onclick="열기(0)" value="메 뉴"></input>
+
+
             <!--FE: button을 input으로 변경함!-->
-            <input type="button" onclick="열기(1)" value="정 보"></input>
+            <input type="button" onclick="열기(1); relayout();" value="정 보"></input>
+            <!---->
+            <!--relayout() 함수 추가해서 지도 깨짐 방지-->
+
             <input type="button" onclick="열기(2)" value="리 뷰"></input>
         </div>
 
@@ -56,27 +63,33 @@
             <!--버튼 누르면 나오는 설명까지 하나의 div에 묶기-->
             <br><br>
             <p class="items-header">📍 "{{store.name}}"의 모든 케이크</p>
-            <hr class="underToday">
 
             {% for cake in cakelist %}
+
             <div class="cake-item">
                 <div class="cake-img">
                     <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" width="240px" height="237px"></a><br>
+
                     <!-- 케이크 수정 버튼 지웠음 -->
                     <!-- 클릭 시 자세히보기로 들어감. -->
                     <br>
+
                 </div>
+
 
                 <div class="cake-body">
                     <p class="cake-name">{{cake.cakename}}</p>
                     <hr>
                     <p class="cake-detail">{{cake.body}}</p>
+
                     <a href="{% url 'order_submit' cake_pk=cake.pk  %}">해당 케이크 주문</a>
+
                     <!--FE: 케이크 자세히 보기 버튼도 있으면 좋을 듯-->
                 </div>
                 </a><br>
             </div>
             {% endfor %}
+
         </div>
 
         <!--두 번째 버튼, 정보 누르면 나오는 화면-->
@@ -93,49 +106,73 @@
                 <p class="store-main-info"> ▶️ 공지사항 받을 수 있다면 받아오기! </p>
             </div>
 
-            <!--FE: 지도 생각보다 많이 깨져서 한 번 봐야할 듯!-->
+
              <p class="items-header">📍 지도</p>
+
+            <!--FE: 지도 생각보다 많이 깨져서 한 번 봐야할 듯! => 수정했습니당! -->
+
             <hr class="underToday">
             <div class="info-box1">
+
                 <p class="mapsize">
                 <div id="map" style="width:100%;height:350px;"></div>
                 </p>
-                <script type="text/javascript"
-                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=72346395b1c307cc36bb8337abc1d059"></script>
-                <!-- 키 보안 필요하지 않을까..!--> 
+
+                <script type="text/javascript" map_api_key=settings.KAKAO_MAP_API_KEY
+                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey={map_api_key}"></script>
+                <!--map_api 키 보안처리 했습니당-->
                 <script>
+                    var storeName = document.getElementsByClassName("store-name");
+                     var maplat = document.getElementById('maplat'); // 지도를 표시할 위도
+                     var maplon = document.getElementById('maplon'); // 지도를 표시할 경도
+                     maplat=Number(maplat);
+                     maplon=Number(maplon);
+                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                        mapOption = {
+                            center: new kakao.maps.LatLng(36.111599999,127.44999919950), // 지도의 중심좌표
+                            // 다만 maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생 => 수정해 나갈 예정!
+                            level: 3 // 지도의 확대 레벨
+                        };
+                        //36.111599999,127.44999919950 & 37.558507, 126.9474058
+                    function setCenter() {
+                        // 이동할 위도 경도 위치를 생성합니다 
+                        var moveLatLon = new kakao.maps.LatLng(maplat,maplon);
 
-                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                mapOption = {
-                center: new kakao.maps.LatLng(37.5573264, 126.9474058), // 지도의 중심좌표
-                level: 3 // 지도의 확대 레벨
-                };
+                        // 지도 중심을 이동 시킵니다
+                        map.setCenter(moveLatLon);
+                    }
+                    var map = new kakao.maps.Map(mapContainer, mapOption);
 
-                var map = new kakao.maps.Map(mapContainer, mapOption);
-
-                // 마커가 표시될 위치입니다
-                var markerPosition = new kakao.maps.LatLng(37.5573264, 126.9474058);
+                    // 마커가 표시될 위치입니다 
+                    var markerPosition = new kakao.maps.LatLng(37.558507, 126.9474058);//maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생
 
                 // 마커를 생성합니다
                 var marker = new kakao.maps.Marker({
                 position: markerPosition
                 });
 
-                // 마커가 지도 위에 표시되도록 설정합니다
-                marker.setMap(map);
+                    // 마커가 지도 위에 표시되도록 설정합니다
+                    marker.setMap(map);
+                    var markerPosition = marker.getPosition();
 
-                var iwContent = '<div style="padding:5px;">뽀들렌 케이크<br><a href="https://map.kakao.com/link/map/뽀들렌케이크,37.5573264,126.9474058" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,37.5573264,126.9474058" target="_blank">길찾기</a></div>',
-                // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                iwPosition = new kakao.maps.LatLng(37.5573264, 126.9474058); //인포윈도우 표시 위치입니다
+                    var iwContent =
+                        '<div style="padding:5px;">{{store.name}}<br><a href="https://map.kakao.com/link/map/{{store.name}},{{store.lat}},{{store.lon}}"  target="_blank">큰지도보기</a><a href="https://map.kakao.com/link/to/Hello World!,{{store.lat}},{{store.lon}} target="_blank">길찾기</a></div>', 
+                        // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                        iwPosition = new kakao.maps.LatLng(maplat,maplon); //인포윈도우 표시 위치입니다
 
-                // 인포윈도우를 생성합니다
-                var infowindow = new kakao.maps.InfoWindow({
-                position: iwPosition,
-                content: iwContent
-                });
+                    // 인포윈도우를 생성합니다
+                    var infowindow = new kakao.maps.InfoWindow({
+                        position: iwPosition,
+                        content: iwContent,
+                        
+                    });
 
-                // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-                infowindow.open(map, marker);
+                    // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+                    infowindow.open(map, marker);
+                    function relayout() {
+                        map.relayout();
+                    } // 지도 크기 변경 시 조정해주는 함수 추가
+
                 </script>
             </div>
         </div>
@@ -148,96 +185,45 @@
                 {% csrf_token %}
                 <select name = "sort" id ="_sort" onchange="this.form.submit()" >
                     <option class="date" value="date">최신순</option>
-                    <option class="highrate" value="highrate">별점높은순</option>
-                    <option class="lowrate" value="lowrate">별점낮은순</option>
+                    <option class="highrate" value="highrate">별점 높은순</option>
+                    <option class="lowrate" value="lowrate">별점 낮은순</option>
                 </select>
             </form>
-
             <div class="store-review">
                 {% for review in reviewlist %}
-                id : {{review.user.nickname}}<br>
-                리뷰일시 : {{review.pub_date}}<br>
-                가게 이름 : {{review.referred_store.name}}<br>
-                주문 케이크 : {{review.referred_cake.cakename}}<br>
-                리뷰 내용 : {{review.comment}}<br>
-                <span class="fa fa-star fa-2x checked"></span>
-                <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
-                <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
-                <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
-                <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
-                <br><br>
+                <div class="review-item">
+                    <div class="review-item1">
+                        <div class="review-item1-cake">
+                            <p class="review-cake">{{review.referred_cake.cakename}}</p>
+                            <div class="review-star">
+                                <span class="fa fa-star fa-lg checked"></span>
+                                <span class="fa fa-star fa-lg {% if review.rate > 1 %} checked {% endif %}"></span>
+                                <span class="fa fa-star fa-lg {% if review.rate > 2 %} checked {% endif %}"></span>
+                                <span class="fa fa-star fa-lg {% if review.rate > 3 %} checked {% endif %}"></span>
+                                <span class="fa fa-star fa-lg {% if review.rate > 4 %} checked {% endif %}"></span>
+                            </div>
+                        </div>
+
+                        <div class="review-item1-user">
+                            <p class="review-id">{{review.user.nickname}}</p>
+                            <p class="review-date"> [ {{review.pub_date}} ]</p>
+                        </div>
+                    </div>
+
+
+
+                    
+                    <div class="review-item2">
+                        <p class="review-item2-contents">{{review.comment}}</p>
+                    </div>
+
+                </div>
                 {% endfor %}
             </div>
         </div>
     </div>
 </body>
-<footer>
-    <div class="footerContent1">
-        <div class="about">
-            <p class="aboutTitle">About</p>
-            <hr class="underline">
 
-            <p class="aboutContent">이 어둠을 빨간 코로 비춰줄래
-                어디서부터 잘못된 건지
-                온 세상이 all black black black
-                지금 너와 난
-                다 깨져버린 1000피스
-                lego block block block
-                차라리 더 어두워지면 좋겠어
-                이 세상에 스위치가 있다면
-                꺼버릴거야
-                그리고 널 향한 노랠 부르겠어</p>
-
-        </div>
-
-        <div class="categories">
-            <p class="categoryTitle">Categories</p>
-            <hr class="underline">
-
-            <li>
-                <a href="#" target="_blank">
-                    <ul>HOME</ul>
-                </a>
-                <a href="#" target="_blank">
-                    <ul>ABOUT US</ul>
-                </a>
-                <a href="#" target="_blank">
-                    <ul>CONTACT</ul>
-                </a>
-                <a href="#" target="_blank">
-                    <ul>JOIN</ul>
-                </a>
-
-            </li>
-        </div>
-
-        <div class="links">
-            <p class="linkTitle">Links</p>
-            <hr class="underline">
-
-            <li>
-                <a href="#" target="_blank">
-                    <ul>CONTRIBUTE</ul>
-                </a>
-                <a href="#" target="_blank">
-                    <ul a href="#">ABOUT US</ul>
-                </a>
-                <a href="#" target="_blank">
-                    <ul a href="#">CONTACT</ul>
-                </a>
-                <a href="#" target="_blank">
-                    <ul a href="#">PRIVACY POLICY</ul>
-                </a>
-            </li>
-        </div>
-    </div>
-    <hr class="underline2">
-
-
-    <div class="footerContent2">
-        <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
-    </div>
-</footer>
 
 </html>
 {% endblock %}

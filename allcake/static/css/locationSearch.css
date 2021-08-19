@@ -1,0 +1,9 @@
+.locationButtons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.location-result{
+    text-align: center;
+    margin-left: 10%;
+}

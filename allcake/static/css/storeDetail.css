@@ -30,7 +30,7 @@
 
 #mainBody{
   padding-top: 100px;
-  background-color:rgba(180, 191, 219, 0.363);
+  background-color:rgba(216, 216, 216, 0.363);
 
 }
 
@@ -70,6 +70,7 @@
 
 .store-des{
   margin-top: 15px;
+  padding-right: 10%;
   color: rgb(77, 77, 77);
 }
 
@@ -106,66 +107,89 @@
 .items-header{
   margin-left: 50px;
   font-family: 'GongGothicMedium';
-  font-size: 24px;
+  font-size: 21px;
   color: rgb(32, 40, 61);
   
 }
 
 .cake-item{
-  margin: 80px 120px;
-  height: 240px; /* 이거 변경 시 케익 이미지 사이즈 변경도 함께! */
+  margin: 5% 13% 5% 9%;
+  height: 210px; /* 이거 변경 시 케익 이미지 사이즈 변경도 함께! */
   display: flex;
-  border: solid rgba(44, 44, 44, 0.288) 2px;
   border-radius: 5px;
-  background-color: rgba(174, 177, 211, 0.219);
+  border: solid rgba(44, 44, 44, 0.548) 2px;
+  background-color: rgba(230, 230, 230, 0.219);
 }
 
 .cake-img img{
   border-radius: 5px;
   border-right: solid rgba(44, 44, 44, 0.288) 2px;
+
 }
-.cake-name {
-  margin-left: 40px;
-  font-family: 'GongGothicMedium';
-  font-size: 22px;
-  margin-top: 25px;
-  color:rgb(56, 0, 134);
-}
+
 
 .cake-detail{
-  margin-left: 40px;
   font-family: 'BBTreeGB';
-  font-size: 18px;
-  margin-top: 30px;
+  font-size: 15px;
+  margin-left: 4%;
+  margin-right: 4%;
+  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 라인수 */
+  -webkit-box-orient: vertical;
+  word-wrap:break-word; 
+  line-height: 1.6em;
+  height: 4.8em; 
+
 }
 
-.cake-body{
-  display: block;
+.cake-name-button{
+  display: flex;
+}
+.cake-name {
+  width: 60%;
+  margin-left: 5%;
+  margin-top: 25px;
+
+  font-family: 'GongGothicMedium';
+  font-size: 20px;
+
+  color:rgb(0, 0, 0);
 }
 
-.cake-body a{
-  margin-left: 40px;
+
+.order-button{
+  width: 75%;
+  text-align: center;
   font-family: 'BBTreeGB';
   font-size: 15px;
   text-decoration: none;
   color: black;
+
   border-radius: 5px;
-  background-color: rgba(180, 191, 219, 0.363);
   border: 1px black solid;
-  padding: 3px 5px;
-  margin-bottom: 5%;
+  background-color: rgba(255, 255, 255, 0.363);
+
+  padding: 3px;
+  margin-left: 4.5%;
+  margin-bottom: 0;
 }
 
-.cake-body a:hover{
-  color:rgba(105, 57, 133, 0.651);
+
+.order-button:hover{
+  background-color: black;
+  color: white;
 }
 
-.cake-body hr{
-  width: 600px;
-  height: 2px;
-  color:rgb(32, 40, 61);
-  margin-left: 30px;
+
+.cake-detail-box{
+  width: 80%;
+  padding-left: 0;
 }
+
+
 
 /* 정보 버튼 클릭 시 화면 css */
 
@@ -173,30 +197,17 @@
   margin: 50px 90px;
   padding: 30px;
   border-radius: 5px;
-  border: solid rgba(44, 44, 44, 0.288) 2px;
-  background-color: rgba(174, 177, 211, 0.219);
+  border: solid rgba(44, 44, 44, 0.548) 2px;
+  background-color: rgba(230, 230, 230, 0.219);
   margin-bottom: 90px;
 }
 
-.info-box1 .store-address{
+.info-box1 p{
   font-family: 'BBTreeGB';
   font-size: 18px;
   font-weight: bold;
 }
 
-.info-box1 .store-bhour{
-  font-family: 'BBTreeGB';
-  font-size: 18px;
-  font-weight: bold;
-
-}
-
-.info-box1 .store-contact{
-  font-family: 'BBTreeGB';
-  font-size: 18px;
-  font-weight: bold;
-
-}
 
 .info-box1 .store-main-info{
   font-family: 'BBTreeGB';
@@ -207,17 +218,446 @@
 
 
 /* 리뷰 */
-.store-review{
-  margin: 50px 90px;
-  padding: 30px; 
-  background-color: rgba(174, 177, 211, 0.219);
+
+.post-form{
+  margin-top: 2%;
+  margin-left: 8%;
+  width: 50px;
+}
+
+.post-form option{
+  font-family: 'BBTreeGB';
+}
+
+
+.review-item{
+  margin-bottom: 30px;
+  margin: 4% 8%;
+  padding: 2.5%; 
+  background-color: rgba(230, 230, 230, 0.219);
   border-radius: 5px;
-  border: solid rgba(44, 44, 44, 0.288) 2px;
+  border: solid rgba(44, 44, 44, 0.452) 2px;
 
 }
 
-.store-review p{
+.review-item1{
+  height: 30%;}
 
+
+
+.review-cake{
+  font-family: 'GongGothicMedium';
+  font-size: 21px;
+  margin-bottom:2%;
+  margin-right: 4%;
+}
+.review-item1-cake{
+  display: flex;
+  margin-bottom: 0;
+}
+
+.review-id, .review-date{
+  font-family: 'GongGothicMedium';
+  font-size: 17px;
+  color: rgb(153, 153, 153);
+}
+
+.review-item1-user{
+  display: flex;
+}
+
+.review-id{
+  margin-right: 2%;
+}
+
+
+
+
+.review-item2{
+  height: 60%;
+  margin-top: 2%;
+}
+
+.review-item2-contents{
+  line-height: 22px;
   font-family: 'BBTreeGB';
+  font-size: 15px;
+
+}
+
+/* 반응형 웹을 위한 미디어 쿼리 */
+
+@media screen and (max-width: 991px){
+  .store-detail{
+    padding-top: 48px;
+    padding-left: 7%;
+    display: flex;  
+  }
+
+  .store-detail img{
+    width: 190px;
+  }
+
+  .cake-item{
+    height: 190px; /* 이거 변경 시 케익 이미지 사이즈 변경도 함께! */
+  }
+
+  .cake-img img{
+    width: 190px;
+    height: 187px;
+  }
+  .store-detail .store-text{
+    padding-left: 60px;
+    padding-top: 20px;
+    line-height: 2rem;
+    font-family: 'BBTreeGB';
+  
+  }
+  
+  .store-name{
+    font-size: 31px;
+
+  }
+  
+  .store-location, .store-des, .store-contact{
+    font-family: 'BBTreeGB';
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .store-des{
+    margin-top: 15px;
+    padding-right: 14%;
+    padding-left: 5%;
+    color: rgb(77, 77, 77);
+  }
+
+
+  .cake-name-button{
+    display: block;
+  }
+
+  .cake-name{
+    width: 90%;
+    margin-top: 20px;
+  }
+
+
+  .order-button{
+    width: 50%;
+    text-align: center;
+    font-family: 'BBTreeGB';
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+  
+    border-radius: 5px;
+    border: 1px black solid;
+    background-color: rgba(255, 255, 255, 0.363);
+  
+    padding: 2px;
+    margin-top: 4%;
+  
+  }
+  
+
+
+  .cake-detail {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* 라인수 */
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    line-height: 1.2em;
+    height: 3.6em;
+    margin-top: 20px;
+  }
+
+  .buttons input{
+    background-color:rgb(255, 255, 255);
+    flex: 1; /*3등분*/
+    font-family: 'BBTreeGB';
+    font-size: 24px;
+    border: 1px black solid;
+  
+  }
+
+  /*리뷰 부분*/
+  .review-item2-contents{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    line-height: 1.4em;
+    height: 4.2em;
+    /* margin-top: 20px; */
+  }
+
+}
+
+@media screen and (max-width: 768px){
+  .store-detail{
+    padding-top: 48px;
+    padding-left: 7%;
+    display: flex;  
+  }
+
+  .store-detail img{
+    width: 180px;
+    height: 180px;
+  }
+
+  .cake-item{
+    height: 170px; /* 이거 변경 시 케익 이미지 사이즈 변경도 함께! */
+  }
+
+  .cake-img img{
+    width: 150px;
+    height: 167px;
+  }
+  .store-detail .store-text{
+    padding-left: 60px;
+    padding-top: 20px;
+    line-height: 2rem;
+    font-family: 'BBTreeGB';
+  
+  }
+  
+  .store-name{
+    font-size: 29px;
+  }
+  
+  .store-location, .store-des, .store-contact{
+    font-family: 'BBTreeGB';
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .store-des{
+    margin-top: 15px;
+    padding-right: 14%;
+    padding-left: 0;
+    color: rgb(77, 77, 77);
+    line-height: 1.5rem;
+  }
+
+
+  .cake-name-button{
+    display: block;
+  }
+
+  .cake-name{
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+
+  #detail-buttons{
+    width: 90%;
+    display: block;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  
+  .order-button{
+    width: 50%;
+    text-align: center;
+    font-family: 'BBTreeGB';
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+  
+    border-radius: 5px;
+    border: 1px black solid;
+    background-color: rgba(255, 255, 255, 0.363);
+  
+    padding: 2px;
+    margin-top: 4%;
+  
+  }
+  
+  
+
+  .cake-detail {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* 라인수 */
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    line-height: 1.2em;
+    height: 2.4em;
+  }
+
+  .buttons input{
+    background-color:rgb(255, 255, 255);
+    flex: 1; /*3등분*/
+    font-family: 'BBTreeGB';
+    font-size: 22px;
+    border: 1px black solid;
+  
+  }
+
+  .info-box1{
+    margin: 7% 10%;
+    padding: 4%;
+    border-radius: 5px;
+    border: solid rgba(44, 44, 44, 0.288) 2px;
+    background-color: rgba(174, 177, 211, 0.219);
+    margin-bottom: 90px;
+  }
+
+
+
+  .info-box1 p{
+    font-family: 'BBTreeGB';
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  
+  .info-box1 .store-main-info{
+    font-family: 'BBTreeGB';
+    font-size: 16px;
+    font-weight: bold;
+  
+  }
+
+  .review-cake{
+    font-size: 19px;
+  }
+
+  .review-id, .review-date{
+    font-size: 13px;
+  }
+
+  .review-item2-contents{
+    font-size: 13px;
+  }
+  
+
+  /* 아래는 화면 크기가 small 일때 -> 576픽셀보다 작을 때 */
+  /* 현재는 455픽셀까지만 깨지지 않고 지원 */
+
+  @media screen  and (max-width: 577px){
+
+    .items-header{
+      font-size: 19px;
+    }
+    .store-detail{
+      padding-top: 48px;
+      padding-left: 7%;
+      display: flex;  
+    }
+  
+    .store-detail img{
+      width: 180px;
+      height: 180px;
+    }
+  
+    .cake-item{
+      height: 130px; /* 이거 변경 시 케익 이미지 사이즈 변경도 함께! */
+    }
+  
+    .cake-img img{
+      width: 120px;
+      height: 127px;
+    }
+    .store-detail .store-text{
+      padding-left: 60px;
+      padding-top: 20px;
+      line-height: 2rem;
+      font-family: 'BBTreeGB';
+    
+    }
+    
+    .store-name{
+      font-size: 29px;
+    }
+    
+    .store-location, .store-des, .store-contact{
+      font-family: 'BBTreeGB';
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    .store-des{
+      margin-top: 15px;
+      padding-right: 14%;
+      padding-left: 0;
+      color: rgb(77, 77, 77);
+      line-height: 1.5rem;
+    }
+  
+  
+    .cake-name-button{
+      display: block;
+    }
+  
+    .cake-name{
+      width: 90%;
+      margin-top: 10px;      
+      font-size: 15px;
+    }
+
+    .cake-body hr{ 
+      width: 80%;
+      margin-left: 5%;
+      margin-top:0;    
+      margin-bottom:7px;    
+    }
+    }
+  
+    #detail-buttons{
+      width: 90%;
+      display: block;
+      margin-left: 10%;
+      margin-right: 10%;
+    }
+    
+    .order-button{
+      width: 40%;
+      text-align: center;
+      font-family: 'BBTreeGB';
+      font-size: 12px;
+      text-decoration: none;
+      color: black;
+    
+      border-radius: 5px;
+      border: 1px black solid;
+      background-color: rgba(255, 255, 255, 0.363);
+    
+      padding: 3px;
+      margin-bottom: 0;    
+    }
+
+  
+    .cake-detail {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      /* 라인수 */
+      -webkit-box-orient: vertical;
+      word-wrap: break-word;
+      line-height: 1.4em;
+      height: 2.5em;
+      font-size: 13.5px;
+      margin-top: 0;
+    }
+  
+    .buttons input{
+      background-color:rgb(255, 255, 255);
+      flex: 1; /*3등분*/
+      font-family: 'BBTreeGB';
+      font-size: 22px;
+      border: 1px black solid;
+    
+    }
 
 }
