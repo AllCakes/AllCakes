@@ -25,16 +25,16 @@
             </div>
             <div id="login-img2" class="carousel-item login-img-display">
                 <div class="carousel-caption d-none d-md-block" id="second-car">
-                    <h5>오늘의 케이크가 궁금하다면?</h5>
-                    <button class="login-go-today">구경하러 가기</button>
+                    <h5>"오늘의 가게"가 궁금하다면?</h5>
+                    <button class="login-go-today go-today-hover">구경하러 가기</button>
 
 
                 </div>
             </div>
             <div id="login-img3" class="carousel-item login-img-display">
                 <div class="carousel-caption d-none d-md-block" id="third-car">
-                    <h2>ALLCAKES</h2>
-                    <p>케이크 가게 정보를 한 눈에, 주문을 한 번에 - </p>
+                    <h2>"ALLCAKES"</h2>
+                    <p>케이크 가게 정보를 한 눈에, 주문을 한 번에</p>
                 </div>
             </div>
         </div>
@@ -68,11 +68,13 @@
         
         <div class="email-box2">
             <div class="email-box2-1">
-                <a href="{%url 'email_login' %}" class="email-login">로그인</a>
+                <button target="{%url 'email_login' %}" class="login-button hover">로그인</button>
+                <!-- <a href="{%url 'email_login' %}" class="email-login">로그인</a> -->
             </div>
 
             <div class="email-box2-2">
-                <a href="{%url 'signup_email' %}" class="email-sign">회원가입</a>
+                <button target="{%url 'signup_email' %}" class="login-button hover">회원가입</button>
+                <!-- <a href="{%url 'signup_email' %}" class="email-sign">회원가입</a> -->
             </div>
         </div>
         
@@ -85,7 +87,8 @@
         </div>
 
         <div class="kakao-box2">
-            <a href="{%url 'kakao_login' %}">로그인/회원가입</a>
+            <button target="{%url 'kakao_login' %}" class="kakao-button kakao-hover">로그인 / 회원가입</button>
+            <!-- <a href="{%url 'kakao_login' %}">로그인/회원가입</a> -->
         </div>
     </div>
 

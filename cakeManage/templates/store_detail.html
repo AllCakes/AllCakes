@@ -48,10 +48,13 @@
     <div class="option-box">
         <div class="buttons">
             <input type="button" onclick="열기(0)" value="메 뉴"></input>
+
+
             <!--FE: button을 input으로 변경함!-->
             <input type="button" onclick="열기(1); relayout();" value="정 보"></input>
             <!---->
             <!--relayout() 함수 추가해서 지도 깨짐 방지-->
+
             <input type="button" onclick="열기(2)" value="리 뷰"></input>
         </div>
 
@@ -76,7 +79,7 @@
                     <p class="cake-name">{{cake.cakename}}</p>
                     <hr>
                     <p class="cake-detail">{{cake.body}}</p>
-                    <a href="{% url 'order_submit' pk=cake.pk  %}">해당 케이크 주문</a>
+                    <a href="{% url 'order_submit' pk=cake.pk  %}" class="order-button">해당 케이크 주문</a>
                     <!--FE: 케이크 자세히 보기 버튼도 있으면 좋을 듯-->
                 </div>
                 </a><br>
@@ -99,9 +102,11 @@
                 <p class="store-main-info"> ▶️ 공지사항 받을 수 있다면 받아오기! </p>
             </div>
 
+
+             <p class="items-header">📍 지도</p>
+
             <!--FE: 지도 생각보다 많이 깨져서 한 번 봐야할 듯! => 수정했습니당! -->
 
-            <p class="items-header">📍 지도</p>
             <hr class="underToday">
             <div class="info-box1">
 
@@ -176,23 +181,39 @@
                 {% csrf_token %}
                 <select name = "sort" id ="_sort" onchange="this.form.submit()" >
                     <option class="date" value="date">최신순</option>
-                    <option class="highrate" value="highrate">별점높은순</option>
-                    <option class="lowrate" value="lowrate">별점낮은순</option>
+                    <option class="highrate" value="highrate">별점 높은순</option>
+                    <option class="lowrate" value="lowrate">별점 낮은순</option>
                 </select>
             </form>
             <div class="store-review">
                 {% for review in reviewlist %}
-                id : {{review.user.nickname}}<br>
-                리뷰일시 : {{review.pub_date}}<br>
-                가게 이름 : {{review.referred_store.name}}<br>
-                주문 케이크 : {{review.referred_cake.cakename}}<br>
-                리뷰 내용 : {{review.comment}}<br>
-                <span class="fa fa-star fa-2x checked"></span>
-                <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
-                <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
-                <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
-                <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
-                <br><br>
+                <div class="review-item">
+                    <div class="review-item1">
+                        <div class="review-item1-cake">
+                            <p class="review-cake">{{review.referred_cake.cakename}}</p>
+                            <div class="review-star">
+                                <span class="fa fa-star fa-lg checked"></span>
+                                <span class="fa fa-star fa-lg {% if review.rate > 1 %} checked {% endif %}"></span>
+                                <span class="fa fa-star fa-lg {% if review.rate > 2 %} checked {% endif %}"></span>
+                                <span class="fa fa-star fa-lg {% if review.rate > 3 %} checked {% endif %}"></span>
+                                <span class="fa fa-star fa-lg {% if review.rate > 4 %} checked {% endif %}"></span>
+                            </div>
+                        </div>
+
+                        <div class="review-item1-user">
+                            <p class="review-id">{{review.user.nickname}}</p>
+                            <p class="review-date"> [ {{review.pub_date}} ]</p>
+                        </div>
+                    </div>
+
+
+
+                    
+                    <div class="review-item2">
+                        <p class="review-item2-contents">{{review.comment}}</p>
+                    </div>
+
+                </div>
                 {% endfor %}
             </div>
         </div>

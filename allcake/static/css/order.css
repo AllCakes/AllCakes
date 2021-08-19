@@ -35,10 +35,14 @@
 
 .main-header {
     height: 250px;
-    background-image: url('../img/carousel3.png');
+    background-image: url('../img/order.jpeg');
     background-size: cover;
 }
 
+.order-main-buttons{
+    text-align: right;
+    margin-right: 2%;
+}
 
 
 .main-header a {
@@ -51,5 +55,46 @@
 .main-header input {
     font-family: 'BBTreeGB';
     border: none;
-    background-color: none;
+    background-color: rgb(221, 204, 243);
+}
+
+.order-main-texts{
+    margin-top: 4%;
+}
+
+.text1{
+    text-align: center;
+    font-family: 'GongGothicMedium';
+    font-size: 33px;
+}
+
+.text2{
+    text-align: center;
+    font-family: 'GongGothicMedium';
+    font-size: 18px;
+    color: rgb(124, 124, 124);
+    margin-top: 2.6%;
+}
+
+.post-form{
+    width: 100%;
+}
+
+
+.cakeorder{
+    display: block;
+}
+.calendar{
+    margin-top: 4%;
+    margin-left: 30%;
+}
+
+.order-form{
+    margin-left: 24%;
+    padding-right: 37%;
+}
+
+.order-fixed{
+    border: 1.4px solid rgba(63, 63, 63, 0.705);
+
 }
