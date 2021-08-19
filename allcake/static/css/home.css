@@ -1,13 +1,13 @@
 #home-img1 {
-  background-image: url(../img/carousel1.png);
+  background-image: url(../img/carousel1.jpeg);
 }
 
 #home-img2 {
-  background-image: url(../img/carousel2.png);
+  background-image: url(../img/carousel2.jpeg);
 }
 
 #home-img3 {
-  background-image: url(../img/carousel3.png);
+  background-image: url(../img/carousel3.jpeg);
 }
 
 .home-img-display {
@@ -55,7 +55,8 @@
 
 #body {
   height: auto;
-  background-color: rgba(142, 163, 170, 0.068);
+  /* background-color: rgba(142, 163, 170, 0.068); */
+  background-color: rgba(202, 202, 202, 0.151);
   padding-bottom: 0;
   margin-bottom: 0%;
 }
@@ -178,7 +179,7 @@
 /*리뷰 내용 css*/
 
 .review {
-  height: 660px;
+  height: auto;
 }
 
 
@@ -203,51 +204,80 @@
   justify-content: space-evenly;
 }
 
+article{
+  display: flex;
+}
+
+
+/* 수정 */
 .reviewItem {
-  width: 35%;
+  width: 530px;
   background-color: #ffffff;
   height: 200px;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   display: flex;
-  border-radius: 5px;
-  border: rgba(112, 128, 144, 0.185) 2px solid;
+  border: 1px rgb(182, 181, 181) solid;
 }
 
 
 
-
-.reviewImage {
-  width: 90%;
+/* 수정 */
+.reviewImage img {
+  width: 180px;
   height: 100%;
-  border-radius: 5px;
+  border-right: 1px rgb(182, 181, 181) solid;
 }
+
+
 
 .reviewText {
-  padding: 14px 10px 10px 16px;
+  padding: 14px 10px 5px 20px;
+  width: 70%;
 }
 
-.reviewTitle {
-  font-family: 'NotoSerifKR';
-  font-size: 20px;
-  border-bottom: solid 2px rgb(194, 198, 204);
+.reviewTitle{
+  margin-bottom: 13px;
+}
+
+.review-title1{
+  font-family: 'GongGothicMedium';
+  font-size: 19px;
+  margin-right: 10px;
+}
+
+.review-title2{
+  font-family: 'GongGothicMedium';
+  font-size: 16px;
+}
+
+.reviewText a{ 
+  padding-left: 2%;
 }
 
 .reviewDetail {
   font-family: 'BBTreeGB';
-  font-size: 15px;
-  line-height: 1.7rem;
-  margin-bottom: 5%;
-  padding-left: 2%;
-  padding-right: 2%;
-  color: rgb(63, 63, 63);
+  color: rgba(61, 61, 61, 0.767);
+  font-size: 14px;
+  padding: 3% 3% 3% 2%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* 라인수 */
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  line-height: 1.4em;
+  height: 4.7em;
+  }
 
-}
+
+
+
 
 .userId {
   font-family: 'BBTreeGB';
   font-size: 14px;
-  font-weight: bold;
-  color: rgb(110, 107, 133);
+  color: rgb(105, 105, 105);
   margin-left: 2%;
 }
 
@@ -258,11 +288,11 @@
 }
 
 .reviewTitle a:visited {
-  color: rgb(80, 106, 145);
+  color: rgb(95, 95, 95);
 }
 
 .reviewTitle a:hover {
-  color: rgb(38, 29, 48);
+  color: rgb(158, 180, 206);
 }
 
 
@@ -270,6 +300,11 @@
 
 
 /* 반응형 */
+
+
+
+
+
 @media screen and (max-width:768px) {
 
   #body{

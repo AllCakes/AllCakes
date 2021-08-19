@@ -72,38 +72,45 @@
 
     <main id="order-main">
         <div class="main-header">
-            {{post.name}}
-            <div>
-                <a href="/">홈 ></a>
-                <input type="button" onclick="goBack()" value="가게로 돌아가기"> ></input>
-                <a href="">주문하기 </a>
+            <div class="order-main-buttons">
+                <a href="/">[ 홈 ></a>
+                <input type="button" onclick="goBack()" value="가게로 돌아가기 >" ></input>
+                <a href="#">주문하기 ]</a>
+            </div>
+            <div class="order-main-texts">
+                <p class="text1" >주문하기</p>
+                <p class="text2">✧ 아래의 양식을 꼼꼼히 채워주세요 ✧</p>
             </div>
 
         </div>
 
         <!---------------------------------------------------------------------------------------------------->
         <div class="cakeorder">
+            
 
-
-            <h1 style="color:rgb(240, 147, 160);">주문양식</h1>
-            <br>
-            <img class="card-img-top"
-                src="https://media.vlpt.us/images/myway00/post/cd6ba949-30b5-4240-b58f-67f8d491f763/image.png"
-                alt="..." />
-            <br>
+            <img class="calendar" src="https://i.pinimg.com/564x/35/17/c5/3517c525b2edc6aea7d153164243d9df.jpg"
+                width="600px" height="500px">
             <form method='POST' enctype="multipart/form-data" class='post-form'>
-                <br>
-                가게명 : {{cake.referred_store}}<br><br>
-                케이크 명 : {{cake.cakename}}<br><br>
-                주문자 이름 : {{ user.nickname }}<br><br>
-                {% csrf_token %}
-                {{ form.as_p }}
-                {% for i in 맛%} <input type="radio" name = "맛" value= {{i}} >{{i}} {% endfor %} <br>
-                {% for i in 모양%} <input type="radio" name = "모양" value= {{i}} >{{i}} {% endfor %} <br>
-                {% for i in 사이즈%} <input type="radio" name = "사이즈" value= {{i}} >{{i}} {% endfor %} <br>
-                {% for i in 크림종류%} <input type="radio" name = "크림종류" value= {{i}} >{{i}} {% endfor %} <br>
-                {% for i in 레터링색%} <input type="radio" name = "레터링색" value= {{i}} >{{i}} {% endfor %} <br>
-                <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
+
+                <div class="order-form">
+                    <div class="order-fixed">
+                        <p class="order-fixed-store">가게명 : {{cake.referred_store}}</p>
+                        <p class="order-fixed-cake">케이크명 : {{cake.cakename}}</p>
+                        <p class="order-fixed-user">주문자 이름 : {{ user.nickname }}</p>
+                    </div>
+                    가게명 : {{cake.referred_store}}<br><br>
+                    케이크 명 : {{cake.cakename}}<br><br>
+                    주문자 이름 : {{ user.nickname }}<br><br>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% for i in 맛%} <input type="radio" name="맛" value={{i}}>{{i}} {% endfor %} <br>
+                    {% for i in 모양%} <input type="radio" name="모양" value={{i}}>{{i}} {% endfor %} <br>
+                    {% for i in 사이즈%} <input type="radio" name="사이즈" value={{i}}>{{i}} {% endfor %} <br>
+                    {% for i in 크림종류%} <input type="radio" name="크림종류" value={{i}}>{{i}} {% endfor %} <br>
+                    {% for i in 레터링색%} <input type="radio" name="레터링색" value={{i}}>{{i}} {% endfor %} <br>
+                    <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
+                </div>
+
             </form>
 
         </div>
@@ -114,8 +121,6 @@
         }
     </script>
 
-    </header>
-    <!---------------------------------------------------------------------------------------------------->
 
 
 </body>

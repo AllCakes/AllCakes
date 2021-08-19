@@ -30,7 +30,7 @@
 
 #mainBody{
   padding-top: 100px;
-  background-color:rgba(180, 191, 219, 0.363);
+  background-color:rgba(216, 216, 216, 0.363);
 
 }
 
@@ -116,9 +116,9 @@
   margin: 5% 13% 5% 9%;
   height: 210px; /* 이거 변경 시 케익 이미지 사이즈 변경도 함께! */
   display: flex;
-  border: solid rgba(44, 44, 44, 0.288) 2px;
   border-radius: 5px;
-  background-color: rgba(174, 177, 211, 0.219);
+  border: solid rgba(44, 44, 44, 0.548) 2px;
+  background-color: rgba(230, 230, 230, 0.219);
 }
 
 .cake-img img{
@@ -129,10 +129,10 @@
 
 
 .cake-detail{
-  margin-left: 7%;
   font-family: 'BBTreeGB';
   font-size: 15px;
-  margin-top: 30px;
+  margin-left: 4%;
+  margin-right: 4%;
   
   overflow: hidden;
   text-overflow: ellipsis;
@@ -140,8 +140,8 @@
   -webkit-line-clamp: 3; /* 라인수 */
   -webkit-box-orient: vertical;
   word-wrap:break-word; 
-  line-height: 1.5em;
-  height: 4.5em; 
+  line-height: 1.6em;
+  height: 4.8em; 
 
 }
 
@@ -158,13 +158,7 @@
 
   color:rgb(0, 0, 0);
 }
-#detail-buttons{
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  margin-left: 30%;
-  margin-right: 0;
-}
+
 
 .order-button{
   width: 75%;
@@ -178,35 +172,18 @@
   border: 1px black solid;
   background-color: rgba(255, 255, 255, 0.363);
 
-  padding: 2px;
-  margin-top: 4%;
-
+  padding: 3px;
+  margin-left: 4.5%;
+  margin-bottom: 0;
 }
 
-.like-button{
-  width: 75%;
-  text-align: center;
 
-  font-family: 'BBTreeGB';
-  font-size: 15px;
-  text-decoration: none;
-  color: black;
-
-  border-radius: 5px;
-  border: 1px black solid;
-  background-color: rgba(255, 255, 255, 0.363);
-
-  padding: 2px;
-  margin-top: 4%;
+.order-button:hover{
+  background-color: black;
+  color: white;
 }
 
-.cake-name-button a:hover{
-  color:rgba(105, 57, 133, 0.651);
-}
 
-.detail-buttons{
-  display: block;
-}
 .cake-detail-box{
   width: 80%;
   padding-left: 0;
@@ -220,8 +197,8 @@
   margin: 50px 90px;
   padding: 30px;
   border-radius: 5px;
-  border: solid rgba(44, 44, 44, 0.288) 2px;
-  background-color: rgba(174, 177, 211, 0.219);
+  border: solid rgba(44, 44, 44, 0.548) 2px;
+  background-color: rgba(230, 230, 230, 0.219);
   margin-bottom: 90px;
 }
 
@@ -241,36 +218,71 @@
 
 
 /* 리뷰 */
-.store-review{
-  margin: 8% 10%;
-  padding: 2.5%; 
-  background-color: rgba(174, 177, 211, 0.219);
-  border-radius: 5px;
-  border: solid rgba(44, 44, 44, 0.288) 2px;
 
+.post-form{
+  margin-top: 2%;
+  margin-left: 8%;
+  width: 50px;
 }
-.store-review .user-id{
+
+.post-form option{
   font-family: 'BBTreeGB';
-  color:rgb(224, 148, 60);
 }
 
-.under-user-id{
+
+.review-item{
+  margin-bottom: 30px;
+  margin: 4% 8%;
+  padding: 2.5%; 
+  background-color: rgba(230, 230, 230, 0.219);
+  border-radius: 5px;
+  border: solid rgba(44, 44, 44, 0.452) 2px;
+
+}
+
+.review-item1{
+  height: 30%;}
+
+
+
+.review-cake{
+  font-family: 'GongGothicMedium';
+  font-size: 21px;
+  margin-bottom:2%;
+  margin-right: 4%;
+}
+.review-item1-cake{
+  display: flex;
+  margin-bottom: 0;
+}
+
+.review-id, .review-date{
+  font-family: 'GongGothicMedium';
+  font-size: 17px;
+  color: rgb(153, 153, 153);
+}
+
+.review-item1-user{
+  display: flex;
+}
+
+.review-id{
+  margin-right: 2%;
+}
+
+
+
+
+.review-item2{
+  height: 60%;
   margin-top: 2%;
 }
 
-.review-cake{
+.review-item2-contents{
+  line-height: 22px;
   font-family: 'BBTreeGB';
-  font-size: 18px;
-}
-.store-review p{
-  font-family: 'BBTreeGB';
+  font-size: 15px;
 
-}
-
-.under-user-id section{
-  font-family: 'BBTreeGB';
-  font-size: 14px;
-  padding-left: 2%;
 }
 
 /* 반응형 웹을 위한 미디어 쿼리 */
@@ -330,13 +342,7 @@
     margin-top: 20px;
   }
 
-  #detail-buttons{
-    width: 100%;
-    display: block;
-    margin-left: 10%;
-    margin-right: 10%;
-  }
-  
+
   .order-button{
     width: 50%;
     text-align: center;
@@ -354,22 +360,7 @@
   
   }
   
-  .like-button{
-    width: 50%;
-    text-align: center;
-  
-    font-family: 'BBTreeGB';
-    font-size: 15px;
-    text-decoration: none;
-    color: black;
-  
-    border-radius: 5px;
-    border: 1px black solid;
-    background-color: rgba(255, 255, 255, 0.363);
-  
-    padding: 2px;
-    margin-top: 4%;
-  }
+
 
   .cake-detail {
     overflow: hidden;
@@ -391,6 +382,19 @@
     font-size: 24px;
     border: 1px black solid;
   
+  }
+
+  /*리뷰 부분*/
+  .review-item2-contents{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    line-height: 1.4em;
+    height: 4.2em;
+    /* margin-top: 20px; */
   }
 
 }
@@ -476,22 +480,7 @@
   
   }
   
-  .like-button{
-    width: 50%;
-    text-align: center;
   
-    font-family: 'BBTreeGB';
-    font-size: 15px;
-    text-decoration: none;
-    color: black;
-  
-    border-radius: 5px;
-    border: 1px black solid;
-    background-color: rgba(255, 255, 255, 0.363);
-  
-    padding: 2px;
-    margin-top: 4%;
-  }
 
   .cake-detail {
     overflow: hidden;
@@ -538,12 +527,24 @@
     font-weight: bold;
   
   }
+
+  .review-cake{
+    font-size: 19px;
+  }
+
+  .review-id, .review-date{
+    font-size: 13px;
+  }
+
+  .review-item2-contents{
+    font-size: 13px;
+  }
   
 
   /* 아래는 화면 크기가 small 일때 -> 576픽셀보다 작을 때 */
   /* 현재는 455픽셀까지만 깨지지 않고 지원 */
 
-  @media screen  and (max-width: 576px){
+  @media screen  and (max-width: 577px){
 
     .items-header{
       font-size: 19px;
@@ -600,9 +601,16 @@
   
     .cake-name{
       width: 90%;
-      margin-top: 10px;
-      margin-bottom: 6px;
-      font-size: 17px;
+      margin-top: 10px;      
+      font-size: 15px;
+    }
+
+    .cake-body hr{ 
+      width: 80%;
+      margin-left: 5%;
+      margin-top:0;    
+      margin-bottom:7px;    
+    }
     }
   
     #detail-buttons{
@@ -613,7 +621,7 @@
     }
     
     .order-button{
-      width: 50%;
+      width: 40%;
       text-align: center;
       font-family: 'BBTreeGB';
       font-size: 12px;
@@ -624,27 +632,10 @@
       border: 1px black solid;
       background-color: rgba(255, 255, 255, 0.363);
     
-      padding: 2px;
-      margin-top: 4%;
-    
+      padding: 3px;
+      margin-bottom: 0;    
     }
-    
-    .like-button{
-      width: 50%;
-      text-align: center;
-    
-      font-family: 'BBTreeGB';
-      font-size: 12px;
-      text-decoration: none;
-      color: black;
-    
-      border-radius: 5px;
-      border: 1px black solid;
-      background-color: rgba(255, 255, 255, 0.363);
-    
-      padding: 2px;
-      margin-top: 4%;
-    }
+
   
     .cake-detail {
       overflow: hidden;
@@ -654,9 +645,10 @@
       /* 라인수 */
       -webkit-box-orient: vertical;
       word-wrap: break-word;
-      line-height: 1.2em;
-      height: 2.4em;
-      font-size: 14px;
+      line-height: 1.4em;
+      height: 2.5em;
+      font-size: 13.5px;
+      margin-top: 0;
     }
   
     .buttons input{
@@ -668,5 +660,4 @@
     
     }
 
- 
 }

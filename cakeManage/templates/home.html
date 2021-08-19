@@ -91,12 +91,11 @@
         <div class="fourReviews">
             {% for r in reviews%}
             <article class="reviewItem">
-                <img src={{r.order.referred_cake.cake_image.url}} class="reviewImage">
+                <div class="reviewImage">
+                    <img src={{r.order.referred_cake.cake_image.url}}>
+                </div>
                 <div class="reviewText">
-                    <p class="reviewTitle"><a href="#">{{r.order.referred_store}} - </a><a href="#">{{r.order.referred_cake}}</a></p>
-                    <p class="reviewDetail">{{r.comment}}</p> <!--공백포함 90자 정도-->
-                    <p class="userId">{{r.order.user}}</p>
-                    <!-- 별점추가 -->
+                    <p class="reviewTitle"><a href="#" class="review-title1">{{r.order.referred_cake }}</a><a href="#" class="review-title2"> [{{r.order.referred_store}}]</a></p>
                     <a>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star {% if r.rate > 1 %} checked {% endif %}"></span>
@@ -104,6 +103,9 @@
                         <span class="fa fa-star {% if r.rate > 3 %} checked {% endif %}"></span>
                         <span class="fa fa-star {% if r.rate > 4 %} checked {% endif %}"></span>
                     </a>
+                    <p class="reviewDetail">{{r.comment}}</p> <!--공백포함 90자 정도-->
+                    <p class="userId">➤ User: {{r.order.user}}</p>
+                    
                 </div>
             </article>
             {% endfor %}
