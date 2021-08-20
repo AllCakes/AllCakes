@@ -10,13 +10,17 @@
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 {% endblock %}
 
 {% block content %}
 <br><br><br><br><br><br><br><br><br><br>
-<a href="{% url 'location_result'%}" style="margin-left:45%;">거리 가까운 순으로 정렬</a>
+
+<a href="{% url 'nearby_stores' %}">나로부터 가까운 거리의 가게 정렬</a>
+<!--이 버튼 눌러야 인근 가게들이 나올 수 있도록 출력-->
 
 <p class = "store_list"> 
 {% if list %}
@@ -27,6 +31,7 @@
             <div class="titleText">
                 <p class="cardTitle">📍 {{post.name}} - {{ post.location}}</p>
             </div>
+            
         </div>
         </div>
     {% endfor %}
@@ -54,7 +59,8 @@ var getPosition = function (options) {
 getPosition()
   .then((position) => {
     $.cookie("latitude", position.coords.latitude, { path: '/' })
-    $.cookie("longitude", position.coords.longitude, { path: '/' })
+    $.cookie("longitude", position.coords.longitude, { path: '/' }) 
+    console.log("cookie_okay")
   })
   .catch((err)=> {
     console.log(err)
