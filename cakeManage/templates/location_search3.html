@@ -4,16 +4,12 @@
 <!DOCTYPE html>
 <h1 lang="ko">
 
-{% block title %}Cake Store Detail{% endblock %}
+{% block title %}내 주변 주문제작 케이크{% endblock %}
 
 {% block css %}
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
 {% endblock %}
 
 {% block content %}
@@ -41,31 +37,4 @@
 {% endif %}
 </p>
 
-
-<script>
-// 현재 위치를 가져오는 getPosition 프로미스 생성
-var getPosition = function (options) {
-  return new Promise(function (resolve, reject) {
-    var options = {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: 10000
-  }
-    navigator.geolocation.getCurrentPosition(resolve, reject, options);
-  })
-}
-// getPosition 프로미스 실행
-// 결과값이 있을 경우 쿠키에 정보를 저장하고, 없을 경우 Error를 Log에 찍는다
-getPosition()
-  .then((position) => {
-    $.cookie("latitude", position.coords.latitude, { path: '/' })
-    $.cookie("longitude", position.coords.longitude, { path: '/' }) 
-    console.log("cookie_okay")
-  })
-  .catch((err)=> {
-    console.log(err)
-  })
-</script>
-
-</html>
 {% endblock %}
