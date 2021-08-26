@@ -30,7 +30,7 @@
 
 #mainBody{
   padding-top: 100px;
-  background-color:rgba(216, 216, 216, 0.363);
+  background-color:rgba(2, 2, 2, 0.363);
 
 }
 
@@ -127,6 +127,10 @@
 
 }
 
+.cake-body{
+  width: 100%;
+}
+
 
 .cake-detail{
   font-family: 'BBTreeGB';
@@ -142,14 +146,13 @@
   word-wrap:break-word; 
   line-height: 1.6em;
   height: 4.8em; 
-
 }
 
 .cake-name-button{
   display: flex;
 }
 .cake-name {
-  width: 60%;
+  /* width: 60%; */
   margin-left: 5%;
   margin-top: 25px;
 
@@ -611,7 +614,7 @@
       margin-top:0;    
       margin-bottom:7px;    
     }
-    }
+    
   
     #detail-buttons{
       width: 90%;
@@ -660,4 +663,5 @@
     
     }
 
+}
 }

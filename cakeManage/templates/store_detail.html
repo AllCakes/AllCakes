@@ -2,10 +2,7 @@
 
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="ko">
-
-{% block title %}Nearby Store{% endblock %}
+{% block title %}Cake Store Detail{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/storeDetail.css' %}" type="text/css">
@@ -16,8 +13,8 @@
 <!--지도 깨짐 방지 위한 jquery api 추가-->
 <!--head 중복 처리 했습니다-->
 {% endblock %}
+
 {% block content %}
-<script defer src="/static/js/rating.js"></script>
 <body id="mainBody" onload="열기('{{num}}')">
 
     <!-- 대표이미지, 가게이름, 위치, 연락처, 설명, 케잌이미지 -->
@@ -68,7 +65,7 @@
 
             <div class="cake-item">
                 <div class="cake-img">
-                    <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" width="240px" height="237px"></a><br>
+                    <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" width="210px" height="207px"></a><br>
 
                     <!-- 케이크 수정 버튼 지웠음 -->
                     <!-- 클릭 시 자세히보기로 들어감. -->
@@ -81,9 +78,8 @@
                     <p class="cake-name">{{cake.cakename}}</p>
                     <hr>
                     <p class="cake-detail">{{cake.body}}</p>
-
-                    <a href="{% url 'order_submit' cake_pk=cake.pk  %}">해당 케이크 주문</a>
-
+                    
+                    <a href="{% url 'order_submit' cake_pk=cake.pk  %}" class="order-button">주문</a>   
                     <!--FE: 케이크 자세히 보기 버튼도 있으면 좋을 듯-->
                 </div>
                 </a><br>
