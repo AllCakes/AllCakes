@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}전체 케이크{% endblock %}
+
+{% block content %}
+
+{% for cake in cakes %}
+<div class="cake">
+    <h2>{{cake.cakename}}</h2>
+    <a href="{% url 'cake_detail' pk=cake.pk %}"><img src={{cake.cake_image.url}} width="100"></a>
+</div>
+{% endfor %}
+
+{% endblock %}

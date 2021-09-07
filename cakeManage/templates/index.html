@@ -1,0 +1,339 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Directive by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>Allcakes</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <!-- 하트아이콘 넣어보려고 추가 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+	<!-- CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+
+<body class="is-preload">
+	<header>
+		<nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white;">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/">ALLCAKES</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
+                        <!-- 리뷰는 마이페이지 참고 -->
+						<li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="#">Reviews</a>
+                            
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!--로그인 or 로그아웃-->
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                            {% if user.is_kakao == True %}
+                            <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
+                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}">Logout</a>
+                            {% else %}
+                            <a class="nav-link px-2" href="{% url 'logout' %}">Logout</a>
+                            {% endif %}
+
+                            {% else %}
+                            <!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
+                            <a class="nav-link px-2" href="{% url 'login_home' %}">Login</a>
+                            {% endif %}
+                        </li>
+                        <!--로그인과 로그아웃만 뜸 -->
+
+                        <!--마이페이지 or about us-->
+                        <li class="nav-item">
+
+                            {% if user.is_authenticated %}
+                            <!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
+                            <a class="nav-link px-2" href="{% url 'mypage' pk=user.pk %}">My Page</a>
+                            {% endif %}
+
+                            {% if not user.is_authenticated %}
+                            <a class="nav-link px-2" href="#">About Us</a>
+                        {% endif %}
+                            <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
+
+                        <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
+                        </li>
+                        
+                        <!--검색 가까운순정렬 삭제-->  
+
+					</ul>
+
+
+
+
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<!-- Header -->
+	<div id="header">
+		<i class="fa fa-birthday-cake fa-3x" aria-hidden="true"></i>
+
+		<!-- 검색창 크기 따로 css 파일에 집어넣지 않고 style태그로 집어넣음. -->
+		<form action="{% url 'search' %}" method="GET" class="d-flex">
+			<input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="q"
+				style="border: white 2.5px solid; width: 40%; margin-left: 28%;">
+			<button class="btn btn-secondary btn-sm" type="submit" value="r" style="width: 3%; height: 4%;">검색</button>
+		</form>
+	</div>
+
+	<!-- Main -->
+	<div id="main" style="padding-top: 5%; padding-bottom: 10%;">
+        <!-- 홈화면 필터 삭제 -->
+		<!-- <div class="cake-selector"
+			style="width: 100%; height: 40%; border: rgb(255, 255, 255) 1px solid;  background-color: rgba(230, 230, 230, 0.397);">
+			<div style="padding-bottom:30px; padding-top: 15px;">
+				<p style="text-align: center;  font-size: 24px;">⁃ 이벤트 ⁃</p>
+				<p style="text-align: center;  ">◻︎ 생일 ◻︎ 결혼기념일 ◻︎ 졸업/입학 ◻︎ 전역 ◻︎ 기념일</p>
+			</div>
+			<div style="padding-bottom:15px;">
+				<p style="text-align: center;  font-size: 24px;">⁃ 가격대 ⁃</p>
+				<p style="text-align: center;  ">◻︎ 10,000원대 미만 ◻︎ 10,000원대 ◻︎ 20,000원대 ◻︎ 30,000원대 ◻︎ 40,000원대 이상
+				</p>
+			</div>
+		</div> -->
+
+        <!--테마별 케이크, 케이크 추천, 더보기버튼과 함께 div-->
+        <div class="today">
+            <!-- 테마는 계속 바뀌거나 월일에 따라, 바뀌도록 적용. 이벤트 모델에 적용되면 될 듯 -->
+            <p class="todayHeader">평생 함께 해줘서 고마워 #결혼기념일</p>
+            <hr class="underToday">
+
+            <div class="todayCakes">
+                <article class="cakeItem">
+                    {% for cake in cakes %}
+                        <div class="cardCake">
+                            <a href="{% url 'cake_detail' pk=cake.pk %}" class="goDetail"><img src="{{cake.cake_image.url}}" class="cardImg" alt=""></a>
+
+                            <div class="cardCake-last">
+                                <div class="titleText">
+                                    <p class="cardTitle">{{cake.cakename}}</p>
+                                    <div class="like"><i class="fas fa-heart"></i></div>
+                                </div>
+                                <span class="storeName">-{{cake.referred_store}}</span>
+
+                                <!-- <hr class="underCard"> -->
+
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </article>
+            </div>
+        
+
+        </div>
+
+
+
+        <!-- 이미지 쪽에 리뷰사진 두 개(혹은 리뷰 하나면, 케이크사진)와  리뷰내용 나오도록-->
+        <!-- 사진은 아직 연결 안 함. -->
+		<div class="box alt container" style="padding-top: 6%;">
+			{% for review in reviews %}
+            <section class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
+				<a href="#" class="image icon solid fa-heart"><img src="{% static 'img/pic01.jpg' %}" alt="" /></a>
+				<div class="content">
+					<h3></h3>
+                    <p>{{review.comment|slice:"70"}}...
+					</p>
+                    <br>
+                    <span>-{{review.user}}</span>
+				</div>
+			</section>
+            {% endfor %}
+
+			<!-- <section class="feature right">
+				<a href="#" class="image icon solid fa-paw"><img src="{% static 'img/pic02.jpg' %}" alt="" /></a>
+				<div class="content">
+					<h3>고심이 케이크</h3>
+					<p>군인·군무원·경찰공무원 기타 법률이 정하는 자가 전투·훈련등 직무집행과 관련하여 받은 손해에 대하여는 법률이 정하는 보상외에 국가 또는 공공단체에 공무원의 직무상 불법행위로
+						인한 배상은 청구할 수 없다.</p>
+				</div>
+			</section>
+			<section class="feature left">
+				<a href="#" class="image icon solid fa-music"><img src="{% static 'img/pic03.jpg' %}" alt="" /></a>
+				<div class="content">
+					<h3>서강 케이크</h3>
+					<p>군인·군무원·경찰공무원 기타 법률이 정하는 자가 전투·훈련등 직무집행과 관련하여 받은 손해에 대하여는 법률이 정하는 보상외에 국가 또는 공공단체에 공무원의 직무상 불법행위로
+						인한 배상은 청구할 수 없다.</p>
+				</div>
+			</section> -->
+
+
+		</div>
+
+		<!-- 여기부터 -->
+
+        <!-- 최신 리뷰는 리뷰에 조회수와 추천수 구현 후에 하기. 모델 변경 및 좋아요 js 필요-->
+		<section style="padding-top: 7%; background-color: rgba(230, 230, 230, 0.397);">
+			<header>
+				<p style="font-size: 35px; color: black;">최신 리뷰</p>
+			</header>
+			<div class="table-wrapper">
+				<table class="default">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>케이크</th>
+							<th>리뷰상세</th>
+							<th>케이크가게</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>서강</td>
+							<td>고심이2</td>
+							<td>법원은 최고법원인 대법원과 각급법원으로 조직된다. 혼인과 가족생활은 개인의 존엄과 양성의 평등을 기초로 성립되고 유지되어야 하며, 국가는 이를 보장한다.</td>
+							<td>최고심 케이크</td>
+						</tr>
+						<tr>
+							<td>서강</td>
+							<td>고심이2</td>
+							<td>법원은 최고법원인 대법원과 각급법원으로 조직된다. 혼인과 가족생활은 개인의 존엄과 양성의 평등을 기초로 성립되고 유지되어야 하며, 국가는 이를 보장한다.</td>
+							<td>최고심 케이크</td>
+						</tr>
+						<tr>
+							<td>서강</td>
+							<td>고심이2</td>
+							<td>법원은 최고법원인 대법원과 각급법원으로 조직된다. 혼인과 가족생활은 개인의 존엄과 양성의 평등을 기초로 성립되고 유지되어야 하며, 국가는 이를 보장한다.</td>
+							<td>최고심 케이크</td>
+						</tr>
+						<tr>
+							<td>서강</td>
+							<td>고심이2</td>
+							<td>법원은 최고법원인 대법원과 각급법원으로 조직된다. 혼인과 가족생활은 개인의 존엄과 양성의 평등을 기초로 성립되고 유지되어야 하며, 국가는 이를 보장한다.</td>
+							<td>최고심 케이크</td>
+						</tr>
+					</tbody>
+					<!-- <tfoot>
+						<tr>
+							<td colspan="3"></td>
+							<td>100.00</td>
+						</tr>
+					</tfoot> -->
+				</table>
+			</div>
+		</section>
+
+
+		<!-- 여기까지 -->
+<!-- 
+		<footer class="major container medium">
+			<h3>Get shady with science</h3>
+			<p>Vitae natoque dictum etiam semper magnis enim feugiat amet curabitur tempor orci penatibus. Tellus erat
+				mauris ipsum fermentum etiam vivamus.</p>
+			<ul class="actions special">
+				<li><a href="#" class="button">Join our crew</a></li>
+			</ul>
+		</footer> -->
+
+	</div>
+
+	<!-- Footer -->
+	<div id="footer" style="background-color: rgb(65, 65, 65);">
+		<div class="footerContent1">
+            <div class="about">
+                <p class="aboutTitle">About</p>
+                <hr class="underline">
+
+                <p class="aboutContent">이 어둠을 빨간 코로 비춰줄래
+                    어디서부터 잘못된 건지
+                    온 세상이 all black black black
+                    지금 너와 난
+                    다 깨져버린 1000피스
+                    lego block block block
+                    차라리 더 어두워지면 좋겠어
+                    이 세상에 스위치가 있다면
+                    꺼버릴거야
+                    그리고 널 향한 노랠 부르겠어</p>
+
+            </div>
+
+            <div class="categories">
+                <p class="categoryTitle">Categories</p>
+                <hr class="underline">
+
+                <li>
+                    <a href="#" target="_blank">
+                        <ul>HOME</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>ABOUT US</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>CONTACT</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>JOIN</ul>
+                    </a>
+
+                </li>
+            </div>
+
+            <div class="links">
+                <p class="linkTitle">Links</p>
+                <hr class="underline">
+
+                <li>
+                    <a href="#" target="_blank">
+                        <ul>CONTRIBUTE</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">ABOUT US</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">CONTACT</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">PRIVACY POLICY</ul>
+                    </a>
+                </li>
+            </div>
+        </div>
+        <hr class="underline2">
+
+
+        <div class="footerContent2">
+            <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
+        </div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'js/browser.min.js' %}"  ></script>
+	<script src="{% static 'js/breakpoints.min.js' %}"></script>
+	<script src="{% static 'js/util.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+	<!-- JavaScript Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+	</script>
+</body>
+
+</html>

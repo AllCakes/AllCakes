@@ -4,16 +4,12 @@ from django.utils import timezone
 
 # AbstractUser 말고  AbstractBaseUser를 extend
 
-# 핸드폰 인증 필요시 사용할 수 있는 필드 
-# from phonenumber_field.modelfields import PhoneNumberField
-# Create your models here.
-# 소셜로그인 시 유저에다가 
-
 #  You must create the custom User model before you apply your first migration.
 
-#  (create_user를 커스터마이징 위해서 UserManager를 새로 만듦.)
+#  (create_user를 커스터마이징하기 위해서 UserManager를 새로 만듦.)
 #  The UserManager subclasses the BaseUserManager and overrides the methods create_user and create_superuser. 
-#  These custom methods are needed because the default methods expect a username to be provided. The admin app and manage.py will call these methods.
+#  These custom methods are needed because the default methods expect a username to be provided.
+#  The admin app and manage.py will call these methods.
 
 
 # https://docs.djangoproject.com/en/3.2/ref/contrib/auth/#manager-methods 

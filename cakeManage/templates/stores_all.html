@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}전체 가게{% endblock %}
+
+{% block content %}
+
+{% for store in stores %}
+<div class="cake">
+    <h2>{{store.name}}</h2>
+    <a href="{% url 'store_detail' pk=store.pk %}"><img src={{store.store_image.url}} width="100"></a>
+</div>
+{% endfor %}
+
+{% endblock %}

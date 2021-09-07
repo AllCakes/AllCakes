@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.forms.models import ModelForm
-from django.forms.widgets import Widget
 from .models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField

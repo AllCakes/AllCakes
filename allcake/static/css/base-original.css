@@ -73,6 +73,13 @@ header {
 
 }
 
+
+footer {
+    /* height: 360px; */
+    height: auto;
+    background-color: black;
+}
+
 .footerContent1 {
     display: flex;
     justify-content: space-around;
@@ -97,7 +104,7 @@ header {
 }
 
 .categories {
-    width: 30%;
+    width: 15%;
 }
 
 
@@ -124,7 +131,7 @@ header {
 }
 
 .links {
-    width: 30%;
+    width: 15%;
 }
 
 .links li {
@@ -167,8 +174,17 @@ header {
 .footerContent2 p {
     font-size: 20px;
     margin-top: 10px;
-    margin-left: 3%;
+    margin-left: 6%;
     font-family: 'Cafe24Oneprettynight';
     color: white;
     font-weight: bold;
+}
+
+/* 별점 */
+.checked {
+    color: orange;
+}
+.rating-wrapper input[type=radio] {
+    display: none;
+
 }

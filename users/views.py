@@ -55,6 +55,7 @@ def email_login(request):
                 user = authenticate(email=email, password=password)
                 if user is not None:
                     login(request, user, backend='users.mybackend.MyBackend') # https://docs.djangoproject.com/en/3.2/topics/auth/default/#how-to-log-a-user-in
+                    request.user.last_login= timezone.now()
                     return redirect('home')
     else:
         form = EmailAuthenticationForm()
@@ -87,7 +88,7 @@ def submit_nickname(request):
 # 3. 즉, 로그인 창을 부르며 redirect uri로 인가 코드 요청하는 api
 
 # 카카오 동의항목 철회, 동의내역 조회, 추가항목 동의받기 등 구현해야할 것들 아직 남음.
-# 실제 서비스 시 추가로 카카오로부터 연결끊기 알림도 구현.
+# 실제 서비스 시 추가로 카카오로부터 연결끊기 알림도 구현. -> XX 연결 끊기는 선택임.
 # 서비스 회원 가입 및 탈퇴: 서비스 회원 가입은 각 서비스 회원 정보에 카카오계정 사용자 정보를 회원으로 저장하는 일입니다.
 #  이는 연결과 별개의 처리입니다. 카카오계정으로 로그인한 사용자 정보를 서비스 서버에 회원 가입 처리하지 않으면 
 # 정상적인 가입 처리가 완료되지 않습니다.서비스 회원 탈퇴 또한 서비스가 자체적으로 구현해야 합니다. 연결 끊기는 카카오계정과 앱의 관계만 끊을 뿐, 서비스 서버에 저장된 회원 정보까지 지우지 않기 때문입니다
@@ -126,7 +127,8 @@ def kakao_login(request):
 # requests module 사용법: https://dgkim5360.tistory.com/entry/python-requests
 # 카카오 REST_API url request 형식, 데이터 형식 https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api
 # 파이썬의 REST_API 다루는 방법: requests 이용하기!
-# The clear, simple syntax of Python makes it an ideal language to interact with REST APIs, and in typical Python fashion, there’s a library made specifically to provide that functionality: Requests.
+# The clear, simple syntax of Python makes it an ideal language to interact with REST APIs, and in typical Python fashion, there’s a library made specifically to provide that functionality: Requests. from: https://www.nylas.com/blog/use-python-requests-module-rest-apis/
+
 # 사용자의 access token 받기
 def kakao_login_callback(request):
     # 성공적으로 인가 코드가 온 경우와, 에러메세지가 온 경우를 나눠야 함. (즉, 필수동의항목에 동의하고 로그인한 경우 or 사용자가 카카오로그인 창에서 취소를 누른 경우)
@@ -196,45 +198,47 @@ def kakao_login_callback(request):
     except:
         print("error from here")
         info = None
-    # 카카오 아이디를 받고, kakao_account 부분에서 미리 설정한 동의항목의 내용을 조회함.
-    # 세 가지 정보를 받아야 함. gender, age_range, birthday
+
     kakao_id = info.get("id")
     # 인증과 저장을 위해 string으로 바꿔줌
     kakao_id = str(kakao_id)
 
-    personal_info = info.get("kakao_account")
 
-    agree_on_birthday = personal_info.get("birthday_needs_agreement")
-    if not agree_on_birthday: # 동의가 필요없으면, 즉 동의를 이미 했으면
-        birthday = personal_info.get("birthday")
-    else:
-        birthday = ''
-    agree_on_gender = personal_info.get("gender_needs_agreement")
-    if not agree_on_gender: # 동의가 필요없으면, 즉 동의를 이미 했으면
-        gender = personal_info.get("gender")
-    else:
-        gender=''
-    agree_on_age_range = personal_info.get("age_range_needs_agreement")
-    if not agree_on_age_range: # 동의가 필요없으면, 즉 동의를 이미 했으면
-        age_range = personal_info.get("age_range")
-    else:
-        age_range=''
-
-    print(kakao_id)
-    print(gender)
-    print(age_range)
-
+    # id를 이용해서 첫 가입인지 먼저 확인
     # 유저를 인증시켜보고 첫 가입과 로그인을 나눔.
-    # user = authenticate(kakao_id=kakao_id, backend='users.mybackend.MyBackend')
     try :
         test = User.objects.get(kakao_id=kakao_id)
     except User.DoesNotExist:
         test = None
     print(test)
-    # 첫 가입이라면
+    # 첫 가입이라면 정보를 받아오고 닉네임 입력을 받아야 함.
     if test is None:
-        # None, 즉 첫 가입이면 닉네임 입력으로 이동함. 커스텀된 form에 내용을 담아 보냄.
-        # 이후 가입과 로그인이 이루어짐.
+        # kakao_account 부분에서 미리 설정한 동의항목의 내용을 조회함.
+        # 세 가지 정보를 받아야 함. gender, age_range, birthday
+        personal_info = info.get("kakao_account")
+
+        agree_on_birthday = personal_info.get("birthday_needs_agreement")
+        if not agree_on_birthday: # 동의가 필요없으면, 즉 동의를 이미 했으면
+            birthday = personal_info.get("birthday")
+        else:
+            birthday = ''
+        agree_on_gender = personal_info.get("gender_needs_agreement")
+        if not agree_on_gender: # 동의가 필요없으면, 즉 동의를 이미 했으면
+            gender = personal_info.get("gender")
+        else:
+            gender=''
+        agree_on_age_range = personal_info.get("age_range_needs_agreement")
+        if not agree_on_age_range: # 동의가 필요없으면, 즉 동의를 이미 했으면
+            age_range = personal_info.get("age_range")
+        else:
+            age_range=''
+
+        print(kakao_id)
+        print(birthday)
+        print(gender)
+        print(age_range)
+
+        # 첫 가입이면 닉네임 입력으로 이동함. 
         # 유저를 디비에 올리고 pk값 전달해서 모델폼으로 닉네임만 바꿔주도록 한다. 
         # 유저가 나가버리면 랜덤닉네임 그대로 갖도록 함.
         rand_nickname = "ALLcaker" + str(random.randrange(1,99999))
@@ -265,6 +269,7 @@ def kakao_login_callback(request):
     else:
         login(request, test, backend='users.mybackend.MyBackend')
         # 카카오 로그인에 들어온 상황이 none이면 홈으로, 아니면 가게 pk값으로 보내주기
+        request.user.last_login= timezone.now()
         if state=="none":
             return redirect('home')
         else:
@@ -284,12 +289,11 @@ def kakao_login_callback(request):
     #         return redirect('home')
 
 
-
-# logout 카카오 로그인한 유저의 액세스 토큰 만료시키기(카카오 로그아웃)는 따로 구현해야 함. 어드민 키와 id 이용해서 로그아웃시킴.
-# 그냥 통합 유저를 로그아웃 시키는 것뿐임.
-# 카카오 계정과 함께 로그아웃 선택 시 logout redirect uri : http://127.0.0.1:8000/users/logout/
-# 즉, 이 뷰로 오게 하면 됨. 함께 로그아웃이 서비스의 세션 만료 및 액세스 토큰 만료까지 하는 함수라면,
-# 오류가 날 수 있으니 따로 뷰 작성해야 될듯.
+# 유저를 로그아웃 시키기 전에 카카오 유저이면 발급받은 토큰을 만료시키는 카카오 로그아웃을 먼저 진행
+# 카카오 로그아웃은 어드민 키와 유저 id(from kakao and saved in our DB) 이용해서 로그아웃시킴.
+# 이 함수는 카카오 계정과 함께 구현 시 로그아웃 콜백함수가 됨. 
+# logout redirect uri : http://127.0.0.1:8000/users/logout/
+# 즉, 이 뷰로 오게 하면 됨. 
 def logout_view(request):
     # 카카오 유저이면
     if request.user.is_kakao:
@@ -310,26 +314,30 @@ def logout_view(request):
             return Exception('Kakao Logout failed')
         else:
             print(str(response) + "카카오 로그아웃 성공")
-    # 일반 로그아웃 요청 혹은 카카오 로그아웃 성공 후 서버 로그아웃이 진행됨.
+    # 유저에 따라 카카오 로그아웃 먼저 진행 후 서버 로그아웃이 진행됨.
     # logout: Remove the authenticated user's ID from the request and flush their session data.
     logout(request)
-    # 이전 state를 그대로 get에 담아 전달해줄 수 있기 때문에, 여기서 redirect를 어디로 할지 정할 수 있음
-    # 예시: if request.GET.get("state") is not None: return redirect('detail', state에 담긴 pk값)
+    # 이전 state를 그대로 get에 담아 전달해줄 수 있기 때문에, 여기서 state정보를 확인하고
+    # redirect를 어디로 할지 정할 수 있음
+    # 구현 예시: if request.GET.get("state") is not None: return redirect('detail', state에 담긴 pk값)
     return redirect('home')
 
 # 카카오 계정과 함께 로그아웃 선택 페이지로 가게 함.
-# 서비스 서버 로그아웃도 이 함수 내에 구현하면 리다이렉트를 다시 생각해봐도 됨.
 # 사용자의 편의를 위해 state를 넘겨 보냄. 이후 구현 필요.
 def logout_with_kakao(request):
     # GET 요청 정보들
     kakao_rest_api_key = settings.KAKAO_REST_API_KEY
-    logout_redirect_uri = "http://127.0.0.1:8000/users/logout/" #서비스 로그아웃을 수행하도록 함 이 때, state로 전달된 값을 참고해 볼 수 있음.
-    state = "none" # 필요한대로 수정 가능. Logout 클릭 시 가게의 pk값을 보내는 게 가장 좋은 활용방안.
+    logout_redirect_uri = "http://127.0.0.1:8000/users/logout/" # 서비스 로그아웃을 수행하도록 함 이 때, state로 전달된 값을 참고해 볼 수 있음.
+    state = "none" # 필요한대로 수정 가능. Logout 클릭 시 특정 pk값을 받아와 state에 담는 게 가장 좋은 활용방안.
     kakao_service_logout_url = "https://kauth.kakao.com/oauth/logout"
     
     # params = {'client_id':kakao_rest_api_key,'logout_redirect_uri':logout_redirect_uri,'state':state}
     # 이하 GET방식 요청
     return redirect(f"{kakao_service_logout_url}?client_id={kakao_rest_api_key}&logout_redirect_uri={logout_redirect_uri}&state={state}")
+
+# **제가 구현할 때는 먼저 토큰만료 방식의 카카오 로그아웃을 logout_view에 구현했는데, 처음부터 카함로(세션만료 방식 카카오 로그아웃)를 구현할 예정이라면, 굳이 토큰 만료 방식의 내용을 구현하지 않아도 됩니다. 즉, 아래의 logout_view의 첫 if 부분이 사라져도 영향이 없습니다. **
+
+
 
 
 def mypage(request, pk):
