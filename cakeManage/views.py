@@ -17,12 +17,21 @@ import simplejson as json #제이쿼리 사용위해 추가
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
-    stores = Store.objects.order_by('-pub_date')
-    reviews = Review.objects.order_by('-pub_date')[:4]
-    paginator = Paginator(stores, 4)
+    cakes = Cake.objects.order_by('-pub_date')
+    reviews = Review.objects.order_by('-pub_date')[:3]
+    paginator = Paginator(cakes, 4)
     page = request.GET.get('page', 1)
-    stores = paginator.get_page(page)
-    return render(request, 'home.html', {'stores': stores, 'reviews':reviews})
+    cakes = paginator.get_page(page)
+    return render(request, 'index.html', {'cakes': cakes, 'reviews': reviews})
+
+# 임시 템플릿 연결 뷰
+def stores_all(request):
+    stores= Store.objects.order_by('-pub_date')
+    return render(request, 'stores_all.html', {'stores':stores})
+
+def cakes_all(request):
+    cakes= Cake.objects.order_by('-pub_date')
+    return render(request, 'cakes_all.html', {'cakes':cakes})
 
 # 가게 등록 C (필요 없을 예정)
 def store_new(request):
@@ -128,8 +137,8 @@ def cake_delete(request, pk): #cake의 pk값
 
 
 # 주문 C (RUD 구현 필요!)
-def order_new(request, pk): #cake의 pk값
-    cake = get_object_or_404(Cake, pk=pk)
+def order_new(request, cake_pk): #cake의 pk값
+    cake = get_object_or_404(Cake, pk=cake_pk)
     # 가게별 요청 - 선택사항 콤마로 분리
     맛 = cake.맛.replace(" ","").split(',')
     모양 = cake.모양.replace(" ","").split(',')

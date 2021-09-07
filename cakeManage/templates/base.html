@@ -14,7 +14,12 @@
     <!--여기까지-->
     <!-- 별점 필요 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
+	<link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+
+    <!-- 아래는 탬플릿 디자인 변경 전 css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    	<!-- CSS only -->
     {% block css %}
     {% endblock %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -22,6 +27,7 @@
     <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d5f6c310a78632612936d0ea60df74&libraries=services"></script>
 
+    <!-- 여러 부분 수정 필요 -->
 
 </head>
 
@@ -40,12 +46,22 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item ">
-                            <a class="nav-link px-2 active" aria-current="page" href="/">Home</a>
+                        <!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
+                        <!-- 리뷰는 마이페이지 참고 -->
+						<li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
                         </li>
-
-                        <!--로그인, 로그아웃-->
                         <li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="#">Reviews</a>
+                            
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!--로그인 or 로그아웃-->
+                        <li class="nav-item">
                             {% if user.is_authenticated %}
                             {% if user.is_kakao == True %}
                             <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
@@ -61,8 +77,8 @@
                         </li>
                         <!--로그인과 로그아웃만 뜸 -->
 
-                        <!--마이페이지, about us-->
-                        <li class="nav-item ">
+                        <!--마이페이지 or about us-->
+                        <li class="nav-item">
 
                             {% if user.is_authenticated %}
                             <!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
@@ -75,25 +91,21 @@
                             <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
 
                         <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
-
-                        <li class="nav-item dropdown mx-1 btn btn-primary">
-                        <a class="nav-link dropdown-toggle text-white" href="{% url 'search_location2' %}" >Search </a>
                         </li>
-                        <li class="nav-item dropdown mx-1 btn btn-primary">
-                            <a class="nav-link dropdown-toggle text-white" href="{% url 'location_result' %}" >가까운 순 정렬 </a>
-                        </li> 
-                        </li>
-                        <!--위치 검색 필터 드롭바 끝-->  
+                        
+                        <li class="nav-item">
+                        <!--검색 가까운순정렬 삭제-->  
+                            <form action="{% url 'search' %}" method="GET" class="d-flex">
+                                <!--이유는 모르겠는데 head에 style태그 넣어서 검색바 크기 조절하면 적용이 안되어서 input 태그에 스타일 집어넣음.-->
+                                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="q"
+                                    style="width: 200px; height: 30px; margin-top: 5px; font-family: 'SF_HambakSnow'; border-radius: 0%; border-color: black;">
+                                <button class="btn btn-secondary btn-sm" type="submit" value="r">🔍</button>
+                            </form>
+                        </li>   
+					</ul>
 
-                    </ul>
 
-
-                    <form action="{% url 'search' %}" method="GET" class="d-flex">
-                        <!--이유는 모르겠는데 head에 style태그 넣어서 검색바 크기 조절하면 적용이 안되어서 input 태그에 스타일 집어넣음.-->
-                        <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="q"
-                            style="width: 200px; height: 30px; margin-top: 5px; font-family: 'SF_HambakSnow'; border-radius: 0%; border-color: black;">
-                        <button class="btn btn-secondary btn-sm" type="submit" value="r">🔍</button>
-                    </form>
+                    
 
                 </div>
             </div>
