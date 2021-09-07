@@ -46,6 +46,8 @@ urlpatterns = [
     path('search/',search, name="search"),
     # 지역 필터링 (알바몬)
     path('search2/',search_location2, name="search_location2"),
-    # 거리 가까운 순 정렬
+    # 거리 가까운 순 정렬 페이지
     path('search3/',search_location3, name="location_result"),
+    # 거리 가까운 가게 출력
+    path('nearby/', nearby_stores, name="nearby_stores"),
 ]

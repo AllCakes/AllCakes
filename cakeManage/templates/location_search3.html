@@ -14,7 +14,9 @@
 
 {% block content %}
 <br><br><br><br><br><br><br><br><br><br>
-<a href="{% url 'location_result'%}" style="margin-left:45%;">거리 가까운 순으로 정렬</a>
+
+<a href="{% url 'nearby_stores' %}">나로부터 가까운 거리의 가게 정렬</a>
+<!--이 버튼 눌러야 인근 가게들이 나올 수 있도록 출력-->
 
 <p class = "store_list"> 
 {% if list %}
@@ -25,6 +27,7 @@
             <div class="titleText">
                 <p class="cardTitle">📍 {{post.name}} - {{ post.location}}</p>
             </div>
+            
         </div>
         </div>
     {% endfor %}
@@ -33,7 +36,5 @@
 <b><i> 주변 2km에 있는 케이크 가게는 없습니다 ㅠㅠ..</i></b>
 {% endif %}
 </p>
-
-
 
 {% endblock %}
