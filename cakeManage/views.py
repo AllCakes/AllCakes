@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.http import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.resolvers import LocaleRegexDescriptor
 from django.utils import timezone
@@ -330,6 +331,10 @@ def latlng_calculator(lat, lng):
   return bounds
 
 def search_location3(request):
+    list=[]
+    return render(request, 'location_search3.html', {'list' : list,})
+
+def nearby_stores(request):
     lat = request.COOKIES['latitude']
     lng = request.COOKIES['longitude']
     list=[]
@@ -338,5 +343,3 @@ def search_location3(request):
       Q(lat__range=[LC['lat_min'], LC['lat_max']]) & Q(lon__range=[LC['lng_min'], LC['lng_max']])
     )
     return render(request, 'location_search3.html', {'list' : list,})
-
-
