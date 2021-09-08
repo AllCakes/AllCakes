@@ -30,8 +30,6 @@ urlpatterns = [
     # 리뷰 CRUD 및 별점 (R-상세보기 U-수정 D-삭제 구현 필요) (앱 새로 파야 되는지..?)
     # 리뷰 작성, 수정 시 사진 멀티업로드 구현 필요할듯  
     path('review_page/<int:pk>/order/<int:orderpk>', review_page, name="review_page"),
-    path('review/', review_rating, name="review"),
-    path('review/update', review_update,name="review_update"),
     path('review/delete/<int:pk>', review_delete, name="review_delete"),
     path('review/edit/<int:pk>', review_edit, name="review_edit"),
 

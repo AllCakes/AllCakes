@@ -1,5 +1,5 @@
 from django import forms
-from .models import Search, Store, Cake, Order
+from .models import Review, Search, Store, Cake, Order
 from django.forms import Form
 
 class StoreForm(forms.ModelForm):
@@ -20,3 +20,8 @@ class OrderForm(forms.ModelForm):
         
 class LocationSearchForm(forms.Form):
     search_word=forms.CharField(label='Search word')  
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields=['comment','review_img',]

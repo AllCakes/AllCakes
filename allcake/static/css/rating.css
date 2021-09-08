@@ -1,0 +1,6 @@
+.checked {
+    color: orange;
+}
+.rating-wrapper input[type=radio] {
+    display: none;
+}
