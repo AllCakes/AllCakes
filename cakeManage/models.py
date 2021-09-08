@@ -134,7 +134,6 @@ class Order(models.Model):
     referred_store = models.ForeignKey(Store,on_delete=models.CASCADE, verbose_name="가게")
     referred_cake = models.ForeignKey(Cake,on_delete=models.CASCADE, verbose_name="선택 케이크")
     pub_date = models.DateTimeField(default = timezone.now, verbose_name="주문 날짜")
-    reviewing = models.IntegerField(default=1)
     희망픽업일 = models.CharField(null=True, max_length=30, default=datetime.date.today)
     TIME_CHOICES=[
         ('10:00','10:00'),
@@ -184,7 +183,7 @@ class Order(models.Model):
     크림종류=models.CharField(max_length=15)
     레터링색=models.CharField(max_length=15)
 
-    원하시는도안사진첨부 = models.ImageField(null=True,upload_to='images/',blank=True, verbose_name="사진 첨부(도시락케이크 선택시)")
+    원하시는도안사진첨부 = models.ImageField(null=True,upload_to='orderimages/',blank=True, verbose_name="사진 첨부(도시락케이크 선택시)")
 
     def __str__(self):
         return str(self.pk)
@@ -196,11 +195,34 @@ class Review(models.Model):
     # An order object can have one and only one review on each order.
     # https://stackoverflow.com/questions/5870537/whats-the-difference-between-django-onetoonefield-and-foreignkey
     order = models.OneToOneField(Order, on_delete=models.CASCADE)
-    referred_store = models.ForeignKey(Store,on_delete=models.CASCADE)
+    referred_store= models.ForeignKey(Store,on_delete=models.CASCADE)
     referred_cake = models.ForeignKey(Cake,on_delete=models.CASCADE)
     pub_date = models.DateTimeField(default = timezone.now)
     comment = models.TextField(default='', blank=True)
     rate = models.IntegerField(default=0)
+    review_img = models.ImageField(null=True,upload_to='reviewimages/',blank=True, verbose_name="사진 첨부")
 
     def __str__(self):
         return str(self.id)
+
+class Menu(models.Model):
+    taste = models.TextField(default='', blank=True)
+    shape = models.TextField(default='', blank=True)
+    cream_type = models.TextField(default='', blank=True)
+    cake_size = models.TextField(default='', blank=True) 
+    lett_color = models.TextField(default='', blank=True) 
+
+    def toJson(self):
+        taste_list = self.taste.split(",")
+        shape_list = self.taste.split(",")
+        cream_list = self.taste.split(",")
+        cakesize_list = self.taste.split(",")
+        letcolor_list = self.taste.split(",")
+
+        return {
+            "taste" : taste_list,
+            "shape" : shape_list,
+            "cream" : cream_list,
+            "size" : cakesize_list,
+            "color" : letcolor_list
+        }

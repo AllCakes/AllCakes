@@ -1,50 +1,35 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{% static '/css/style.css'%}">
-    <title>케이크 리뷰 수정</title>
-    <script defer src="/static/js/rating.js"></script>
-</head>
+
+{% block title %}리뷰 수정 페이지{% endblock %}
+
+{% block content %}
 <body>
+    <br><br><br>
     <h1>리뷰 수정</h1>
-    {% for r in review %}
-    <form class="review-form" method="GET" action="/review/update">
-        <input type="hidden" name ="review" id = "review" value="{{r.id}}"/>
-       <!-- comment 부분은 text 박스로 받아서 넘김 -->
-        <div class="form-group">
-            <textarea class="input" type="text" name="comment" placeholder="Your Review">{{r.comment}}</textarea>
-        </div>
-        <!-- 별점 부분
-            class fa fa-star는 별모양의 그림이고 fa-2x는 크기이다. 여기에 check라는 class를 추가하면 별모양의 색깔이 바뀐다.
-            onclick 함수를 사용하여 해당 별모양을 누르면 select이라는 함수가 호출되게 함.
-            select이라는 함수는 class를 추가하고 삭제하는 함수이다.
-            만약 첫번째 별모양을 누르면 js에 있는 select 함수를 통해서 1은 check 클래스를 추가하고
-            나머지 2~5 별은 check 클래스를 remove한다. 
-        -->
+    <form method="POST" class="review_edit-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        주문자 : {{review.order.user}}<br>
+        주문날짜 : {{review.order.pub_date}}<br>
+        <!-- 별점 부분 -->
         <div class="form-group">
             <div class="input rating">
                 <div class="rating-wrapper">
                     <label for="s1" class = "fa fa-star fa-2x checked" id="star-1" onclick="select('star1')">
                         <input type="radio"  name="rate" value="1" id="s1" /></label>
-                    <label for="s2" class = "fa fa-star fa-2x {% if r.rate > 1 %} checked {% endif %}" id="star-2" onclick="select('star2')">
+                    <label for="s2" class = "fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}" id="star-2" onclick="select('star2')">
                         <input type="radio" name="rate" value="2" id="s2" /></label>
-                    <label for="s3" class = "fa fa-star fa-2x {% if r.rate > 2 %} checked {% endif %}" id="star-3" onclick="select('star3')">
+                    <label for="s3" class = "fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}" id="star-3" onclick="select('star3')">
                         <input type="radio" name="rate" value="3" id="s3"/></label>
-                    <label for="s4" class = "fa fa-star fa-2x {% if r.rate > 3 %} checked {% endif %}" id="star-4" onclick="select('star4')">
+                    <label for="s4" class = "fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}" id="star-4" onclick="select('star4')">
                         <input type="radio" name="rate" value="4" id="s4" /></label>
-                    <label for="s5" class = "fa fa-star fa-2x {% if r.rate > 4 %} checked {% endif %}" id="star-5" onclick="select('star5')">
+                    <label for="s5" class = "fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}" id="star-5" onclick="select('star5')">
                         <input type="radio" name="rate" value="5" id="s5"/></label>
                 </div>
             </div>
-        </div>
-
+        {{ form.as_p }}
         <button type="submit">저장</button>
     </form>
-    {% endfor %}
 </body>
+{% endblock %}
 </html>

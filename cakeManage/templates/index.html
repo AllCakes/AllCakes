@@ -68,7 +68,7 @@
 
                             {% if user.is_authenticated %}
                             <!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
-                            <a class="nav-link px-2" href="{% url 'mypage' pk=user.pk %}">My Page</a>
+                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}">My Page</a>
                             {% endif %}
 
                             {% if not user.is_authenticated %}

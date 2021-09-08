@@ -6,8 +6,8 @@ from django.utils import timezone
 from django.core.paginator import Paginator
 from django.views.generic.base import View
 from users.urls import mypage
-from .models import Store, Cake, Order, Review
-from .forms import StoreForm, CakeForm, OrderForm
+from .models import Menu, Store, Cake, Order, Review
+from .forms import ReviewForm, StoreForm, CakeForm, OrderForm
 from django.views.generic import FormView #formview 형 클래스형 제네릭 뷰 임포트 추가
 from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는 구를 다르게 해주는 옵션 구현 위해 추가
 from django.db import models # views에서 models.Char~ 기능 사용 위해
@@ -68,6 +68,8 @@ def store_detail(request, pk):
 # 가게 수정 U
 def store_edit(request, pk):
     store = get_object_or_404(Store, pk=pk)
+    if request.user != store.user:
+        raise ValidationError("잘못된 접근입니다.")
     if request.method == "POST":
         form = StoreForm(request.POST, request.FILES, instance=store)
         if form.is_valid():
@@ -84,6 +86,8 @@ def store_edit(request, pk):
 # 가게 삭제 D (필요 없을 예정, 생성과 삭제는 관리자 측)
 def store_delete(request, pk):
     store = get_object_or_404(Store, pk=pk)
+    if request.user != store.user:
+        raise ValidationError("잘못된 접근입니다.")
     store.delete()
     return redirect('home')
 
@@ -112,6 +116,8 @@ def cake_detail(request, pk): #cake의 pk값
 # 케이크 수정 U
 def cake_edit(request, pk): #cake의 pk값
     cake = get_object_or_404(Cake, pk=pk)
+    if request.user != cake.user:
+        raise ValidationError("잘못된 접근입니다.")
     if request.method == "POST":
         form = CakeForm(request.POST, request.FILES, instance=cake)
         if form.is_valid():
@@ -131,6 +137,8 @@ def cake_edit(request, pk): #cake의 pk값
 # 케이크 삭제 D
 def cake_delete(request, pk): #cake의 pk값
     cake = get_object_or_404(Cake, pk=pk)
+    if request.user != cake.user:
+        raise ValidationError("잘못된 접근입니다.")
     store_pk = cake.referred_store.pk
     cake.delete()
     return redirect('store_detail', pk= store_pk) # 케이크 관리페이지, 혹은 일단 가게페이지로 가도록 구현
@@ -226,52 +234,49 @@ def review_page(request, pk, orderpk):
     cake = get_object_or_404(Cake, pk=pk)
     store = get_object_or_404(Store, pk=cake.referred_store_id)
     order =  get_object_or_404(Order, pk=orderpk)
-    return render(request, 'review_page.html', {'cake' : cake, 'store' : store, 'order':order })
-
-# 리뷰 별점처리
-# 항목을 get으로 가져와서 Review 양식에 저장
-def review_rating(request):
-    if request.method == 'GET':
-        order_id = request.GET.get('order')
-        store_id = request.GET.get('referred_store')
-        cake_id =  request.GET.get('referred_cake')
-        referred_store = Store.objects.get(id = store_id)
-        referred_cake = Cake.objects.get(id = cake_id)
-        comment = request.GET.get('comment')
-        rate = request.GET.get('rate')
-        order = Order.objects.get(pk=order_id)
-        Review(user=request.user, order= order, referred_store=referred_store, referred_cake=referred_cake, comment=comment, rate=rate).save()
-        # 모델상의 일부 필드 변경 (임시방법, onetoOnefield - 기능찾기)
-        Ord = Order.objects.get(id = order_id)
-        Ord.reviewing = 2
-        Ord.save()
-        return redirect('mypage', pk=order.user_id)
+    if request.user != order.user:
+        raise ValidationError("잘못된 접근입니다.")
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request.FILES)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.order = order
+            review.referred_store = store
+            review.referred_cake = cake
+            review.pub_date = timezone.now()
+            review.rate = request.POST.get('rate')
+            review.save()
+            return redirect('mypage', user_pk=order.user_id)
+    else :
+        form = ReviewForm()
+    return render(request, 'review_page.html', {'form': form, 'cake' : cake, 'store' : store, 'order':order })
 
 # 리뷰 삭제 D
 def review_delete(request, pk):
     order = get_object_or_404(Order,pk = pk)
+    if request.user != order.user:
+        raise ValidationError("잘못된 접근입니다.")
     review = Review.objects.filter(order_id=pk)
-    order.reviewing = 1
-    order.save()
     review.delete()
-    return redirect('mypage',pk=order.user_id)
+    return redirect('mypage',user_pk=order.user_id)
 
 # 리뷰 수정 페이지 - U
 def review_edit(request, pk):
-    order = get_object_or_404(Order,pk = pk)
-    review = Review.objects.filter(order_id=pk)
-    return render(request, 'review_edit.html', {'review' : review, 'order':order})
+    review = get_object_or_404(Review, order_id=pk)
+    if request.user != review.user:
+        raise ValidationError("잘못된 접근입니다.")
+    if request.method == "POST":
+        form = ReviewForm(request.POST, request.FILES, instance=review)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.rate = request.POST.get('rate')
+            review.save()
+            return redirect('mypage', user_pk=review.user_id)
+    else:
+        form = ReviewForm(instance=review)
+    return render(request, 'review_edit.html', {'form': form, 'review' : review})
 
-# 리뷰 수정 제출 - U
-def review_update(request):
-    review_id = request.GET.get('review')
-    review = get_object_or_404(Review,pk = review_id)
-    order = get_object_or_404(Order,pk = review.order_id)
-    if request.method == 'GET':
-        review.comment = request.GET.get('comment')
-        review.rate = request.GET.get('rate')
-        review.save()
-        return redirect('mypage',pk=order.user_id)
 
 # 찜 기능 구현 필요 (유저 경험: 아마.. 케이크, 케잌집 상세페이지에서 찜하기 -> 케이크, 케잌집 모델에 필드 추가 필요)
 
