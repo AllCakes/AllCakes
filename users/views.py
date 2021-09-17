@@ -340,8 +340,7 @@ def logout_with_kakao(request):
 
 
 
-def mypage(request, pk):
-    user_pk = pk
+def mypage(request, user_pk):
     reviews = Review.objects.filter(user=user_pk).order_by('-pub_date')[:4] # 최근 것 4개
     orders = Order.objects.filter(is_active=True)[:4] #진행 중 주문 최근걸로 최대 2개
     liked_cakes = Cake.objects.filter(users_liked=user_pk)[:4]
@@ -363,10 +362,10 @@ def edit_nickname(request):
         form = NicknameForm(instance=request.user)
     return render(request, 'edit_nickname.html', {'form':form})
 
-def delete_user(request, pk):
+def delete_user(request, user_pk):
     # 본인과 삭제 요청 대상이 일치하면, 그리고 카카오면 카카오 연결까지 끊고 나서 삭제
     user =request.user
-    if user.pk == pk:
+    if user.pk == user_pk:
         if user.is_kakao:
             # kakao 연결 끊기
             kakao_admin_key = settings.KAKAO_ADNIN_KEY

@@ -14,9 +14,9 @@ urlpatterns= [
     path('kakao/submit/nickname', submit_nickname, name="submit_nickname"),
     path('logout/', logout_view, name="logout"), # user logout 시키기 (view에서 카카오 유저 구분)
     path('logout/with/kakao', logout_with_kakao, name="logout_with_kakao"),
-    path('mypage/<int:pk>', mypage, name="mypage"),
+    path('mypage/<int:user_pk>', mypage, name="mypage"),
 
     # 정보 변경(닉네임), 회원 탈퇴
     path('mypage/edit/nickname', edit_nickname, name='edit_nickname'),
-    path('mypage/delete/user/<int:pk>', delete_user, name='delete_user'),
+    path('mypage/delete/user/<int:user_pk>', delete_user, name='delete_user'),
 ]

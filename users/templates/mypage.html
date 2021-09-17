@@ -33,7 +33,7 @@
             <p>이메일: {{user.email}}</p>
             {% endif %}
             <a href="{% url 'edit_nickname' %}"><button>수정</button></a>
-            <a href="{% url 'delete_user' pk=user.pk %}"><button>탈퇴</button></a>
+            <a href="{% url 'delete_user' user_pk=user.pk %}"><button>탈퇴</button></a>
             <!-- 수정페이지, 탈퇴 기능 및 페이지 구현 필요 -->
         </div>
     </div>

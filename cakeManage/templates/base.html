@@ -13,9 +13,12 @@
     <!--부트스트랩-->
     <!--여기까지-->
     <!-- 별점 필요 -->
+    <script defer src="/static/js/rating.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static '/css/rating.css'%}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
 	<link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+
 
     <!-- 아래는 탬플릿 디자인 변경 전 css -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
@@ -85,7 +88,7 @@
 
                             {% if user.is_authenticated %}
                             <!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
-                            <a class="nav-link px-2" href="{% url 'mypage' pk=user.pk %}">My Page</a>
+                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}">My Page</a>
                             {% endif %}
 
                             {% if not user.is_authenticated %}
