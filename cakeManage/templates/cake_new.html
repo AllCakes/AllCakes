@@ -11,6 +11,18 @@
     {{ form.as_p }}
     <!-- <p>예시 케이크 사진을 첨부해주세요.</p> -->
     <!-- <input type="file" name="imgs" multiple> -->
+    
+    <div><h2>색 선택</h2> 
+        <ul class="색"></ul>
+    </div>
+    <div><h2>크림종류 선택</h2> 
+        <ul class="크림종류"></ul>
+    </div>
     <button type="submit">저장</button>
 </form>
+<script>
+    var color = "{{색}}";
+    var cream = "{{크림종류}}";
+</script>
+<script type="text/javascript" src="/static/js/cakeMenu.js" defer></script>
 {% endblock %}
