@@ -105,27 +105,29 @@
                     주문자 이름 : {{ user.nickname }}<br><br>
                     {% csrf_token %}
                     {{ form.as_p }}
-                    {% for i in 맛%} <input type="radio" name="맛" value={{i}}>{{i}} {% endfor %} <br>
-                    {% for i in 모양%} <input type="radio" name="모양" value={{i}}>{{i}} {% endfor %} <br>
-                    {% for i in 사이즈%} <input type="radio" name="사이즈" value={{i}}>{{i}} {% endfor %} <br>
-                    {% for i in 크림종류%} <input type="radio" name="크림종류" value={{i}}>{{i}} {% endfor %} <br>
-                    {% for i in 레터링색%} <input type="radio" name="레터링색" value={{i}}>{{i}} {% endfor %} <br>
+                    <div><h2>색 선택</h2> 
+                        <ul class="색"></ul>
+                    </div>
+                    <div><h2>크림종류 선택</h2> 
+                        <ul class="크림종류"></ul>
+                    </div>
                     <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
                 </div>
-
-
+                <div class="simulation"></div>
             </form>
-
         </div>
     </main>
+    <script>
+        var color = "{{색}}";
+        var cream = "{{크림종류}}";
+        var colorP = "{{색가격}}";
+        var creamP = "{{크림종류가격}}";
+    </script>
+    <script type="text/javascript" src="/static/js/orderMenu.js" defer></script>
     <script>
         function goBack() {
             window.history.back();
         }
     </script>
-
-
-
 </body>
-
 </html>
