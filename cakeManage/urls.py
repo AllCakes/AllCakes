@@ -36,6 +36,7 @@ urlpatterns = [
     # 홈에 임시로 작성한 Stores, Cakes 링크 (가게 상세페이지 들어가기 불편해서)
     path('stores/all', stores_all, name="stores_all"),
     path('cakes/all', cakes_all, name="cakes_all"),
+    path('search/all', search_all, name="search_all"),
 
     # 검색 및 필터(검색이 주된 내용)
     # cake와 store의 기본정보(장소,이름 등등...), 상세설명(store.text, cake.body, ...부족하면 리뷰도) 등을 토대로 검색 구현
@@ -48,4 +49,9 @@ urlpatterns = [
     path('search3/',search_location3, name="location_result"),
     # 거리 가까운 가게 출력
     path('nearby/', nearby_stores, name="nearby_stores"),
+    
+    path('test/', test, name="test"),
+        
+    path('character/', character, name="character"),
+
 ]

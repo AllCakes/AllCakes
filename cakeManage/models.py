@@ -11,12 +11,14 @@ class Search(models.Model):
 
 class Store(models.Model):
     # 순서대로 가게이름, 대표이미지, 설명, 게시일자, 연락처, 가게위치(OO구)
+
     name = models.CharField(max_length=15)
     store_image = models.ImageField(upload_to='storeimages/', blank=False)
     text = models.TextField(default='', blank=True)
     meta_body = models.CharField(max_length=100, default='', verbose_name="검색을 위한 키워드(100자 이내)") # 검색을 위한 필드
     pub_date = models.DateTimeField(default=timezone.now)
     contact = models.CharField(max_length=15)
+    price = models.CharField(default='15000', max_length=100)
     si_choices=[
         ('서울', '서울'),
         ('경기', '경기'),
@@ -117,6 +119,7 @@ class Cake(models.Model):
     사이즈=models.CharField(max_length=200)
     크림종류=models.CharField(max_length=200)
     레터링색=models.CharField(max_length=200)
+    price=models.CharField(default='10000원',max_length=100)
 
     # 찜을 위한 필드 (임시)
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_cake", related_name="users_liked_cake")

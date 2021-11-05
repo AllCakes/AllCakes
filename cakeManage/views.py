@@ -1,3 +1,4 @@
+from django.core import paginator
 from django.core.exceptions import ValidationError
 from django.http import request
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,6 +15,7 @@ from django.db import models # views에서 models.Char~ 기능 사용 위해
 import math # 현재 위치 계산 위해 추가
 from django.shortcuts import render
 import simplejson as json #제이쿼리 사용위해 추가
+from itertools import chain #쿼리셋 결합 위해 추가
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
@@ -32,6 +34,22 @@ def stores_all(request):
 def cakes_all(request):
     cakes= Cake.objects.order_by('-pub_date')
     return render(request, 'cakes_all.html', {'cakes':cakes})
+
+def search_all(request):
+    cakes= Cake.objects.order_by('-pub_date')
+    stores= Store.objects.order_by('-pub_date')
+    product1=Cake.objects.all() 
+    product2=Store.objects.all()
+    product=[product1,product2]
+    products=list(chain(*product))
+    #products=product1
+    #products |= product2
+    paginator = Paginator(products,6)
+    #paginator |= Paginator(product2,4)
+    page=request.GET.get('page',1)
+    product_list=paginator.get_page(page)
+    return render(request, 'search_all.html', {'cakes':cakes, 'stores':stores,'product':product_list})
+    #return render(request, 'search_all.html', {'cakes':cakes, 'stores':stores,'product':products})
 
 # 가게 등록 C (필요 없을 예정)
 def store_new(request):
@@ -348,3 +366,20 @@ def nearby_stores(request):
       Q(lat__range=[LC['lat_min'], LC['lat_max']]) & Q(lon__range=[LC['lng_min'], LC['lng_max']])
     )
     return render(request, 'location_search3.html', {'list' : list,})
+
+def test(request):
+    return render(request, 'test.html')
+
+def character(request):
+    post_list=[]
+    searchWord="캐릭터"
+    if searchWord :
+        for word in searchWord:
+            post_list+=Cake.objects.filter(Q(meta_body__icontains=word)).distinct()
+            # '+' 붙여서 리스트에 요소를 추가추가해주는 방식으로 가야함
+            # 안 붙여주면 구로구,노원구 두개 이상 선택시 둘 중에 한 구만 필터링됨
+    context={}
+    context['search_term']=searchWord
+    context['objects_list']=post_list
+    return render(request, 'character.html',context)
+# 검색 - 검색어 분리, 모든 쿼리 한번에!

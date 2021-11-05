@@ -1,0 +1,22 @@
+<style>
+
+</style>
+
+{% if objects_list %}
+    <class="txt" style="margin-left : 700px">{{search_term}}에 관한 케이크 가게들입니다<br><br></class>
+    {% for post in objects_list %}
+    <div class="cardStore" style="margin-left: 40%;">
+        <a href="{% url 'cake_detail' pk=post.pk %}" class="goDetail"><img src="{{post.cake_image.url}}" class="cardImg" alt=""></a>
+        <div class="cardStore-last">
+            <div class="titleText">
+                <p class="cardTitle">📍 {{post.cakename}}</p>
+            </div>
+        </div>
+        </div>
+            <br>
+    <!--{{ post.pub_date|date:"N d, Y" }}-->
+    {% endfor %}
+    
+{% elif search_term %}
+    <b><i> 검색하신 {{ search_term }} 에 있는 케이크 가게는 없습니다 </i></b>
+{% endif %}

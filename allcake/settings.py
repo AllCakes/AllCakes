@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     # following apps for our project
     'cakeManage',
 
+    # isotope effect
+    'isotope',
+
     # ...followed by defalult
     'django.contrib.admin',
     'django.contrib.auth',
