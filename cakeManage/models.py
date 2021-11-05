@@ -4,7 +4,9 @@ from users.models import User
 from django.utils import timezone
 from django.db import models
 import datetime
+import hashlib
 from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는 구를 다르게 핸주는 옵션
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Search(models.Model):
     검색단어 = models.CharField(max_length=30)
@@ -117,15 +119,41 @@ class Cake(models.Model):
     사이즈=models.CharField(max_length=200)
     크림종류=models.CharField(max_length=200)
     레터링색=models.CharField(max_length=200)
-
     # 찜을 위한 필드 (임시)
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_cake", related_name="users_liked_cake")
     
+    #결제를 위한 가격 정보
+    price = models.IntegerField(default=90000, validators=[MinValueValidator(0, MaxValueValidator(100000))])
     def __str__(self):
         return self.cakename
 
 # Cake와 cake_image 하나만 넣는 식으로 바꿈. CakeImage 모델 삭제
 # 이후 복수 업로드가 필요한 경우 코드 다시 돌리기.
+
+# 쿠폰 클래스 금액할인, 비율할인의 두 방식
+class AmountCoupon(models.Model):
+    name = models.CharField(max_length=30)
+    use_from = models.DateTimeField(auto_now_add=True) # 사용시작시간
+    use_to = models.DateTimeField() # 사용기한
+    # 할인 양은 0부터 100000까지만 가능
+    amount = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100000)])
+    is_active = models.BooleanField(default=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name + str(self.pk)
+
+class PercentCoupon(models.Model):
+    name = models.CharField(max_length=30)
+    use_from = models.DateTimeField(auto_now_add=True) # 사용시작시간
+    use_to = models.DateTimeField() # 사용기한
+    # 할인 비율은 0부터 100까지만 가능
+    percent = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(100)])
+    is_active = models.BooleanField(default=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.name + str(self.pk)
 
 # 주문 관련 정보
 # 글씨체, 데코레이션 추가 필요
@@ -134,7 +162,7 @@ class Order(models.Model):
     referred_store = models.ForeignKey(Store,on_delete=models.CASCADE, verbose_name="가게")
     referred_cake = models.ForeignKey(Cake,on_delete=models.CASCADE, verbose_name="선택 케이크")
     pub_date = models.DateTimeField(default = timezone.now, verbose_name="주문 날짜")
-    희망픽업일 = models.CharField(null=True, max_length=30, default=datetime.date.today)
+    pickup_date = models.CharField(null=True, max_length=30, default=datetime.date.today,verbose_name="희망 픽업일")
     TIME_CHOICES=[
         ('10:00','10:00'),
         ('10:30','10:30'),
@@ -157,36 +185,119 @@ class Order(models.Model):
         ('판 위에 레터링','판 위에 레터링'),
         ('케이크에 직접 레터링','케이크에 직접 레터링'),
     ]
-    희망픽업시간=models.CharField(
+    pickup_time=models.CharField(
         null=True,
         max_length=30,
         choices=TIME_CHOICES,
-        default='10:00')
-    레터링위치=models.CharField(
+        default='10:00',
+        verbose_name="희망 시간"
+        )
+    lettering_position=models.CharField(
         null=True,
         max_length=30,
         choices=LETTER_POS,
-        default="케이크에 직접 레터링"
+        default="케이크에 직접 레터링",
+        verbose_name="레터링 위치"
     )
 
     # 주문 상태 확인을 위해 승인 상태, 진행 상태(픽업 완료, 미완료), 결제 상태를 DB 저장 및 업데이트해야 함.
     # 각각 승인 : is_accepted, 진행 상태: is_active, 결제 상태: is_paid로 설정. 이후 더 필요하면 추가.
-    # 관리자가 보기 편하도록 verbose_name='이름' 추가 verbose_name 추가해주세용.
     is_accepted = models.BooleanField(verbose_name="가게 승인", default=False)
     is_active = models.BooleanField(verbose_name="진행중",default=True)
     is_paid = models.BooleanField(verbose_name="결제완료",default=False)
     
+    # 결제금액 관련
+    pay_price = models.IntegerField(default= 0,validators=[MinValueValidator(0),MaxValueValidator(100000)])
+    amount_coupon = models.ForeignKey(AmountCoupon, on_delete=models.SET_NULL, null=True, blank=True)
+    percent_coupon = models.ForeignKey(PercentCoupon, on_delete=models.SET_NULL, null=True, blank=True)
     # 선택사항
     맛 = models.CharField(max_length=15)
     모양 = models.CharField(max_length=15)
-    사이즈=models.CharField(max_length=15)
-    크림종류=models.CharField(max_length=15)
-    레터링색=models.CharField(max_length=15)
+    사이즈 = models.CharField(max_length=15)
+    크림종류 = models.CharField(max_length=15)
+    레터링색 = models.CharField(max_length=15)
 
     원하시는도안사진첨부 = models.ImageField(null=True,upload_to='orderimages/',blank=True, verbose_name="사진 첨부(도시락케이크 선택시)")
 
+    # 쿠폰 적용 전 금액, 적용 쿠폰, 최종금액
+    # original_price = models.IntegerField(default=referred_cake.price)
+    # amount_coupon = models.ForeignKey(AmountCoupon, on_delete=models.PROTECT, related_name='amount_coupon', null=True, blank=True)
+    # percent_coupon = models.ForeignKey(PercentCoupon, on_delete=models.PROTECT, related_name='percent_coupon', null=True, blank=True)
+
+
+    # total_price = models.IntegerField()
     def __str__(self):
         return str(self.pk)
+
+
+
+
+
+class OrderTransactionManager(models.Manager):
+
+    # 주문거래 클래스 생성용 함수
+    def create_new(self, order, amount, success=None, transaction_status=None):
+        if not order:
+            raise ValueError("주문의 오류")
+        order_hash = hashlib.sha1(str(order.id).encode('utf-8')).hexdigest()
+        user_hash = str(order.user.nickname)
+        final_hash = hashlib.sha1((order_hash + user_hash).encode('utf-8')).hexdigest()[:10]
+        merchant_uid = "%s"%(final_hash)
+
+        # payments_prepare(merchant_order_id, amount) # 이 주문번호로 이 가격을 지불받으라고 전달
+
+        # transaction 모델 객체 생성
+        transaction = self.model(
+            order = order,
+            merchant_uid = merchant_uid,
+            amount = amount
+        )
+
+        # 성공 시에는
+        if success is not None:
+            transaction.success = success
+            transaction.transaction_status = transaction_status
+        
+        try:
+            transaction.save()
+        except Exception as e:
+            # 저장 안될 시 에러 표출
+            print("save error", e)
+        
+        # 거래모델을 저장하고 주문번호를 돌려줌.
+        return transaction.merchant_uid
+    
+    # def get_transaction(self, merchant_order_id):
+    #     result = check_transaction(merchant_order_id)
+    #     if result['status'] == 'paid':
+    #         return result
+    #     else:
+    #         print("결제가 되지 않았습니다. from get_transaction")
+    #         return None
+
+
+# 거래 정보 모델
+class OrderTransaction(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    merchant_uid = models.CharField(max_length=120, null=True, blank=True) # hashed order_id originated from our server
+    transaction_id = models.CharField(max_length=120, null=True, blank=True) # imp_uid와 같은 결제 후의 고유 결제번호
+    amount = models.PositiveIntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True, auto_now=False)
+
+    success = models.BooleanField(default=False)
+    transaction_status = models.CharField(max_length=220,null=True, blank=True)
+
+
+    objects = OrderTransactionManager()
+
+    def __str__(self):
+        return str(self.order.id) # Order의 id번호로 이름 설정
+    
+    class Meta:
+        ordering= ['-created']
+
+
+
 
 # 리뷰 관련 정보
 

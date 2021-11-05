@@ -9,11 +9,12 @@ from .forms import NicknameForm, UserSignupForm, EmailAuthenticationForm
 from django.conf import settings
 import requests
 import random
+from django.utils import timezone
+from datetime import datetime
 # Create your views here.
 
 # 커스텀 백엔드 이름 : 'users.mybackend.MyBackend'
-# 그 커스텀백엔드에 정의된 authenticate(request=None, kakao_id=None, email=None, password=None)
-# keyword arguments 전달 방식으로 전달하면 됨. 
+# 그 커스텀백엔드에 정의된 authenticate(request=None, kakao_id=None, email=None, password=None)가 authenticate에서 호출됨.
 
 # .cleaned_data 이해 필요하면 참고 : https://docs.djangoproject.com/en/3.2/ref/forms/api/#accessing-clean-data
 
@@ -262,6 +263,18 @@ def kakao_login_callback(request):
         # 유저 DB에 저장(가입) 및 로그인시키기 email, password, is_kakao, gender, age_range, birthday, nickname, kakao_id
         user = User.objects.create_user(None, None, True, gender, age_range, birthday, rand_nickname, kakao_id)
         login(request, user, backend='users.mybackend.MyBackend')
+
+        # 쿠폰 생성 시도
+        coupon = AmountCoupon()
+        coupon.amount = 2000
+        coupon.name = "신규 회원가입 쿠폰"
+        coupon.use_from = timezone.now
+        d = datetime.strptime('2025-12-31', '%Y-%m-%d')
+        coupon.use_to = d
+        coupon.is_active = True
+        coupon.user = user
+        coupon.save()
+
         form = NicknameForm()
         return render(request, 'submit_nickname.html', {'form':form})
 

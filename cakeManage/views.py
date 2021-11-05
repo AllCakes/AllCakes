@@ -5,8 +5,9 @@ from django.urls.resolvers import LocaleRegexDescriptor
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.views.generic.base import View
+from django.http import JsonResponse
 from users.urls import mypage
-from .models import Menu, Store, Cake, Order, Review
+from .models import Menu, OrderTransaction, Store, Cake, Order, Review, AmountCoupon, PercentCoupon
 from .forms import ReviewForm, StoreForm, CakeForm, OrderForm
 from django.views.generic import FormView #formview 형 클래스형 제네릭 뷰 임포트 추가
 from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는 구를 다르게 해주는 옵션 구현 위해 추가
@@ -14,6 +15,7 @@ from django.db import models # views에서 models.Char~ 기능 사용 위해
 import math # 현재 위치 계산 위해 추가
 from django.shortcuts import render
 import simplejson as json #제이쿼리 사용위해 추가
+import datetime
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
@@ -147,12 +149,16 @@ def cake_delete(request, pk): #cake의 pk값
 # 주문 C (RUD 구현 필요!)
 def order_new(request, cake_pk): #cake의 pk값
     cake = get_object_or_404(Cake, pk=cake_pk)
+    if not request.user.is_authenticated:
+        return redirect('login_home')
     # 가게별 요청 - 선택사항 콤마로 분리
     맛 = cake.맛.replace(" ","").split(',')
     모양 = cake.모양.replace(" ","").split(',')
     사이즈 = cake.사이즈.replace(" ","").split(',')
     크림종류 = cake.크림종류.replace(" ","").split(',')
     레터링색 = cake.레터링색.replace(" ","").split(',')
+    a_coupons = AmountCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
+    p_coupons = PercentCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
     if request.method == 'POST':
         form = OrderForm(request.POST, request.FILES)
         if form.is_valid():
@@ -167,12 +173,43 @@ def order_new(request, cake_pk): #cake의 pk값
             order.pub_date = timezone.now()
             order.referred_cake = cake
             order.referred_store = cake.referred_store
+
+            order.pay_price = cake.price
+            s = request.POST.get('coupon').split("_")
+            if request.POST.get('coupon') != "a_0":
+                # 쿠폰 있다 한 경우 (쿠폰이 적용 안된 경우 아무런 조치 X)
+                if s[0] == 'a':
+                    # 금액쿠폰
+                    try:
+                        coupon = AmountCoupon.objects.get(pk=int(s[1]))
+                    except AmountCoupon.DoesNotExist:
+                        raise ValidationError("해당 쿠폰이 없습니다.")
+                    if coupon.user != request.user:
+                        #유저의 것인지 확인
+                        raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
+                    else:
+                        order.amount_coupon = coupon
+                        order.pay_price = cake.price - coupon.amount
+                else:
+                    # 비율쿠폰
+                    try:
+                        coupon = PercentCoupon.objects.get(pk=int(s[1]))
+                    except PercentCoupon.DoesNotExist:
+                        raise ValidationError("해당 쿠폰이 없습니다.")
+                    if coupon.user != request.user:
+                        #유저의 것인지 확인
+                        raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
+                    else:
+                        order.percent_coupon = coupon
+                        order.pay_price = cake.price * (float(100 - coupon.percent) / 100)
+                    #유저의 것인지 확인 해야 함.
+
             order.save()
             # 주문 결과 페이지로 가도록 수정하기!
             return redirect('order_detail', order_pk=order.pk)
     else:
         form = OrderForm()
-    return render(request, 'order.html', {'form': form, 'cake':cake, '맛':맛, '모양':모양, '사이즈':사이즈, '크림종류':크림종류, '레터링색':레터링색})
+    return render(request, 'order.html', {'form': form, 'cake':cake, '맛':맛, '모양':모양, '사이즈':사이즈, '크림종류':크림종류, '레터링색':레터링색, 'a_coupons':a_coupons, 'p_coupons':p_coupons})
 
 # 주문 상세 R
 def order_detail(request, order_pk):
@@ -192,6 +229,8 @@ def order_all(request, user_pk):
 def order_edit(request, order_pk):
     order = get_object_or_404(Order, pk=order_pk)
     if request.user != order.user:
+        raise ValidationError("잘못된 접근입니다.")
+    if order.is_paid:
         raise ValidationError("잘못된 접근입니다.")
     cake = order.referred_cake
     # 가게별 요청 - 선택사항 콤마로 분리
@@ -225,6 +264,8 @@ def order_delete(request, order_pk):
     order = get_object_or_404(Order, pk=order_pk)
     if request.user != order.user:
         raise ValidationError("잘못된 접근입니다.")
+    if order.is_paid:
+        raise ValidationError("잘못된 접근입니다.")    
     order.delete()
     return redirect('mypage', pk=request.user.pk)
 
@@ -348,3 +389,76 @@ def nearby_stores(request):
       Q(lat__range=[LC['lat_min'], LC['lat_max']]) & Q(lon__range=[LC['lng_min'], LC['lng_max']])
     )
     return render(request, 'location_search3.html', {'list' : list,})
+
+def order_complete(request):
+    order_id = request.GET.get("order_id")
+    order = Order.objects.get(id=order_id)
+    if order.user != request.user:
+        raise ValidationError("잘못된 접근입니다.")
+    if order.is_paid:
+        return render(request, 'order_complete.html', {'order':order})
+    else:
+        raise ValidationError("잘못된 접근입니다.")
+
+
+
+class OrderTransactionAjaxView(View):
+    def post(self, request, *args, **kawargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({"authenticated":False}, status=403)
+        
+        order_id = request.POST.get('order_id')
+        order = Order.objects.get(pk=order_id)
+        amount = order.pay_price
+        try:
+            merchant_uid = OrderTransaction.objects.create_new(order = order, amount = amount)
+        except:
+            merchant_uid = None
+        
+        if merchant_uid is not None:
+            data = {
+                "works" : True,
+                "merchant_uid" : merchant_uid
+            }
+            # Json 응답으로 생성여부 및 생성 내용을 반환
+            return JsonResponse(data)
+        else:
+            return JsonResponse({}, status=401)
+
+class OrderImpAjaxView(View):
+
+    # 결제한 결과에서 주문번호, 가격을 가져와 이전의 거래 객체와 비교해주고, 그러한 객체가 있으면(일치하면)
+    # 통과 및 Order 객체의 결제 여부 True로 만들어주기
+    # 다만 이렇게 DB와 비교하고 True로 만들어주는 것보다, 거래번호를 저장한 후에
+    # 나중에 import 서버 통신을 통한 검증 후에 True로 바꿔주는 것이 더 나을듯..
+
+    # 서버를 통한 검증 + DB의 pay_price 확인
+
+    # 통과 X시 결제정보 위변조 가능성이 있으므로 오류발생시키고, 관리자 문의하도록 유도
+    def post(self, request, *args, **karags):
+        if not request.user.is_authenticated:
+            return JsonResponse({"authenticated":False}, status=403)
+        order_id = request.POST.get('order_id')
+        order = Order.objects.get(id=order_id)
+        merchant_uid = request.POST.get('merchant_uid')
+        imp_uid = request.POST.get('imp_uid')
+        amount = request.POST.get('amount')
+        try:
+            trans = OrderTransaction.objects.get(order=order,merchant_uid=merchant_uid, amount=amount)
+        except:
+            trans = None
+        if order.pay_price != amount:
+            return JsonResponse({}, status=402)
+        if trans is not None:
+            trans.transaction_id = imp_uid
+            trans.success = True
+            trans.save()
+            order.is_paid = True
+            order.save()
+            data = {
+                "works": True
+            }
+            return JsonResponse(data)
+
+        else:
+            return JsonResponse({}, status=401)
