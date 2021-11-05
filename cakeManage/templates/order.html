@@ -24,6 +24,7 @@
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/order.css' %}">
 </head>
 
 
@@ -92,7 +93,7 @@
             <img class="calendar" src="https://i.pinimg.com/564x/35/17/c5/3517c525b2edc6aea7d153164243d9df.jpg"
                 width="600px" height="500px">
             <form method='POST' enctype="multipart/form-data" class='post-form'>
-
+                {% csrf_token %}
 
                 <div class="order-form">
                     <div class="order-fixed">
@@ -100,9 +101,6 @@
                         <p class="order-fixed-cake">케이크명 : {{cake.cakename}}</p>
                         <p class="order-fixed-user">주문자 이름 : {{ user.nickname }}</p>
                     </div>
-                    가게명 : {{cake.referred_store}}<br><br>
-                    케이크 명 : {{cake.cakename}}<br><br>
-                    주문자 이름 : {{ user.nickname }}<br><br>
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div><h2>색 선택</h2> 
@@ -111,10 +109,32 @@
                     <div><h2>크림종류 선택</h2> 
                         <ul class="크림종류"></ul>
                     </div>
+                    <div class="simulation"></div>
+                    <input type="text" name="coupon" id="coupon-pk" value="a_0" style="display:none;">
                     <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
                 </div>
-                <div class="simulation"></div>
+
             </form>
+            <button onclick="coupon('block')">쿠폰</button>
+            <div class="price">
+                
+                <div id="coupon" class="coupon">
+                    <div>
+                        {% for c in a_coupons %}
+                        <input type="radio" name="discount" value="{{c.amount}} {{c.pk}}">
+                        <label for="amount">{{c.name}} {{c.amount}}원 할인쿠폰</label>
+                        {% endfor %}
+                        {% for c in p_coupons %}
+                        <input type="radio" name="discount" value="{{c.percent}} {{c.pk}}">
+                        <label for="percent">{{c.name}} {{c.percent}}% 할인쿠폰</label>
+                        {% endfor %}
+                        <button type="button" onclick="discount({{cake.price}})">선택</button>
+                    </div>
+                    <button onclick="coupon('none')">닫기</button>
+                </div>
+
+                <p id="total">{{cake.price}}</p>
+            </div>
         </div>
     </main>
     <script>
@@ -127,6 +147,36 @@
     <script>
         function goBack() {
             window.history.back();
+        }
+        function coupon(x) {
+            document.getElementById('coupon').style.display = x;
+        }
+        function discount(price){
+            var ele = document.getElementsByName('discount');
+            var discounted_price = 0;
+            var check = 0;
+            var val = 0;
+            var pk = 0;
+
+            for (i=0; i<ele.length; i++){
+                if (ele[i].checked){
+                    check=1;
+                    val = ele[i].value.split(' ')[0];
+                    pk = ele[i].value.split(' ')[1];
+                    if(val<= 100) {
+                        discounted_price = price * (100 - val) / 100;
+                        document.getElementById('coupon-pk').setAttribute("value", "p_" + pk);
+                    }
+                    else {
+                        discounted_price = price - val;
+                        document.getElementById('coupon-pk').setAttribute("value", "a_" + pk);
+                    }
+                }
+            }
+            if (check == 0){
+                discounted_price = price;
+            }
+            document.getElementById('total').innerHTML = discounted_price;
         }
     </script>
 </body>

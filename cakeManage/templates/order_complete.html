@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}주문 {{order.pk}} 완료{% endblock %}
+
+
+{% block content %}
+<!-- 주문 상태, 주문 가게(가게 상세보기), 주문 케이크, 주문 일시, 결제금액, 결제방법, 기타 요청사항 등등.. -->
+{% if not order.is_active %}
+<h2>픽업 완료</h2>
+{% else %}
+<!-- 진행중 -->
+    {% if order.is_accepted %}
+    <h2>승인 완료/ 제작 진행</h2>
+    {% else %}
+    <h2>승인 대기중</h2>
+    {% endif %}
+{% endif %}
+
+<h2>'{{order.referred_store}}'의</h2>
+<h3>{{order.referred_cake}} 케이크</h3>
+<span>주문 일시: {{order.pub_date}}</span>
+<br>
+<b>픽업 희망일시: {{order.희망픽업일}}{{order.희망픽업시간}}</b>
+<br>
+
+<p>
+    맛: {{order.맛}} |
+    모양: {{order.모양}} |
+    사이즈: {{order.사이즈}} |
+    크림종류: {{order.크림종류}} |
+    레터링 위치: {{order.레터링위치}} |
+    레터링 색: {{order.레터링색}}
+</p>
+
+{% if order.원하시는도안사진첨부 %}
+<img src="{{order.원하시는도안사진첨부.url}}" alt="내가 첨부한 참고 사진">
+{% endif %}
+
+<p>금액: {{order.referred_cake.price}}</p>
+<p>실 결제 금액: {{order.pay_price}}</p>
+
+<hr>
+
+
+
+{% endblock %}

@@ -25,6 +25,11 @@ urlpatterns = [
     path('order/all/<int:user_pk>', order_all, name="order_all"), # 내 주문 전체
     path('order/edit/<int:order_pk>', order_edit, name="order_edit" ), # 주문 수정하기 (이후 주문진행 상황에 따라 수정이 불가하도록 구현할 예정)
     path('order/delete/<int:order_pk>', order_delete, name="order_delete"), # 주문 취소하기 (이후 주문진행 상황에 따라 수정이 불가하도록 구현할 예정)
+    
+    # 결제관련 주문 추가 url
+    path('order/init_transaction', OrderTransactionAjaxView.as_view(), name="order_init_transaction"), # 결제 진행 전 객체 생성
+    path('order/validation', OrderImpAjaxView.as_view(), name="order_validation"), # 결제내역 검증
+    path('order/complete', order_complete, name="order_complete"), # 결제, 검증 완료 후 페이지
     # 마이페이지 users로 옮김
 
     # 리뷰 CRUD 및 별점 (R-상세보기 U-수정 D-삭제 구현 필요) (앱 새로 파야 되는지..?)
@@ -49,17 +54,14 @@ urlpatterns = [
     path('search3/',search_location3, name="location_result"),
     # 거리 가까운 가게 출력
     path('nearby/', nearby_stores, name="nearby_stores"),
-<<<<<<< HEAD
     
-    path('test/', test, name="test"),
-        
+
+
+
+    path('test/', test, name="test"),    
     path('character/', character, name="character"),
-
-=======
-
     # 맞춤형 메뉴 선택
     path('storemenu/<int:store_pk>', storemenu, name="storemenu"),
     path('storemenu_edit/<int:store_pk>', storemenu_edit, name="storemenu_edit"),
     path('add_menu/', add_menu , name="add_menu"),
->>>>>>> d39614f218cae1c1391a597d8829f0777e042476
 ]

@@ -14,8 +14,8 @@ class CakeForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields=['희망픽업일','희망픽업시간','레터링위치','원하시는도안사진첨부',]
-
+        fields=['pickup_date','pickup_time','lettering_position','원하시는도안사진첨부',]
+        
 class LocationSearchForm(forms.Form):
     search_word=forms.CharField(label='Search word')  
 

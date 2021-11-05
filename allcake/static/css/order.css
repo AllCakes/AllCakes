@@ -98,3 +98,7 @@
     border: 1.4px solid rgba(63, 63, 63, 0.705);
 
 }
+
+.coupon {
+    display:none;
+}
