@@ -1,3 +1,4 @@
+from django.core import paginator
 from django.core.exceptions import ValidationError
 from django.http import request
 from django.shortcuts import render, redirect, get_object_or_404
@@ -7,15 +8,19 @@ from django.core.paginator import Paginator
 from django.views.generic.base import View
 from django.http import JsonResponse
 from users.urls import mypage
-from .models import Menu, OrderTransaction, Store, Cake, Order, Review, AmountCoupon, PercentCoupon
-from .forms import ReviewForm, StoreForm, CakeForm, OrderForm
+from .models import *
+from .forms import *
 from django.views.generic import FormView #formview 형 클래스형 제네릭 뷰 임포트 추가
 from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는 구를 다르게 해주는 옵션 구현 위해 추가
 from django.db import models # views에서 models.Char~ 기능 사용 위해
 import math # 현재 위치 계산 위해 추가
 from django.shortcuts import render
-import simplejson as json #제이쿼리 사용위해 추가
+# import simplejson as json #제이쿼리 사용위해 추가
 import datetime
+from itertools import chain #쿼리셋 결합 위해 추가
+from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
@@ -35,6 +40,22 @@ def cakes_all(request):
     cakes= Cake.objects.order_by('-pub_date')
     return render(request, 'cakes_all.html', {'cakes':cakes})
 
+def search_all(request):
+    cakes= Cake.objects.order_by('-pub_date')
+    stores= Store.objects.order_by('-pub_date')
+    product1=Cake.objects.all() 
+    product2=Store.objects.all()
+    product=[product1,product2]
+    products=list(chain(*product))
+    #products=product1
+    #products |= product2
+    paginator = Paginator(products,6)
+    #paginator |= Paginator(product2,4)
+    page=request.GET.get('page',1)
+    product_list=paginator.get_page(page)
+    return render(request, 'search_all.html', {'cakes':cakes, 'stores':stores,'product':product_list})
+    #return render(request, 'search_all.html', {'cakes':cakes, 'stores':stores,'product':products})
+
 # 가게 등록 C (필요 없을 예정)
 def store_new(request):
     if request.method == 'POST':
@@ -53,7 +74,7 @@ def store_new(request):
 def store_detail(request, pk):
     store = get_object_or_404(Store, pk=pk)
     cake_list = Cake.objects.filter(referred_store=store)
-    review_list = Review.objects.filter(referred_store=store)
+    review_list = Review.objects.select_related('order').filter(order__referred_store=store)
     num = 0
     # 최신순, 별점 낮은순, 높은순의 option을 post로 받아서 해당에 따라 정렬한다.
     if request.method == "POST":
@@ -70,7 +91,7 @@ def store_detail(request, pk):
 # 가게 수정 U
 def store_edit(request, pk):
     store = get_object_or_404(Store, pk=pk)
-    if request.user != store.user:
+    if request.user != store.owner:
         raise ValidationError("잘못된 접근입니다.")
     if request.method == "POST":
         form = StoreForm(request.POST, request.FILES, instance=store)
@@ -96,19 +117,32 @@ def store_delete(request, pk):
 # 케이크 등록 C (사장님측 UX, 관리자측이 사용할 수도..)
 def cake_new(request, pk): #가게 pk값
     store = get_object_or_404(Store, pk=pk)
+    store_menu = get_object_or_404(Store_Menu, store = store)
+    # 가게별 요청 - 선택사항 콤마로 분리
+    색 = store_menu.색.replace(" ","").split(',')
+    크림종류 =  store_menu.크림종류.replace(" ","").split(',')
     if request.method == 'POST':
         form = CakeForm(request.POST, request.FILES)
+        # getlist로 가져오기
+        color = request.POST.getlist('색')
+        colorPrice = request.POST.getlist('색price')
+        cream = request.POST.getlist('크림종류')
+        creamPrice = request.POST.getlist('크림종류price')
         if form.is_valid():
             cake = form.save(commit=False)
             cake.author = request.user # author 저장이 필요한지?
             cake.pub_date = timezone.now()
             cake.referred_store = store
+            # 케이크 메뉴 저장
+            cake.색 = ','.join(color)
+            cake.색가격 = ','.join(colorPrice)
+            cake.크림종류 = ','.join(cream)
+            cake.크림종류가격 = ','.join(creamPrice)
             cake.save()
             return redirect('store_detail', pk=pk)
     else:
         form = CakeForm()
-
-    return render(request, 'cake_new.html', {'form': form})
+    return render(request, 'cake_new.html', {'form': form, '색':색, '크림종류':크림종류})
 
 # 케이크 상세 R
 def cake_detail(request, pk): #cake의 pk값
@@ -148,32 +182,26 @@ def cake_delete(request, pk): #cake의 pk값
 
 # 주문 C (RUD 구현 필요!)
 def order_new(request, cake_pk): #cake의 pk값
-    cake = get_object_or_404(Cake, pk=cake_pk)
     if not request.user.is_authenticated:
         return redirect('login_home')
+    cake = get_object_or_404(Cake, pk=cake_pk)
+    store = get_object_or_404(Store, pk=cake.referred_store_id)
     # 가게별 요청 - 선택사항 콤마로 분리
-    맛 = cake.맛.replace(" ","").split(',')
-    모양 = cake.모양.replace(" ","").split(',')
-    사이즈 = cake.사이즈.replace(" ","").split(',')
-    크림종류 = cake.크림종류.replace(" ","").split(',')
-    레터링색 = cake.레터링색.replace(" ","").split(',')
     a_coupons = AmountCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
     p_coupons = PercentCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
+    # 가게별 요청 - 선택사항 콤마로 분리
+    색 = cake.색.replace(" ","").split(',')
+    크림종류 =  cake.크림종류.replace(" ","").split(',')
+    색가격 = cake.색가격.replace(" ","").split(',')
+    크림종류가격 = cake.크림종류가격.replace(" ","").split(',')
     if request.method == 'POST':
         form = OrderForm(request.POST, request.FILES)
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user
-            # get 방식으로 가져와 저장
-            order.맛 = request.POST.get('맛')
-            order.모양 = request.POST.get('모양')
-            order.사이즈 = request.POST.get('사이즈')
-            order.크림종류 = request.POST.get('크림종류')
-            order.레터링색 = request.POST.get('레터링색')
             order.pub_date = timezone.now()
             order.referred_cake = cake
             order.referred_store = cake.referred_store
-
             order.pay_price = cake.price
             s = request.POST.get('coupon').split("_")
             if request.POST.get('coupon') != "a_0":
@@ -203,13 +231,15 @@ def order_new(request, cake_pk): #cake의 pk값
                         order.percent_coupon = coupon
                         order.pay_price = cake.price * (float(100 - coupon.percent) / 100)
                     #유저의 것인지 확인 해야 함.
-
+            # get 방식으로 가져와 저장
+            order.색 = request.POST.get('색')
+            order.크림종류 = request.POST.get('크림종류')
             order.save()
             # 주문 결과 페이지로 가도록 수정하기!
             return redirect('order_detail', order_pk=order.pk)
     else:
         form = OrderForm()
-    return render(request, 'order.html', {'form': form, 'cake':cake, '맛':맛, '모양':모양, '사이즈':사이즈, '크림종류':크림종류, '레터링색':레터링색, 'a_coupons':a_coupons, 'p_coupons':p_coupons})
+    return render(request, 'order.html', {'form': form, 'cake':cake, '색':색, '색가격':색가격,'크림종류':크림종류, '크림종류가격':크림종류가격, 'a_coupons':a_coupons, 'p_coupons':p_coupons})
 
 # 주문 상세 R
 def order_detail(request, order_pk):
@@ -234,22 +264,16 @@ def order_edit(request, order_pk):
         raise ValidationError("잘못된 접근입니다.")
     cake = order.referred_cake
     # 가게별 요청 - 선택사항 콤마로 분리
-    맛 = cake.맛.replace(" ","").split(',')
-    모양 = cake.모양.replace(" ","").split(',')
-    사이즈 = cake.사이즈.replace(" ","").split(',')
+    색 = cake.색.replace(" ","").split(',')
     크림종류 = cake.크림종류.replace(" ","").split(',')
-    레터링색 = cake.레터링색.replace(" ","").split(',')
     if request.method == 'POST':
         form = OrderForm(request.POST, request.FILES, instance=order)
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user
             # get 방식으로 가져와 저장
-            order.맛 = request.POST.get('맛')
-            order.모양 = request.POST.get('모양')
-            order.사이즈 = request.POST.get('사이즈')
+            order.색 = request.POST.get('색')
             order.크림종류 = request.POST.get('크림종류')
-            order.레터링색 = request.POST.get('레터링색')
             order.pub_date = timezone.now()
             # 케이크선택과 가게 선택은 못 바꿈. 삭제하고 다시 주문 필요.
             order.save()
@@ -257,7 +281,7 @@ def order_edit(request, order_pk):
             return redirect('order_detail', order_pk=order.pk)
     else:
         form = OrderForm(instance=order)
-    return render(request, 'order_edit.html', {'form': form, 'cake':cake, '맛':맛, '모양':모양, '사이즈':사이즈, '크림종류':크림종류, '레터링색':레터링색})
+    return render(request, 'order_edit.html', {'form': form, 'cake':cake, '색':색, '크림종류':크림종류})
 
 # 주문 삭제 D
 def order_delete(request, order_pk):
@@ -283,8 +307,6 @@ def review_page(request, pk, orderpk):
             review = form.save(commit=False)
             review.user = request.user
             review.order = order
-            review.referred_store = store
-            review.referred_cake = cake
             review.pub_date = timezone.now()
             review.rate = request.POST.get('rate')
             review.save()
@@ -338,7 +360,7 @@ def search(request):
         for query in query_set:
             question = Q(name__contains=query) | Q(location__startswith=query) | Q(text__icontains=query) | Q(meta_body__icontains=query)
             store_result |= Store.objects.filter(question) #  계속 합연산
-            question = Q(cakename__contains=query) | Q(referred_store__location__startswith=query) | Q(body__contains=query) | Q(맛__contains=query) | Q(모양__contains=query) | Q(사이즈__contains=query) | Q(meta_body__icontains=query)
+            question = Q(cakename__contains=query) | Q(referred_store__location__startswith=query) | Q(body__contains=query) | Q(색__contains=query) | Q(meta_body__icontains=query)
             cake_result |= Cake.objects.filter(question)        
         return render(request, 'search.html', {'query_set':query_set, 'store_result':store_result, 'cake_result':cake_result})
     else:
@@ -389,6 +411,7 @@ def nearby_stores(request):
       Q(lat__range=[LC['lat_min'], LC['lat_max']]) & Q(lon__range=[LC['lng_min'], LC['lng_max']])
     )
     return render(request, 'location_search3.html', {'list' : list,})
+
 
 def order_complete(request):
     order_id = request.GET.get("order_id")
@@ -462,3 +485,64 @@ class OrderImpAjaxView(View):
 
         else:
             return JsonResponse({}, status=401)
+def test(request):
+    return render(request, 'test.html')
+
+def character(request):
+    post_list=[]
+    searchWord="캐릭터"
+    if searchWord :
+        for word in searchWord:
+            post_list+=Cake.objects.filter(Q(meta_body__icontains=word)).distinct()
+            # '+' 붙여서 리스트에 요소를 추가추가해주는 방식으로 가야함
+            # 안 붙여주면 구로구,노원구 두개 이상 선택시 둘 중에 한 구만 필터링됨
+    context={}
+    context['search_term']=searchWord
+    context['objects_list']=post_list
+    return render(request, 'character.html',context)
+# 검색 - 검색어 분리, 모든 쿼리 한번에!
+def storemenu(request, store_pk):
+    store = get_object_or_404(Store, pk=store_pk)
+    if request.user != store.owner:
+        raise ValidationError("잘못된 접근입니다.")
+    if request.method == "POST":
+        color = request.POST.getlist('색')
+        cream = request.POST.getlist('크림종류')
+        if(len(color) > 0 | len(cream) > 0):
+            Store_Menu(store = store, 색 = ','.join(color), 크림종류 = ','.join(cream)).save()
+            return redirect('store_detail', pk=store_pk)
+    return render(request, 'storemenu.html')
+
+def storemenu_edit(request, store_pk):
+    store_menu = get_object_or_404(Store_Menu, store=store_pk)
+    색 = store_menu.색.replace(" ","").split(',')
+    크림종류 =  store_menu.크림종류.replace(" ","").split(',')
+    if request.user != store_menu.store.owner:
+        raise ValidationError("잘못된 접근입니다.")
+    if request.method == "POST":
+        form = StoreMenuForm(request.POST, instance=store_menu)
+        if form.is_valid():
+            color = request.POST.getlist('색')
+            cream = request.POST.getlist('크림종류')
+            menu = form.save(commit=False)
+            menu.색 =','.join(color)
+            menu.크림종류 = ','.join(cream)
+            menu.save()
+            return redirect('store_detail', pk=store_pk)
+    else:
+        form = StoreMenuForm(instance=store_menu)
+    return render(request, 'storemenu.html', {'색' : 색, '크림종류':크림종류})
+
+# json 파일에 menu 없을시 추가
+@csrf_exempt
+def add_menu(request):
+    file_path = './allcake/static/data/menu.json'
+    if request.method == "POST":
+        ty = request.POST['ty']
+        val = request.POST['value']
+        with open(file_path, "r", encoding="utf-8") as json_file:
+            json_data = json.load(json_file)
+            json_data['menu'][0][ty][val] = request.POST['img']
+        with open(file_path, 'w', encoding="utf-8") as outfile:
+            json.dump(json_data, outfile ,ensure_ascii=False, indent=4)
+    return redirect('storemenu.html')

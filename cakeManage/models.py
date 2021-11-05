@@ -13,12 +13,14 @@ class Search(models.Model):
 
 class Store(models.Model):
     # 순서대로 가게이름, 대표이미지, 설명, 게시일자, 연락처, 가게위치(OO구)
+
     name = models.CharField(max_length=15)
     store_image = models.ImageField(upload_to='storeimages/', blank=False)
     text = models.TextField(default='', blank=True)
     meta_body = models.CharField(max_length=100, default='', verbose_name="검색을 위한 키워드(100자 이내)") # 검색을 위한 필드
     pub_date = models.DateTimeField(default=timezone.now)
     contact = models.CharField(max_length=15)
+    price = models.CharField(default='15000', max_length=100)
     si_choices=[
         ('서울', '서울'),
         ('경기', '경기'),
@@ -113,12 +115,26 @@ class Cake(models.Model):
     body = models.TextField(default='')  # 케이크 소개
     meta_body = models.CharField(max_length=100, default='', verbose_name="검색을 위한 키워드(100자 이내)") # 검색을 위한 필드
     cake_image = models.ImageField(upload_to='cakeimages/', blank=False, null=True)
+    
     # 케이크 추가할 선택사항
+<<<<<<< HEAD
     맛 = models.CharField(max_length=200)
     모양 = models.CharField(max_length=200)
     사이즈=models.CharField(max_length=200)
     크림종류=models.CharField(max_length=200)
     레터링색=models.CharField(max_length=200)
+<<<<<<< HEAD
+=======
+    price=models.CharField(default='10000원',max_length=100)
+=======
+    색 = models.CharField(max_length=200)
+    색가격 = models.CharField(max_length=200)
+    # 케이크 가격 선택사항
+    크림종류 = models.CharField(max_length=200)
+    크림종류가격 = models.CharField(max_length=200)
+>>>>>>> d39614f218cae1c1391a597d8829f0777e042476
+
+>>>>>>> e7291f2fc268c690f2f2c91dbc367e7afa2c17c3
     # 찜을 위한 필드 (임시)
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_cake", related_name="users_liked_cake")
     
@@ -211,12 +227,17 @@ class Order(models.Model):
     amount_coupon = models.ForeignKey(AmountCoupon, on_delete=models.SET_NULL, null=True, blank=True)
     percent_coupon = models.ForeignKey(PercentCoupon, on_delete=models.SET_NULL, null=True, blank=True)
     # 선택사항
+<<<<<<< HEAD
     맛 = models.CharField(max_length=15)
     모양 = models.CharField(max_length=15)
     사이즈 = models.CharField(max_length=15)
     크림종류 = models.CharField(max_length=15)
     레터링색 = models.CharField(max_length=15)
 
+=======
+    색 = models.CharField(max_length=15)
+    크림종류=models.CharField(max_length=15)
+>>>>>>> e7291f2fc268c690f2f2c91dbc367e7afa2c17c3
     원하시는도안사진첨부 = models.ImageField(null=True,upload_to='orderimages/',blank=True, verbose_name="사진 첨부(도시락케이크 선택시)")
 
     # 쿠폰 적용 전 금액, 적용 쿠폰, 최종금액
@@ -306,8 +327,6 @@ class Review(models.Model):
     # An order object can have one and only one review on each order.
     # https://stackoverflow.com/questions/5870537/whats-the-difference-between-django-onetoonefield-and-foreignkey
     order = models.OneToOneField(Order, on_delete=models.CASCADE)
-    referred_store= models.ForeignKey(Store,on_delete=models.CASCADE)
-    referred_cake = models.ForeignKey(Cake,on_delete=models.CASCADE)
     pub_date = models.DateTimeField(default = timezone.now)
     comment = models.TextField(default='', blank=True)
     rate = models.IntegerField(default=0)
@@ -316,24 +335,11 @@ class Review(models.Model):
     def __str__(self):
         return str(self.id)
 
-class Menu(models.Model):
-    taste = models.TextField(default='', blank=True)
-    shape = models.TextField(default='', blank=True)
-    cream_type = models.TextField(default='', blank=True)
-    cake_size = models.TextField(default='', blank=True) 
-    lett_color = models.TextField(default='', blank=True) 
+# 가게별 option 설정 정보 저장
+class Store_Menu(models.Model):
+    store = models.OneToOneField(Store, on_delete=models.CASCADE)
+    색 = models.CharField(max_length=15)
+    크림종류=models.CharField(max_length=15)
 
-    def toJson(self):
-        taste_list = self.taste.split(",")
-        shape_list = self.taste.split(",")
-        cream_list = self.taste.split(",")
-        cakesize_list = self.taste.split(",")
-        letcolor_list = self.taste.split(",")
-
-        return {
-            "taste" : taste_list,
-            "shape" : shape_list,
-            "cream" : cream_list,
-            "size" : cakesize_list,
-            "color" : letcolor_list
-        }
+    def __str__(self):
+        return str(self.id)

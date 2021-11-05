@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}메뉴 추가{% endblock %}
+
+{% block content %}
+<body>
+    <br><br><br><br>
+    <h1>메뉴 등록</h1>
+    <!-- 기존에 저장된 메뉴 등록 -->
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div style="margin: 50px 50px 50px 50px;"><h2>색 선택</h2> 
+            <ul class="색"></ul>
+        </div>
+        <div style="margin: 50px 50px 50px 50px;"><h2>크림종류 선택</h2> 
+            <ul class="크림종류"></ul>
+        </div>
+        <button type="submit">저장</button>
+    </form>
+    
+    <!-- 새로운 메뉴 추가 -->
+    <div>메뉴 추가하기</div>
+    <div>색 추가하기 : <input id="색추가" type="text">
+        <button id ="AddMenu" data-key = "색추가" data-value="색">add</button>
+    </div>
+    <div>크림종류 추가하기 : <input id="크림추가" type="text">
+        <button id ="AddMenu" data-key = "크림추가" data-value="크림종류">add</button>
+    </div>
+    <script>
+        var color = "{{색}}";
+        var cream = "{{크림종류}}";
+    </script>
+    <script type="text/javascript" src="/static/js/selStoreMenu.js" defer></script>
+</body>
+</html>
+{% endblock %}

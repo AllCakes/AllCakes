@@ -10,6 +10,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <!--부트스트랩-->
     <!--여기까지-->
     <!-- 별점 필요 -->
@@ -29,12 +30,17 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d5f6c310a78632612936d0ea60df74&libraries=services"></script>
+<<<<<<< HEAD
     {% block script %}
     {% endblock %}
         
         
 
 
+=======
+    <script src="/static/js/isotope.pkgd.min.js"></script>
+    <!-- 여러 부분 수정 필요 -->
+>>>>>>> e7291f2fc268c690f2f2c91dbc367e7afa2c17c3
 
 </head>
 
@@ -63,7 +69,9 @@
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link px-2" href="#">Reviews</a>
-                            
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'search_all' %}">Search</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -99,17 +107,18 @@
 
                         <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
                         </li>
-                        
+                        <!--
                         <li class="nav-item">
-                        <!--검색 가까운순정렬 삭제-->  
+                        검색 가까운순정렬 삭제
                             <form action="{% url 'search' %}" method="GET" class="d-flex">
-                                <!--이유는 모르겠는데 head에 style태그 넣어서 검색바 크기 조절하면 적용이 안되어서 input 태그에 스타일 집어넣음.-->
+                                이유는 모르겠는데 head에 style태그 넣어서 검색바 크기 조절하면 적용이 안되어서 input 태그에 스타일 집어넣음
                                 <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="q"
                                     style="width: 200px; height: 30px; margin-top: 5px; font-family: 'SF_HambakSnow'; border-radius: 0%; border-color: black;">
                                 <button class="btn btn-secondary btn-sm" type="submit" value="r">🔍</button>
                             </form>
                         </li>   
 					</ul>
+                -->
 
 
                     
