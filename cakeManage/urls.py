@@ -54,17 +54,14 @@ urlpatterns = [
     path('search3/',search_location3, name="location_result"),
     # 거리 가까운 가게 출력
     path('nearby/', nearby_stores, name="nearby_stores"),
-<<<<<<< HEAD
     
-    path('test/', test, name="test"),
-        
+
+
+
+    path('test/', test, name="test"),    
     path('character/', character, name="character"),
-
-=======
-
     # 맞춤형 메뉴 선택
     path('storemenu/<int:store_pk>', storemenu, name="storemenu"),
     path('storemenu_edit/<int:store_pk>', storemenu_edit, name="storemenu_edit"),
     path('add_menu/', add_menu , name="add_menu"),
->>>>>>> d39614f218cae1c1391a597d8829f0777e042476
 ]

@@ -101,17 +101,15 @@
                         <p class="order-fixed-cake">케이크명 : {{cake.cakename}}</p>
                         <p class="order-fixed-user">주문자 이름 : {{ user.nickname }}</p>
                     </div>
-                    가게명 : {{cake.referred_store}}<br><br>
-                    케이크 명 : {{cake.cakename}}<br><br>
-                    주문자 이름 : {{ user.nickname }}<br><br>
                     {% csrf_token %}
                     {{ form.as_p }}
-<<<<<<< HEAD
-                    {% for i in 맛%} <input type="radio" name="맛" value={{i}}>{{i}} {% endfor %} <br>
-                    {% for i in 모양%} <input type="radio" name="모양" value={{i}}>{{i}} {% endfor %} <br>
-                    {% for i in 사이즈%} <input type="radio" name="사이즈" value={{i}}>{{i}} {% endfor %} <br>
-                    {% for i in 크림종류%} <input type="radio" name="크림종류" value={{i}}>{{i}} {% endfor %} <br>
-                    {% for i in 레터링색%} <input type="radio" name="레터링색" value={{i}}>{{i}} {% endfor %} <br>
+                    <div><h2>색 선택</h2> 
+                        <ul class="색"></ul>
+                    </div>
+                    <div><h2>크림종류 선택</h2> 
+                        <ul class="크림종류"></ul>
+                    </div>
+                    <div class="simulation"></div>
                     <input type="text" name="coupon" id="coupon-pk" value="a_0" style="display:none;">
                     <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
                 </div>
@@ -137,19 +135,6 @@
 
                 <p id="total">{{cake.price}}</p>
             </div>
-
-=======
-                    <div><h2>색 선택</h2> 
-                        <ul class="색"></ul>
-                    </div>
-                    <div><h2>크림종류 선택</h2> 
-                        <ul class="크림종류"></ul>
-                    </div>
-                    <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
-                </div>
-                <div class="simulation"></div>
-            </form>
->>>>>>> e7291f2fc268c690f2f2c91dbc367e7afa2c17c3
         </div>
     </main>
     <script>

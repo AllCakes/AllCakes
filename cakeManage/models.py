@@ -117,24 +117,14 @@ class Cake(models.Model):
     cake_image = models.ImageField(upload_to='cakeimages/', blank=False, null=True)
     
     # 케이크 추가할 선택사항
-<<<<<<< HEAD
-    맛 = models.CharField(max_length=200)
-    모양 = models.CharField(max_length=200)
-    사이즈=models.CharField(max_length=200)
-    크림종류=models.CharField(max_length=200)
-    레터링색=models.CharField(max_length=200)
-<<<<<<< HEAD
-=======
     price=models.CharField(default='10000원',max_length=100)
-=======
+
     색 = models.CharField(max_length=200)
     색가격 = models.CharField(max_length=200)
     # 케이크 가격 선택사항
     크림종류 = models.CharField(max_length=200)
     크림종류가격 = models.CharField(max_length=200)
->>>>>>> d39614f218cae1c1391a597d8829f0777e042476
 
->>>>>>> e7291f2fc268c690f2f2c91dbc367e7afa2c17c3
     # 찜을 위한 필드 (임시)
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_cake", related_name="users_liked_cake")
     
@@ -227,17 +217,9 @@ class Order(models.Model):
     amount_coupon = models.ForeignKey(AmountCoupon, on_delete=models.SET_NULL, null=True, blank=True)
     percent_coupon = models.ForeignKey(PercentCoupon, on_delete=models.SET_NULL, null=True, blank=True)
     # 선택사항
-<<<<<<< HEAD
-    맛 = models.CharField(max_length=15)
-    모양 = models.CharField(max_length=15)
-    사이즈 = models.CharField(max_length=15)
-    크림종류 = models.CharField(max_length=15)
-    레터링색 = models.CharField(max_length=15)
 
-=======
     색 = models.CharField(max_length=15)
     크림종류=models.CharField(max_length=15)
->>>>>>> e7291f2fc268c690f2f2c91dbc367e7afa2c17c3
     원하시는도안사진첨부 = models.ImageField(null=True,upload_to='orderimages/',blank=True, verbose_name="사진 첨부(도시락케이크 선택시)")
 
     # 쿠폰 적용 전 금액, 적용 쿠폰, 최종금액
