@@ -9,7 +9,6 @@ function loadMenu(){
 // 각 json data를 html 요소로 변환
 // $("input[name='맛'][value='딸기']").prop("checked",true);
 function display(menu){
-    
     for(type in menu[0]){ //type(key) : 맛 , menu[0][type](value) : {딸기 : 이미지}
         const container = document.querySelector(`.${type}`);
         const str = [];
@@ -46,10 +45,8 @@ function createHTMLString(type, item,img, num) {
 
 // 클릭시 메뉴 추가
 function setEventListeners(menu) {
-    const buttons = document.querySelectorAll('#AddMenu');
-    for(i in buttons){
-        buttons[i].addEventListener('click', event => { AddMenu(event, menu)});
-    }
+    const buttons = document.querySelector('#AddMenu');
+    buttons.addEventListener('click', event => { AddMenu(event, menu)});
 }
 
 // 메뉴 추가 함수
