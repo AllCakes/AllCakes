@@ -1,0 +1,25 @@
+* { box-sizing: border-box; }
+
+body { font-family: sans-serif; }
+
+.item {
+  width: 100px;
+  height: 100px;
+  float: left;
+  
+  margin: 5px;
+  padding: 5px;
+}
+
+.item p {
+  margin: 0;
+}
+
+.red { background: #F33; }
+.blue { background: #88F; }
+.green { background: #3A3; }
+.orange { background: orange;}
+
+select, label, input { font-size: 20px; }
+
+label { margin-right: 10px; }

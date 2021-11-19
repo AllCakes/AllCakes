@@ -14,7 +14,7 @@ var filterFns = {
   // show if name ends with -ium
   ium: function() {
     var name = $(this).find('.name').text();
-    return name.match( /cury$/ );
+      return name.match( /cury$/ );
   }
 };
 // bind filter on select change

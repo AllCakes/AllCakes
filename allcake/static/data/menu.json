@@ -5,7 +5,8 @@
                 "빨강": "/static/img/C_red.png",
                 "파랑": "/static/img/C_blue.png",
                 "보라": "/static/img/C_purple.png",
-                "흰색": "/static/img/C_white.png"
+                "흰색": "/static/img/C_white.png",
+                "소라색": "/static/img/noimg.png"
             },
             "크림종류": {
                 "동글크림": "/static/img/C_cream1.png",

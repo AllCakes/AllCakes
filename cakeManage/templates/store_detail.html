@@ -53,11 +53,12 @@
         {% if store.owner == user %}
             <a href="{% url 'store_edit' pk=store.pk %}"><button class="edit-button">정보 수정</button></a>
             <!-- 사장은 가게 페이지에서 정보 수정 및 케이크 생성, 수정할 수 있음. 다만 가게 전체 관리페이지가 필요할듯! -->
-            <a href="{% url 'cake_new' pk=store.pk %}"><button>케이크 추가</button></a>
+            
             {% if not store.store_menu %}
-                <a href="{% url 'storemenu' store_pk=store.pk %}">메뉴 선택</a>
+                <a href="{% url 'storemenu' store_pk=store.pk %}"><button>메뉴 추가</button></a>
             {% else %}
-                <a href="{% url 'storemenu_edit' store_pk=store.pk %}">메뉴 수정</a>
+                <a href="{% url 'cake_new' pk=store.pk %}"><button>케이크 추가</button></a>
+                <a href="{% url 'storemenu_edit' store_pk=store.pk %}"><button>메뉴 수정</button></a>
             {% endif %}
         {% endif %}
     {% endif %}
@@ -100,7 +101,11 @@
                     <p class="cake-detail">{{cake.body}}</p>
                     
                     <a href="{% url 'order_submit' cake_pk=cake.pk  %}" class="order-button">주문</a>   
-                    <!--FE: 케이크 자세히 보기 버튼도 있으면 좋을 듯-->
+                    {% if user.is_authenticated %}
+                    {% if store.owner == user %}
+                    <a href="{% url 'cake_edit' pk=cake.pk  %}" class="order-button">케이크 수정</a>     
+                    {% endif %}
+                    {% endif %}    
 
                     {% if user in cake.users_liked.all %}
                     <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
@@ -147,13 +152,19 @@
                 <!--map_api 키 보안처리 했습니당-->
                 <script>
                     var storeName = document.getElementsByClassName("store-name");
-                     var maplat = document.getElementById('maplat'); // 지도를 표시할 위도
-                     var maplon = document.getElementById('maplon'); // 지도를 표시할 경도
-                     maplat=Number(maplat);
-                     maplon=Number(maplon);
+                     //var maplat = parseInt(document.getElementById('maplat')); // 지도를 표시할 위도
+                     var maplat = parseFloat((document.getElementById('maplat')).innerText); // 지도를 표시할 위도
+                     //var maplon = parseInt(document.getElementById('maplon')); // 지도를 표시할 경도
+                     var maplon = parseFloat((document.getElementById('maplon')).innerText); // 지도를 표시할 경도
+                     console.log(maplat);
+                     console.log(maplon);
+                     //console.log((parseInt(maplat)));
+                     //console.log((parseInt(maplon)));                     
+                     //maplon=parseInt(maplon);
                      var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                         mapOption = {
-                            center: new kakao.maps.LatLng(36.111599999,127.44999919950), // 지도의 중심좌표
+                            center: new kakao.maps.LatLng(maplat,maplon), 
+                            //center: new kakao.maps.LatLng(maplat.maplon), // 지도의 중심좌표
                             // 다만 maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생 => 수정해 나갈 예정!
                             level: 3 // 지도의 확대 레벨
                         };
@@ -168,7 +179,7 @@
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
                     // 마커가 표시될 위치입니다 
-                    var markerPosition = new kakao.maps.LatLng(37.558507, 126.9474058);//maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생
+                    var markerPosition = new kakao.maps.LatLng(maplat,maplon);//maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생
 
                 // 마커를 생성합니다
                 var marker = new kakao.maps.Marker({

@@ -18,9 +18,7 @@
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-} 
-
-/* 아래는 해당 페이지에서 내용 글씨체 */
+} /* 아래는 해당 페이지에서 내용 글씨체 */
 @font-face {
   font-family: 'BBTreeGB';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeGB.woff') format('woff');
