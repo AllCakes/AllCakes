@@ -6,9 +6,11 @@
 {% block content %}
 
 {% for store in stores %}
+<br>
+<br>
 <div class="cake">
-    <h2>{{store.name}}</h2>
-    <a href="{% url 'store_detail' pk=store.pk %}"><img src={{store.store_image.url}} width="100"></a>
+    <h2>{{store.name}}</h2><a href="{% url 'store_detail' pk=store.pk %}">
+        <img src={{store.store_image.url}} width="100"></a>
 </div>
 {% endfor %}
 

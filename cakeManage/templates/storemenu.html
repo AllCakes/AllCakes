@@ -1,37 +1,234 @@
-{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}메뉴 추가{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <!--부트스트랩 불러온 것-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-{% block content %}
+    <!--부트스트랩-->
+    <!--여기까지-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+</head>
+
+</head>
+
 <body>
-    <br><br><br><br>
-    <h1>메뉴 등록</h1>
-    <!-- 기존에 저장된 메뉴 등록 -->
-    <form method="POST" action="">
-        {% csrf_token %}
-        <div style="margin: 50px 50px 50px 50px;"><h2>색 선택</h2> 
-            <ul class="색"></ul>
-        </div>
-        <div style="margin: 50px 50px 50px 50px;"><h2>크림종류 선택</h2> 
-            <ul class="크림종류"></ul>
-        </div>
-        <button type="submit">저장</button>
-    </form>
+
+
+    <!--새로 붙여넣은 header-->
+    <header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">ALLCAKES</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
+                        <!-- 리뷰는 마이페이지 참고 -->
+						<li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'search_all' %}">Search</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!--로그인 or 로그아웃-->
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                            {% if user.is_kakao == True %}
+                            <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
+                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}">Logout</a>
+                            {% else %}
+                            <a class="nav-link px-2" href="{% url 'logout' %}">Logout</a>
+                            {% endif %}
+
+                            {% else %}
+                            <!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
+                            <a class="nav-link px-2" href="{% url 'login_home' %}">Login</a>
+                            {% endif %}
+                        </li>
+                        <!--로그인과 로그아웃만 뜸 -->
+
+                        <!--마이페이지 or about us-->
+                        <li class="nav-item">
+
+                            {% if user.is_authenticated %}
+                            <!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
+                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}">My Page</a>
+                            {% endif %}
+
+                            {% if not user.is_authenticated %}
+                            <a class="nav-link px-2" href="#">About Us</a>
+                        {% endif %}
+                            <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
+
+                        <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
+                        </li>
+                        <!--
+                        <li class="nav-item">
+                        검색 가까운순정렬 삭제
+                            <form action="{% url 'search' %}" method="GET" class="d-flex">
+                                이유는 모르겠는데 head에 style태그 넣어서 검색바 크기 조절하면 적용이 안되어서 input 태그에 스타일 집어넣음
+                                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="q"
+                                    style="width: 200px; height: 30px; margin-top: 5px; font-family: 'SF_HambakSnow'; border-radius: 0%; border-color: black;">
+                                <button class="btn btn-secondary btn-sm" type="submit" value="r">🔍</button>
+                            </form>
+                        </li>   
+					</ul>
+                -->
+
+
+                    
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <!---->
+    <html>
+        <body>
+            <br><br><br><br>
+            <h1>메뉴 등록</h1>
+            <!-- 기존에 저장된 메뉴 등록 -->
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div style="margin: 50px 50px 50px 50px;"><h2>색 선택</h2> 
+                    <ul class="색"></ul>
+                </div>
+                <div style="margin: 50px 50px 50px 50px;"><h2>크림종류 선택</h2> 
+                    <ul class="크림종류"></ul>
+                </div>
+                <button type="submit">저장</button>
+            </form>
+            
+            <!-- 새로운 메뉴 추가 -->
+            <div>메뉴 추가하기</div>
+            <div>색 추가하기 : <input id="색추가" type="text">
+                <button id ="AddMenu" data-key = "색추가" data-value="색">add</button>
+            </div>
+            <div>크림종류 추가하기 : <input id="크림추가" type="text">
+                <button id ="AddMenu" data-key = "크림추가" data-value="크림종류">add</button>
+            </div>
+            <script>
+                var color = "{{색}}";
+                var cream = "{{크림종류}}";
+            </script>
+            <script type="text/javascript" src="/static/js/selStoreMenu.js" defer></script>
+        </body>
+        </html>
+
     
-    <!-- 새로운 메뉴 추가 -->
-    <div>메뉴 추가하기</div>
-    <div>색 추가하기 : <input id="색추가" type="text">
-        <button id ="AddMenu" data-key = "색추가" data-value="색">add</button>
-    </div>
-    <div>크림종류 추가하기 : <input id="크림추가" type="text">
-        <button id ="AddMenu" data-key = "크림추가" data-value="크림종류">add</button>
-    </div>
-    <script>
-        var color = "{{색}}";
-        var cream = "{{크림종류}}";
-    </script>
-    <script type="text/javascript" src="/static/js/selStoreMenu.js" defer></script>
+    <footer>
+        <div class="footerContent1">
+            <div class="about">
+                <p class="aboutTitle">About</p>
+                <hr class="underline">
+
+                <p class="aboutContent">이 어둠을 빨간 코로 비춰줄래
+                    어디서부터 잘못된 건지
+                    온 세상이 all black black black
+                    지금 너와 난
+                    다 깨져버린 1000피스
+                    lego block block block
+                    차라리 더 어두워지면 좋겠어
+                    이 세상에 스위치가 있다면
+                    꺼버릴거야
+                    그리고 널 향한 노랠 부르겠어</p>
+
+            </div>
+
+            <div class="categories">
+                <p class="categoryTitle">Categories</p>
+                <hr class="underline">
+
+                <li>
+                    <a href="#" target="_blank">
+                        <ul>HOME</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>ABOUT US</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>CONTACT</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>JOIN</ul>
+                    </a>
+
+                </li>
+            </div>
+
+            <div class="links">
+                <p class="linkTitle">Links</p>
+                <hr class="underline">
+
+                <li>
+                    <a href="#" target="_blank">
+                        <ul>CONTRIBUTE</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">ABOUT US</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">CONTACT</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">PRIVACY POLICY</ul>
+                    </a>
+                </li>
+            </div>
+        </div>
+        <hr class="underline2">
+
+
+        <div class="footerContent2">
+            <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
+        </div>
+    </footer>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+</script>
+
+<script>
+    // 현재 위치를 가져오는 getPosition 프로미스 생성
+    var getPosition = function (options) {
+      return new Promise(function (resolve, reject) {
+        var options = {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 10000
+      }
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      })
+    }
+    // getPosition 프로미스 실행
+    // 결과값이 있을 경우 쿠키에 정보를 저장하고, 없을 경우 Error를 Log에 찍는다
+    getPosition()
+      .then((position) => {
+        $.cookie("latitude", position.coords.latitude, { path: '/' })
+        $.cookie("longitude", position.coords.longitude, { path: '/' })
+      })
+      .catch((err)=> {
+        console.log(err)
+      })
+</script>
+
 </body>
+
+
+
 </html>
-{% endblock %}

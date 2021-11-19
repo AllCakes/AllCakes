@@ -9,20 +9,19 @@ function loadMenu(){
 // 각 json data를 html 요소로 변환
 // $("input[name='맛'][value='딸기']").prop("checked",true);
 function display(menu){
+    console.log(menu);
     for(type in menu[0]){ //type(key) : 맛 , menu[0][type](value) : {딸기 : 이미지}
         const container = document.querySelector(`.${type}`);
         const str = [];
 
         const 색 = color.replace(/&#x27;/g,"").replaceAll(" ","").replace("[","").replace("]","").split(',');
         const 크림종류 = cream.replace(/&#x27;/g,"").replaceAll(" ","").replace("[","").replace("]","").split(',');
-
         let num = 0;
         let name;    
         for(item in menu[0][type]){
         
             if(type === '색') name = `${색[num]}`
             else if(type === "크림종류") name = `${크림종류[num]}`
-
             const img = menu[0][type][item]   // 이미지찾기
             if(item == name){
                 str.push(createHTMLString(type, item, img, 1));
@@ -48,7 +47,6 @@ function setEventListeners(menu) {
     const buttons = document.querySelector('#AddMenu');
     buttons.addEventListener('click', event => { AddMenu(event, menu)});
 }
-
 // 메뉴 추가 함수
 function AddMenu(event, menu){
     const dataset = event.target.dataset;

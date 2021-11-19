@@ -4,7 +4,7 @@ from .models import Review, Store, Cake, Order, Store_Menu
 class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
-        fields = ['name', 'store_image','meta_body', 'text', 'contact', 'location']
+        fields = ['name', 'store_image','meta_body', 'text', 'contact', 'locationSi', 'locationGu']
 
 class CakeForm(forms.ModelForm):
     class Meta:
