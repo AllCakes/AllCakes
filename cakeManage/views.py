@@ -485,6 +485,40 @@ class OrderImpAjaxView(View):
 
         else:
             return JsonResponse({}, status=401)
+
+def like_it(request):
+    type = request.POST.get("type")
+    type = int(type)
+    obj_id = request.POST.get("obj_id")
+    obj_id = int(obj_id)
+    print(type)
+    print(obj_id)
+    if type == 1:
+        try:
+            obj = get_object_or_404(Cake, id=obj_id)
+        except Cake.DoesNotExist:
+            return JsonResponse({}, status=402)
+    elif type == 2:
+        obj = get_object_or_404(Store, id=obj_id)
+    else:
+        return JsonResponse({}, status=401)     #오류 상황
+
+
+    if obj.users_liked.filter(id=request.user.id).exists():
+        obj.users_liked.remove(request.user)
+        data = {
+            "like" : False
+        }
+    else:
+        obj.users_liked.add(request.user)
+        data = {
+            "like": True
+        }
+
+    # Json 응답으로 생성여부 및 생성 내용을 반환
+    return JsonResponse(data)
+    
+
 def test(request):
     return render(request, 'test.html')
 

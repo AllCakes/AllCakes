@@ -1,0 +1,76 @@
+.body3{
+    padding-top: 80px;
+    height: 1600px;
+    margin-left: 10px;
+}
+
+h2{
+    font-size: 20px;
+    text-align: left;
+}
+
+.user-info {
+    margin-bottom: 20px;
+}
+.user-order {
+    margin-bottom: 10px;
+}
+.user-review {
+    margin-bottom: 20px;
+}
+.review-info {
+    display: flex;
+    justify-content: space-around;
+}
+
+.review-card {
+    height: 350px;
+    width: 20%;
+    margin: 0px 0px;
+    border: solid lightgray;
+    border-radius: 5px;
+    text-align: center;
+    vertical-align: middle;
+}
+table {
+    text-align: center;
+}
+td {
+    vertical-align: middle; 
+}
+img {
+    border-radius: 5px;
+    width: 180px;
+}
+.user-info > img {
+    width: 200px; 
+}
+
+
+.user-order-text{
+    display: flex;
+}
+.user-info-text{
+    display: flex;
+}
+.user-info-text > a {
+    margin-left: 10px;
+}
+.user-liked-text{
+    display: flex;
+}
+
+.info-more {
+    height: 80%;
+    margin-left: 20px;
+}
+.button {
+    border: 2px ;
+    padding: 5px 20px;
+    border-radius: 10px;
+}
+
+.button:hover {
+    background-color: rgba(224, 224, 224, 0.15);
+    color: #ffffff;
+}
