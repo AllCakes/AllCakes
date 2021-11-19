@@ -129,13 +129,19 @@
                 <!--map_api 키 보안처리 했습니당-->
                 <script>
                     var storeName = document.getElementsByClassName("store-name");
-                     var maplat = document.getElementById('maplat'); // 지도를 표시할 위도
-                     var maplon = document.getElementById('maplon'); // 지도를 표시할 경도
-                     maplat=Number(maplat);
-                     maplon=Number(maplon);
+                     //var maplat = parseInt(document.getElementById('maplat')); // 지도를 표시할 위도
+                     var maplat = parseFloat((document.getElementById('maplat')).innerText); // 지도를 표시할 위도
+                     //var maplon = parseInt(document.getElementById('maplon')); // 지도를 표시할 경도
+                     var maplon = parseFloat((document.getElementById('maplon')).innerText); // 지도를 표시할 경도
+                     console.log(maplat);
+                     console.log(maplon);
+                     //console.log((parseInt(maplat)));
+                     //console.log((parseInt(maplon)));                     
+                     //maplon=parseInt(maplon);
                      var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                         mapOption = {
-                            center: new kakao.maps.LatLng(36.111599999,127.44999919950), // 지도의 중심좌표
+                            center: new kakao.maps.LatLng(maplat,maplon), 
+                            //center: new kakao.maps.LatLng(maplat.maplon), // 지도의 중심좌표
                             // 다만 maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생 => 수정해 나갈 예정!
                             level: 3 // 지도의 확대 레벨
                         };
@@ -150,7 +156,7 @@
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
                     // 마커가 표시될 위치입니다 
-                    var markerPosition = new kakao.maps.LatLng(37.558507, 126.9474058);//maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생
+                    var markerPosition = new kakao.maps.LatLng(maplat,maplon);//maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생
 
                 // 마커를 생성합니다
                 var marker = new kakao.maps.Marker({
