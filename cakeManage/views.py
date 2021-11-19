@@ -99,7 +99,7 @@ def filtering(request):
             
             else:#앞에서 시로 걸러진적 없다면 처음부터 수집해야함
                 stores2 |= Store.objects.filter(locationGu__in=locationGu).distinct()                
-                cakes2 |= Cake.objects.filter(referred_store__locationGu__in=locationGu).distinct()
+                cakes2 |= Cake.objects.filter(referred_stosoure__locationGu__in=locationGu).distinct()
             if chkCategory==1:#카테고리가 케이크라면
                 filtered_product=cakes2
             elif chkCategory==2:#카테고리가 가게라면
