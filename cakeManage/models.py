@@ -20,7 +20,8 @@ class Store(models.Model):
     meta_body = models.CharField(max_length=100, default='', verbose_name="검색을 위한 키워드(100자 이내)") # 검색을 위한 필드
     pub_date = models.DateTimeField(default=timezone.now)
     contact = models.CharField(max_length=15)
-    price = models.CharField(default='15000', max_length=100)
+    # kdy : 가격 0원으로 건드렸음
+    price = models.CharField(default='0', max_length=100)
     si_choices=[
         ('서울', '서울'),
         ('경기', '경기'),
@@ -40,50 +41,14 @@ class Store(models.Model):
         ('전북', '전북'),
         ('제주', '제주'),
     ]
-    location_choices1 =[
-        ('-','-'),
-        ('종로구','종로구'),
-        ('중구','중구'),
-        ('용산구','용산구'),
-        ('성동구','성동구'),
-        ('광진구','광진구'),
-        ('동대문구','동대문구'),
-        ('중랑구','중랑구'),
-        ('성북구','성북구'),
-        ('강북구','강북구'),
-        ('도봉구','도봉구'),
-        ('노원구','노원구'),
-        ('은평구','은평구'),
-        ('서대문구','서대문구'),
-        ('마포구','마포구'),
-        ('양천구','양천구'),
-        ('강서구','강서구'),
-        ('구로구','구로구'),
-        ('금천구','금천구'),
-        ('영등포구','영등포구'),
-        ('동작구','동작구'),
-        ('관악구','관악구'),
-        ('서초구','서초구'),
-        ('강남구','강남구'),
-        ('송파구','송파구'),
-        ('강동구','강동구'),
-]
 
-    location_choices2 =[
-        ('-','-'),
-        ('경기시','경기시'),
-        ('평택','평택'),     
-]
     locationSi = models.CharField(
         max_length=10,
         choices=si_choices,
         default='서울',
+        verbose_name="시"
     )
-    location = models.CharField(
-        max_length = 10,
-        choices = location_choices1,
-        default = '-',
-    )
+    locationGu=models.CharField(max_length=10, default='노원구', verbose_name="구") 
 
 
     # 가게 사장 user는 관리자에서 설정하도록 할 것, 이후 그 가게의 사장이면
@@ -99,6 +64,8 @@ class Store(models.Model):
     # ... Two fields of the Student model are referencing the Teacher model. In Django, when referencing the same model more than once, we have to provide a related_name for all the fields because Django’s default related_name for a single referencing field clashes with other referencing fields. Otherwise, Django will throw an exception. The related_name is what we use for the reverse lookup. In general, it is a good practice to provide a related_name for all the foreign keys rather than using Django’s default-related name.
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_store", related_name="users_liked_store")
     # 같이 알면 좋을 것 같아서 주석 많이 달았음! 찜 구현할 때 필드랑 내용 다 삭제 해도 괜찮! 
+
+    
     lat = models.CharField(max_length=20, verbose_name="위도", default= 37.2,
     )
     lon = models.CharField(max_length=20, verbose_name="경도", default= 125.3,
@@ -110,14 +77,31 @@ class Store(models.Model):
 
 class Cake(models.Model):
     cakename = models.CharField(default='',max_length=200)
-    referred_store = models.ForeignKey(Store ,on_delete=models.CASCADE)
+    referred_store = models.ForeignKey(Store ,on_delete=models.CASCADE, related_name="cake")
+    #kdy : 역참조 prefetch_related 써서 가게 안의 케이크 가게들을 데려와야 해서 related_name을 cake로 추가적으로 설정
+    #참고 : https://leemoney93.tistory.com/24
+    #참고2 : https://velog.io/@hwang-eunji/backend-django-%EC%97%AD%EC%B0%B8%EC%A1%B0-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0
     pub_date = models.DateTimeField(default = timezone.now)
     body = models.TextField(default='')  # 케이크 소개
     meta_body = models.CharField(max_length=100, default='', verbose_name="검색을 위한 키워드(100자 이내)") # 검색을 위한 필드
     cake_image = models.ImageField(upload_to='cakeimages/', blank=False, null=True)
-    
+    ####kdy 1112 에 추가함 (size)
+    size_choices=[
+        ('보틀케이크', '보틀케이크'),
+        ('도시락케이크', '도시락케이크'),
+        ('1~2인분', '1~2인분'),
+        ('3~4인분', '3~4인분'),
+        ('5인분 이상', '5인분 이상'),
+    ]
+
+    size= models.CharField(
+        max_length=10,
+        choices=size_choices,
+        default='보틀케이크',
+    )
     # 케이크 추가할 선택사항
-    price=models.CharField(default='10000원',max_length=100)
+    #kdy : 가격 0원으로 바꿈
+    price=models.CharField(default='0원',max_length=100)
 
     색 = models.CharField(max_length=200)
     색가격 = models.CharField(max_length=200)

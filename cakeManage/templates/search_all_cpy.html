@@ -1,0 +1,448 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}검색 결과{% endblock %}
+<!--사용자가 선택한 필터값-->
+{% block css %}
+<script defer src="/static/js/search_all.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="container2" style="margin-left: 30px; margin-top: 100px; margin-right: 10px;">
+	
+		<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" class="">
+			<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+			<h6 class="title" style="color: black;">SEARCH</h6>
+		</a>
+		<form action="{% url 'search' %}" method="get" name="search" class="pb-3" style="display:flex; flex:auto; width: 60%; margin-left: auto;margin-right: auto;">
+			<div class="input-group">
+				<input type="text" class="form-control" name="q" value="{{q}}" placeholder="원하는 조건을 검색해보세요 (ex 생일 기영이 서울 케이크)">
+				<div class="input-group-append">
+					<button class="btn btn-light" type="submit" ><i
+							class="fa fa-search">검색</i></button>
+				</div>
+			</div>
+		</form>
+
+	<div class="row">
+		<aside class="row-md-3">
+			<div class="card" style="flex-direction: row;">
+				
+<!----------------------------------------------------직접 & 추천 검색어 시작--------------------------------------->
+
+				<article class="filter-group" style="display: flex; flex: auto;">
+					<header class="card-header" style="flex: auto;">
+						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false" class="">
+							<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+							<h6 class="title" style="color: black;">SEARCH</h6>
+						</a>
+					</header>
+					<div class="filter-content collapse" id="collapse_1">
+						<div class="card-body">
+							<form action="{% url 'search' %}" method="get" class="pb-3">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Search">
+									<div class="input-group-append">
+										<input type="submit" class="btn btn-light" ><i
+												class="fa fa-search"></i></input>
+									</div>
+								</div>
+							</form>
+
+							<!--------------------------------------------------------->
+							<label class="checkbox-btn">
+								<input type="checkbox" id="" name="size" value="">
+								<span class="btn btn-light"><label for=""><a href="{% url 'test' %}" value="생일">생일</a>
+										</li></label></span>
+							</label>
+
+							<label class="checkbox-btn">
+								<input type="checkbox" id="bottle" name="size" value=".bottle">
+								<span class="btn btn-light"><label for="bottle"><a href="{% url 'chkbox' %}">동물</a></label></span>
+							</label>
+
+							<label class="checkbox-btn">
+								<input type="checkbox" id="dosirak" name="size" value=".dosirak">
+								<span class="btn btn-light"><label for="dosirak"><a href="{% url 'search_location2' %}">캐릭터</label></span>
+							</label>
+
+							<label class="checkbox-btn">
+								<input type="checkbox" id="12" name="size" value=".12">
+								<span class="btn btn-light"><label for="12">유머</label></span>
+							</label>
+
+							<label class="checkbox-btn">
+								<input type="checkbox" id="34" name="size" value=".34">
+								<span class="btn btn-light"><label for="34">빈티지</label></span>
+							</label>
+
+							<label class="checkbox-btn">
+								<input type="checkbox" id="5" name="size" value=".5">
+								<span class="btn btn-light"><label for="5">연인</label></span>
+							</label>
+						</div>
+
+				</article> <!-- filter-group ---------------------- .// -->
+
+				<!---------------------------------------------------- 추천검색어 끝 ---------------------------------------->
+				<!-----------------------------------------------------카테고리 시작--------------------------------------------------->
+				<article class="filter-group" style="display: flex;flex: auto;">
+					<header class="card-header" style="flex: auto;">
+						<a href="#" data-toggle="collapse" data-target="#collapse_5" aria-expanded="false" class="">
+							<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+							<h6 class="title"style="color: black;">Categories</h6>
+						</a>
+					</header>
+					<!--
+					<form method="POST" class="post-form" enctype="multipart/form-data">
+						{% csrf_token %}
+						<select name = "sort" id ="_sort" onchange="this.form.submit()" >
+							<option class="date" value="date">최신순</option>
+							<option class="highrate" value="highrate">별점 높은순</option>
+							<option class="lowrate" value="lowrate">별점 낮은순</option>
+						</select>
+					</form>
+				-->
+					<div class="filter-content collapse" id="collapse_5">
+						<div class="card-body">
+
+							<form method="GET" enctype="multipart/form-data">
+								<label class="checkbox-btn">
+									<input type="submit" name="stores" value="모두">
+									
+									<!--<span class="btn btn-light"><label for="all">모두</label></span>-->
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="submit" name="stores" value="케이크만">
+									<!--<span class="btn btn-light"><label for="all">케이크만</label></span>-->
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="submit" name="stores" value="가게만">
+									<!--<span class="btn btn-light"><label for="dosirak">가게만</label></span>-->
+								</label>
+							</form>
+
+								</div>
+								</div>
+							</article>
+								<!-----------------------------------------------------카테고리 끝--------------------------------------------------->
+				<!----------------------------------------------------지역 필터 ---------------------------------------->
+				<article class="filter-group" style="display: flex;flex: auto;">
+					<header class="card-header" style="flex: auto;">
+						<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="false" class="">
+							<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+							<h6 class="title" style="color: black;">Location</h6>
+						</a>
+					</header>
+					<div class="filter-content collapse" id="collapse_3">
+						<div class="card-body">
+							<div class="location_filter" data-filter-group="location1">
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" id="서울" value=".서울">
+									<div class="custom-control-label"><label for="서울">서울</label>
+										<!--아래는 관련 검색어에 해당하는 숫자의 개수-->
+										<b class="badge badge-pill badge-light float-right">120</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input " id="경가" value=".경기">
+									<div class="custom-control-label"><label for="경기">경기</label>
+										<b class="badge badge-pill badge-light float-right">15</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input " id="인천" value=".인천">
+									<div class="custom-control-label"><label for="인천">인천</label>
+										<b class="badge badge-pill badge-light float-right">35</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" id="부산" value=".부산">
+									<div class="custom-control-label"><label for="부산">부산</label>
+										<b class="badge badge-pill badge-light float-right">89</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input">
+									<div class="custom-control-label"><label for="대구">대구</label>
+										<b class="badge badge-pill badge-light float-right">30</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input">
+									<div class="custom-control-label"><label for="광주">광주</label>
+										<b class="badge badge-pill badge-light float-right">30</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input">
+									<div class="custom-control-label"><label for="대전">대전</label>
+										<b class="badge badge-pill badge-light float-right">30</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input">
+									<div class="custom-control-label">울산
+										<b class="badge badge-pill badge-light float-right">30</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input">
+									<div class="custom-control-label">세종
+										<b class="badge badge-pill badge-light float-right">30</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input">
+									<div class="custom-control-label">강원도
+										<b class="badge badge-pill badge-light float-right">30</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input">
+									<div class="custom-control-label">충청북도
+										<b class="badge badge-pill badge-light float-right">30</b>
+									</div>
+								</label>
+								<label class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input">
+									<div class="custom-control-label">충청남도
+										<b class="badge badge-pill badge-light float-right">30</b>
+									</div>
+								</label>
+							</div> <!-- card-body.// -->
+						</div>
+					</div>
+				</article> <!-- filter-group .// -->
+				<!----------------------------------------------------지역 필터 끝---------------------------------------->
+				<!----------------------------------------------------가격 필터 시작 ---------------------------------------->
+				<article class="filter-group" style="display: flex;flex:auto;">
+					<header class="card-header" style="flex: auto;">
+						<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="false" class="">
+							<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+							<h6 class="title" style="color: black;">Price</h6>
+						</a>
+					</header>
+					<div class="filter-content collapse" id="collapse_3">
+						<div class="card-body">
+							<input type="range" class="custom-range" min="0" max="100" name="">
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Min</label>
+									<input class="form-control" placeholder="$0" type="number">
+								</div>
+								<div class="form-group text-right col-md-6">
+									<label>Max</label>
+									<input class="form-control" placeholder="$1,0000" type="number">
+								</div>
+							</div> <!-- form-row.// -->
+							<button class="btn btn-block btn-primary">Apply</button>
+						</div><!-- card-body.// -->
+					</div>
+				</article> <!-- filter-group .// -->
+				<!----------------------------------------------------가격 필터 끝---------------------------------------->
+				<!----------------------------------------------------사이즈 필터 시작---------------------------------------->
+				<!--checkbox 선택 시 value가 넘어가게 됨-->
+				<article class="filter-group" style="display: flex; flex: auto;">
+					<header class="card-header" style="flex: auto;">
+						<a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="false" class="">
+							<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+							<h6 class="title" style="color: black;">Sizes </h6>
+						</a>
+					</header>
+					<div class="filter-content collapse" id="collapse_4">
+						<div class="card-body">
+
+							<div class="size_filter" data-filter-group="size">
+
+								<label class="checkbox-btn">
+									<input type="checkbox" id="" name="size" value="">
+									<span class="btn btn-light"><label for="">모두</label></span>
+								</label>
+
+								<div>
+									<input type="checkbox" name="locations[]" id="seoul22" value="은평구">
+									
+									<label for="seoul22"><p>은평구</p></label>
+								</input>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" id="bottle" name="size" value=".bottle">
+									<span class="btn btn-light"><label for="bottle">보틀케이크</label></span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" id="dosirak" name="size" value=".dosirak">
+									<span class="btn btn-light"><label for="dosirak">도시락케이크</label></span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" id="12" name="size" value=".12">
+									<span class="btn btn-light"><label for="12">1~2인용</label></span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" id="34" name="size" value=".34">
+									<span class="btn btn-light"><label for="34">3~4인용</label></span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox" id="5" name="size" value=".5">
+									<span class="btn btn-light"><label for="5">5인 이상</label></span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</article>
+				<!----------------------------------------------------사이즈 필터 끝--------------------------------------->
+
+
+		</aside>
+		<!----------------------------------------------------상단 토글바 시작---------------------------------------->
+		<main class="row-md-9">
+
+			<header class="filters-select border-bottom mb-4 pb-3">
+				<div class="form-inline">
+					<span class="mr-md-auto">{{num}} Items found </span>
+					<span class="txt"> 선택하신 값 : </span>
+					<span class="user-checked mr-md-auto"></span>
+					<!--
+					<div class="card-body">
+						sour
+							
+							<label class="checkbox-btn">
+
+								<input type="submit" name="all" value="모두" style="color:rgb(61, 60, 60); background-color:rgb(240, 238, 235)">
+
+								<span class="btn btn-light"><label for="">모두</label></span>
+							</label>
+
+							<label class="checkbox-btn">
+								<input type="submit" name="cakes" value="케이크만">
+								<span class="btn btn-light"><label for="bottle">케이크만</label></span>
+							</label>
+
+							<label class="checkbox-btn">
+								<input type="submit" name="stores" value="가게만">
+								<span class="btn btn-light"><label for="dosirak">가게만</label></span>
+							</label>
+						</form>
+					-->
+
+				<form action="{% url 'sorting' %}" name='sort3' value="sort3" method="get">
+					<select name="sorting" style="margin-right: 50px;" class="mr-2 form-control" onchange="this.form.submit()">
+						<option value="latest" name="latest">최신순</option>
+						<option value="review" name="review">리뷰 많은 순</option>
+						<option value="low" name="low">가격 낮은 순</option>
+						<option value="high" name="high">가격 높은 순</option>
+					</select>
+					</form>
+<!--
+					<div class="btn-group">
+						<a href="#" class="btn btn-outline-secondary" data-toggle="tooltip" title=""
+							data-original-title="List view">
+							<i class="fa fa-bars"></i></a>
+						<a href="#" class="btn  btn-outline-secondary active" data-toggle="tooltip" title=""
+							data-original-title="Grid view">
+							<i class="fa fa-th"></i></a>
+					</div>
+				-->
+				</div>
+
+				<div class="form-inline">
+
+				</div>
+				<!----------------------------------------------------상단 토글바 끝---------------------------------------->
+			</header><!-- sect-heading -->
+			<div class="row">
+				<div class ="grid">
+
+				{% for products in product %}
+				{% if products.cakename %}
+				<div class="product cakes col-md-4">
+					<!--cakes에서 li부분이 검색당할 것-->
+					<li class="{{products.size}} {{products.referred_store.locationSi}} {{product.price}}">
+						<figure class="card card-product-grid">
+							<div class="img-wrap">
+								<a href="{% url 'cake_detail' pk=products.pk %}"><img src={{products.cake_image.url}} class="img-fluid"></a>
+								<a class="btn-overlay" href="{% url 'cake_detail' pk=products.pk %}">
+									<!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
+							</div> 
+							<figcaption class="info-wrap">
+								<div class="fix-height">
+									<a href="{% url 'cake_detail' pk=products.pk %}" class="title">{{products.cakename}}</a>
+									<div class="price-wrap mt-2">
+										<span class="price">{{products.price}}</span>
+									</div> <!-- price-wrap.// -->
+								</div>
+								<a href="#" class="btn btn-block btn-primary" style="background-color:gray;border-color: whitesmoke;">장바구니</a>
+							</figcaption>
+						</figure>
+					</li>
+				</div> <!-- col.// -->
+				{% endif %}
+				{% if products.name %}
+				<div class="product stores col-md-4">
+					<!--stores에서 li부분이 검색당할 것-->
+					<li class="{{products.referred_store.locationSi}}">
+						<figure class="card card-product-grid">
+							<div class="img-wrap">
+								<class= href="{% url 'store_detail' pk=products.pk %}"><img
+										src={{products.store_image.url}} class="img-fluid"></a>
+									<a class="btn-overlay" href="{% url 'store_detail' pk=products.pk %}">
+											<!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
+							</div>
+							<figcaption class="info-wrap">
+								<div class="fix-height">
+									<a href="{% url 'store_detail' pk=products.pk %}" class="title">{{products.name}}</a>
+									<div class="price-wrap mt-2">
+										<span class="price">{{products.price}}</span>
+									</div>
+								</div>
+								<a href="#" class="btn btn-block btn-primary" style="background-color:gray;border-color: whitesmoke;">장바구니</a>
+							</figcaption>
+						</figure>
+					</li>
+				</div>
+
+
+
+				{% endif %}
+				{% endfor %}
+
+			</div>
+			</div>
+		</main>
+		<!-----------------endfor 아래 여기 위-->
+<!--
+		<div class="pagi" style="margin-left: 1200px;">
+			<nav class="mt-4" aria-label="Page navigation sample">
+				<ul class="pagination">
+					{% if product.has_previous %}
+					<li class="page-item"><a class="page-link"
+							href="?page={{product.previous_page_number}}">Previous</a></li>
+					{% endif %}
+					<li class="page-item active"><a class="page-link" href="?page={{product.number}}">{{product.number}}
+					</li>
+					{% if product.has_next %}
+					<li class="page-item"><a class="page-link" href="?page={{product.next_page_number}}">Next</a></li>
+					{% endif %}
+				</ul>
+			</nav>
+		-->
+			<!---------------------------->
+			<!--
+	<nav class="mt-4" aria-label="Page navigation sample">
+		<ul class="pagination">
+			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+			<li class="page-item active"><a class="page-link" href="#">1</a></li>
+			<li class="page-item"><a class="page-link" href="#">2</a></li>
+			<li class="page-item"><a class="page-link" href="#">3</a></li>
+			<li class="page-item"><a class="page-link" href="#">Next</a></li>
+		</ul>
+	</nav>-->
+		</div>
+		{% endblock %}

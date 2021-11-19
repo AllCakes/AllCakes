@@ -39,15 +39,15 @@ urlpatterns = [
     path('review/edit/<int:pk>', review_edit, name="review_edit"),
 
     # 홈에 임시로 작성한 Stores, Cakes 링크 (가게 상세페이지 들어가기 불편해서)
-    path('stores/all', stores_all, name="stores_all"),
-    path('cakes/all', cakes_all, name="cakes_all"),
-    path('search/all', search_all, name="search_all"),
+    path('all/stores', stores_all, name="stores_all"),
+    path('all/cakes', cakes_all, name="cakes_all"),
+    path('all', search_all, name="search_all"),
 
     # 검색 및 필터(검색이 주된 내용)
     # cake와 store의 기본정보(장소,이름 등등...), 상세설명(store.text, cake.body, ...부족하면 리뷰도) 등을 토대로 검색 구현
     # 필터는 장소 필터링만
 
-    path('search/',search, name="search"),
+    path('all/search',search, name="search"),
     # 지역 필터링 (알바몬)
     path('search2/',search_location2, name="search_location2"),
     # 거리 가까운 순 정렬 페이지
@@ -57,9 +57,15 @@ urlpatterns = [
     
 
 
-
+    #동윤이의 테스트 url
     path('test/', test, name="test"),    
+    path('chkbox/', chkbox, name="chkbox"), 
     path('character/', character, name="character"),
+    #path('category/',category,name="category"),
+    path('sorting/',sorting ,name="sorting"),
+    path('recommend/',recommend, name="recommend"),
+    path('filtering/', filtering, name="filtering"),
+
     # 맞춤형 메뉴 선택
     path('storemenu/<int:store_pk>', storemenu, name="storemenu"),
     path('storemenu_edit/<int:store_pk>', storemenu_edit, name="storemenu_edit"),
