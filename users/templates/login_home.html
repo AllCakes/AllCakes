@@ -1,97 +1,111 @@
-{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Allcakes 로그인 홈{% endblock %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <!--부트스트랩 불러온 것-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Allcakes Login</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/login_home.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
+</head>
+
+<body class="kakao-body">
+    <header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">ALLCAKES</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
+                        <!-- 리뷰는 마이페이지 참고 -->
+						<li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="#">Reviews</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'search_all' %}">Search</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!--로그인 or 로그아웃-->
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                            {% if user.is_kakao == True %}
+                            <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
+                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}">Logout</a>
+                            {% else %}
+                            <a class="nav-link px-2" href="{% url 'logout' %}">Logout</a>
+                            {% endif %}
+
+                            {% else %}
+                            <!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
+                            <a class="nav-link px-2" href="{% url 'login_home' %}">Login</a>
+                            {% endif %}
+                        </li>
+                        <!--로그인과 로그아웃만 뜸 -->
+
+                        <!--마이페이지 or about us-->
+                        <li class="nav-item">
+
+                            {% if user.is_authenticated %}
+                            <!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
+                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}">My Page</a>
+                            {% endif %}
+
+                            {% if not user.is_authenticated %}
+                            <a class="nav-link px-2" href="#">About Us</a>
+                        {% endif %}
+                            <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
+
+                        <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
+                        </li>
+                        <!--
+                        <li class="nav-item">
+                        검색 가까운순정렬 삭제
+                            <form action="{% url 'search' %}" method="GET" class="d-flex">
+                                이유는 모르겠는데 head에 style태그 넣어서 검색바 크기 조절하면 적용이 안되어서 input 태그에 스타일 집어넣음
+                                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="q"
+                                    style="width: 200px; height: 30px; margin-top: 5px; font-family: 'SF_HambakSnow'; border-radius: 0%; border-color: black;">
+                                <button class="btn btn-secondary btn-sm" type="submit" value="r">🔍</button>
+                            </form>
+                        </li>   
+					</ul>
+                -->
 
 
-{% block content %}
+                    
 
-<!-- 캐러셀 -->
-    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel"data-interval="2000">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div id="login-img1" class="carousel-item login-img-display active">
-                <div class="carousel-caption d-none d-md-block" id="color-black">
-                    <h3>SIMPLY, EASILY</h3>
-                    <p>간편한 카카오 로그인으로 ALLCAKES를 이용하세요.</p>
                 </div>
             </div>
-            <div id="login-img2" class="carousel-item login-img-display">
-                <div class="carousel-caption d-none d-md-block" id="second-car">
-                    <h5>"오늘의 가게"가 궁금하다면?</h5>
-                    <button class="login-go-today go-today-hover">구경하러 가기</button>
+        </nav>
+    </header>
 
-
-                </div>
-            </div>
-            <div id="login-img3" class="carousel-item login-img-display">
-                <div class="carousel-caption d-none d-md-block" id="third-car">
-                    <h2>"ALLCAKES"</h2>
-                    <p>케이크 가게 정보를 한 눈에, 주문을 한 번에</p>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-
-
-
-<!-- 프론트: a태그 위치를 필요한 곳에 넣으면 됨. -->
-
-<!-- 카카오 로그인을 적극 추천하는 느낌으로 페이지 만들기 
-카카오 로그인으로 유저가 들어와야 이후 알림메세지 동의를 받을 수 있음. 
-앱이 아닌 웹서비스인 이상 알림의 편의성을 위해 카카오가 편함. 
-일반 로그인으로는 주문 알림을 어떻게 할지 생각해보기(ex. 연락처, 이메일, 일반로그인 삭제, ...) -->
-<div class="login-box">
-
-    <div class="email-box">
-        <div class="email-box1">
-            <p>이메일 로그인</p>
-        </div>
-        
-        <div class="email-box2">
-            <div class="email-box2-1">
-                <a href="{%url 'email_login' %}" class="login-button hover">로그인</a>
-            </div>
-
-            <div class="email-box2-2">
-                <a href="{%url 'signup_email' %}" class="login-button hover">회원가입</a>
-            </div>
-        </div>
-        
-    </div>
-
-    <!-- 즉, 카카오로 소셜 토큰 받아와서 인증 후 처음이면 가입까지 시키고 돌아와야 함. -->
-    <div class="kakao-box">
-        <div class="kakao-box1">
-            <p>카카오 로그인</p>
-        </div>
-
-        <div class="kakao-box2">
-            <a href="{%url 'kakao_login' %}" class="kakao-button kakao-hover">로그인 / 회원가입</a>
+    <!-- 앱이 아닌 웹서비스인 이상 알림의 편의성을 위해 카카오가 편함. 일반로그인 삭제 -->
+    <div class="body3">
+        <div class="kakao_login">
+            <a href="{%url 'kakao_login' %}"><img src="{% static 'img/kakao_login_large_wide.png'%}"></a>
+            <p class ="login_description">
+                **Allcakes는 주문정보, 진행 상태 등을 편하게 전달하고,  최소한의 개인정보만을<br>
+                받기 위해 카카오 로그인, 회원가입을 제공하고 있습니다. 양해 부탁드립니다. **</p>
         </div>
     </div>
 
-</div>
-
-
-{% endblock %}
-
-
+</body>
+</html>
