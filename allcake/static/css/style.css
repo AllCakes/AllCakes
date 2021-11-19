@@ -9,8 +9,9 @@
 @import "order.css";
 @import "locationSearch.css";
 @import "login_home.css";
-@import "search_all.css"
-
+@import "search_all.css";
+@import "cake_detail.css";
+@import "order_complete.css";
 
 /*kdy : 앞으로 각 페이지마다 css 입히는 것이 달라질 가능성이 높아서
 css를 페이지별로 나눠서 보면 좋을듯해서 파일을 분배함*/
