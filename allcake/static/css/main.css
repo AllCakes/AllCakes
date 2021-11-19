@@ -72,6 +72,19 @@ input, select, textarea {
 	appearance: none;
 }
 
+/* for like and unlike */
+.red > .fas{
+	color: red;
+}
+
+.like{
+	background-color: white;
+	border: solid 3px;
+	border-color: lightgray;
+	border-radius: 5px;
+	font-size: 20px;
+}
+
 /* Basic */
 
 	html {

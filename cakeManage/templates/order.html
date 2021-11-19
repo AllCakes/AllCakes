@@ -1,12 +1,5 @@
 {% load static %}
 
-<style>
-    .cakeorder {
-        display: table;
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
 
 <head>
     <meta charset="UTF-8">
@@ -58,7 +51,7 @@
                         <li class="nav-item ">
 
                             {% if user.is_authenticated %}
- 
+
                             {% endif %}
 
                             {% if not user.is_authenticated %}
@@ -74,67 +67,78 @@
 
     <main id="order-main">
         <div class="main-header">
-            <div class="order-main-buttons">
-                <a href="/">[ 홈 ></a>
-                <input type="button" onclick="goBack()" value="가게로 돌아가기 >" ></input>
-                <a href="#">주문하기 ]</a>
-            </div>
-            <div class="order-main-texts">
-                <p class="text1" >주문하기</p>
-                <p class="text2">✧ 아래의 양식을 꼼꼼히 채워주세요 ✧</p>
-            </div>
-
+            <p class="p1">주문하기</p>
+            <p class="p2">• 아래의 사항을 꼼꼼하게 읽고 주문서를 작성해주세요. •</p>
         </div>
 
-        <!---------------------------------------------------------------------------------------------------->
-        <div class="cakeorder">
-            
-
-            <img class="calendar" src="https://i.pinimg.com/564x/35/17/c5/3517c525b2edc6aea7d153164243d9df.jpg"
-                width="600px" height="500px">
+        <div class="form-order">
             <form method='POST' enctype="multipart/form-data" class='post-form'>
                 {% csrf_token %}
 
                 <div class="order-form">
                     <div class="order-fixed">
-                        <p class="order-fixed-store">가게명 : {{cake.referred_store}}</p>
-                        <p class="order-fixed-cake">케이크명 : {{cake.cakename}}</p>
-                        <p class="order-fixed-user">주문자 이름 : {{ user.nickname }}</p>
+                        <p class="order-info-text">케이크 주문 정보</p>
+                        <div class="upper-one">
+                            <div class="order-info-box">
+                                <p class="order-fixed-info">[ {{cake.referred_store}} ] {{cake.cakename}} </p>
+                                <p class="order-fixed-user">[ 주문자 ] {{ user.nickname }}</p>
+                            </div>
+
+                        
+
+                        <div class="pickup-info">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                        </div>
+                        </div>
                     </div>
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <div><h2>색 선택</h2> 
+                    <div class="order-color">
+                        <h2 class="color-pick">색 선택</h2>
                         <ul class="색"></ul>
                     </div>
-                    <div><h2>크림종류 선택</h2> 
+
+
+                    <div class="order-cream">
+                        <h2 class="cream-pick">크림종류 선택</h2>
                         <ul class="크림종류"></ul>
                     </div>
-                    <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
-                    <div class="simulation" style="margin-top: 20ox;"></div>
+
                     <input type="text" name="coupon" id="coupon-pk" value="a_0" style="display:none;">
+                    <div class="button-simul">
+                        <button type="submit" class="order-button"> 주문하기 </button>
+                        <div class="simulation"></div>
+                    </div>
                 </div>
 
             </form>
-            <button onclick="coupon('block')">쿠폰</button>
-            <div class="price">
-                
-                <div id="coupon" class="coupon">
-                    <div>
-                        {% for c in a_coupons %}
-                        <input type="radio" name="discount" value="{{c.amount}} {{c.pk}}">
-                        <label for="amount">{{c.name}} {{c.amount}}원 할인쿠폰</label>
-                        {% endfor %}
-                        {% for c in p_coupons %}
-                        <input type="radio" name="discount" value="{{c.percent}} {{c.pk}}">
-                        <label for="percent">{{c.name}} {{c.percent}}% 할인쿠폰</label>
-                        {% endfor %}
-                        <button type="button" onclick="discount(`{{cake.price}}`)">선택</button>
-                    </div>
-                    <button onclick="coupon('none')">닫기</button>
-                </div>
+            <div class="coupon-price">
+                <button onclick="coupon('block')">쿠폰</button>
+                <div class="price">
 
-                <p id="total">{{cake.price}}</p>
+                    <div id="coupon" class="coupon">
+                        <div>
+                            {% for c in a_coupons %}
+                            <input type="radio" name="discount" value="{{c.amount}} {{c.pk}}">
+                            <label for="amount">{{c.name}} {{c.amount}}원 할인쿠폰</label>
+                            {% endfor %}
+                            {% for c in p_coupons %}
+                            <input type="radio" name="discount" value="{{c.percent}} {{c.pk}}">
+                            <label for="percent">{{c.name}} {{c.percent}}% 할인쿠폰</label>
+                            {% endfor %}
+                            <button type="button" onclick="discount({{cake.price}})">선택</button>
+                        </div>
+                        <button onclick="coupon('none')">닫기</button>
+                    </div>
+
+                    <p id="total">[ 결제 금액 ] {{cake.price}}</p>
+                </div>
             </div>
+
+        </div>
+
+
+
+      
         </div>
     </main>
     <script>
@@ -150,36 +154,38 @@
         function goBack() {
             window.history.back();
         }
+
         function coupon(x) {
             document.getElementById('coupon').style.display = x;
         }
-        function discount(price){
+
+        function discount(price) {
             var ele = document.getElementsByName('discount');
             var discounted_price = 0;
             var check = 0;
             var val = 0;
             var pk = 0;
 
-            for (i=0; i<ele.length; i++){
-                if (ele[i].checked){
-                    check=1;
+            for (i = 0; i < ele.length; i++) {
+                if (ele[i].checked) {
+                    check = 1;
                     val = ele[i].value.split(' ')[0];
                     pk = ele[i].value.split(' ')[1];
-                    if(val<= 100) {
+                    if (val <= 100) {
                         discounted_price = price * (100 - val) / 100;
                         document.getElementById('coupon-pk').setAttribute("value", "p_" + pk);
-                    }
-                    else {
+                    } else {
                         discounted_price = price - val;
                         document.getElementById('coupon-pk').setAttribute("value", "a_" + pk);
                     }
                 }
             }
-            if (check == 0){
+            if (check == 0) {
                 discounted_price = price;
             }
             document.getElementById('total').innerHTML = discounted_price;
         }
     </script>
 </body>
+
 </html>

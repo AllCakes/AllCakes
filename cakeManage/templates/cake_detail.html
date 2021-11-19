@@ -3,17 +3,76 @@
 
 {% block title %}{{cake.cakename}} 상세{% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css"> 
+    
+{% endblock %}
 
 {% block content %}
-<br><br><br>
-<img src="{{cake.cake_image.url}}" aria-label="케이크 이미지" width="300">
 
-<!-- 케이크 이름, 가게 이름, 텍스트 -->
-<h1>Cake: {{cake.cakename}}</h1>
-<br>
-<h2>Store: {{cake.referred_store.name}}</h2>
-<br>
-<section>{{cake.body}}</section>
+<div id="cake_detail_body">
+
+    <div class="cake_info">
+        <div class="info_left">
+            <img src="{{cake.cake_image.url}}" aria-label="케이크 이미지" width="100%" style="border-radius: 2%;">
+        </div>
+        <!-- 케이크 이름, 가게 이름, 텍스트 -->
+        <div class="info_right">
+            <div class="text">
+                <p class="cakename">• CAKE : {{cake.cakename}} </>
+                <p class="storename">• STORE : {{cake.referred_store.name}} </p>
+                <p class="about">{{cake.body}}</p>        
+                <a href="{% url 'order_submit' cake_pk=cake.pk  %}" class="cake_order">주문</a>   
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="cake_reviews">
+        <p class="recent_reviews">[Recent Reviews]</p>
+        {% for review in review %}
+        <div class="review_list">
+            <p class="review_user">{{review.user.nickname}}  ( {{review.pub_date}} )</p>
+            <!-- <p class="review_rate">[{{review.rate}} / 5 ]</p> -->
+            <p class="review_rate">"5점 만점에 {{review.rate}}점!"</p>
+
+            <p class="review_content"> {{review.comment}} </p>
+        </div>
+
+
+
+        {% endfor %}
+
+    </div>
+
+
+
+    <div class="cake_description">
+        <div class="des_list">
+            <p>[Description]</p>
+            <ul>
+                <li>• 대통령은 전시·사변 또는 이에 준하는 국가비상사태에 있어서 병력으로써 군사상의 필요에 응하거나 공공의 안녕질서를 유지할 필요가 있을 때에는 법률이 정하는 바에 의하여 계엄을
+                    선포할 수
+                    있다.</li>
+                <li>•국회의원은 법률이 정하는 직을 겸할 수 없다. 누구든지 체포 또는 구속을 당한 때에는 적부의 심사를 법원에 청구할 권리를 가진다. 한 회계연도를 넘어 계속하여 지출할 필요가 있을
+                    때에는
+                    정부는 연한을 정하여 계속비로서 국회의 의결을 얻어야 한다.</li>
+                <li>•대통령은 국가의 독립·영토의 보전·국가의 계속성과 헌법을 수호할 책무를 진다. 대통령은 조국의 평화적 통일을 위한 성실한 의무를 진다. 국회는 의원의 자격을 심사하며, 의원을
+                    징계할 수
+                    있다.</li>
+                <li>•평화통일정책의 수립에 관한 대통령의 자문에 응하기 위하여 민주평화통일자문회의를 둘 수 있다. 모든 국민은 주거의 자유를 침해받지 아니한다. 주거에 대한 압수나 수색을 할 때에는
+                    검사의
+                    신청에 의하여 법관이 발부한 영장을 제시하여야 한다.</li>
+                <li>•모든 국민은 근로의 권리를 가진다. 국가는 사회적·경제적 방법으로 근로자의 고용의 증진과 적정임금의 보장에 노력하여야 하며, 법률이 정하는 바에 의하여 최저임금제를 시행하여야
+                    한다.
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+</div>
 
 
 {% endblock %}

@@ -195,7 +195,7 @@ def store_new(request):
 # 가게 디테일 R
 def store_detail(request, pk):
     store = get_object_or_404(Store, pk=pk)
-    cake_list = Cake.objects.filter(referred_store=store)
+    cake_list = Cake.objects.filter(referred_store=store).order_by('-pub_date')[:3]
     review_list = Review.objects.select_related('order').filter(order__referred_store=store)
     num = 0
     # 최신순, 별점 낮은순, 높은순의 option을 post로 받아서 해당에 따라 정렬한다.
@@ -268,8 +268,12 @@ def cake_new(request, pk): #가게 pk값
 
 # 케이크 상세 R
 def cake_detail(request, pk): #cake의 pk값
-    cake = Cake.objects.get(pk=pk)
-    return render(request, 'cake_detail.html',{'cake':cake})
+    cake = Cake.objects.get(pk=pk)    
+    review = Review.objects.select_related('order').filter(order__referred_cake=cake).order_by('-pub_date')[:3]
+    return render(request, 'cake_detail.html',{'cake':cake, 'review':review})
+
+
+
 
 # 케이크 수정 U
 def cake_edit(request, pk): #cake의 pk값
@@ -719,6 +723,40 @@ class OrderImpAjaxView(View):
 
         else:
             return JsonResponse({}, status=401)
+
+def like_it(request):
+    type = request.POST.get("type")
+    type = int(type)
+    obj_id = request.POST.get("obj_id")
+    obj_id = int(obj_id)
+    print(type)
+    print(obj_id)
+    if type == 1:
+        try:
+            obj = get_object_or_404(Cake, id=obj_id)
+        except Cake.DoesNotExist:
+            return JsonResponse({}, status=402)
+    elif type == 2:
+        obj = get_object_or_404(Store, id=obj_id)
+    else:
+        return JsonResponse({}, status=401)     #오류 상황
+
+
+    if obj.users_liked.filter(id=request.user.id).exists():
+        obj.users_liked.remove(request.user)
+        data = {
+            "like" : False
+        }
+    else:
+        obj.users_liked.add(request.user)
+        data = {
+            "like": True
+        }
+
+    # Json 응답으로 생성여부 및 생성 내용을 반환
+    return JsonResponse(data)
+    
+
 def test(request):
     return render(request, 'test.html')
 def chkbox(request):

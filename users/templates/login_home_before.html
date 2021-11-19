@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Allcakes 로그인 홈{% endblock %}
+
+
+{% block content %}
+
+<!-- 캐러셀 -->
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel"data-interval="2000">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div id="login-img1" class="carousel-item login-img-display active">
+                <div class="carousel-caption d-none d-md-block" id="color-black">
+                    <h3>SIMPLY, EASILY</h3>
+                    <p>간편한 카카오 로그인으로 ALLCAKES를 이용하세요.</p>
+                </div>
+            </div>
+            <div id="login-img2" class="carousel-item login-img-display">
+                <div class="carousel-caption d-none d-md-block" id="second-car">
+                    <h5>"오늘의 가게"가 궁금하다면?</h5>
+                    <button class="login-go-today go-today-hover">구경하러 가기</button>
+
+
+                </div>
+            </div>
+            <div id="login-img3" class="carousel-item login-img-display">
+                <div class="carousel-caption d-none d-md-block" id="third-car">
+                    <h2>"ALLCAKES"</h2>
+                    <p>케이크 가게 정보를 한 눈에, 주문을 한 번에</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+
+
+
+<!-- 프론트: a태그 위치를 필요한 곳에 넣으면 됨. -->
+
+<!-- 카카오 로그인을 적극 추천하는 느낌으로 페이지 만들기 
+카카오 로그인으로 유저가 들어와야 이후 알림메세지 동의를 받을 수 있음. 
+앱이 아닌 웹서비스인 이상 알림의 편의성을 위해 카카오가 편함. 
+일반 로그인으로는 주문 알림을 어떻게 할지 생각해보기(ex. 연락처, 이메일, 일반로그인 삭제, ...) -->
+<div class="login-box">
+
+    <div class="email-box">
+        <div class="email-box1">
+            <p>이메일 로그인</p>
+        </div>
+        
+        <div class="email-box2">
+            <div class="email-box2-1">
+                <a href="{%url 'email_login' %}" class="login-button hover">로그인</a>
+            </div>
+
+            <div class="email-box2-2">
+                <a href="{%url 'signup_email' %}" class="login-button hover">회원가입</a>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- 즉, 카카오로 소셜 토큰 받아와서 인증 후 처음이면 가입까지 시키고 돌아와야 함. -->
+    <div class="kakao-box">
+        <div class="kakao-box1">
+            <p>카카오 로그인</p>
+        </div>
+
+        <div class="kakao-box2">
+            <a href="{%url 'kakao_login' %}" class="kakao-button kakao-hover">로그인 / 회원가입</a>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+

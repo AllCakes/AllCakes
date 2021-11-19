@@ -32,6 +32,9 @@ urlpatterns = [
     path('order/complete', order_complete, name="order_complete"), # 결제, 검증 완료 후 페이지
     # 마이페이지 users로 옮김
 
+    # 좋아요 기능 관련 url
+    path('like', like_it, name="like"),
+
     # 리뷰 CRUD 및 별점 (R-상세보기 U-수정 D-삭제 구현 필요) (앱 새로 파야 되는지..?)
     # 리뷰 작성, 수정 시 사진 멀티업로드 구현 필요할듯  
     path('review_page/<int:pk>/order/<int:orderpk>', review_page, name="review_page"),
