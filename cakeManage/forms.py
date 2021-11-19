@@ -15,6 +15,10 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields=['pickup_date','pickup_time','lettering_position','원하시는도안사진첨부',]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['lettering_position'].widget.attrs.update({'class': 'butn'})
+        self.fields['lettering_position'].widget.attrs.update({'data-key': 'letter'})
         
 class LocationSearchForm(forms.Form):
     search_word=forms.CharField(label='Search word')  

@@ -109,9 +109,9 @@
                     <div><h2>크림종류 선택</h2> 
                         <ul class="크림종류"></ul>
                     </div>
-                    <div class="simulation"></div>
-                    <input type="text" name="coupon" id="coupon-pk" value="a_0" style="display:none;">
                     <button type="submit" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">양식 제출</button>
+                    <div class="simulation" style="margin-top: 20ox;"></div>
+                    <input type="text" name="coupon" id="coupon-pk" value="a_0" style="display:none;">
                 </div>
 
             </form>
@@ -128,7 +128,7 @@
                         <input type="radio" name="discount" value="{{c.percent}} {{c.pk}}">
                         <label for="percent">{{c.name}} {{c.percent}}% 할인쿠폰</label>
                         {% endfor %}
-                        <button type="button" onclick="discount({{cake.price}})">선택</button>
+                        <button type="button" onclick="discount(`{{cake.price}}`)">선택</button>
                     </div>
                     <button onclick="coupon('none')">닫기</button>
                 </div>
@@ -142,6 +142,8 @@
         var cream = "{{크림종류}}";
         var colorP = "{{색가격}}";
         var creamP = "{{크림종류가격}}";
+        var choice_color = "{{order.색}}"
+        var choice_cream = "{{order.크림종류}}"
     </script>
     <script type="text/javascript" src="/static/js/orderMenu.js" defer></script>
     <script>
