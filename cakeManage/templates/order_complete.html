@@ -3,11 +3,18 @@
 
 {% block title %}주문 {{order.pk}} 완료{% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css"> 
+    
+{% endblock %}
+
 
 {% block content %}
 <!-- 주문 상태, 주문 가게(가게 상세보기), 주문 케이크, 주문 일시, 결제금액, 결제방법, 기타 요청사항 등등.. -->
 {% if not order.is_active %}
-<h2>픽업 완료</h2>
+
+
+<h2 class="pick-up">픽업 완료</h2>
 {% else %}
 <!-- 진행중 -->
     {% if order.is_accepted %}
