@@ -128,7 +128,7 @@
                         <input type="radio" name="discount" value="{{c.percent}} {{c.pk}}">
                         <label for="percent">{{c.name}} {{c.percent}}% 할인쿠폰</label>
                         {% endfor %}
-                        <button type="button" onclick="discount({{cake.price}})">선택</button>
+                        <button type="button" onclick="discount(`{{cake.price}}`)">선택</button>
                     </div>
                     <button onclick="coupon('none')">닫기</button>
                 </div>
