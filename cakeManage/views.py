@@ -241,8 +241,8 @@ def cake_new(request, pk): #가게 pk값
     store = get_object_or_404(Store, pk=pk)
     store_menu = get_object_or_404(Store_Menu, store = store)
     # 가게별 요청 - 선택사항 콤마로 분리
-    색 = store_menu.색.replace(" ","").split(',')
-    크림종류 =  store_menu.크림종류.replace(" ","").split(',')
+    store_col = store_menu.색.replace(" ","").split(',')
+    store_cream = store_menu.크림종류.replace(" ","").split(',')
     if request.method == 'POST':
         form = CakeForm(request.POST, request.FILES)
         # getlist로 가져오기
@@ -264,7 +264,7 @@ def cake_new(request, pk): #가게 pk값
             return redirect('store_detail', pk=pk)
     else:
         form = CakeForm()
-    return render(request, 'cake_new.html', {'form': form, '색':색, '크림종류':크림종류})
+    return render(request, 'cake_new.html', {'form': form, 'store_col':store_col, 'store_cream': store_cream})
 
 # 케이크 상세 R
 def cake_detail(request, pk): #cake의 pk값
@@ -274,23 +274,36 @@ def cake_detail(request, pk): #cake의 pk값
 # 케이크 수정 U
 def cake_edit(request, pk): #cake의 pk값
     cake = get_object_or_404(Cake, pk=pk)
-    if request.user != cake.user:
+    store = get_object_or_404(Store, pk = cake.referred_store_id)
+    store_menu = get_object_or_404(Store_Menu, store = store)
+    # 가게별 요청 - 선택사항 콤마로 분리
+    store_col = store_menu.색.replace(" ","").split(',')
+    store_cream =  store_menu.크림종류.replace(" ","").split(',')
+    color = cake.색.replace(" ","").split(',')
+    cream =  cake.크림종류.replace(" ","").split(',')
+    col_price =  cake.색가격.replace(" ","").split(',')
+    cream_price =  cake.크림종류가격.replace(" ","").split(',')
+    if request.user != store.owner:
         raise ValidationError("잘못된 접근입니다.")
     if request.method == "POST":
+        color = request.POST.getlist('색')
+        colorPrice = request.POST.getlist('색price')
+        cream = request.POST.getlist('크림종류')
+        creamPrice = request.POST.getlist('크림종류price')
         form = CakeForm(request.POST, request.FILES, instance=cake)
         if form.is_valid():
             cake = form.save(commit=False)
-            cake.author = request.user # author 저장이 필요한지?
             # store.pub_date = timezone.now() # 게시일자(pub_date) 대신, 새로운 필드로 수정 일자를 넣는 것을 고려 
+            # 케이크 메뉴 저장
+            cake.색 = ','.join(color)
+            cake.색가격 = ','.join(colorPrice)
+            cake.크림종류 = ','.join(cream)
+            cake.크림종류가격 = ','.join(creamPrice)
             cake.save()
-            # 현재 케이크 역참조를 위해 모델에 related_name 추가 (reverse lookup of foreign keys)
-            # The related_name is what we use for the reverse lookup. In general, it is a good practice to provide a related_name for all the foreign keys rather than using Django’s default-related name.
-            store_pk = cake.referred_store.pk
-            return redirect('store_detail', pk= store_pk) # 케이크 관리페이지, 혹은 일단 가게페이지로 가도록 구현
+            return redirect('store_detail', pk= store.pk) # 케이크 관리페이지, 혹은 일단 가게페이지로 가도록 구현
     else:
-        form = StoreForm(instance=cake)
-
-    return render(request, 'cake_edit.html', {'form': form})
+        form = CakeForm(instance=cake)
+    return render(request, 'cake_edit.html', {'form': form,  'store_col':store_col, 'store_cream': store_cream, '색':color, '크림종류':cream, '크림종류가격': cream_price, '색가격':col_price})
 
 # 케이크 삭제 D
 def cake_delete(request, pk): #cake의 pk값
@@ -307,11 +320,9 @@ def order_new(request, cake_pk): #cake의 pk값
     if not request.user.is_authenticated:
         return redirect('login_home')
     cake = get_object_or_404(Cake, pk=cake_pk)
-    store = get_object_or_404(Store, pk=cake.referred_store_id)
     # 가게별 요청 - 선택사항 콤마로 분리
     a_coupons = AmountCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
     p_coupons = PercentCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
-    # 가게별 요청 - 선택사항 콤마로 분리
     색 = cake.색.replace(" ","").split(',')
     크림종류 =  cake.크림종류.replace(" ","").split(',')
     색가격 = cake.색가격.replace(" ","").split(',')
@@ -325,6 +336,76 @@ def order_new(request, cake_pk): #cake의 pk값
             order.referred_cake = cake
             order.referred_store = cake.referred_store
             order.pay_price = cake.price
+            order.색 = request.POST.get('색')
+            order.크림종류 = request.POST.get('크림종류')
+            s = request.POST.get('coupon').split("_")
+            if request.POST.get('coupon') != "a_0":
+                # 쿠폰 있다 한 경우 (쿠폰이 적용 안된 경우 아무런 조치 X)
+                if s[0] == 'a':
+                    # 금액쿠폰
+                    try:
+                        coupon = AmountCoupon.objects.get(pk=int(s[1]))
+                    except AmountCoupon.DoesNotExist:
+                        raise ValidationError("해당 쿠폰이 없습니다.")
+                    if coupon.user != request.user:
+                        #유저의 것인지 확인
+                        raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
+                    else:
+                        order.amount_coupon = coupon
+                        order.pay_price = cake.price - coupon.amount
+                else:
+                    # 비율쿠폰
+                    try:
+                        coupon = PercentCoupon.objects.get(pk=int(s[1]))
+                    except PercentCoupon.DoesNotExist:
+                        raise ValidationError("해당 쿠폰이 없습니다.")
+                    if coupon.user != request.user:
+                        #유저의 것인지 확인
+                        raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
+                    else:
+                        order.percent_coupon = coupon
+                        order.pay_price = cake.price * (float(100 - coupon.percent) / 100)
+                    #유저의 것인지 확인 해야 함.
+            order.save()
+            # 주문 결과 페이지로 가도록 수정하기!
+            return redirect('order_detail', order_pk=order.pk)
+    else:
+        form = OrderForm()
+    return render(request, 'order.html', {'form': form, 'cake':cake, '색':색, '색가격':색가격,'크림종류':크림종류, '크림종류가격':크림종류가격, 'a_coupons':a_coupons, 'p_coupons':p_coupons})
+
+# 주문 상세 R
+def order_detail(request, order_pk):
+    order = get_object_or_404(Order, pk=order_pk)
+    if request.user != order.user:
+        raise ValidationError("잘못된 접근입니다.")
+    return render(request, 'order_detail.html',{'order':order})
+
+# 주문 전체 R
+def order_all(request, user_pk):
+    if request.user.pk != user_pk:
+        raise ValidationError("잘못된 접근입니다.")
+    orders = Order.objects.get(user=user_pk)
+    return render(request, 'order_all.html', {'orders':orders})
+
+# 주문 수정 U (고칠 예정)
+def order_edit(request, order_pk):
+    order = get_object_or_404(Order, pk=order_pk)
+    cake = get_object_or_404(Cake, pk=order.referred_cake.pk)
+    if request.user != order.user:
+        raise ValidationError("잘못된 접근입니다.")
+    if order.is_paid:
+        raise ValidationError("잘못된 접근입니다.")
+    # 가게별 요청 - 선택사항 콤마로 분리
+    a_coupons = AmountCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
+    p_coupons = PercentCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
+    색 = cake.색.replace(" ","").split(',')
+    크림종류 =  cake.크림종류.replace(" ","").split(',')
+    색가격 = cake.색가격.replace(" ","").split(',')
+    크림종류가격 = cake.크림종류가격.replace(" ","").split(',')
+    if request.method == 'POST':
+        form = OrderForm(request.POST, request.FILES, instance=order)
+        if form.is_valid():
+            order = form.save(commit=False)
             s = request.POST.get('coupon').split("_")
             if request.POST.get('coupon') != "a_0":
                 # 쿠폰 있다 한 경우 (쿠폰이 적용 안된 경우 아무런 조치 X)
@@ -357,53 +438,10 @@ def order_new(request, cake_pk): #cake의 pk값
             order.색 = request.POST.get('색')
             order.크림종류 = request.POST.get('크림종류')
             order.save()
-            # 주문 결과 페이지로 가도록 수정하기!
-            return redirect('order_detail', order_pk=order.pk)
-    else:
-        form = OrderForm()
-    return render(request, 'order.html', {'form': form, 'cake':cake, '색':색, '색가격':색가격,'크림종류':크림종류, '크림종류가격':크림종류가격, 'a_coupons':a_coupons, 'p_coupons':p_coupons})
-
-# 주문 상세 R
-def order_detail(request, order_pk):
-    order = get_object_or_404(Order, pk=order_pk)
-    if request.user != order.user:
-        raise ValidationError("잘못된 접근입니다.")
-    return render(request, 'order_detail.html',{'order':order})
-
-# 주문 전체 R
-def order_all(request, user_pk):
-    if request.user.pk != user_pk:
-        raise ValidationError("잘못된 접근입니다.")
-    orders = Order.objects.get(user=user_pk)
-    return render(request, 'order_all.html', {'orders':orders})
-
-# 주문 수정 U (고칠 예정)
-def order_edit(request, order_pk):
-    order = get_object_or_404(Order, pk=order_pk)
-    if request.user != order.user:
-        raise ValidationError("잘못된 접근입니다.")
-    if order.is_paid:
-        raise ValidationError("잘못된 접근입니다.")
-    cake = order.referred_cake
-    # 가게별 요청 - 선택사항 콤마로 분리
-    색 = cake.색.replace(" ","").split(',')
-    크림종류 = cake.크림종류.replace(" ","").split(',')
-    if request.method == 'POST':
-        form = OrderForm(request.POST, request.FILES, instance=order)
-        if form.is_valid():
-            order = form.save(commit=False)
-            order.user = request.user
-            # get 방식으로 가져와 저장
-            order.색 = request.POST.get('색')
-            order.크림종류 = request.POST.get('크림종류')
-            order.pub_date = timezone.now()
-            # 케이크선택과 가게 선택은 못 바꿈. 삭제하고 다시 주문 필요.
-            order.save()
-            # 주문 결과 페이지로 가도록 수정하기!
             return redirect('order_detail', order_pk=order.pk)
     else:
         form = OrderForm(instance=order)
-    return render(request, 'order_edit.html', {'form': form, 'cake':cake, '색':색, '크림종류':크림종류})
+    return render(request, 'order_edit.html', {'form': form, 'order':order, 'cake':cake, '색':색, '색가격':색가격,'크림종류':크림종류, '크림종류가격':크림종류가격, 'a_coupons':a_coupons, 'p_coupons':p_coupons})
 
 # 주문 삭제 D
 def order_delete(request, order_pk):
@@ -455,7 +493,9 @@ def review_edit(request, pk):
         form = ReviewForm(request.POST, request.FILES, instance=review)
         if form.is_valid():
             review = form.save(commit=False)
-            review.rate = request.POST.get('rate')
+            rate = request.POST.get('rate')
+            if(rate != None):
+                review.rate = rate
             review.save()
             return redirect('mypage', user_pk=review.user_id)
     else:
@@ -695,6 +735,7 @@ def character(request):
     context['search_term']=searchWord
     context['objects_list']=post_list
     return render(request, 'character.html',context)
+
 # 검색 - 검색어 분리, 모든 쿼리 한번에!
 def storemenu(request, store_pk):
     store = get_object_or_404(Store, pk=store_pk)
@@ -703,36 +744,40 @@ def storemenu(request, store_pk):
     if request.method == "POST":
         color = request.POST.getlist('색')
         cream = request.POST.getlist('크림종류')
-        if(len(color) > 0 | len(cream) > 0):
-            Store_Menu(store = store, 색 = ','.join(color), 크림종류 = ','.join(cream)).save()
-            return redirect('store_detail', pk=store_pk)
+        if(len(color) == 0 | len(cream) == 0):
+            return render(request, 'storemenu.html')
+        Store_Menu(store = store, 색 = ','.join(color), 크림종류 = ','.join(cream)).save()
+        return redirect('store_detail', pk=store_pk)
     return render(request, 'storemenu.html')
 
 def storemenu_edit(request, store_pk):
     store_menu = get_object_or_404(Store_Menu, store=store_pk)
-    색 = store_menu.색.replace(" ","").split(',')
-    크림종류 =  store_menu.크림종류.replace(" ","").split(',')
+    color = set(store_menu.색.replace(" ","").split(','))
+    cream = set(store_menu.크림종류.replace(" ","").split(','))
+    print(color)
+    print(cream)
     if request.user != store_menu.store.owner:
         raise ValidationError("잘못된 접근입니다.")
     if request.method == "POST":
         form = StoreMenuForm(request.POST, instance=store_menu)
         if form.is_valid():
-            color = request.POST.getlist('색')
-            cream = request.POST.getlist('크림종류')
+            color.update(request.POST.getlist('색'))
+            cream.update(request.POST.getlist('크림종류'))
             menu = form.save(commit=False)
-            menu.색 =','.join(color)
-            menu.크림종류 = ','.join(cream)
+            menu.색 =','.join(list(color))
+            menu.크림종류 = ','.join(list(cream))
             menu.save()
             return redirect('store_detail', pk=store_pk)
     else:
         form = StoreMenuForm(instance=store_menu)
-    return render(request, 'storemenu.html', {'색' : 색, '크림종류':크림종류})
+    return render(request, 'storemenu.html', {'색' : list(color), '크림종류':list(cream)})
 
 # json 파일에 menu 없을시 추가
 @csrf_exempt
 def add_menu(request):
     file_path = './allcake/static/data/menu.json'
     if request.method == "POST":
+        print("Ddd")
         ty = request.POST['ty']
         val = request.POST['value']
         with open(file_path, "r", encoding="utf-8") as json_file:

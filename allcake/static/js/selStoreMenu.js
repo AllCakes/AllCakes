@@ -1,6 +1,5 @@
 // JSON file 에서 fetch 작업
 function loadMenu(){
-    console.log('fetch')
     return fetch('/static/data/menu.json')
     .then(response => response.json())
     .then(json => json.menu);
@@ -16,16 +15,16 @@ function display(menu){
 
         const 색 = color.replace(/&#x27;/g,"").replaceAll(" ","").replace("[","").replace("]","").split(',');
         const 크림종류 = cream.replace(/&#x27;/g,"").replaceAll(" ","").replace("[","").replace("]","").split(',');
-        let num = 0;
-        let name;    
+
+        let chk;   
         for(item in menu[0][type]){
         
-            if(type === '색') name = `${색[num]}`
-            else if(type === "크림종류") name = `${크림종류[num]}`
+            if(type === '색') chk = 색.includes(item)
+            else if(type === "크림종류") chk = 크림종류.includes(item)
+
             const img = menu[0][type][item]   // 이미지찾기
-            if(item == name){
+            if(chk){
                 str.push(createHTMLString(type, item, img, 1));
-                num++;
             }
             else{
                 str.push(createHTMLString(type, item, img, 0));
@@ -38,20 +37,32 @@ function display(menu){
 // Html 문서로 만들기 
 function createHTMLString(type, item,img, num) {
     if(num == 1)
-        return `<div id="caketype"><input type="checkbox" id="${type}" name="${type}" checked="true" value="${item}"><img src="${img}" style="height : 100px"> ${item}</div>`;
-    return `<div id="caketype"><input type="checkbox" id="${type}" name="${type}" value="${item}"><img src="${img}" style="height : 100px"> ${item}</div>`;
+        return `<div id="caketype" style="width: 10%; height:50px; margin : 5px 5px 5px 5px">
+        <input type="checkbox" id="${type}" name="${type}" checked value="${item}">
+        <img src="${img}" style="height : 100px">
+        <div style="text-align: center; font-family: SF_IceMango">${item}</div>'
+        </div>`;
+    return `<div id="caketype" style="width: 10%; height:50px; margin : 5px 5px 5px 5px">
+                <input type="checkbox" id="${type}" name="${type}" value="${item}">
+                <img src="${img}" style="height : 100px">
+                <div style="text-align: center; font-family: SF_IceMango">${item}</div>
+            </div>`;
 }
 
 // 클릭시 메뉴 추가
 function setEventListeners(menu) {
-    const buttons = document.querySelector('#AddMenu');
-    buttons.addEventListener('click', event => { AddMenu(event, menu)});
+    const buttons = document.querySelectorAll('.AddMenu');
+    for(i in buttons){
+        buttons[i].addEventListener('click', event => { AddMenu(event, menu)});
+    }
 }
 // 메뉴 추가 함수
 function AddMenu(event, menu){
     const dataset = event.target.dataset;
     const key = dataset.key;
-    const value = dataset.value
+    const value = dataset.value;
+    console.log(key, value);
+    
     const inputtext = document.getElementById(`${key}`)
     const input_value = inputtext.value
 
@@ -60,8 +71,9 @@ function AddMenu(event, menu){
         if(i == inputtext.value) chk = true;
     }
 
-    if(chk)
+    if(chk){
         alert("중복된 값입니다.");
+    }
     else{
         if(inputtext.value === "")
             alert("아무것도 입력되지 않았습니다.");
