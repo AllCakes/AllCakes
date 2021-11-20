@@ -40,6 +40,7 @@ urlpatterns = [
     path('review_page/<int:pk>/order/<int:orderpk>', review_page, name="review_page"),
     path('review/delete/<int:pk>', review_delete, name="review_delete"),
     path('review/edit/<int:pk>', review_edit, name="review_edit"),
+    path('review/detail/<int:review_pk>', review_detail, name="review_detail"),
 
     # 홈에 임시로 작성한 Stores, Cakes 링크 (가게 상세페이지 들어가기 불편해서)
     path('all/stores', stores_all, name="stores_all"),

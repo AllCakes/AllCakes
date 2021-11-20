@@ -1,12 +1,19 @@
 .body3{
     padding-top: 80px;
     height: 1600px;
-    margin-left: 10px;
+    margin-left: 30px;
+}
+
+button {
+    border-radius: 5px;
 }
 
 h2{
-    font-size: 20px;
+    font-size: 40px;
     text-align: left;
+}
+#user-info-header {
+    margin-bottom: 0%;
 }
 
 .user-info {
@@ -20,44 +27,116 @@ h2{
 }
 .review-info {
     display: flex;
-    justify-content: space-around;
 }
 
 .review-card {
-    height: 350px;
+    height: 420px;
     width: 20%;
     margin: 0px 0px;
     border: solid lightgray;
-    border-radius: 5px;
+    border-radius: 15px;
     text-align: center;
     vertical-align: middle;
+    margin-left: 50px;
 }
+.review-card > a > img{
+    margin-top: 10px;
+}
+
+.liked-contents {
+    display: flex;
+}
+
+.likedcake-card{
+    height: 310px;
+    width: 15%;
+    margin: 0px 0px;
+    border: solid pink;
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 50px;
+}
+.likedcake-card > a > img{
+    margin-top: 10px;
+}
+.likedstore-card{
+    height: 310px;
+    width: 15%;
+    margin: 0px 0px;
+    border: solid pink;
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 50px;
+}
+.likedstore-card > a > img{
+    margin-top: 10px;
+}
+
 table {
     text-align: center;
 }
 td {
     vertical-align: middle; 
 }
+.review-card img {
+    border-radius: 5px;
+    width: 55%;
+}
 img {
     border-radius: 5px;
+    width: 70%;
+}
+table img {
     width: 180px;
 }
 .user-info > img {
-    width: 200px; 
+    width: 250px; 
 }
 
+.users-detail {
+    margin-left: 20px;
+    font-size: 30px;
+}
 
 .user-order-text{
     display: flex;
+    justify-content: right;
 }
 .user-info-text{
     display: flex;
+    justify-content: left;
+}
+.user-review-text{
+    display: flex;
+    justify-content: right;
 }
 .user-info-text > a {
-    margin-left: 10px;
+    margin-left: 20px;
 }
+.user-info-text > #delete {
+    margin-left: 20px;
+}
+.user-info-text > #edit {
+    margin-left: 80px;
+}
+
+.user-nickname > p{
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+.user-info-text > .delete-user {
+    justify-content: right;
+}
+.user-liked {
+    margin-top: 100px;
+}
+
 .user-liked-text{
     display: flex;
+    justify-content: right;
 }
 
 .info-more {

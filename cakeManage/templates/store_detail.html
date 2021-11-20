@@ -33,12 +33,17 @@
         <div class="store-image" style="padding: 0px 0px 20px 39%">
         <img src="{{store.store_image.url}}" style="display: flex; flex:auto ; width:250px ; height: 250px;">
         </div>
+
         <div class="store-text" style="flex-direction: row; width: 100%; justify-content: center; padding: 2% 30% 0px 30%;text-align: center;">
             <div class="store-name" style="color: black; text-align: center;margin:0px auto">{{store.name}}
+                {% if not user.is_authenticated %}
+                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                {% else %}
                 {% if user in cake.users_liked.all %}
                 <button class="like red" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                 {% else %}
                 <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                {% endif %}
                 {% endif %}
                 <!-- 좋아요타입 케이크(1)로 -->
                 <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
@@ -77,8 +82,6 @@
                 </p>
                 </div>
                 </div>
-
-
 
 
     <div class="option-box">
@@ -135,9 +138,18 @@
                     <a href="{% url 'cake_edit' pk=cake.pk  %}" class="order-button">케이크 수정</a>     
                     {% endif %}
                     {% endif %}    
-
-
-                   </p>
+                    {% if not user.is_authenticated %}
+                    <button class="like" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                    {% else %}
+        
+                    {% if user in cake.users_liked.all %}
+                    <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    {% else %}
+                    <button class="like" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    {% endif %}
+                    
+                    {% endif %}
+                    </p>
                 </div>
                 </a><br>
             </div>
