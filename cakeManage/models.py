@@ -113,7 +113,7 @@ class Cake(models.Model):
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_cake", related_name="users_liked_cake")
     
     #결제를 위한 가격 정보
-    price = models.IntegerField(default=90000, validators=[MinValueValidator(0, MaxValueValidator(100000))])
+    price = models.IntegerField(default=0, validators=[MinValueValidator(0, MaxValueValidator(100000))])
     def __str__(self):
         return self.cakename
 
