@@ -24,63 +24,81 @@
 {% endblock %}
 
 {% block content %}
-<body id="mainBody" onload="열기('{{num}}')">
+<body id="mainBody" onload="열기('{{num}}')" style="background-image:url('../static/css/images/overlay.png');background-repeat: no-repeat; background-size: 100%;">
 
     <!-- 대표이미지, 가게이름, 위치, 연락처, 설명, 케잌이미지 -->
 
 
-    <div class="store-detail">
-        <img src="{{store.store_image.url}}" width="210" , height="210">
-        <div class="store-text">
-            <p class="store-name">{{store.name}}</p>
-            <b class="store-location">📍 위치 : {{store.location}} </b><br>
-            <span class="store-contact">📍 연락처 : {{store.contact}}</span>
-            <section class="store-des">[ {{store.text}} ]</section>
-            <p id="maplat" style="display: none;">{{store.lat}}</p>
-            <p id="maplon" style="display: none;">{{store.lon}}</p>
+    <div class="store-detail" style="padding-top:0px;flex-direction: column; justify-content: center;">
+        <div class="store-image" style="padding: 0px 0px 20px 39%">
+        <img src="{{store.store_image.url}}" style="display: flex; flex:auto ; width:250px ; height: 250px;">
         </div>
-        {% if not user.is_authenticated %}
-        <button class="like" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
-        {% else %}
 
-        {% if user in store.users_liked.all %}
-        <button class="like red" id="store{{store.id}}" onclick="LikeIt(2, {{store.id}})"><i class="fas fa-heart"></i></button>
-        {% else %}
-        <button class="like" id="store{{store.id}}" onclick="LikeIt(2, {{store.id}})"><i class="fas fa-heart"></i></button>
-        {% endif %}
+        <div class="store-text" style="flex-direction: row; width: 100%; justify-content: center; padding: 2% 30% 0px 30%;text-align: center;">
+            <div class="store-name" style="color: black; text-align: center;margin:0px auto">{{store.name}}
+                {% if not user.is_authenticated %}
+                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                {% else %}
+                {% if user in cake.users_liked.all %}
+                <button class="like red" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                {% else %}
+                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                {% endif %}
+                {% endif %}
+                <!-- 좋아요타입 케이크(1)로 -->
+                <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
 
-        {% endif %}
-    </div>
+            </div>
+                <span class="store-contact">📍 연락처 : {{store.contact}}</span>
+                <section class="store-contact">📍 가게 위치 : {{store.locationSi}}시 {{store.locationGu}} </section>
+                <section class="store-des" style="text-align: center;">#
+                <!--텍스트를 해쉬태그 처럼 보이게 하려고.. 감성있게 수정함..-->
+                {% for i in store.text %}
+                {{i}}
+                {% if i == " " %}
+                #{{i}}
+                {% endif %}
+                {% endfor %}
 
-    <!-- 이하 수정은 가게 관리자만 수정 및 삭제할 수 있도록 수정할 예정 -->
-    <!-- store.owner를 확인하면 됨. 로그인한 유저이고 owner이면 내용 표출-->
-    {% if user.is_authenticated %}
-        {% if store.owner == user %}
-            <a href="{% url 'store_edit' pk=store.pk %}"><button class="edit-button">정보 수정</button></a>
-            <!-- 사장은 가게 페이지에서 정보 수정 및 케이크 생성, 수정할 수 있음. 다만 가게 전체 관리페이지가 필요할듯! -->
-            
-            {% if not store.store_menu %}
-                <a href="{% url 'storemenu' store_pk=store.pk %}"><button>메뉴 추가</button></a>
-            {% else %}
-                <a href="{% url 'cake_new' pk=store.pk %}"><button>케이크 추가</button></a>
-                <a href="{% url 'storemenu_edit' store_pk=store.pk %}"><button>메뉴 수정</button></a>
-            {% endif %}
-        {% endif %}
-    {% endif %}
+                </section>
+                <p id="maplat" style="display: none;">{{store.lat}}</p>
+                <p id="maplon" style="display: none;">{{store.lon}}</p>
+                <p class="only-owner-can-see" style="margin-top: 10px; margin-bottom: 10px;">
+                    <!-- 이하 수정은 가게 관리자만 수정 및 삭제할 수 있도록 수정할 예정 -->
+                    <!-- store.owner를 확인하면 됨. 로그인한 유저이고 owner이면 내용 표출-->
+                    {% if user.is_authenticated %}
+                    {% if store.owner == user %}
+                    <a href="{% url 'store_edit' pk=store.pk %}"><button class="edit-button">정보 수정</button></a>
+                    <!-- 사장은 가게 페이지에서 정보 수정 및 케이크 생성, 수정할 수 있음. 다만 가게 전체 관리페이지가 필요할듯! -->
+                
+                    {% if not store.store_menu %}
+                    <a href="{% url 'storemenu' store_pk=store.pk %}"><button class="edit-button">메뉴 추가</button></a>
+                    {% else %}
+                    <a href="{% url 'cake_new' pk=store.pk %}"><button class="edit-button">케이크 추가</button></a>
+                    <a href="{% url 'storemenu_edit' store_pk=store.pk %}"><button class="edit-button">메뉴 수정</button></a>
+                    {% endif %}
+                    {% endif %}
+                    {% endif %}
+                </p>
+                </div>
+                </div>
+
 
     <div class="option-box">
-        <div class="buttons">
-            <input type="button" onclick="열기(0)" value="메 뉴"></input>
+        <div class="option-box-block" style="display: flex; flex: auto; text-align: center; align-content: center;">
+            <!--버튼 width 에 min width 설정되어 있어서 흐르는 현상 발생했음~ 이거 없애주기 위해 스타일 적용했으니 accept change 하믄돼-->
+        <div class="buttons" style="min-width: 0px; display: flex; flex: auto; width: auto; align-items: center;">
+            <input type="button" class="열기호버" onclick="열기(0)" value="메 뉴" style="color:black;min-width: 0px; display: flex; flex: auto; width: auto;justify-content: center;"></input>
 
 
             <!--FE: button을 input으로 변경함!-->
-            <input type="button" onclick="열기(1); relayout();" value="정 보"></input>
+            <input type="button" class="열기호버" onclick="열기(1); relayout();" value="정 보" style="color:black;min-width: 0px; display: flex; flex: auto; width: auto;justify-content: center;"></input>
             <!---->
             <!--relayout() 함수 추가해서 지도 깨짐 방지-->
 
-            <input type="button" onclick="열기(2)" value="리 뷰"></input>
+            <input type="button" class="열기호버" onclick="열기(2)" value="리 뷰" style="color:black;min-width: 0px; display: flex; flex: auto; width: auto;justify-content: center;"></input>
         </div>
-
+    </div>
         <!-- 전체 케이크 리스트 -->
         <div class="items">
             <!--버튼 누르면 나오는 설명까지 하나의 div에 묶기-->
@@ -101,17 +119,25 @@
 
 
                 <div class="cake-body">
-                    <p class="cake-name">{{cake.cakename}}</p>
+                    <p class="cake-name" style="display:flex; flex: auto;">{{cake.cakename}} 
+                    {% if user in cake.users_liked.all %}
+                    <button class="like red" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    {% else %}
+                    <button class="like" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    {% endif %}
+                    <!-- 좋아요타입 케이크(1)로 -->
+                    <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+
+                    </p>
                     <hr>
-                    <p class="cake-detail">{{cake.body}}</p>
-                    
+                    <p class="cake-detail">{{cake.body}}
+
                     <a href="{% url 'order_submit' cake_pk=cake.pk  %}" class="order-button">주문</a>   
                     {% if user.is_authenticated %}
                     {% if store.owner == user %}
                     <a href="{% url 'cake_edit' pk=cake.pk  %}" class="order-button">케이크 수정</a>     
                     {% endif %}
                     {% endif %}    
-
                     {% if not user.is_authenticated %}
                     <button class="like" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
                     {% else %}
@@ -123,6 +149,7 @@
                     {% endif %}
                     
                     {% endif %}
+                    </p>
                 </div>
                 </a><br>
             </div>

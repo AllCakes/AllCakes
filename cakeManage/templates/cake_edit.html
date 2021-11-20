@@ -15,6 +15,7 @@
     <!--부트스트랩-->
     <!--여기까지-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/cake.css' %}">
 </head>
 
 <body>
@@ -85,10 +86,11 @@
         </nav>
     </header>
     <br><br><br><br>
-    <h1> 케이크 수정 </h1>
+    <h1 class = "cake_title"> 케이크 수정 </h1>
     <form method="POST" class="post-form" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        <br><br><br>
         <div>
             <h2>색 선택</h2>
             <ul class="색"></ul>

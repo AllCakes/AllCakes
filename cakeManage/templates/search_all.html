@@ -4,12 +4,17 @@
 <!--사용자가 선택한 필터값-->
 {% block css %}
 <script defer src="/static/js/search_all.js"></script>
+<script defer src="/static/js/location_filter.js"></script>
 <link rel="stylesheet" href="{% static '/css/dropdown.css'%}">
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <!--checkbox, radio-->
-
+<style>
+   .submit-search-filter:hover {
+      background-color: rgb(255, 0, 0);
+   }
+</style>
 {% endblock %}
 {% block content %}
 <div class="container2" style=" width: 100%; padding-right: 10% ; padding-left: 10%;">
@@ -34,9 +39,7 @@
          style="display: flex; flex:auto; margin-left: auto; margin-right: auto; width: 60%;">
          <label class="checkbox-btn" style="display: flex;flex:auto">
             <form action="{% url 'recommend' %}" method="get">
-               <button style="border: #ff00e6; background-color: #f8f9fa;" type="submit" name="recommend"
-                  value="생일">
-                  <!--name으로 querysey의 키값 설정 needed 필수필수-->
+               <button style="border: #ff00e6; background-color: #f8f9fa;" type="submit" name="recommend" value="생일">
                   <span class="btn btn-light"><label>생일</label></span>
                </button>
             </form>
@@ -44,9 +47,7 @@
 
          <label class="checkbox-btn" style="display: flex;flex:auto">
             <form action="{% url 'recommend' %}" method="get">
-               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend"
-                  value="동물">
-                  <!--name으로 querysey의 키값 설정 needed 필수필수-->
+               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend" value="동물">
                   <span class="btn btn-light"><label>동물</label></span>
                </button>
             </form>
@@ -54,9 +55,7 @@
 
          <label class="checkbox-btn" style="display: flex;flex:auto">
             <form action="{% url 'recommend' %}" method="get">
-               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend"
-                  value="캐릭터">
-                  <!--name으로 querysey의 키값 설정 needed 필수필수-->
+               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend" value="캐릭터">
                   <span class="btn btn-light"><label>캐릭터</label></span>
                </button>
             </form>
@@ -64,18 +63,14 @@
 
          <label class="checkbox-btn" style="display: flex;flex:auto">
             <form action="{% url 'recommend' %}" method="get">
-               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend"
-                  value="유머">
-                  <!--name으로 querysey의 키값 설정 needed 필수필수-->
+               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend" value="유머">
                   <span class="btn btn-light"><label>유머</label></span>
                </button>
             </form>
          </label>
          <label class="checkbox-btn" style="display: flex;flex:auto">
             <form action="{% url 'recommend' %}" method="get">
-               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend"
-                  value="빈티지">
-                  <!--name으로 querysey의 키값 설정 needed 필수필수-->
+               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend" value="빈티지">
                   <span class="btn btn-light"><label>빈티지</label></span>
                </button>
             </form>
@@ -83,9 +78,7 @@
 
          <label class="checkbox-btn" style="display: flex;flex:auto">
             <form action="{% url 'recommend' %}" method="get">
-               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend"
-                  value="연인">
-                  <!--name으로 querysey의 키값 설정 needed 필수필수-->
+               <button style="border: #ff00e6; background-color: #F8F9FA;" type="submit" name="recommend" value="연인">
                   <span class="btn btn-light"><label>연인</label></span>
                </button>
             </form>
@@ -108,40 +101,29 @@
             <article class="filter-group" style="display: flex;flex: auto;">
                <header class="card-header" style="flex: auto;">
                   <a href="#" data-toggle="collapse" data-target="#collapse_5" aria-expanded="false" class="">
-                     <i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+                     <i class="icon-control fa fa-chevron-right" style="color: black;"></i>
                      <h6 class="title" style="color: black;">Categories</h6>
                   </a>
                </header>
-               <!--
-               <form method="POST" class="post-form" enctype="multipart/form-data">
-                  {% csrf_token %}
-                  <select name = "sort" id ="_sort" onchange="this.form.submit()" >
-                     <option class="date" value="date">최신순</option>
-                     <option class="highrate" value="highrate">별점 높은순</option>
-                     <option class="lowrate" value="lowrate">별점 낮은순</option>
-                  </select>
-               </form>
-            -->
                <div class="filter-content collapse" id="collapse_5">
                   <div class="card-body">
                      <!--<QueryDict: {'flexRadioDefault': ['value']}>---->
                      <!--<QueryDict: {'flexRadioDefault': ['all']}>---->
-                     <form action="{% url 'filtering' %}" method="GET" enctype="multipart/form-data"
-                        name="filtering">
+                     <form action="{% url 'filtering' %}" method="GET" enctype="multipart/form-data" name="filtering">
                         <!--<QueryDict: {'flexRadioDefault': ['stores']}>--형식으로 넘어간다 -->
 
                         <div class="form-check">
-                           <input class="form-check-input" type="radio" name="flexRadioDefault"
-                              id="flexRadioDefault2" value="cakes" checked>
-                           <label class="form-check-label" for="flexRadioDefault2">
+                           <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                              value="cakes" checked>
+                           <label for="flexRadioDefault2" style="font-size: 10.24px;">
                               케이크만
                            </label>
                         </div>
 
                         <div class="form-check">
-                           <input class="form-check-input" type="radio" name="flexRadioDefault"
-                              id="flexRadioDefault1" value="stores">
-                           <label class="form-check-label" for="flexRadioDefault1">
+                           <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                              value="stores">
+                           <label for="flexRadioDefault1" style="font-size: 10.24px;">
                               가게만
                            </label>
                         </div>
@@ -154,7 +136,7 @@
             <article class="filter-group" style="display: flex;flex: auto;">
                <header class="card-header" style="flex: auto;">
                   <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="false" class="">
-                     <i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+                     <i class="icon-control fa fa-chevron-right" style="color: black;"></i>
                      <h6 class="title" style="color: black;">Location</h6>
                   </a>
                </header>
@@ -166,351 +148,1147 @@
 
                         <!---------서울시 라벨 시작-------------------------------------------------------------------------------------------------------->
                         <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input " name="locationSi" value="경기">
-                        <div class="custom-control-label"><label for="서울">서울
-                           <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction()" style="color: black;"></i>
-                        </label>
-                        <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input" name="locationSi" value="서울">
-
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="서울">
+                           <div class="custom-control-label"><label for="서울">서울
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction()"
+                                    style="color: black;"></i>
+                              </label>
+                              <!-----------------------------------------드롭바 내용 div--->
                               <div class="dropdown">
-                           <!--드롭바 내용 div---><div id="myDropdown" class="dropdown-content">
-                           <!---------서울시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
-                           <label class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input " name="locationGu" value="강남구">
-                              <div class="custom-control-label"><label for="강남">강남</label>
-                              </div>
-                           </label>
-                           
-                           <label class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input " name="locationGu" value="강남구">
-                              <div class="custom-control-label"><label for="강남">강남</label>
-                              </div>
-                           </label>
-                           
-                           <label class="custom-control custom-checkbox">
-                              <input type="checkbox" class="custom-control-input" name="locationGu" value="노원구">
-                              <div class="custom-control-label"><label for="노원">노원</label>
-                              </div>
-                           </label>
+                                 <div id="myDropdown" class="dropdown-content">
+                                    <!---------서울시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="강남구">
+                                       <div class="custom-control-label"><label for="강남">강남구</label>
+                                       </div>
+                                    </label>
 
-                        <!---------서울시 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="강동구">
+                                       <div class="custom-control-label"><label for="강남">강동구</label>
+                                       </div>
+                                    </label>
 
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="강북구">
+                                       <div class="custom-control-label"><label for="강남">강북구</label>
+                                       </div>
+                                    </label>
 
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="강서구">
+                                       <div class="custom-control-label"><label for="강남">강서구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="관악구">
+                                       <div class="custom-control-label"><label for="강남">관악구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="노원구">
+                                       <div class="custom-control-label"><label for="노원">노원구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="동대문구">
+                                       <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="동작구">
+                                       <div class="custom-control-label"><label for="동대문구">동직구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="마포구">
+                                       <div class="custom-control-label"><label for="동대문구">마포구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="서대문구">
+                                       <div class="custom-control-label"><label for="동대문구">서대문구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="서초구">
+                                       <div class="custom-control-label"><label for="동대문구">서초구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="성동구">
+                                       <div class="custom-control-label"><label for="동대문구">성동구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="성북구">
+                                       <div class="custom-control-label"><label for="동대문구">성북구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="송파구">
+                                       <div class="custom-control-label"><label for="동대문구">송파구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="양천구">
+                                       <div class="custom-control-label"><label for="동대문구">양천구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="영등포구">
+                                       <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                       </div>
+                                    </label>
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="동대문구">
+                                       <div class="custom-control-label"><label for="동대문구">영등포구</label>
+                                       </div>
+                                    </label>
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="용산구">
+                                       <div class="custom-control-label"><label for="동대문구">용산구</label>
+                                       </div>
+                                    </label>
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="은평구">
+                                       <div class="custom-control-label"><label for="동대문구">은평구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="종로구">
+                                       <div class="custom-control-label"><label for="동대문구">종로구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="중구">
+                                       <div class="custom-control-label"><label for="동대문구">중구</label>
+                                       </div>
+                                    </label>
+
+                                    <label class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input contentbtn"
+                                          onclick="myFunction1()" name="locationGu" value="중랑구">
+                                       <div class="custom-control-label"><label for="동대문구">중랑구</label>
+                                       </div>
+                                    </label>
+                                 </div>
+                              </div>
+                              <!---------서울시 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+
+                           </div>
                         </label>
-                        
+
+
                         <!---------서울시 라벨 끝-------------------------------------------------------------------------------------------------------->
+
+                        <!---------2 경기 라벨 시작-------------------------------------------------------------------------------------------------------->
                         <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="경기">
+                           <div class="custom-control-label"><label for="경기">경기
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction2()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown2" class="dropdown-content">
+                                 <!---------경기시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">가평군</label>
+                                    </div>
+                                 </label>
 
-                     </div>
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="일산">
+                                    <div class="custom-control-label"><label for="동대문구">일산</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="과천시">
+                                    <div class="custom-control-label"><label for="가평">과천시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="광명시">
+                                    <div class="custom-control-label"><label for="고양시">광명시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="광주시">
+                                    <div class="custom-control-label"><label for="동대문구">광주시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="구리시">
+                                    <div class="custom-control-label"><label for="가평">구리시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="군포시">
+                                    <div class="custom-control-label"><label for="고양시">군포시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="김포시">
+                                    <div class="custom-control-label"><label for="동대문구">김포시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="남양주시">
+                                    <div class="custom-control-label"><label for="가평">남양주시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="동두천시">
+                                    <div class="custom-control-label"><label for="고양시">동두천시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="성남시">
+                                    <div class="custom-control-label"><label for="동대문구">성남시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="수원시">
+                                    <div class="custom-control-label"><label for="가평">수원시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="시흥시">
+                                    <div class="custom-control-label"><label for="고양시">시흥시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="안산시">
+                                    <div class="custom-control-label"><label for="동대문구">안산시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="안양시">
+                                    <div class="custom-control-label"><label for="가평">안양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="양주시">
+                                    <div class="custom-control-label"><label for="고양시">양주시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="오산시">
+                                    <div class="custom-control-label"><label for="동대문구">오산시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="용인시">
+                                    <div class="custom-control-label"><label for="가평">용인시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="의왕시">
+                                    <div class="custom-control-label"><label for="고양시">의왕시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="의정부시">
+                                    <div class="custom-control-label"><label for="동대문구">의정부시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="이천시">
+                                    <div class="custom-control-label"><label for="가평">이천시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="파주시">
+                                    <div class="custom-control-label"><label for="고양시">파주시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="평택시">
+                                    <div class="custom-control-label"><label for="동대문구">평택시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="포천시">
+                                    <div class="custom-control-label"><label for="가평">포천시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="하남시">
+                                    <div class="custom-control-label"><label for="고양시">하남시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="화성시">
+                                    <div class="custom-control-label"><label for="동대문구">화성시</label>
+                                    </div>
+                                 </label>
+
+                                
+
+
+
+                                 <!---------경기 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!---------경기 라벨 끝---------------------------------------------------------------------------------------------------->
+
+
+                        <!---------3 인천 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="인천">
+                           <div class="custom-control-label"><label for="경기">인천
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction4()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown3" class="dropdown-content">
+                                 <!---------경기시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction5()" name="locationGu" value="강화군">
+                                    <div class="custom-control-label"><label for="가평">강화군</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction5()" name="locationGu" value="계양구">
+                                    <div class="custom-control-label"><label for="고양시">계양구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction5()" name="locationGu" value="남동구">
+                                    <div class="custom-control-label"><label for="동대문구">남동구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="동구">
+                                    <div class="custom-control-label"><label for="가평">동구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="미추홀구">
+                                    <div class="custom-control-label"><label for="고양시">미추홀</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="부평구">
+                                    <div class="custom-control-label"><label for="동대문구">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="서구">
+                                    <div class="custom-control-label"><label for="가평">서구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="연수구">
+                                    <div class="custom-control-label"><label for="고양시">연수구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="옹진구">
+                                    <div class="custom-control-label"><label for="동대문구">옹진구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction3()" name="locationGu" value="중구">
+                                    <div class="custom-control-label"><label for="가평">중구</label>
+                                    </div>
+                                 </label>
+
+                                 <!------------------인천 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!---------인천 라벨 끝---------------------------------------------------------------------------------------------------->
+
+
+
+                        <!---------4 대전 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="대전">
+                           <div class="custom-control-label"><label for="경기">대전
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction6()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown4" class="dropdown-content">
+                                 <!---------대전시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction7()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction7()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction7()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------대전 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!---------대전 라벨 끝---------------------------------------------------------------------------------------------------->
+
+                        <!---------5 부산 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="부산">
+                           <div class="custom-control-label"><label for="경기">부산
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction8()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown5" class="dropdown-content">
+                                 <!---------대전시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction9()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction9()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction9()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------5 부산대전 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------5 부산 끝--------------------------->
+
+
+                        <!---------6 대구 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="대구">
+                           <div class="custom-control-label"><label for="경기">대구
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction10()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown6" class="dropdown-content">
+                                 <!---------대전시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction11()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction11()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction11()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------6 대구 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------6 대구 끝--------------------------->
+
+                        <!---------7 울산 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="울산">
+                           <div class="custom-control-label"><label for="경기">울산
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction12()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown7" class="dropdown-content">
+                                 <!---------대전시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction13()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction13()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction13()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------7 울산 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------7 울산 끝--------------------------->
+
+
+                        <!---------8 제주 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="제주">
+                           <div class="custom-control-label"><label for="경기">제주
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction14()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown8" class="dropdown-content">
+                                 <!---------대전시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction15()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction15()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction15()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------8 제주 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------8 제주 끝--------------------------->
+
+                        <!---------9 세종 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="세종">
+                           <div class="custom-control-label"><label for="경기">세종
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction16()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown9" class="dropdown-content">
+                                 <!---------대전시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction17()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction17()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction17()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------9 세종 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------9 세종 끝--------------------------->
+
+                        <!--------10 광주 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="광주">
+                           <div class="custom-control-label"><label for="경기">광주
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction18()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown10" class="dropdown-content">
+                                 <!--------10 광주 드롭바벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction19()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction19()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction19()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------10 광주 드롭바------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------10광주--------------------------->
+
+                        <!---------11충남 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="대구">
+                           <div class="custom-control-label"><label for="경기">충청도
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction20()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown11" class="dropdown-content">
+                                 <!---------충남 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction21()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction21()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction21()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------충청도 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------11 충청도 끝--------------------------->
+
+                        <!---------12 경상도 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="경상도">
+                           <div class="custom-control-label"><label for="경기">경상도
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction22()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown12" class="dropdown-content">
+                                 <!---------경상도 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction23()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction23()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction23()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------경상도 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------12 경상도 끝--------------------------->
+
+
+                        <!---------13 전라도 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="전라도">
+                           <div class="custom-control-label"><label for="경기">전라도
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction24()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown13" class="dropdown-content">
+                                 <!---------충북 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction25()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction25()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction25()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------전라도 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------13 전라도 끝--------------------------->
+
+
+                        <!---------14 강원도 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="강원">
+                           <div class="custom-control-label"><label for="경기">강원도
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction26()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown14" class="dropdown-content">
+                                 <!---------충북 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction27()" name="locationGu" value="가평군">
+                                    <div class="custom-control-label"><label for="가평">부평구</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction27()" name="locationGu" value="고양시">
+                                    <div class="custom-control-label"><label for="고양시">고양시</label>
+                                    </div>
+                                 </label>
+
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction27()" name="locationGu" value="동대문구">
+                                    <div class="custom-control-label"><label for="동대문구">동대문구</label>
+                                    </div>
+                                 </label>
+
+                                 <!---------강원 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------14 강원 끝--------------------------->
+
+
+
+                     </div> <!-- card-body.// -->
                   </div>
-
-
                </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input " name="locationSi" value="경기">
-                  <div class="custom-control-label"><label for="경기">경기</label>
+            </article> <!-- filter-group .// -->
+            <!----------------------------------------------------지역 필터 끝---------------------------------------->
 
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" id="인천" value="인천">
-                  <div class="custom-control-label"><label for="인천">인천</label>
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="부산">
-                  <div class="custom-control-label"><label for="부산">부산</label>
+            <!----------------------------------------------------사이즈 필터 시작---------------------------------------->
+            <!--checkbox 선택 시 value가 넘어가게 됨-->
+            <article class="filter-group" style="display: flex; flex: auto;">
+               <header class="card-header" style="flex: auto;">
+                  <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="false" class="">
+                     <i class="icon-control fa fa-chevron-right" style="color: black;"></i>
+                     <h6 class="title" style="color: black;">Sizes </h6>
+                  </a>
+               </header>
+               <div class="filter-content collapse" id="collapse_4">
+                  <div class="card-body">
 
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="대구">
-                  <div class="custom-control-label"><label for="대구">대구</label>
-
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="광주">
-                  <div class="custom-control-label"><label for="광주">광주</label>
-
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="대전">
-                  <div class="custom-control-label"><label for="대전">대전</label>
-
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="울산">
-                  <div class="custom-control-label">울산
-
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="세종">
-                  <div class="custom-control-label">세종
-
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="강원도">
-                  <div class="custom-control-label">강원도
-
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="충청북도">
-                  <div class="custom-control-label">충청북도
-
-                  </div>
-               </label>
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="충청남도">
-                  <div class="custom-control-label">충청남도
-
-                  </div>
-               </label>
-
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="locationSi" value="제주">
-                  <div class="custom-control-label">제주
-
-                  </div>
-               </label>
-         </div> <!-- card-body.// -->
-   </div>
-</div>
-</article> <!-- filter-group .// -->
-<!----------------------------------------------------지역 필터 끝---------------------------------------->
-<!----------------------------------------------------가격 필터 시작 ---------------------------------------->
-<article class="filter-group" style="display: flex; flex: auto;">
-   <header class="card-header" style="flex: auto;">
-      <a href="#" data-toggle="collapse" data-target="#collapse_7" aria-expanded="false" class="">
-         <i class="icon-control fa fa-chevron-down" style="color: black;"></i>
-         <h6 class="title" style="color: black;">Sizes </h6>
-      </a>
-   </header>
-   <div class="filter-content collapse" id="collapse_7">
-      <div class="card-body">
-
-         <div class="size_filter" data-filter-group="size">
+                     <div class="size_filter" data-filter-group="size">
 
 
-            <div>
+                        <div>
 
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="price" value="9999">
-                  <div class="custom-control-label"><label>10000원 미만</label>
-                  </div>
-               </label>
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="size" value="보틀케이크">
+                              <div class="custom-control-label"><label>보틀케이크</label>
+                              </div>
+                           </label>
 
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="price" value="10000">
-                  <div class="custom-control-label"><label>10000원대</label>
-                  </div>
-               </label>
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="size" value="도시락케이크">
+                              <div class="custom-control-label"><label>도시락케이크</label>
+                              </div>
+                           </label>
 
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="price" value="20000">
-                  <div class="custom-control-label"><label>20000원대</label>
-                  </div>
-               </label>
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="size" value="1~2인분">
+                              <div class="custom-control-label"><label>1~2인분</label>
+                              </div>
+                           </label>
 
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="price" value="30000">
-                  <div class="custom-control-label"><label>30000원대</label>
-                  </div>
-               </label>
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="size" value="3~4인분">
+                              <div class="custom-control-label"><label>3~4인분</label>
+                              </div>
+                           </label>
 
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="price" value="40000">
-                  <div class="custom-control-label"><label>40000원대</label>
-                  </div>
-               </label>
-
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="price" value="50000">
-                  <div class="custom-control-label"><label>50000원 이상</label>
-                  </div>
-               </label>
-            </div>
-         </div>
-      </div>
-</article>
-<!----------------------------------------------------가격 필터 끝---------------------------------------->
-<!----------------------------------------------------사이즈 필터 시작---------------------------------------->
-<!--checkbox 선택 시 value가 넘어가게 됨-->
-<article class="filter-group" style="display: flex; flex: auto;">
-   <header class="card-header" style="flex: auto;">
-      <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="false" class="">
-         <i class="icon-control fa fa-chevron-down" style="color: black;"></i>
-         <h6 class="title" style="color: black;">Sizes </h6>
-      </a>
-   </header>
-   <div class="filter-content collapse" id="collapse_4">
-      <div class="card-body">
-
-         <div class="size_filter" data-filter-group="size">
-
-
-            <div>
-
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="size" value="보틀케이크">
-                  <div class="custom-control-label"><label>보틀케이크</label>
-                  </div>
-               </label>
-
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="size" value="도시락케이크">
-                  <div class="custom-control-label"><label>도시락케이크</label>
-                  </div>
-               </label>
-
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="size" value="1~2인분">
-                  <div class="custom-control-label"><label>1~2인분</label>
-                  </div>
-               </label>
-
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="size" value="3~4인분">
-                  <div class="custom-control-label"><label>3~4인분</label>
-                  </div>
-               </label>
-
-               <label class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" name="size" value="5인분 이상">
-                  <div class="custom-control-label"><label>5인분 이상</label>
-                  </div>
-               </label>
-            </div>
-         </div>
-      </div>
-</article>
-<!----------------------------------------------------사이즈 필터 끝--------------------------------------->
-
-
-
-</aside>
-<!----제출 버튼--------------------------------------------------------------------------------------->
-<input type="submit" value="검색" class="btn btn-primary btn-sm"
-   style="text-align: center;background-color: #F8F9FA;color: black ;width: 70%; display: flex; flex:auto; padding-left:49%; padding-right: 49%; border:thick;border-color: black;">
-<!----------------------------------------->
-</form>
-<!-------------------------------------------------------------필터링 form ended----------------------------------------------------->
-
-<!----------------------------------------------------상단 토글바 시작---------------------------------------->
-<main class="row-md-9">
-
-   <header class="filters-select border-bottom mb-4 pb-3">
-      <div class="form-inline">
-         <span class="mr-md-auto">{{num}} Items found </span>
-         <span class="txt"> 선택하신 값 : </span>
-         <span class="user-checked mr-md-auto"></span>
-
-         <form action="{% url 'sorting' %}" name='sort3' value="sort3" method="get">
-            <select name="sorting" style="margin-right: 50px;" class="mr-2 form-control"
-               onchange="this.form.submit()">
-               <option value="latest" name="latest">최신순</option>
-               <option value="review" name="review">리뷰 많은 순</option>
-               <option value="low" name="low">가격 낮은 순</option>
-               <option value="high" name="high">가격 높은 순</option>
-            </select>
-         </form>
-      </div>
-
-      <div class="form-inline">
-
-      </div>
-      <!----------------------------------------------------상단 토글바 끝---------------------------------------->
-   </header><!-- sect-heading -->
-   <div class="row">
-      <div class="grid" style="width:90%; padding-left: 5%;">
-         {% for products in product %}
-         {% if products.cakename %}
-         <div class="product cakes col-md-4" style="display: flex; flex: auto;;">
-            <!--cakes에서 li부분이 검색당할 것-->
-            <li class="{{products.size}} {{products.referred_store.locationSi}} {{product.price}}">
-               <figure class="card card-product-grid">
-                  <div class="img-wrap">
-                     <a href="{% url 'cake_detail' pk=products.pk %}"><img src={{products.cake_image.url}}
-                           class="img-fluid"></a>
-                     <a class="btn-overlay" href="{% url 'cake_detail' pk=products.pk %}">
-                        <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
-                  </div>
-                  <figcaption class="info-wrap">
-                     <div class="fix-height">
-                        <a href="{% url 'cake_detail' pk=products.pk %}" class="title">{{products.cakename}}</a>
-                        <div class="price-wrap mt-2">
-                           <span class="price">{{products.price}}</span>
-                        </div> <!-- price-wrap.// -->
-                     </div>
-                     <a href="#" class="btn btn-block btn-primary"
-                        style="background-color:gray;border-color: whitesmoke;">장바구니</a>
-                  </figcaption>
-               </figure>
-            </li>
-         </div> <!-- col.// -->
-         {% endif %}
-         {% if products.name %}
-         <div class="product stores col-md-4">
-            <!--stores에서 li부분이 검색당할 것-->
-            <li class="{{products.referred_store.locationSi}}">
-               <figure class="card card-product-grid">
-                  <div class="img-wrap">
-                     <class= href="{% url 'store_detail' pk=products.pk %}"><img src={{products.store_image.url}}
-                           class="img-fluid"></a>
-                        <a class="btn-overlay" href="{% url 'store_detail' pk=products.pk %}">
-                           <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
-                  </div>
-                  <figcaption class="info-wrap">
-                     <div class="fix-height">
-                        <a href="{% url 'store_detail' pk=products.pk %}" class="title">{{products.name}}</a>
-                        <div class="price-wrap mt-2">
-                           <span class="price">{{products.price}}</span>
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="size" value="5인분 이상">
+                              <div class="custom-control-label"><label>5인분 이상</label>
+                              </div>
+                           </label>
                         </div>
                      </div>
-                     <a href="#" class="btn btn-block btn-primary"
-                        style="background-color:gray;border-color: whitesmoke;">장바구니</a>
-                  </figcaption>
-               </figure>
-            </li>
-         </div>
-         {% endif %}
-         {% endfor %}
+                  </div>
+            </article>
+            <!----------------------------------------------------사이즈 필터 끝--------------------------------------->
 
-      </div>
+            <!----------------------------------------------------가격 필터 시작 ---------------------------------------->
+            <article class="filter-group" style="display: flex; flex: auto;">
+               <header class="card-header" style="flex: auto;">
+                  <a href="#" data-toggle="collapse" data-target="#collapse_7" aria-expanded="false" class="">
+                     <i class="icon-control fa fa-chevron-right" style="color: black;"></i>
+                     <h6 class="title" style="color: black;">Price </h6>
+                  </a>
+               </header>
+               <div class="filter-content collapse" id="collapse_7">
+                  <div class="card-body">
+
+                     <div class="size_filter" data-filter-group="size">
+
+
+                        <div>
+
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="price" value="9999">
+                              <div class="custom-control-label"><label>10000원 미만</label>
+                              </div>
+                           </label>
+
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="price" value="10000">
+                              <div class="custom-control-label"><label>10000원대</label>
+                              </div>
+                           </label>
+
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="price" value="20000">
+                              <div class="custom-control-label"><label>20000원대</label>
+                              </div>
+                           </label>
+
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="price" value="30000">
+                              <div class="custom-control-label"><label>30000원대</label>
+                              </div>
+                           </label>
+
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="price" value="40000">
+                              <div class="custom-control-label"><label>40000원대</label>
+                              </div>
+                           </label>
+
+                           <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="price" value="50000">
+                              <div class="custom-control-label"><label>50000원 이상</label>
+                              </div>
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+            </article>
+            <!----------------------------------------------------가격 필터 끝---------------------------------------->
+
+      </aside>
+      <!----제출 버튼--------------------------------------------------------------------------------------->
+      <input type="submit" value="검색" class="submit-search-filter" class="btn btn-primary btn-sm"
+         style="text-align: center;color: black ;width: 70%; display: flex; flex:auto; padding-left:49%; padding-right: 49%; border:thick;border-color: black;">
+      <!----------------------------------------->
+      </form>
+      <!-------------------------------------------------------------필터링 form ended----------------------------------------------------->
+
+      <!----------------------------------------------------상단 토글바 시작---------------------------------------->
+      <main class="row-md-9">
+
+         <header class="filters-select border-bottom mb-4 pb-3">
+            <div class="form-inline">
+               <span class="mr-md-auto">{{num}} Items found </span>
+               <span class="txt"> 선택하신 값 : </span>
+               <span class="user-checked mr-md-auto"></span>
+
+               <form action="{% url 'sorting' %}" name='sort3' value="sort3" method="get">
+                  <select name="sorting" style="margin-right: 50px;" class="mr-2 form-control"
+                     onchange="this.form.submit()">
+                     <option value="latest" name="latest">최신순</option>
+                     <option value="review" name="review">리뷰 많은 순</option>
+                     <option value="low" name="low">가격 낮은 순</option>
+                     <option value="high" name="high">가격 높은 순</option>
+                  </select>
+               </form>
+            </div>
+
+            <div class="form-inline">
+
+            </div>
+            <!----------------------------------------------------상단 토글바 끝---------------------------------------->
+         </header><!-- sect-heading -->
+         <div class="row">
+            <div class="grid" style="width:90%; padding-left: 5%;">
+               {% for products in product %}
+               {% if products.cakename %}
+               <div class="product cakes col-md-4" style="display: flex; flex: auto;;">
+                  <!--cakes에서 li부분이 검색당할 것-->
+                  <li class="{{products.size}} {{products.referred_store.locationSi}} {{product.price}}">
+                     <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                           <a href="{% url 'cake_detail' pk=products.pk %}"><img src={{products.cake_image.url}}
+                                 class="img-fluid"></a>
+                           <a class="btn-overlay" href="{% url 'cake_detail' pk=products.pk %}">
+                              <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
+                        </div>
+                        <figcaption class="info-wrap">
+                           <div class="fix-height">
+                              <a href="{% url 'cake_detail' pk=products.pk %}" class="title">{{products.cakename}}</a>
+                              <div class="price-wrap mt-2">
+                                 <span class="price">{{products.price}}</span>
+                              </div> <!-- price-wrap.// -->
+                           </div>
+                           {% if user in cake.users_liked.all %}
+                           <button class="like red"
+                              style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
+                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                                 class="fas fa-heart"></i></button>
+                           {% else %}
+                           <button class="like"
+                              style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
+                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                                 class="fas fa-heart"></i></button>
+                           {% endif %}
+                           <!-- 좋아요타입 케이크(1)로 -->
+                           <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+                           <a href="#" class="btn btn-block btn-primary"
+                              style="background-color:gray;border-color: whitesmoke;">장바구니</a>
+                        </figcaption>
+                     </figure>
+                  </li>
+               </div> <!-- col.// -->
+               {% endif %}
+               {% if products.name %}
+               <div class="product stores col-md-4">
+                  <!--stores에서 li부분이 검색당할 것-->
+                  <li class="{{products.referred_store.locationSi}}">
+                     <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                           <class= href="{% url 'store_detail' pk=products.pk %}"><img src={{products.store_image.url}}
+                                 class="img-fluid"></a>
+                              <a class="btn-overlay" href="{% url 'store_detail' pk=products.pk %}">
+                                 <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
+                        </div>
+                        <figcaption class="info-wrap">
+                           <div class="fix-height">
+                              <a href="{% url 'store_detail' pk=products.pk %}" class="title">{{products.name}}</a>
+                              <div class="price-wrap mt-2">
+                                 <span class="price">{{products.price}}</span>
+                              </div>
+                           </div>
+                           {% if user in cake.users_liked.all %}
+                           <button class="like red"
+                              style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
+                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                                 class="fas fa-heart"></i></button>
+                           {% else %}
+                           <button class="like"
+                              style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
+                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                                 class="fas fa-heart"></i></button>
+                           {% endif %}
+                           <!-- 좋아요타입 케이크(1)로 -->
+                           <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+                           <a href="#" class="btn btn-block btn-primary"
+                              style="background-color:gray;border-color: whitesmoke;">장바구니</a>
+                        </figcaption>
+                     </figure>
+                  </li>
+               </div>
+               {% endif %}
+               {% endfor %}
+
+            </div>
+         </div>
+
+      </main>
+
    </div>
 
-</main>
 
-</div>
-
-
-<script>
-   /* When the user clicks on the button, 
-   toggle between hiding and showing the dropdown content */
-   function myFunction() {
-      document.getElementById("myDropdown").classList.toggle("showw");
-   }
-
-   // Close the dropdown if the user clicks outside of it
-   onclick = function (event) {
-      if (!event.target.matches('.dropbtn')) {
-         var dropdowns = document.getElementsByClassName("dropdown-content");
-         var i;
-         for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('showw')) {
-               openDropdown.classList.remove('showw');
-            }
-         }
-      }
-   }
-</script>
-
-{% endblock %}
+   {% endblock %}

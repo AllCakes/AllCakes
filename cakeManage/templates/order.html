@@ -12,10 +12,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/order.css' %}">
 </head>
@@ -84,12 +86,12 @@
                                 <p class="order-fixed-user">[ 주문자 ] {{ user.nickname }}</p>
                             </div>
 
-                        
 
-                        <div class="pickup-info">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                        </div>
+
+                            <div class="pickup-info">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                            </div>
                         </div>
                     </div>
                     <div class="order-color">
@@ -114,7 +116,6 @@
             <div class="coupon-price">
                 <button onclick="coupon('block')">쿠폰</button>
                 <div class="price">
-
                     <div id="coupon" class="coupon">
                         <div>
                             {% for c in a_coupons %}
@@ -125,20 +126,19 @@
                             <input type="radio" name="discount" value="{{c.percent}} {{c.pk}}">
                             <label for="percent">{{c.name}} {{c.percent}}% 할인쿠폰</label>
                             {% endfor %}
-                            <button type="button" onclick="discount({{cake.price}})">선택</button>
+                            <button type="button" onclick="discount()">선택</button>
                         </div>
                         <button onclick="coupon('none')">닫기</button>
                     </div>
-
-                    <p id="total">[ 결제 금액 ] {{cake.price}}</p>
+                    <input id="total_price" type=text disabled>
+                    <br><br>
+                    <div>[ 할인 결제 금액 ] :<div id="total"></div>
+                    </div>
                 </div>
             </div>
 
         </div>
 
-
-
-      
         </div>
     </main>
     <script>
@@ -146,8 +146,9 @@
         var cream = "{{크림종류}}";
         var colorP = "{{색가격}}";
         var creamP = "{{크림종류가격}}";
-        var choice_color = "{{order.색}}"
-        var choice_cream = "{{order.크림종류}}"
+        var choice_color = "{{order.색}}";
+        var choice_cream = "{{order.크림종류}}";
+        var total_price = "{{cake.price}}";
     </script>
     <script type="text/javascript" src="/static/js/orderMenu.js" defer></script>
     <script>
@@ -159,7 +160,9 @@
             document.getElementById('coupon').style.display = x;
         }
 
-        function discount(price) {
+        function discount() {
+            var price = document.getElementById('total_price').value;
+            console.log(price)
             var ele = document.getElementsByName('discount');
             var discounted_price = 0;
             var check = 0;

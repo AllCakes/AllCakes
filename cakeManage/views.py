@@ -55,19 +55,22 @@ def search_all(request):
 
 #필터링 작업 일어났을 시
 def filtering(request):
+
     if request.method == "GET":
         chkLocationSi=0
         chkLocationGu=0
-        chkLocationPrice=0
+        chkPrices=0
+        chkSizes=0
+
         cakes=Cake.objects.none() 
         stores=Store.objects.none()
-        cakes2=Cake.objects.none() 
-        stores2=Store.objects.none()
+
         print(request.GET)
         category= request.GET.get('flexRadioDefault')
         locationSi=request.GET.getlist('locationSi')
         locationGu=request.GET.getlist('licationGu')
         size=request.GET.getlist('size')
+        price=request.GET.getlist('price')
         #카테고리 필터링 
         if category:
             if category=='cakes':
@@ -80,6 +83,11 @@ def filtering(request):
             chkLocationSi=1
             stores |= Store.objects.filter(locationSi__in=locationSi).distinct()
             cakes |= Cake.objects.filter(referred_store__locationSi__in=locationSi).distinct()
+
+        else : #만약 시 필터링 안됐음 stores, cakes는 모든 거 가리킴
+            stores=Store.objects.all()
+            cakes=Cake.objects.all()
+
         if chkCategory==1:#카테고리가 케이크라면
             filtered_product=cakes
         elif chkCategory==2:#카테고리가 가게라면
@@ -89,31 +97,34 @@ def filtering(request):
         print(filtered_product)
 
         if locationGu:
-            chkLocationGu=1
-            if locationSi:
-                stores |= Store.objects.filter(locationGu__in=locationGu).distinct()                
-                cakes |= Cake.objects.filter(referred_store__locationGu__in=locationGu).distinct()
-            if chkCategory==1:#카테고리가 케이크라면
+            storesbyGu=[]
+            cakesbyGu=[]
+            storesbyGu |= stores.filter(locationGu__in=locationGu).distinct()                
+            cakesbyGu |= cakes.filter(referred_store__locationGu__in=locationGu).distinct()
+
+            if chkCategory==1:
+                cakes=cakesbyGu
                 filtered_product=cakes
-            elif chkCategory==2:#카테고리가 가게라면
-                filtered_product=stores
-            
-            else:#앞에서 시로 걸러진적 없다면 처음부터 수집해야함
-                stores2 |= Store.objects.filter(locationGu__in=locationGu).distinct()                
-                cakes2 |= Cake.objects.filter(referred_stosoure__locationGu__in=locationGu).distinct()
-            if chkCategory==1:#카테고리가 케이크라면
-                filtered_product=cakes2
-            elif chkCategory==2:#카테고리가 가게라면
-                filtered_product=stores2
+            else:
+                stores=storesbyGu
+                filtered_product=storesbyGu
 
         print("filtered by Gu:")
         print(filtered_product)
 
         #사이즈 필터링
         if size:
+            chkSizes=1
             size_filtered_store=[]
-            if chkCategory==1:#cake만
-                cakes.filter(size__in=size).distinct()
+
+            if chkCategory==1:#cake인 경우에는 바로 정참조로 사이즈 체크
+                size_filtered_store=filtered_product.filter(size__in=size).distinct()
+                filtered_product=size_filtered_store
+                
+                print("cakes라서 정참조로 모음")
+                print(filtered_product)
+                print(size)
+
             elif chkCategory==2:#가게인 경우에는 역참조로 사이즈 체크
                 for i in stores:#location으로 걸러진 가게들 중에서
                     chkSize=0
@@ -142,12 +153,48 @@ def filtering(request):
         print("filtered by size:")
         print(filtered_product)
 
+        #가격 필터링
+        print("가격필터테스트")
+        if price:
+            chkPrices=1
+            tmp_price=0
+            tmp_list=[]
+            print(filtered_product)
+            for i in filtered_product:
+
+                if (i.price < 10000):
+                    tmp_price=9999
+                elif (i.price < 20000) :      
+                    tmp_price=10000
+                elif(i.price <30000):
+                    tmp_price=20000
+                elif(i.price<40000) :
+                    tmp_price=30000
+                elif(i.price<50000):
+                    tmp_price=40000
+                else:
+                    tmp_price=50000
+                #가격이 price list에 존재한다면 필터링 수행ㅇ
+                if (str(tmp_price) in price):
+                    tmp_list.insert(-1,i)
+        print("filtered by price:")
+        print(filtered_product)
+
+        if(not(category)):
+            if(not(locationSi)):
+                if(not(locationGu)):
+                    if(not(size)):
+                        if(not(price)):
+                            if(chkCategory==1) :
+                                    filtered_product=Cake.objects.all()
+                            else:
+                                    filtered_product=Store.objects.all()
+        print(filtered_product)
         #카테고리, 가격, 사이즈 필터링 거친 마무리 갯수 구하기
         num=0
         #기존 num 초기화하고 products 수 갱신
         for i in filtered_product:
             num+=1
-
         return render(request, 'search_all.html', {'cakes':cakes, 'stores':stores,'product':filtered_product,'num':num})
 
 
@@ -204,11 +251,11 @@ def store_detail(request, pk):
         sort = request.POST.get('sort')
         num = 2
         if sort == 'highrate':
-            review_list = Review.objects.filter(referred_store=store).order_by('-rate','-pub_date')
+            review_list = Review.objects.select_related('order').filter(order__referred_store=store).order_by('-rate','-pub_date')
         elif sort == 'lowerate':
-            review_list = Review.objects.filter(referred_store=store).order_by('rate','-pub_date')
+            review_list = Review.objects.select_related('order').filter(order__referred_store=store).order_by('rate','-pub_date')
         else :
-            review_list = Review.objects.filter(referred_store=store).order_by('-pub_date')
+            review_list = Review.objects.select_related('order').filter(order__referred_store=store).order_by('-pub_date')
     return render(request, 'store_detail.html', {'store': store, 'cakelist':cake_list, 'reviewlist':review_list, 'num':num})
 
 # 가게 수정 U
@@ -343,6 +390,10 @@ def order_new(request, cake_pk): #cake의 pk값
             order.pay_price = cake.price
             order.색 = request.POST.get('색')
             order.크림종류 = request.POST.get('크림종류')
+            idx_col = 색.index(order.색)
+            idx_crm = 크림종류.index(order.크림종류)
+            order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+            order.pay_price = order.prev_price
             s = request.POST.get('coupon').split("_")
             if request.POST.get('coupon') != "a_0":
                 # 쿠폰 있다 한 경우 (쿠폰이 적용 안된 경우 아무런 조치 X)
@@ -357,7 +408,8 @@ def order_new(request, cake_pk): #cake의 pk값
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.amount_coupon = coupon
-                        order.pay_price = cake.price - coupon.amount
+                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.pay_price = int(order.prev_price) - coupon.amount
                 else:
                     # 비율쿠폰
                     try:
@@ -369,7 +421,8 @@ def order_new(request, cake_pk): #cake의 pk값
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.percent_coupon = coupon
-                        order.pay_price = cake.price * (float(100 - coupon.percent) / 100)
+                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.pay_price = int(order.prev_price) * (float(100 - coupon.percent) / 100)
                     #유저의 것인지 확인 해야 함.
             order.save()
             # 주문 결과 페이지로 가도록 수정하기!
@@ -411,7 +464,13 @@ def order_edit(request, order_pk):
         form = OrderForm(request.POST, request.FILES, instance=order)
         if form.is_valid():
             order = form.save(commit=False)
+            order.색 = request.POST.get('색')
+            order.크림종류 = request.POST.get('크림종류')
+            idx_col = 색.index(order.색)
+            idx_crm = 크림종류.index(order.크림종류)
             s = request.POST.get('coupon').split("_")
+            order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+            order.pay_price = order.prev_price
             if request.POST.get('coupon') != "a_0":
                 # 쿠폰 있다 한 경우 (쿠폰이 적용 안된 경우 아무런 조치 X)
                 if s[0] == 'a':
@@ -425,7 +484,8 @@ def order_edit(request, order_pk):
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.amount_coupon = coupon
-                        order.pay_price = cake.price - coupon.amount
+                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.pay_price = int(order.prev_price) - coupon.amount
                 else:
                     # 비율쿠폰
                     try:
@@ -437,11 +497,10 @@ def order_edit(request, order_pk):
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.percent_coupon = coupon
-                        order.pay_price = cake.price * (float(100 - coupon.percent) / 100)
+                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.pay_price = int(order.prev_price) * (float(100 - coupon.percent) / 100)
                     #유저의 것인지 확인 해야 함.
             # get 방식으로 가져와 저장
-            order.색 = request.POST.get('색')
-            order.크림종류 = request.POST.get('크림종류')
             order.save()
             return redirect('order_detail', order_pk=order.pk)
     else:

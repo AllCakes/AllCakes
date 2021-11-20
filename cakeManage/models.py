@@ -21,7 +21,7 @@ class Store(models.Model):
     pub_date = models.DateTimeField(default=timezone.now)
     contact = models.CharField(max_length=15)
     # kdy : 가격 0원으로 건드렸음
-    price = models.CharField(default='0', max_length=100)
+    price = models.IntegerField(default=0, validators=[MinValueValidator(0, MaxValueValidator(100000))],verbose_name="메뉴 평균 금액")
     si_choices=[
         ('서울', '서울'),
         ('경기', '경기'),
@@ -48,7 +48,7 @@ class Store(models.Model):
         default='서울',
         verbose_name="시"
     )
-    locationGu=models.CharField(max_length=10, default='노원구', verbose_name="구") 
+    locationGu=models.CharField(max_length=10, default='00구/00시', verbose_name="지역(구/시)") 
 
 
     # 가게 사장 user는 관리자에서 설정하도록 할 것, 이후 그 가게의 사장이면
@@ -113,7 +113,7 @@ class Cake(models.Model):
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_cake", related_name="users_liked_cake")
     
     #결제를 위한 가격 정보
-    price = models.IntegerField(default=90000, validators=[MinValueValidator(0, MaxValueValidator(100000))])
+    price = models.IntegerField(default=0, validators=[MinValueValidator(0, MaxValueValidator(100000))])
     def __str__(self):
         return self.cakename
 
@@ -197,6 +197,7 @@ class Order(models.Model):
     is_paid = models.BooleanField(verbose_name="결제완료",default=False)
     
     # 결제금액 관련
+    prev_price = models.IntegerField(default= 0,validators=[MinValueValidator(0),MaxValueValidator(100000)])
     pay_price = models.IntegerField(default= 0,validators=[MinValueValidator(0),MaxValueValidator(100000)])
     amount_coupon = models.ForeignKey(AmountCoupon, on_delete=models.SET_NULL, null=True, blank=True)
     percent_coupon = models.ForeignKey(PercentCoupon, on_delete=models.SET_NULL, null=True, blank=True)

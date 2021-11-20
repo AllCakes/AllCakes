@@ -11,6 +11,7 @@
     <!--부트스트랩-->
     <!--여기까지-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/cake.css' %}">
 </head>
 
 <body>
@@ -94,13 +95,13 @@
     </header>
 
     <br><br><br>
-<h1>케이크 메뉴 등록</h1>
+<h1 class = "cake_title">케이크 메뉴 등록</h1>
 <form method="POST" class="post-form" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <!-- <p>예시 케이크 사진을 첨부해주세요.</p> -->
     <!-- <input type="file" name="imgs" multiple> -->
-    
+    <br><br><br>
     <div><h2>색 선택</h2> 
         <ul class="색"></ul>
     </div>

@@ -61,10 +61,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
-
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # to use a model users.User for authentication, replacing the default django.contrib.auth.models.User
 AUTH_USER_MODEL = 'users.User'
