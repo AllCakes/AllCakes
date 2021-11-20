@@ -16,7 +16,8 @@ urlpatterns= [
     path('logout/with/kakao', logout_with_kakao, name="logout_with_kakao"),
     path('mypage/<int:user_pk>', mypage, name="mypage"),
 
-    # 정보 변경(닉네임), 회원 탈퇴
+    # 쿠폰 내역, 정보 변경(닉네임), 회원 탈퇴
+    path('mypage/<int:user_pk>/coupons', view_coupon, name='view_coupon'),
     path('mypage/edit/nickname', edit_nickname, name='edit_nickname'),
     path('mypage/delete/user/<int:user_pk>', delete_user, name='delete_user'),
 ]

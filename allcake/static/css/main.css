@@ -50,10 +50,10 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
 body {
 	-webkit-text-size-adjust: none;
 }
+
 
 mark {
 	background-color: transparent;
@@ -84,6 +84,7 @@ input, select, textarea {
 	border-radius: 5px;
 	font-size: 20px;
 }
+
 
 /* Basic */
 
@@ -2191,7 +2192,6 @@ input, select, textarea {
 			-webkit-transition: opacity 0.25s ease-in-out;
 			-ms-transition: opacity 0.25s ease-in-out;
 			transition: opacity 0.25s ease-in-out;
-			background-image: url("images/overlay.png");
 			content: '';
 			display: block;
 			height: 100%;
@@ -2510,6 +2510,17 @@ input, select, textarea {
 				padding: 0.5em 1em 0.5em 1em;
 			}
 
+			table.default a:link {
+					color: green;
+					background-color: transparent;
+					text-decoration: none;
+			}
+			table.default a:visited {
+				color: rgb(252, 150, 167);
+				background-color: transparent;
+				text-decoration: none;
+			}
+			
 			table.default th {
 				color: #5b5b5b;
 				font-size: 0.8em;

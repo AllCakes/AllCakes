@@ -39,12 +39,17 @@
             <p id="maplat" style="display: none;">{{store.lat}}</p>
             <p id="maplon" style="display: none;">{{store.lon}}</p>
         </div>
+        {% if not user.is_authenticated %}
+        <button class="like" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+        {% else %}
+
         {% if user in store.users_liked.all %}
         <button class="like red" id="store{{store.id}}" onclick="LikeIt(2, {{store.id}})"><i class="fas fa-heart"></i></button>
         {% else %}
         <button class="like" id="store{{store.id}}" onclick="LikeIt(2, {{store.id}})"><i class="fas fa-heart"></i></button>
         {% endif %}
-        <!-- 좋아요타입 가게(2)로  -->
+
+        {% endif %}
     </div>
 
     <!-- 이하 수정은 가게 관리자만 수정 및 삭제할 수 있도록 수정할 예정 -->
@@ -107,13 +112,17 @@
                     {% endif %}
                     {% endif %}    
 
+                    {% if not user.is_authenticated %}
+                    <button class="like" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                    {% else %}
+        
                     {% if user in cake.users_liked.all %}
                     <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                     {% else %}
                     <button class="like" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                     {% endif %}
-                    <!-- 좋아요타입 케이크(1)로 -->
-                    <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+                    
+                    {% endif %}
                 </div>
                 </a><br>
             </div>
