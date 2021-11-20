@@ -2539,7 +2539,7 @@ input, select, textarea {
 		-webkit-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
-		background: #544d55;
+		background: #6d666e;
 		border-radius: 4px;
 		border: 0;
 		color: #ffffff;
@@ -2560,14 +2560,15 @@ input, select, textarea {
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
-			background: #6e6570;
+			background: #9e9b9f;
+			background-color: lightgray;
 		}
 
 		input[type="submit"]:active,
 		input[type="reset"]:active,
 		input[type="button"]:active,
 		.button:active {
-			background: #474148;
+			background: #524e53;
 		}
 
 		input[type="submit"].alt,
@@ -2583,7 +2584,7 @@ input, select, textarea {
 			input[type="reset"].alt:hover,
 			input[type="button"].alt:hover,
 			.button.alt:hover {
-				background: rgba(224, 224, 224, 0.15);
+				background: rgb(91, 88, 90);
 			}
 
 			input[type="submit"].alt:active,
@@ -3385,4 +3386,9 @@ input, select, textarea {
 	  .like {
 		float: right;
 		margin-left: auto;
+		
+	  }
+
+	  .like:hover {
+		  background-color: lightgray;
 	  }

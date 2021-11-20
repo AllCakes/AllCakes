@@ -108,7 +108,7 @@
 				<article class="filter-group" style="display: flex;flex: auto;">
 					<header class="card-header" style="flex: auto;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_5" aria-expanded="false" class="">
-							<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+							<i class="icon-control fa fa-chevron-right" style="color: black;"></i>
 							<h6 class="title" style="color: black;">Categories</h6>
 						</a>
 					</header>
@@ -154,7 +154,7 @@
 				<article class="filter-group" style="display: flex;flex: auto;">
 					<header class="card-header" style="flex: auto;">
 						<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="false" class="">
-							<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
+							<i class="icon-control fa fa-chevron-right" style="color: black;"></i>
 							<h6 class="title" style="color: black;">Location</h6>
 						</a>
 					</header>
@@ -166,327 +166,366 @@
 
 								<!---------서울시 라벨 시작-------------------------------------------------------------------------------------------------------->
 								<label class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input " name="locationSi" value="경기">
-								<div class="custom-control-label"><label for="서울">서울
-									<i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction()" style="color: black;"></i>
-								</label>
-								<label class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" name="locationSi" value="서울">
+									<input type="checkbox" class="custom-control-input " name="locationSi" value="서울">
+									<div class="custom-control-label"><label for="서울">서울
+											<i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction()"
+												style="color: black;"></i>
+										</label>
+											<!-----------------------------------------드롭바 내용 div--->
+											<div class="dropdown">
+												<div id="myDropdown" class="dropdown-content">
+													<!---------서울시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+													<label class="custom-control custom-checkbox">
+														<input type="checkbox" class="custom-control-input contentbtn" onclick="myFunction2()"
+															name="locationGu" value="강남구">
+														<div class="custom-control-label"><label for="강남">강남</label>
+														</div>
+													</label>
 
-										<div class="dropdown">
-									<!--드롭바 내용 div---><div id="myDropdown" class="dropdown-content">
-									<!---------서울시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input " name="locationGu" value="강남구">
-										<div class="custom-control-label"><label for="강남">강남</label>
-										</div>
-									</label>
-									
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input " name="locationGu" value="강남구">
-										<div class="custom-control-label"><label for="강남">강남</label>
-										</div>
-									</label>
-									
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input" name="locationGu" value="노원구">
-										<div class="custom-control-label"><label for="노원">노원</label>
-										</div>
-									</label>
+													<label class="custom-control custom-checkbox">
+														<input type="checkbox" class="custom-control-input contentbtn" onclick="myFunction2()"
+															name="locationGu" value="노원구">
+														<div class="custom-control-label"><label for="노원">노원구</label>
+														</div>
+													</label>
 
-								<!---------서울시 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+													<label class="custom-control custom-checkbox">
+														<input type="checkbox" class="custom-control-input contentbtn" onclick="myFunction2()"
+															name="locationGu" value="동대문구">
+														<div class="custom-control-label"><label for="동대문구">동대문구</label>
+														</div>
+													</label>
+												</div>
+											</div>
+													<!---------서울시 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+
+									</div>
+										</label>
 
 
-								</label>
-								
-								<!---------서울시 라벨 끝-------------------------------------------------------------------------------------------------------->
-								<label class="custom-control custom-checkbox">
+										<!---------서울시 라벨 끝-------------------------------------------------------------------------------------------------------->
+							<!---------------------------->
+															<!---------222서울시 라벨 시작-------------------------------------------------------------------------------------------------------->
+															<label class="custom-control custom-checkbox">
+																<input type="checkbox" class="custom-control-input " name="locationSi" value="경기">
+																<div class="custom-control-label"><label for="경기">경기
+																		<i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction()"
+																			style="color: black;"></i>
+																	</label>
+																		<div class="dropdown">
+																			<!--드롭바 내용 div--->
+																			<div id="myDropdown" class="dropdown-content">
+																				<!---------서울시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+																				<label class="custom-control custom-checkbox">
+																					<input type="checkbox" class="custom-control-input contentbtn" onclick="myFunction2()"
+																						name="locationGu" value="가평군">
+																					<div class="custom-control-label"><label for="가평">가평군</label>
+																					</div>
+																				</label>
+							
+																				<label class="custom-control custom-checkbox">
+																					<input type="checkbox" class="custom-control-input contentbtn" onclick="myFunction2()"
+																						name="locationGu" value="고양시">
+																					<div class="custom-control-label"><label for="고양시">고양시</label>
+																					</div>
+																				</label>
+							
+																				<label class="custom-control custom-checkbox">
+																					<input type="checkbox" class="custom-control-input contentbtn" onclick="myFunction2()"
+																						name="locationGu" value="동대문구">
+																					<div class="custom-control-label"><label for="동대문구">동대문구</label>
+																					</div>
+																				</label>
+							
+																				<!---------서울시 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+							
+							
+																	</label>
+							
+																	<!---------서울시 라벨 끝-------------------------------------------------------------------------------------------------------->
+																	
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input " name="locationSi" value="경기">
+							<div class="custom-control-label"><label for="경기">경기</label>
+							</div>
+						</label>
+
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" id="인천" value="인천">
+							<div class="custom-control-label"><label for="인천">인천</label>
+							</div>
+						</label>
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="부산">
+							<div class="custom-control-label"><label for="부산">부산</label>
 
 							</div>
-						</div>
+						</label>
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="대구">
+							<div class="custom-control-label"><label for="대구">대구</label>
+
+							</div>
+						</label>
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="광주">
+							<div class="custom-control-label"><label for="광주">광주</label>
+
+							</div>
+						</label>
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="대전">
+							<div class="custom-control-label"><label for="대전">대전</label>
+
+							</div>
+						</label>
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="울산">
+							<div class="custom-control-label">울산
+
+							</div>
+						</label>
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="세종">
+							<div class="custom-control-label">세종
+
+							</div>
+						</label>
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="강원도">
+							<div class="custom-control-label">강원도
+
+							</div>
+						</label>
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="충청북도">
+							<div class="custom-control-label">충청북도
+
+							</div>
+						</label>
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="충청남도">
+							<div class="custom-control-label">충청남도
+
+							</div>
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="locationSi" value="제주">
+							<div class="custom-control-label">제주
+
+							</div>
+						</label>
+					</div> <!-- card-body.// -->
+			</div>
+	</div>
+	</article> <!-- filter-group .// -->
+	<!----------------------------------------------------지역 필터 끝---------------------------------------->
+	<!----------------------------------------------------가격 필터 시작 ---------------------------------------->
+	<article class="filter-group" style="display: flex; flex: auto;">
+		<header class="card-header" style="flex: auto;">
+			<a href="#" data-toggle="collapse" data-target="#collapse_7" aria-expanded="false" class="">
+				<i class="icon-control fa fa-chevron-right" style="color: black;"></i>
+				<h6 class="title" style="color: black;">Price </h6>
+			</a>
+		</header>
+		<div class="filter-content collapse" id="collapse_7">
+			<div class="card-body">
+
+				<div class="size_filter" data-filter-group="size">
 
 
+					<div>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="price" value="9999">
+							<div class="custom-control-label"><label>10000원 미만</label>
+							</div>
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="price" value="10000">
+							<div class="custom-control-label"><label>10000원대</label>
+							</div>
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="price" value="20000">
+							<div class="custom-control-label"><label>20000원대</label>
+							</div>
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="price" value="30000">
+							<div class="custom-control-label"><label>30000원대</label>
+							</div>
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="price" value="40000">
+							<div class="custom-control-label"><label>40000원대</label>
+							</div>
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="price" value="50000">
+							<div class="custom-control-label"><label>50000원 이상</label>
+							</div>
+						</label>
 					</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input " name="locationSi" value="경기">
-						<div class="custom-control-label"><label for="경기">경기</label>
-
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" id="인천" value="인천">
-						<div class="custom-control-label"><label for="인천">인천</label>
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="부산">
-						<div class="custom-control-label"><label for="부산">부산</label>
-
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="대구">
-						<div class="custom-control-label"><label for="대구">대구</label>
-
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="광주">
-						<div class="custom-control-label"><label for="광주">광주</label>
-
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="대전">
-						<div class="custom-control-label"><label for="대전">대전</label>
-
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="울산">
-						<div class="custom-control-label">울산
-
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="세종">
-						<div class="custom-control-label">세종
-
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="강원도">
-						<div class="custom-control-label">강원도
-
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="충청북도">
-						<div class="custom-control-label">충청북도
-
-						</div>
-					</label>
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="충청남도">
-						<div class="custom-control-label">충청남도
-
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="locationSi" value="제주">
-						<div class="custom-control-label">제주
-
-						</div>
-					</label>
-			</div> <!-- card-body.// -->
-	</div>
-</div>
-</article> <!-- filter-group .// -->
-<!----------------------------------------------------지역 필터 끝---------------------------------------->
-<!----------------------------------------------------가격 필터 시작 ---------------------------------------->
-<article class="filter-group" style="display: flex; flex: auto;">
-	<header class="card-header" style="flex: auto;">
-		<a href="#" data-toggle="collapse" data-target="#collapse_7" aria-expanded="false" class="">
-			<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
-			<h6 class="title" style="color: black;">Sizes </h6>
-		</a>
-	</header>
-	<div class="filter-content collapse" id="collapse_7">
-		<div class="card-body">
-
-			<div class="size_filter" data-filter-group="size">
-
-
-				<div>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="price" value="9999">
-						<div class="custom-control-label"><label>10000원 미만</label>
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="price" value="10000">
-						<div class="custom-control-label"><label>10000원대</label>
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="price" value="20000">
-						<div class="custom-control-label"><label>20000원대</label>
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="price" value="30000">
-						<div class="custom-control-label"><label>30000원대</label>
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="price" value="40000">
-						<div class="custom-control-label"><label>40000원대</label>
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="price" value="50000">
-						<div class="custom-control-label"><label>50000원 이상</label>
-						</div>
-					</label>
 				</div>
 			</div>
-		</div>
-</article>
-<!----------------------------------------------------가격 필터 끝---------------------------------------->
-<!----------------------------------------------------사이즈 필터 시작---------------------------------------->
-<!--checkbox 선택 시 value가 넘어가게 됨-->
-<article class="filter-group" style="display: flex; flex: auto;">
-	<header class="card-header" style="flex: auto;">
-		<a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="false" class="">
-			<i class="icon-control fa fa-chevron-down" style="color: black;"></i>
-			<h6 class="title" style="color: black;">Sizes </h6>
-		</a>
-	</header>
-	<div class="filter-content collapse" id="collapse_4">
-		<div class="card-body">
+	</article>
+	<!----------------------------------------------------가격 필터 끝---------------------------------------->
+	<!----------------------------------------------------사이즈 필터 시작---------------------------------------->
+	<!--checkbox 선택 시 value가 넘어가게 됨-->
+	<article class="filter-group" style="display: flex; flex: auto;">
+		<header class="card-header" style="flex: auto;">
+			<a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="false" class="">
+				<i class="icon-control fa fa-chevron-right" style="color: black;"></i>
+				<h6 class="title" style="color: black;">Sizes </h6>
+			</a>
+		</header>
+		<div class="filter-content collapse" id="collapse_4">
+			<div class="card-body">
 
-			<div class="size_filter" data-filter-group="size">
-
-
-				<div>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="size" value="보틀케이크">
-						<div class="custom-control-label"><label>보틀케이크</label>
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="size" value="도시락케이크">
-						<div class="custom-control-label"><label>도시락케이크</label>
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="size" value="1~2인분">
-						<div class="custom-control-label"><label>1~2인분</label>
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="size" value="3~4인분">
-						<div class="custom-control-label"><label>3~4인분</label>
-						</div>
-					</label>
-
-					<label class="custom-control custom-checkbox">
-						<input type="checkbox" class="custom-control-input" name="size" value="5인분 이상">
-						<div class="custom-control-label"><label>5인분 이상</label>
-						</div>
-					</label>
-				</div>
-			</div>
-		</div>
-</article>
-<!----------------------------------------------------사이즈 필터 끝--------------------------------------->
+				<div class="size_filter" data-filter-group="size">
 
 
+					<div>
 
-</aside>
-<!----제출 버튼--------------------------------------------------------------------------------------->
-<input type="submit" value="검색" class="btn btn-primary btn-sm"
-	style="text-align: center;background-color: #F8F9FA;color: black ;width: 70%; display: flex; flex:auto; padding-left:49%; padding-right: 49%; border:thick;border-color: black;">
-<!----------------------------------------->
-</form>
-<!-------------------------------------------------------------필터링 form ended----------------------------------------------------->
-
-<!----------------------------------------------------상단 토글바 시작---------------------------------------->
-<main class="row-md-9">
-
-	<header class="filters-select border-bottom mb-4 pb-3">
-		<div class="form-inline">
-			<span class="mr-md-auto">{{num}} Items found </span>
-			<span class="txt"> 선택하신 값 : </span>
-			<span class="user-checked mr-md-auto"></span>
-
-			<form action="{% url 'sorting' %}" name='sort3' value="sort3" method="get">
-				<select name="sorting" style="margin-right: 50px;" class="mr-2 form-control"
-					onchange="this.form.submit()">
-					<option value="latest" name="latest">최신순</option>
-					<option value="review" name="review">리뷰 많은 순</option>
-					<option value="low" name="low">가격 낮은 순</option>
-					<option value="high" name="high">가격 높은 순</option>
-				</select>
-			</form>
-		</div>
-
-		<div class="form-inline">
-
-		</div>
-		<!----------------------------------------------------상단 토글바 끝---------------------------------------->
-	</header><!-- sect-heading -->
-	<div class="row">
-		<div class="grid" style="padding-left: 0px;padding-left:3%; padding-right: 3%;">
-			{% for products in product %}
-			{% if products.cakename %}
-			<div class="product cakes col-md-4" style="display: flex; flex: auto;;">
-				<!--cakes에서 li부분이 검색당할 것-->
-				<li class="{{products.size}} {{products.referred_store.locationSi}} {{product.price}}">
-					<figure class="card card-product-grid">
-						<div class="img-wrap">
-							<a href="{% url 'cake_detail' pk=products.pk %}"><img src={{products.cake_image.url}}
-									class="img-fluid"></a>
-							<a class="btn-overlay" href="{% url 'cake_detail' pk=products.pk %}">
-								<!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
-						</div>
-						<figcaption class="info-wrap">
-							<div class="fix-height">
-								<a href="{% url 'cake_detail' pk=products.pk %}" class="title">{{products.cakename}}</a>
-								<div class="price-wrap mt-2">
-									<span class="price">{{products.price}}</span>
-								</div> <!-- price-wrap.// -->
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="size" value="보틀케이크">
+							<div class="custom-control-label"><label>보틀케이크</label>
 							</div>
-							<a href="#" class="btn btn-block btn-primary"
-								style="background-color:gray;border-color: whitesmoke;">장바구니</a>
-						</figcaption>
-					</figure>
-				</li>
-			</div> <!-- col.// -->
-			{% endif %}
-			{% if products.name %}
-			<div class="product stores col-md-4">
-				<!--stores에서 li부분이 검색당할 것-->
-				<li class="{{products.referred_store.locationSi}}">
-					<figure class="card card-product-grid">
-						<div class="img-wrap">
-							<class= href="{% url 'store_detail' pk=products.pk %}"><img src={{products.store_image.url}}
-									class="img-fluid"></a>
-								<a class="btn-overlay" href="{% url 'store_detail' pk=products.pk %}">
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="size" value="도시락케이크">
+							<div class="custom-control-label"><label>도시락케이크</label>
+							</div>
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="size" value="1~2인분">
+							<div class="custom-control-label"><label>1~2인분</label>
+							</div>
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="size" value="3~4인분">
+							<div class="custom-control-label"><label>3~4인분</label>
+							</div>
+						</label>
+
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" name="size" value="5인분 이상">
+							<div class="custom-control-label"><label>5인분 이상</label>
+							</div>
+						</label>
+					</div>
+				</div>
+			</div>
+	</article>
+	<!----------------------------------------------------사이즈 필터 끝--------------------------------------->
+
+
+
+	</aside>
+	<!----제출 버튼--------------------------------------------------------------------------------------->
+	<input type="submit" value="검색" class="btn btn-primary btn-sm"
+		style="text-align: center;background-color: #F8F9FA;color: black ;width: 70%; display: flex; flex:auto; padding-left:49%; padding-right: 49%; border:thick;border-color: black;">
+	<!----------------------------------------->
+	</form>
+	<!-------------------------------------------------------------필터링 form ended----------------------------------------------------->
+
+	<!----------------------------------------------------상단 토글바 시작---------------------------------------->
+	<main class="row-md-9">
+
+		<header class="filters-select border-bottom mb-4 pb-3">
+			<div class="form-inline">
+				<span class="mr-md-auto">{{num}} Items found </span>
+				<span class="txt"> 선택하신 값 : </span>
+				<span class="user-checked mr-md-auto"></span>
+
+				<form action="{% url 'sorting' %}" name='sort3' value="sort3" method="get">
+					<select name="sorting" style="margin-right: 50px;" class="mr-2 form-control"
+						onchange="this.form.submit()">
+						<option value="latest" name="latest">최신순</option>
+						<option value="review" name="review">리뷰 많은 순</option>
+						<option value="low" name="low">가격 낮은 순</option>
+						<option value="high" name="high">가격 높은 순</option>
+					</select>
+				</form>
+			</div>
+
+			<div class="form-inline">
+
+			</div>
+			<!----------------------------------------------------상단 토글바 끝---------------------------------------->
+		</header><!-- sect-heading -->
+		<div class="row">
+			<div class="grid" style="width:90%; padding-left: 5%;">
+				{% for products in product %}
+				{% if products.cakename %}
+				<div class="product cakes col-md-4" style="display: flex; flex: auto;;">
+					<!--cakes에서 li부분이 검색당할 것-->
+					<li class="{{products.size}} {{products.referred_store.locationSi}} {{product.price}}">
+						<figure class="card card-product-grid">
+							<div class="img-wrap">
+								<a href="{% url 'cake_detail' pk=products.pk %}"><img src={{products.cake_image.url}}
+										class="img-fluid"></a>
+								<a class="btn-overlay" href="{% url 'cake_detail' pk=products.pk %}">
 									<!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
-						</div>
-						<figcaption class="info-wrap">
-							<div class="fix-height">
-								<a href="{% url 'store_detail' pk=products.pk %}" class="title">{{products.name}}</a>
-								<div class="price-wrap mt-2">
-									<span class="price">{{products.price}}</span>
-								</div>
 							</div>
-							<a href="#" class="btn btn-block btn-primary"
-								style="background-color:gray;border-color: whitesmoke;">장바구니</a>
-						</figcaption>
-					</figure>
-				</li>
+							<figcaption class="info-wrap">
+								<div class="fix-height">
+									<a href="{% url 'cake_detail' pk=products.pk %}"
+										class="title">{{products.cakename}}</a>
+									<div class="price-wrap mt-2">
+										<span class="price">{{products.price}}</span>
+									</div> <!-- price-wrap.// -->
+								</div>
+								<a href="#" class="btn btn-block btn-primary"
+									style="background-color:gray;border-color: whitesmoke;">장바구니</a>
+							</figcaption>
+						</figure>
+					</li>
+				</div> <!-- col.// -->
+				{% endif %}
+				{% if products.name %}
+				<div class="product stores col-md-4">
+					<!--stores에서 li부분이 검색당할 것-->
+					<li class="{{products.referred_store.locationSi}}">
+						<figure class="card card-product-grid">
+							<div class="img-wrap">
+								<class= href="{% url 'store_detail' pk=products.pk %}"><img
+										src={{products.store_image.url}} class="img-fluid"></a>
+									<a class="btn-overlay" href="{% url 'store_detail' pk=products.pk %}">
+										<!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
+							</div>
+							<figcaption class="info-wrap">
+								<div class="fix-height">
+									<a href="{% url 'store_detail' pk=products.pk %}"
+										class="title">{{products.name}}</a>
+									<div class="price-wrap mt-2">
+										<span class="price">{{products.price}}</span>
+									</div>
+								</div>
+								<a href="#" class="btn btn-block btn-primary"
+									style="background-color:gray;border-color: whitesmoke;">장바구니</a>
+							</figcaption>
+						</figure>
+					</li>
+				</div>
+				{% endif %}
+				{% endfor %}
+
 			</div>
-			{% endif %}
-			{% endfor %}
-
 		</div>
-	</div>
 
-</main>
+	</main>
 
 </div>
 
@@ -495,12 +534,19 @@
 	/* When the user clicks on the button, 
 	toggle between hiding and showing the dropdown content */
 	function myFunction() {
+		console.log("action")
 		document.getElementById("myDropdown").classList.toggle("showw");
+	}
+
+	function myFunction2() {
+		console.log("action2")
+		document.getElementById("myDropdown").classList.add("showw");
 	}
 
 	// Close the dropdown if the user clicks outside of it
 	onclick = function (event) {
-		if (!event.target.matches('.dropbtn')) {
+		if (!event.target.matches('.dropbtn') && !event.target.matches('.contentbtn')) {
+			console.log("btn clicked")
 			var dropdowns = document.getElementsByClassName("dropdown-content");
 			var i;
 			for (i = 0; i < dropdowns.length; i++) {
