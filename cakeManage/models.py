@@ -21,7 +21,7 @@ class Store(models.Model):
     pub_date = models.DateTimeField(default=timezone.now)
     contact = models.CharField(max_length=15)
     # kdy : 가격 0원으로 건드렸음
-    price = models.CharField(default='0', max_length=100)
+    price = models.IntegerField(default=0, validators=[MinValueValidator(0, MaxValueValidator(100000))],verbose_name="메뉴 평균 금액")
     si_choices=[
         ('서울', '서울'),
         ('경기', '경기'),
