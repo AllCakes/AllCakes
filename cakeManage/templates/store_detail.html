@@ -30,7 +30,7 @@
 
 
     <div class="store-detail" style="padding-top:0px;flex-direction: column; justify-content: center;">
-        <div class="store-image" style="padding: 0px 0px 20px 39%">
+        <div class="store-image" style="padding: 0px 0px 20px 42%">
         <img src="{{store.store_image.url}}" style="display: flex; flex:auto ; width:250px ; height: 250px;">
         </div>
         <div class="store-text" style="flex-direction: row; width: 100%; justify-content: center; padding: 2% 30% 0px 30%;text-align: center;">
@@ -127,17 +127,18 @@
 
                     </p>
                     <hr>
-                    <p class="cake-detail">{{cake.body}}
+                    <p class="cake-detail">{{cake.body}}</p>
 
+                    <section>
                     <a href="{% url 'order_submit' cake_pk=cake.pk  %}" class="order-button">주문</a>   
                     {% if user.is_authenticated %}
                     {% if store.owner == user %}
                     <a href="{% url 'cake_edit' pk=cake.pk  %}" class="order-button">케이크 수정</a>     
                     {% endif %}
                     {% endif %}    
+                </section>
 
-
-                   </p>
+                 <!--  </p>-->
                 </div>
                 </a><br>
             </div>
