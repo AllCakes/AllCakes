@@ -13,17 +13,18 @@
 <!-- 주문 상태, 주문 가게(가게 상세보기), 주문 케이크, 주문 일시, 결제금액, 결제방법, 기타 요청사항 등등.. -->
 {% if not order.is_active %}
 
-
-<h2 class="pick-up">픽업 완료</h2>
-{% else %}
-<!-- 진행중 -->
+<div class="what">
+    <h2 class="pick-up">픽업 완료</h2>
+    {% else %}
+    <!-- 진행중 -->
     {% if order.is_accepted %}
     <h2>승인 완료/ 제작 진행</h2>
     {% else %}
     <h2>승인 대기중</h2>
     {% endif %}
-{% endif %}
+    {% endif %}
 
+</div>
 <h2>'{{order.referred_store}}'의</h2>
 <h3>{{order.referred_cake}} 케이크</h3>
 <span>주문 일시: {{order.pub_date}}</span>

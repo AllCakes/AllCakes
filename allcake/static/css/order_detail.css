@@ -1,0 +1,156 @@
+#upper-order-detail{
+    height: 50%;
+    display: flex;
+    margin-top: 83px;
+    justify-content: space-between;
+}
+
+.cake-type-detail{
+    width: 50%;
+    padding-left: 9%;
+    padding-top: 10%;
+    border-right:rgb(190, 190, 190) solid 2px;
+}
+.order-cake-text{
+    padding-left: 24%;
+    color: rgb(116, 116, 116);
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    padding-top: 25%;
+    border: none;
+    
+
+
+}
+.order-active{
+    background-color: rgb(255, 255, 255);
+    width: 50%;
+    padding-top: 7%;
+}
+
+.order-status{
+    font-size: 39px;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 4%;
+    padding-top: 4%;
+    color:rgb(0, 59, 168);
+}
+.order-detail-referred-store{
+    font-size: 26px;
+    font-weight: 550;
+    text-align: center;
+}
+.order-detail-referred-cake{
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+}
+.white-block{
+    height: 18%;
+    display: flex;
+}
+.white1 {
+    width: 50%;
+    border-right:rgb(190, 190, 190) solid 2px;
+}
+.lower-order-detail{
+    background-color: rgba(212, 212, 212, 0.288);
+}
+
+.order-detail-under{
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.order-cake-image{
+    width: 550px;
+    height: 80%;
+    border-radius: 20px;
+}
+
+.consumer-image-box{
+    height: 600px;
+    display: flex;
+    justify-content: space-between;
+}
+.consumer-image-box1{
+    padding: 5% 5% 2% 9%;
+    border-left:rgb(190, 190, 190) solid 2px;
+
+}
+
+.no {
+    font-size: 25px;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 23%;
+    color: rgb(209, 89, 89);
+
+}
+
+.no img{
+    width: 95px;
+    height: 95px;
+}
+.consumer-image-box2{
+    padding-top: 7%;
+}
+
+.consumer-image-box2 p{
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.box2-price{
+    font-size: 23px;
+    font-size: semi-bold;
+    margin-top: 5%;
+}
+.consumer-image-box div{
+    width: 50%;
+}
+
+
+
+
+.consumer-image{
+    width: 500px;
+    height: 80%;
+
+    border-radius: 20px;
+}
+
+.payment-buttons{
+    margin-left: 25%;
+    border:rgb(116, 116, 116) 1px solid;
+    padding: 4%;
+    border-radius: 10px;
+}
+
+.paybutton{
+    margin-left: 34%;
+    margin-bottom: 3%;
+    border-radius: 10px;
+    width: 120px;
+    font-weight: bold;
+
+}
+.edit-delete{
+    display: flex;
+    align-items: center;
+    margin-left: 24%;
+}
+.edit-delete a{ 
+    margin-right: 13px;
+}
+
+
+.edit-delete .editbutton, .edit-delete .deletebutton{
+    /* margin-left: 2%; */
+    border-radius: 10px;
+    width: 100px;
+    background-color: gainsboro;
+}

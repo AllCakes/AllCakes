@@ -54,19 +54,22 @@ def search_all(request):
 
 #필터링 작업 일어났을 시
 def filtering(request):
+
     if request.method == "GET":
         chkLocationSi=0
         chkLocationGu=0
-        chkLocationPrice=0
+        chkPrices=0
+        chkSizes=0
+
         cakes=Cake.objects.none() 
         stores=Store.objects.none()
-        cakes2=Cake.objects.none() 
-        stores2=Store.objects.none()
+
         print(request.GET)
         category= request.GET.get('flexRadioDefault')
         locationSi=request.GET.getlist('locationSi')
         locationGu=request.GET.getlist('licationGu')
         size=request.GET.getlist('size')
+        price=request.GET.getlist('price')
         #카테고리 필터링 
         if category:
             if category=='cakes':
@@ -79,6 +82,11 @@ def filtering(request):
             chkLocationSi=1
             stores |= Store.objects.filter(locationSi__in=locationSi).distinct()
             cakes |= Cake.objects.filter(referred_store__locationSi__in=locationSi).distinct()
+
+        else : #만약 시 필터링 안됐음 stores, cakes는 모든 거 가리킴
+            stores=Store.objects.all()
+            cakes=Cake.objects.all()
+
         if chkCategory==1:#카테고리가 케이크라면
             filtered_product=cakes
         elif chkCategory==2:#카테고리가 가게라면
@@ -88,31 +96,34 @@ def filtering(request):
         print(filtered_product)
 
         if locationGu:
-            chkLocationGu=1
-            if locationSi:
-                stores |= Store.objects.filter(locationGu__in=locationGu).distinct()                
-                cakes |= Cake.objects.filter(referred_store__locationGu__in=locationGu).distinct()
-            if chkCategory==1:#카테고리가 케이크라면
+            storesbyGu=[]
+            cakesbyGu=[]
+            storesbyGu |= stores.filter(locationGu__in=locationGu).distinct()                
+            cakesbyGu |= cakes.filter(referred_store__locationGu__in=locationGu).distinct()
+
+            if chkCategory==1:
+                cakes=cakesbyGu
                 filtered_product=cakes
-            elif chkCategory==2:#카테고리가 가게라면
-                filtered_product=stores
-            
-            else:#앞에서 시로 걸러진적 없다면 처음부터 수집해야함
-                stores2 |= Store.objects.filter(locationGu__in=locationGu).distinct()                
-                cakes2 |= Cake.objects.filter(referred_stosoure__locationGu__in=locationGu).distinct()
-            if chkCategory==1:#카테고리가 케이크라면
-                filtered_product=cakes2
-            elif chkCategory==2:#카테고리가 가게라면
-                filtered_product=stores2
+            else:
+                stores=storesbyGu
+                filtered_product=storesbyGu
 
         print("filtered by Gu:")
         print(filtered_product)
 
         #사이즈 필터링
         if size:
+            chkSizes=1
             size_filtered_store=[]
-            if chkCategory==1:#cake만
-                cakes.filter(size__in=size).distinct()
+
+            if chkCategory==1:#cake인 경우에는 바로 정참조로 사이즈 체크
+                size_filtered_store=filtered_product.filter(size__in=size).distinct()
+                filtered_product=size_filtered_store
+                
+                print("cakes라서 정참조로 모음")
+                print(filtered_product)
+                print(size)
+
             elif chkCategory==2:#가게인 경우에는 역참조로 사이즈 체크
                 for i in stores:#location으로 걸러진 가게들 중에서
                     chkSize=0
@@ -141,12 +152,48 @@ def filtering(request):
         print("filtered by size:")
         print(filtered_product)
 
+        #가격 필터링
+        print("가격필터테스트")
+        if price:
+            chkPrices=1
+            tmp_price=0
+            tmp_list=[]
+            print(filtered_product)
+            for i in filtered_product:
+
+                if (i.price < 10000):
+                    tmp_price=9999
+                elif (i.price < 20000) :      
+                    tmp_price=10000
+                elif(i.price <30000):
+                    tmp_price=20000
+                elif(i.price<40000) :
+                    tmp_price=30000
+                elif(i.price<50000):
+                    tmp_price=40000
+                else:
+                    tmp_price=50000
+                #가격이 price list에 존재한다면 필터링 수행ㅇ
+                if (str(tmp_price) in price):
+                    tmp_list.insert(-1,i)
+        print("filtered by price:")
+        print(filtered_product)
+
+        if(not(category)):
+            if(not(locationSi)):
+                if(not(locationGu)):
+                    if(not(size)):
+                        if(not(price)):
+                            if(chkCategory==1) :
+                                    filtered_product=Cake.objects.all()
+                            else:
+                                    filtered_product=Store.objects.all()
+        print(filtered_product)
         #카테고리, 가격, 사이즈 필터링 거친 마무리 갯수 구하기
         num=0
         #기존 num 초기화하고 products 수 갱신
         for i in filtered_product:
             num+=1
-
         return render(request, 'search_all.html', {'cakes':cakes, 'stores':stores,'product':filtered_product,'num':num})
 
 

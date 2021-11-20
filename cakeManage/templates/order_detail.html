@@ -3,6 +3,11 @@
 
 {% block title %}주문 {{order.pk}} 상세{% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/images' %}" type="text/css">
+
+{% endblock %}
 
 {% block script %}
 <!-- ajax view 호출에 필요한 url 정의 -->
@@ -21,64 +26,83 @@
 
 
 {% block content %}
-<br><br><br>
-<img src="{{order.referred_cake.cake_image.url}}" aria-label="케이크 이미지" width="300">
-<a href="{% url 'cake_detail' pk=order.referred_cake.pk %}">케이크 정보</a>
-<!-- 클릭 시 케이크 상세보기 -->
+<div id="upper-order-detail">
+    <div class="cake-type-detail">
+        <img src="{{order.referred_cake.cake_image.url}}" aria-label="케이크 이미지" class="order-cake-image">
+        <br>
+        <a href="{% url 'cake_detail' pk=order.referred_cake.pk %}" class="order-cake-text" ">• {{order.referred_cake}} •</a>
+    </div>
 
-<!-- 주문 상태, 주문 가게(가게 상세보기), 주문 케이크, 주문 일시, 결제금액, 결제방법, 기타 요청사항 등등.. -->
-{% if not order.is_active %}
-<h2>픽업 완료</h2>
-{% else %}
-<!-- 진행중 -->
-    {% if not order.is_paid %}
-    <h2>결제 대기 중</h2>
-    {% else %}
-        {% if order.is_accepted %}
-        <h2>승인 완료/ 제작 진행</h2>
-        {% else %}
-        <h2>승인 대기중</h2>
-        {% endif %}
-    {% endif %}
-{% endif %}
+    <!-- 클릭 시 케이크 상세보기 -->
 
-<h2>'{{order.referred_store}}'의</h2>
-<h3>{{order.referred_cake}} 케이크</h3>
-<span>주문 일시: {{order.pub_date}}</span>
-<br>
-<b>픽업 희망일시: {{order.희망픽업일}}{{order.희망픽업시간}}</b>
-<br>
+    <!-- 주문 상태, 주문 가게(가게 상세보기), 주문 케이크, 주문 일시, 결제금액, 결제방법, 기타 요청사항 등등.. -->
+    <div class=" order-active">
+            {% if not order.is_active %}
+            <p class="order-status">・ 픽업 완료 ・</p>
+            {% else %}
+            <!-- 진행중 -->
+                {% if not order.is_paid %}
+                <p class="order-status">・ 결제 대기 중 ・</p>
+                {% else %}
+                    {% if order.is_accepted %}
+                    <p class="order-status">・ 승인 완료 / 제작 진행 ・</p>
+                    {% else %}
+                    <p class="order-status">・ 승인 대기중 ・</p>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            
+            <p class="order-detail-referred-store">'{{order.referred_store}}'의</p>
+            <p class="order-detail-referred-cake">{{order.referred_cake}} </p>
+            <p class="order-detail-under">• 주문 일시: {{order.pub_date}} [ 픽업 희망일시 : {{order.희망픽업일}} {{order.희망픽업시간}} ]</p>
+            <p class="order-detail-under">• [ 맛: {{order.맛}} |
+                색: {{order.색}} |
+                크림종류: {{order.크림종류}} |
+                레터링 위치: {{order.레터링위치}} | </p>
+    </div>
+</div>
 
-<p>
-    색: {{order.색}} |
-    크림종류: {{order.크림종류}} |
-    레터링 위치: {{order.레터링위치}} |
-</p>
 
-{% if order.원하시는도안사진첨부 %}
-<img src="{{order.원하시는도안사진첨부.url}}" alt="내가 첨부한 참고 사진">
-{% endif %}
-
-<p>금액: {{order.prev_price}}</p>
-<p>실 결제 금액: {{order.pay_price}}</p>
-
-<hr>
-
-{% if order.is_paid %}
-<h4>결제 내역</h4>
-<span>{{order.pay_price}}금액 결제 완료</span>
-<!-- 결제 수단 및 금액 적기 -->
-
-{% else %}
-<button onclick="requestPay(`{{order.pk}}`,`{{order.pay_price}}`)">결제하기</button>
-<br>
-<!-- 주문 수정 및 삭제 버튼은 결제 이전에만 -->
-<span>결제 이전에 주문 내역이 잘 작성 되었는지 확인해주세요!</span>
-<a href="{% url 'order_edit' order_pk=order.pk %}"><button>주문 수정</button></a>
-<a href="{% url 'order_delete' order_pk=order.pk %}"><button>주문 취소</button></a>
-{% endif %}
+<div class="white-block">
+    <div class="white1"></div>
+    <div class="white2"></div>
+</div>
 
 
 
+<div class="lower-order-detail">
+    <div class="consumer-image-box">
 
+        <!-- 이게 왼쪽 부분 -->
+        <div class="consumer-image-box2">
+            <p>✓ 주문하신 도안이 맞나요?</p>
+            <p>도안과 금액을 꼼꼼하게 확인해주세요. </p>
+            <p class="box2-price">•금액: {{order.prev_price}} •실 결제 금액: {{order.pay_price}}</p>
+            <div class="payment-buttons">
+                {% if order.is_paid %}
+                <h4>결제 내역</h4>
+                <span>{{order.pay_price}}금액 결제 완료</span>
+                <!-- 결제 수단 및 금액 적기 -->
+
+                {% else %}
+                <button onclick="requestPay(`{{order.pk}}`,`{{order.pay_price}}`)" class="paybutton">결제하기</button>
+                <!-- 주문 수정 및 삭제 버튼은 결제 이전에만 -->
+                <div class="edit-delete">
+                    <a href="{% url 'order_edit' order_pk=order.pk %}"><button class="editbutton">주문 수정</button></a>
+                    <a href="{% url 'order_delete' order_pk=order.pk %}"><button class="deletebutton">주문 취소</button></a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <!-- 이게 오른쪽 부분 -->
+        <div class="consumer-image-box1">
+            {% if order.원하시는도안사진첨부 %}
+            <img src="{{order.원하시는도안사진첨부.url}}" alt="내가 첨부한 참고 사진" class="consumer-image">
+            {% else %}
+            <p class="no"> <img src="{% static 'img/allcake_whitecake.png' %}">( 첨부한 도안이 없어요. )</p>
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+</div>
 {% endblock %}

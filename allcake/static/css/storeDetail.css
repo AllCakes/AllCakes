@@ -33,22 +33,35 @@
 }
 
 .store-detail{
-  padding-top: 48px;
-  padding-left: 120px;
+  padding-top:1%;
+  padding: 2% 5% 0px 5%;
   display: flex;
 
 }
 
+.store-image{
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 100%;
+  padding: 2% 45% 0px 43%;
+
+
+}
+
+.input.열기호버{
+  background-color: aqua;
+}
 
 .store-detail img{
   border-radius: 100%;
   border: rgba(0, 0, 0, 0.527) solid 2px;
+
 }
 
 
 .store-detail .store-text{
-  padding-left: 60px;
-  padding-top: 20px;
+  padding:20px 60px;
   line-height: 2rem;
   font-family: 'BBTreeGB';
 
@@ -57,7 +70,8 @@
 .store-name{
   font-family: 'GongGothicMedium';
   font-size: 34px;
-  margin-bottom: 20px;
+  margin: 0% 30%;
+  padding-bottom: 2%;
 }
 
 .store-location, .store-des, .store-contact{
@@ -68,12 +82,11 @@
 
 .store-des{
   margin-top: 15px;
-  padding-right: 10%;
   color: rgb(77, 77, 77);
 }
 
 .option-box{
-  margin-top: 70px;
+  margin-top: 2%;
   background-color: rgb(255, 255, 255);
   width: 80%;
   margin-left: 10%;
@@ -542,6 +555,8 @@
   }
   
 
+
+
   /* 아래는 화면 크기가 small 일때 -> 576픽셀보다 작을 때 */
   /* 현재는 455픽셀까지만 깨지지 않고 지원 */
 
@@ -662,4 +677,12 @@
     }
 
 }
+}
+.edit-button{
+  border-radius: 10px 10px;
+}
+.edit-button:hover{
+
+  background-color: lightgrey;
+  box-shadow: lightslategrey;
 }
