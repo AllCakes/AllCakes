@@ -117,7 +117,6 @@
 
                 <div class="cake-body">
                     <p class="cake-name" style="display:flex; flex: auto;">{{cake.cakename}} 
-                  
                     {% if user in cake.users_liked.all %}
                     <button class="like red" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                     {% else %}

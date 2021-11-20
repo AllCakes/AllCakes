@@ -48,7 +48,7 @@ class Store(models.Model):
         default='서울',
         verbose_name="시"
     )
-    locationGu=models.CharField(max_length=10, default='노원구', verbose_name="구") 
+    locationGu=models.CharField(max_length=10, default='00구/00시', verbose_name="지역(구/시)") 
 
 
     # 가게 사장 user는 관리자에서 설정하도록 할 것, 이후 그 가게의 사장이면

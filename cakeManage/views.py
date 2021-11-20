@@ -96,12 +96,10 @@ def filtering(request):
         print(filtered_product)
 
         if locationGu:
-            chkLocationGu=1
-            if locationSi:
-                storesbyGu=[]
-                cakesbyGu=[]
-                storesbyGu |= stores.filter(locationGu__in=locationGu).distinct()                
-                cakesbyGu |= cakes.filter(referred_store__locationGu__in=locationGu).distinct()
+            storesbyGu=[]
+            cakesbyGu=[]
+            storesbyGu |= stores.filter(locationGu__in=locationGu).distinct()                
+            cakesbyGu |= cakes.filter(referred_store__locationGu__in=locationGu).distinct()
 
             if chkCategory==1:
                 cakes=cakesbyGu
