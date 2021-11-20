@@ -131,7 +131,7 @@ body {
     font-weight: normal;
   }
   
-  .submit-search-filter:hover{
+  input.submit-search-filter:hover{
     background-color:lightgray;
   }
   

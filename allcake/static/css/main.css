@@ -2539,10 +2539,10 @@ input, select, textarea {
 		-webkit-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
-		background: #6d666e;
+		background: whitesmoke;
 		border-radius: 4px;
 		border: 0;
-		color: #ffffff;
+		color: rgb(14, 14, 14);
 		cursor: pointer;
 		display: inline-block;
 		font-size: 0.9em;
@@ -3384,7 +3384,7 @@ input, select, textarea {
 		font-weight: 400;
 	  }
 	  .like {
-		float: right;
+		/*float: right;*/
 		margin-left: auto;
 		
 	  }
