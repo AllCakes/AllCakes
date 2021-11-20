@@ -401,3 +401,11 @@ def delete_user(request, user_pk):
         return redirect('home')
     else:
         raise ValidationError("잘못된 접근입니다.")
+
+def view_coupon(request, user_pk):
+    if request.user.pk != user_pk:
+        raise ValidationError("잘못된 접근입니다.")
+    AmountCoupons = AmountCoupon.objects.filter(user=user_pk)
+    PercentCoupons = PercentCoupon.objects.filter(user=user_pk)
+
+    return render(request, 'view_coupon.html', {'AmountCoupons': AmountCoupons, 'PercentCoupons':PercentCoupons})

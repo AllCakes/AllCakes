@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{review.user}}님의 {{review.order.referred_cake}}리뷰{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/review_detail.css' %}" type="text/css"> 
+    
+{% endblock %}
+
+{% block content %}
+
+<div id="review_detail_body">
+
+    <div class="review_info">
+        <div class="info_left">
+            <img src="{{review.review_img.url}}" aria-label="케이크 이미지" width="100%" style="border-radius: 2%;">
+        </div>
+        <!-- 케이크 이름, 가게 이름, 텍스트 -->
+        <div class="info_right">
+            <div class="text">
+                <div class="review-text">
+                    <p class="cakename">• CAKE : {{review.order.referred_cake.cakename}} </p>
+                    <p class="storename">• STORE : {{review.order.referred_store.name}} </p>
+                    <p class="review_rate">"5점 만점에 {{review.rate}}점!"</p>
+                    <p class="review_user">{{review.user.nickname}}            {{review.pub_date}}</p>
+                    <p class="about">{{review.comment}}</p>
+                    <a href="{% url 'store_detail' pk=review.order.referred_store.pk %}">가게 보기</a>     
+                </div>
+                <hr>
+                <div class="cake-text">
+                    <p>케이크 설명:{{review.order.referred_cake.body}}</p>
+                    <a href="{% url 'order_submit' cake_pk=review.order.referred_cake.pk  %}" class="cake_order">주문</a>  
+                </div>
+               
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% if user.pk != user_pk %}
+    <h1> 잘못된 접근입니다 (Allcakes)</h1>
+{% else %}
+
+{% if not user.is_authenticated %}
+    <h1> 잘못된 접근입니다 (Allcakes)</h1>
+{% else %}
+
+<!-- 내용 작성 -->
+{% block title %}{{user.nickname}}님의 쿠폰{% endblock %}
+
+{% block content %}
+
+<h2 style="padding-top: 80px;">쿠폰내역</h2>
+<hr>
+
+<div class="coupon-list" style="text-align: center;">
+    {% for coupon in AmountCoupons %}
+    <h4><{{coupon.name}}></h4>
+    <p>  사용기한: {{coupon.use_to}}</p>
+    <p>  할인: {{coupon.amount}}</p>
+    <hr>
+    {% endfor %}
+
+    {% for coupon in PercentCoupons %}
+    <h4>{{coupon.name}}</h4>
+    <p>  사용기한: {{coupon.use_to}}</p>
+    <p>  할인: {{coupon.percent}}</p>
+    <hr>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% endif %}
+{% endif %}

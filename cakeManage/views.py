@@ -27,10 +27,11 @@ def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
     cakes = Cake.objects.order_by('-pub_date')
     reviews = Review.objects.order_by('-pub_date')[:3]
+    recentReviews = Review.objects.order_by('-pub_date')[:5]
     paginator = Paginator(cakes, 4)
     page = request.GET.get('page', 1)
     cakes = paginator.get_page(page)
-    return render(request, 'index.html', {'cakes': cakes, 'reviews': reviews})
+    return render(request, 'index.html', {'cakes': cakes, 'reviews': reviews, 'recentReviews': recentReviews})
 
 # 임시 템플릿 연결 뷰
 def stores_all(request):
@@ -441,7 +442,7 @@ def order_detail(request, order_pk):
 def order_all(request, user_pk):
     if request.user.pk != user_pk:
         raise ValidationError("잘못된 접근입니다.")
-    orders = Order.objects.get(user=user_pk)
+    orders = Order.objects.filter(user=user_pk)
     return render(request, 'order_all.html', {'orders':orders})
 
 # 주문 수정 U (고칠 예정)
@@ -883,3 +884,7 @@ def add_menu(request):
         with open(file_path, 'w', encoding="utf-8") as outfile:
             json.dump(json_data, outfile ,ensure_ascii=False, indent=4)
     return redirect('storemenu.html')
+
+def review_detail(request, review_pk):
+    review = get_object_or_404(Review, pk=review_pk)
+    return render(request, 'review_detail.html', {'review':review})
