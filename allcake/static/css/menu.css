@@ -12,7 +12,7 @@
     font-style: normal;
 }
 
-#menu_item{
+#menu_items{
     font-family: 'SF_IceMango';
     padding: 10px;
     display: flex;
@@ -20,9 +20,10 @@
     justify-content:space-around;
 }
 
-.menu_box{
+.menu_boxs{
     border: gray 1px solid;
     border-radius: 20px;
+    height: 100px;
 }
 /* 메뉴 선택하기 */
 .menu_title{

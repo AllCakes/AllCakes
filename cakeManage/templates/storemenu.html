@@ -9,9 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <!--부트스트랩-->
-    <!--여기까지-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}" type="text/css">
 </head>
 
 <body>
@@ -96,13 +95,13 @@
             {% csrf_token %}
             <div style="margin: 50px 200px 50px 200px;">
                 <h2 class="menu_font">색 선택</h2>
-                <div id="menu_item" class="색 menu_box">
+                <div id="menu_items" class="색 menu_boxs">
                     <!-- html caketype(item) -->
                 </div>
             </div>
             <div style="margin: 50px 200px 50px 200px;">
                 <h2 class="menu_font">크림종류 선택</h2>
-                <div id="menu_item" class="크림종류 menu_box ">
+                <div id="menu_items" class="크림종류 menu_boxs">
                     <!-- html caketype(item) -->
                 </div>
             </div>

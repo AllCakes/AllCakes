@@ -203,11 +203,11 @@ def store_detail(request, pk):
         sort = request.POST.get('sort')
         num = 2
         if sort == 'highrate':
-            review_list = Review.objects.filter(referred_store=store).order_by('-rate','-pub_date')
+            review_list = Review.objects.select_related('order').filter(order__referred_store=store).order_by('-rate','-pub_date')
         elif sort == 'lowerate':
-            review_list = Review.objects.filter(referred_store=store).order_by('rate','-pub_date')
+            review_list = Review.objects.select_related('order').filter(order__referred_store=store).order_by('rate','-pub_date')
         else :
-            review_list = Review.objects.filter(referred_store=store).order_by('-pub_date')
+            review_list = Review.objects.select_related('order').filter(order__referred_store=store).order_by('-pub_date')
     return render(request, 'store_detail.html', {'store': store, 'cakelist':cake_list, 'reviewlist':review_list, 'num':num})
 
 # 가게 수정 U
@@ -342,6 +342,10 @@ def order_new(request, cake_pk): #cake의 pk값
             order.pay_price = cake.price
             order.색 = request.POST.get('색')
             order.크림종류 = request.POST.get('크림종류')
+            idx_col = 색.index(order.색)
+            idx_crm = 크림종류.index(order.크림종류)
+            order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+            order.pay_price = order.prev_price
             s = request.POST.get('coupon').split("_")
             if request.POST.get('coupon') != "a_0":
                 # 쿠폰 있다 한 경우 (쿠폰이 적용 안된 경우 아무런 조치 X)
@@ -356,7 +360,8 @@ def order_new(request, cake_pk): #cake의 pk값
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.amount_coupon = coupon
-                        order.pay_price = cake.price - coupon.amount
+                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.pay_price = int(order.prev_price) - coupon.amount
                 else:
                     # 비율쿠폰
                     try:
@@ -368,7 +373,8 @@ def order_new(request, cake_pk): #cake의 pk값
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.percent_coupon = coupon
-                        order.pay_price = cake.price * (float(100 - coupon.percent) / 100)
+                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.pay_price = int(order.prev_price) * (float(100 - coupon.percent) / 100)
                     #유저의 것인지 확인 해야 함.
             order.save()
             # 주문 결과 페이지로 가도록 수정하기!
@@ -410,7 +416,13 @@ def order_edit(request, order_pk):
         form = OrderForm(request.POST, request.FILES, instance=order)
         if form.is_valid():
             order = form.save(commit=False)
+            order.색 = request.POST.get('색')
+            order.크림종류 = request.POST.get('크림종류')
+            idx_col = 색.index(order.색)
+            idx_crm = 크림종류.index(order.크림종류)
             s = request.POST.get('coupon').split("_")
+            order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+            order.pay_price = order.prev_price
             if request.POST.get('coupon') != "a_0":
                 # 쿠폰 있다 한 경우 (쿠폰이 적용 안된 경우 아무런 조치 X)
                 if s[0] == 'a':
@@ -424,7 +436,8 @@ def order_edit(request, order_pk):
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.amount_coupon = coupon
-                        order.pay_price = cake.price - coupon.amount
+                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.pay_price = int(order.prev_price) - coupon.amount
                 else:
                     # 비율쿠폰
                     try:
@@ -436,11 +449,10 @@ def order_edit(request, order_pk):
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.percent_coupon = coupon
-                        order.pay_price = cake.price * (float(100 - coupon.percent) / 100)
+                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.pay_price = int(order.prev_price) * (float(100 - coupon.percent) / 100)
                     #유저의 것인지 확인 해야 함.
             # get 방식으로 가져와 저장
-            order.색 = request.POST.get('색')
-            order.크림종류 = request.POST.get('크림종류')
             order.save()
             return redirect('order_detail', order_pk=order.pk)
     else:

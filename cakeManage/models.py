@@ -197,6 +197,7 @@ class Order(models.Model):
     is_paid = models.BooleanField(verbose_name="결제완료",default=False)
     
     # 결제금액 관련
+    prev_price = models.IntegerField(default= 0,validators=[MinValueValidator(0),MaxValueValidator(100000)])
     pay_price = models.IntegerField(default= 0,validators=[MinValueValidator(0),MaxValueValidator(100000)])
     amount_coupon = models.ForeignKey(AmountCoupon, on_delete=models.SET_NULL, null=True, blank=True)
     percent_coupon = models.ForeignKey(PercentCoupon, on_delete=models.SET_NULL, null=True, blank=True)

@@ -50,19 +50,16 @@
 <br>
 
 <p>
-    맛: {{order.맛}} |
-    모양: {{order.모양}} |
-    사이즈: {{order.사이즈}} |
+    색: {{order.색}} |
     크림종류: {{order.크림종류}} |
     레터링 위치: {{order.레터링위치}} |
-    레터링 색: {{order.레터링색}}
 </p>
 
 {% if order.원하시는도안사진첨부 %}
 <img src="{{order.원하시는도안사진첨부.url}}" alt="내가 첨부한 참고 사진">
 {% endif %}
 
-<p>금액: {{order.referred_cake.price}}</p>
+<p>금액: {{order.prev_price}}</p>
 <p>실 결제 금액: {{order.pay_price}}</p>
 
 <hr>
@@ -73,7 +70,7 @@
 <!-- 결제 수단 및 금액 적기 -->
 
 {% else %}
-<button onclick="requestPay({{order.pk}},{{order.pay_price}})">결제하기</button>
+<button onclick="requestPay(`{{order.pk}}`,`{{order.pay_price}}`)">결제하기</button>
 <br>
 <!-- 주문 수정 및 삭제 버튼은 결제 이전에만 -->
 <span>결제 이전에 주문 내역이 잘 작성 되었는지 확인해주세요!</span>

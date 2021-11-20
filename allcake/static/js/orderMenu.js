@@ -48,11 +48,11 @@ function display(menu){
 function createHTMLString(type, item, price, img, num) {
     if(num == 0)
         return `<div id="caketype">
-        <input class="butn" name="${type}" data-key="${type}${item}" data-value="${type}sel" type="radio" checked value="${item}">
+        <input class="butn" name="${type}" data-key="${type},${item}" data-value="${price}" type="radio" checked value="${item}">
         <img src="${img}" style="height : 100px"> ${item} : + ${price} 원
         </div>`;
     return `<div id="caketype">
-    <input class="butn" name="${type}" data-key="${type}${item}" data-value="${type}sel" type="radio" value="${item}">
+    <input class="butn" name="${type}" data-key="${type},${item}" data-value="${price}" type="radio" value="${item}">
     <img src="${img}" style="height : 100px"> ${item} : + ${price} 원
     </div>`;
 }
@@ -86,8 +86,9 @@ function setEventListeners() {
 
 function onMenuClick(event){
     const dataset = event.target.dataset;
-    const key = dataset.key;
+    const k = dataset.key;
     const value = dataset.value;
+    const key = k.split(',');
 
     if(key === 'letter'){
         mesg = document.getElementById('id_lettering_position').value;
@@ -101,20 +102,36 @@ function onMenuClick(event){
         }
     }
     else{
+        calPrice();
         // 나머지 닫기
-        list = document.getElementsByClassName(`${value}`);
+        list = document.getElementsByClassName(`${key[0]}sel`);
         for(i of list){
             i.style.display = 'none';
         }
         // 그것만 열기
-        document.getElementById(`${key}`).style.display ='block';
+        document.getElementById(`${key[0]}${key[1]}`).style.display ='block';
     }
 }
-
+function calPrice(){
+        // 가격 계산
+        var price_cream = 0, price_color = 0;
+        var cream_list = document.querySelectorAll('input[name="크림종류"]:checked');
+        var color_list = document.querySelectorAll('input[name="색"]:checked');
+        if(cream_list[0]){
+            price_cream = cream_list[0].dataset.value;
+        }
+        if(color_list[0]){
+            price_color = color_list[0].dataset.value;
+        }
+        
+        var tol = Number(total_price) + Number(price_color) + Number(price_cream);
+        document.getElementById('total_price').value = tol;
+}
 // main
 loadMenu()
 .then(menu => {
     display(menu)
+    calPrice()
     setEventListeners()
 })
 .catch(console.log)

@@ -1,5 +1,6 @@
 from django import forms
-from .models import Review, Store, Cake, Order, Store_Menu
+from django.forms import widgets
+from .models import *
 
 class StoreForm(forms.ModelForm):
     class Meta:
@@ -9,7 +10,12 @@ class StoreForm(forms.ModelForm):
 class CakeForm(forms.ModelForm):
     class Meta:
         model = Cake
-        fields = ['cakename', 'body', 'meta_body', 'cake_image']
+        fields = ['cakename', 'body', 'price', 'meta_body', 'cake_image']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cakename'].widget.attrs.update({'class': 'form-control','style': 'width: 100%'})
+        self.fields['body'].widget.attrs.update({'class': 'form-control','style': 'width: 100%'})
+        
 
 class OrderForm(forms.ModelForm):
     class Meta:
