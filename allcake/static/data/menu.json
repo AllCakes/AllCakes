@@ -6,13 +6,17 @@
                 "파랑": "/static/img/C_blue.png",
                 "보라": "/static/img/C_purple.png",
                 "흰색": "/static/img/C_white.png",
-                "소라색": "/static/img/noimg.png"
+                "노랑": "/static/img/C_yellow.png",
+                "하늘": "/static/img/C_sky.png",
+                "연파랑": "/static/img/C_mildblue.png",
+                "분홍": "/static/img/C_pink.png"
             },
             "크림종류": {
                 "동글크림": "/static/img/C_cream1.png",
                 "물결크림": "/static/img/C_cream2.png",
                 "꽃크림": "/static/img/C_cream3.png",
-                "하트크림": "/static/img/C_cream4.png"
+                "하트크림": "/static/img/C_cream4.png",
+                "체리크림": "/static/img/C_cream5.png"
             }
         }
     ]

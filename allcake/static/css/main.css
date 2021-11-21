@@ -2717,13 +2717,13 @@ input, select, textarea {
 		}
 
 /* Header */
-
+/* 3200px 460px, */
 	#header {
 		background-attachment: scroll,							scroll,					fixed;
-		background-image: url("images/top-3200.svg"), url("images/overlay.png"), url("../img/header.jpg");
+		background-image: url("images/top-3200.svg"), url("images/cupck1.png"), url("../img/header.jpg");
 		background-position: bottom center,					top left,				center center;
 		background-repeat: repeat-x,						repeat,					no-repeat;
-		background-size: 3200px 460px,					auto,					cover;
+		background-size: 3200px 460px,				auto,					cover;
 		color: rgba(255, 255, 255, 0.8);
 		padding: 10em 0 20em 0;
 		position: relative;
@@ -3038,7 +3038,7 @@ input, select, textarea {
 
 			#header {
 				background-attachment: scroll,							scroll,							scroll;
-				background-image: url("images/top-1600.svg"), url("images/overlay.png"), url("../img/header.jpg");
+				background-image: url("images/top-1600.svg"), url("images/cupck1.png"), url("../img/케이크일러스트.jpg");
 				background-size: 1600px 230px,					auto,							cover;
 				padding: 6em 0 12em 0;
 			}
@@ -3188,7 +3188,7 @@ input, select, textarea {
 		/* Header */
 
 			#header {
-				background-image: url("images/top-1280.svg"), url("images/overlay.png"), url("../img/header.jpg");
+				background-image: url("images/top-1280.svg"), url("images/cupck1.png"), url("../img/header.jpg");
 				background-size: 1280px 184px,						auto,							cover;
 				padding: 3em 0 7em 0;
 			}
