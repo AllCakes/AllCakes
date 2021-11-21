@@ -134,6 +134,7 @@
                     <hr>
                     <p class="cake-detail">{{cake.body}}</p>
 
+                    <section>
                     <a href="{% url 'order_submit' cake_pk=cake.pk  %}" class="order-button">주문</a>   
                     {% if user.is_authenticated %}
                     {% if store.owner == user %}
