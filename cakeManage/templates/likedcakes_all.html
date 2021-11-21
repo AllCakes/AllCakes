@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}좋아요한 케이크{% endblock %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/liked_all.css' %}" type="text/css">{% endblock %}
+
+{% block content %}
+<!-- 모든 리뷰-->
+<div class = "liked-body">
+    <div class="liked-cakes">
+        <h2 id="cake-info-header">찜한 케이크</h2>
+        <hr style="height: 4px;">
+        <div class="likedcake-box">
+            <div class="liked-contents">
+                <!-- 순서대로 케이크 이미지, 케이크이름, 가게이름, 본문 -->
+                {% for cake in liked_cakes %}
+                <div class="likedcake-card">
+                    <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" aria-label="케이크 이미지"></a>
+                    <a href="{% url 'likedcake_delete' user_pk=user.pk cake_pk=cake.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
+                    <br>
+                    <span>{{cake.cakename}}</span>
+                    <br>
+                    <span>store: {{cake.referred_store}}</span>
+                    <br>
+                    <span>{{cake.referred_store.locationSi}}{{cake.referred_store.locationGu}}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

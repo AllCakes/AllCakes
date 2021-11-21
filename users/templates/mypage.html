@@ -47,19 +47,19 @@
                     </ul>
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="#user-info-header">정보</a>
+                            <a class="nav-link" id="navcenter" href="#user-info-header">정보</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#order-info-header">주문내역</a>
+                            <a class="nav-link" id="navcenter" href="#order-info-header">주문내역</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#review-info-header">내 리뷰</a>
+                            <a class="nav-link" id="navcenter" href="#review-info-header">내 리뷰</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#cake-info-header">찜한 케이크</a>
+                            <a class="nav-link" id="navcenter" href="#cake-info-header">찜한 케이크</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#store-info-header">찜한 가게</a>
+                            <a class="nav-link" id="navcenter" href="#store-info-header">찜한 가게</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -179,8 +179,8 @@
                         {% if not order.review %}
                         <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
                         {% else %}
-                        <td><a href="{% url 'review_edit' pk=order.pk %}">리뷰 수정</a><br>
-                            <a href="{% url 'review_delete' pk=order.pk %}">리뷰 삭제</a></td>
+                        <td><a href="{% url 'review_edit' pk=order.review.pk %}">리뷰 수정</a><br>
+                            <a href="{% url 'review_delete' pk=order.review.pk %}">리뷰 삭제</a></td>
                         {% endif %}
                     </tr>
                     {% endfor %}
@@ -195,80 +195,87 @@
         </div>
         <div class="user-review">
             <h2 id="review-info-header"> 리뷰 관리 </h2>
-            <div class="review-info" >
-                <!-- 리뷰 상세보기, 수정, 삭제 구현 아직 X -->
-                <!-- 케잌이미지, 케이크이름, 가게이름, 별점, 평가내용(15자 까지) -->
-                <!-- 이미지에 리뷰 자세히보기 링크 달아야 함. -->
-                {% for review in reviews %}
-                <div class="review-card">
-                    <a href="{% url 'review_detail' review_pk=review.pk %}"><img src="{{review.review_img.url}}" aria-label="주문한 케이크"></a>
-                    <br>
-                    <span>Cake: {{review.order.referred_cake}}</span>
-                    <br>
-                    <span>Store: {{review.order.referred_store}}</span>
-                    <br>
-                    <section>{{review.comment|slice:"15"}}</section>
-                    <div class="stars">
-                        <span class="fa fa-star fa-2x checked"></span>
-                        <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
-                        <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
-                        <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
-                        <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="user-review-text">
-                <a href=""><button>더보기</button></a> 
-            </div>
-        </div>
-        <div class="user-liked">
-
-            <!-- 케이크 -->
-            <div class="liked-cakes">
-                <h2 id="cake-info-header">찜한 케이크</h2>
-                <hr>
-                <div class="liked-contents">
-                    <!-- 순서대로 케이크 이미지, 케이크이름, 가게이름, 본문 -->
-                    {% for cake in liked_cakes %}
-                    <div class="likedcake-card">
-                        <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" aria-label="케이크 이미지"></a>
+            <div class="review-box">
+                <div class="review-info" >
+                    <!-- 리뷰 상세보기, 수정, 삭제 구현 아직 X -->
+                    <!-- 케잌이미지, 케이크이름, 가게이름, 별점, 평가내용(15자 까지) -->
+                    <!-- 이미지에 리뷰 자세히보기 링크 달아야 함. -->
+                    {% for review in reviews %}
+                    <div class="review-card">
+                        <a href="{% url 'review_detail' review_pk=review.pk %}"><img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_bluecake.png' %} {% endif %}" aria-label="주문한 케이크"></a>
                         <br>
-                        <span>{{cake.cakename}}</span>
+                        <span>Cake: {{review.order.referred_cake}}</span>
                         <br>
-                        <span>store: {{cake.referred_store}}</span>
+                        <span>Store: {{review.order.referred_store}}</span>
                         <br>
-                        <span>{{cake.referred_store.locationSi}}{{cake.referred_store.locationGu}}</span>
+                        <section>{{review.comment|slice:"15"}}</section>
+                        <div class="stars">
+                            <span class="fa fa-star fa-2x checked"></span>
+                            <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
+                            <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
+                            <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
+                            <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
-                <div class="user-liked-text">
-                    <a href=""><button>더보기</button></a> 
+                <div class="user-review-text">
+                    <a href="{% url 'review_all' user_pk=user.pk %}"><button>더보기</button></a> 
                 </div>
-                <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
+            </div>
+        </div>
+        <div class="user-liked">
+            <!-- 케이크 -->
+            <div class="liked-cakes">
+                <h2 id="cake-info-header">찜한 케이크</h2>
+                <hr style="height: 4px;">
+                <div class="likedcake-box">
+                    <div class="liked-contents">
+                        <!-- 순서대로 케이크 이미지, 케이크이름, 가게이름, 본문 -->
+                        {% for cake in liked_cakes %}
+                        <div class="likedcake-card">
+                            <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" aria-label="케이크 이미지"></a>
+                            <a href="{% url 'likedcake_delete' user_pk=user.pk cake_pk=cake.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
+                            <br>
+                            <span>{{cake.cakename}}</span>
+                            <br>
+                            <span>store: {{cake.referred_store}}</span>
+                            <br>
+                            <span>{{cake.referred_store.locationSi}}{{cake.referred_store.locationGu}}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="user-liked-text">
+                        <a href="{% url 'likedcakes_all' user_pk=user.pk %}"><button>더보기</button></a> 
+                    </div>
+                    <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
+                </div>
             </div>
             <br>
             <!-- 가게 -->
             <div class="liked-stores">
                 <h2 id="store-info-header">찜한 가게</h2>
-                <hr>
-                <div class="liked-contents">
-                    <!-- 순서대로 가게이름, 이미지, 장소, 본문 -->
-                    {% for store in liked_stores %}
-                    <div class="likedstore-card">
-                        <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}" aria-label="가게 이미지"></a>
-                        <br>
-                        <span>{{store.name}}</span>
-                        <br>
-                        <span>{{store.locationSi}}{{store.locationGu}}</span>
-                        <section>{{store.text|slice:"15"}}</section>
+                <hr style="height: 5px;">
+                <div class="likedstore-box">
+                    <div class="liked-contents">
+                        <!-- 순서대로 가게이름, 이미지, 장소, 본문 -->
+                        {% for store in liked_stores %}
+                        <div class="likedstore-card">
+                            <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}" aria-label="가게 이미지"></a>
+                            <a href="{% url 'likedstore_delete' user_pk=user.pk store_pk=store.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
+                            <br>
+                            <span>{{store.name}}</span>
+                            <br>
+                            <span>{{store.locationSi}}{{store.locationGu}}</span>
+                            <section>{{store.text|slice:"15"}}</section>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <div class="user-liked-text">
+                        <a href="{% url 'likedstores_all' user_pk=user.pk %}"><button>더보기</button></a> 
+                    </div>
+                    <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
                 </div>
-                <div class="user-liked-text">
-                    <a href=""><button>더보기</button></a> 
-                </div>
-                <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
             </div>
         </div>
     </div>

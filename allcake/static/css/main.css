@@ -2731,7 +2731,7 @@ input, select, textarea {
 
 	#header {
 		background-attachment: scroll,							scroll,					fixed;
-		background-image: url("images/top-3200.svg"), url("images/overlay-1.png"), url("../img/header.jpg");
+		background-image: url("images/top-3200.svg"), url("images/1.png"), url("../img/header.jpg");
 		background-position: bottom center,					top left,				center center;
 		background-repeat: repeat-x,						repeat,					no-repeat;
 		background-size: 3200px 460px,					auto,					cover;

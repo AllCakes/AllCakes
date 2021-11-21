@@ -15,6 +15,16 @@
       background-color: rgb(255, 0, 0);
    }
 </style>
+
+{% block script %}
+<!-- 좋아요 -->
+<script type="text/javascript">
+   csrf_token = '{{csrf_token}}';
+   like_url = '{% url "like" %}';
+</script>
+<script src="{% static 'js/like.js' %}" type="text/javascript"></script>
+{% endblock %}
+
 {% endblock %}
 {% block content %}
 <div class="container2" style=" width: 100%; padding-right: 10% ; padding-left: 10%;">
@@ -2112,50 +2122,71 @@
             </div>
             <!----------------------------------------------------상단 토글바 끝---------------------------------------->
          </header><!-- sect-heading -->
+
+
          <div class="row">
-
-
             <div class="grid" style="width:90%; padding-left: 5%;">
                <label>케이크</label>
                {% for products in product %}
                {% if products.cakename %}
                <div class="only-cake">
-                  <div class="product cakes col-md-4" style="display: flex; flex: auto;;">
+                  <div class="product cakes col-md-4 " style="display: flex; flex: auto;">
                      <!--cakes에서 li부분이 검색당할 것-->
                      <li class="{{products.size}} {{products.referred_store.locationSi}} {{product.price}}">
                         <figure class="card card-product-grid" style="padding:0; margin: 5px 10px;">
                            <div class="img-wrap">
                               <a href="{% url 'cake_detail' pk=products.pk %}"><img src={{products.cake_image.url}}
                                     class="img-fluid"></a>
-                              <a class="btn-overlay" href="{% url 'cake_detail' pk=products.pk %}">
+                             <!-- <a class="btn-overlay" href="{% url 'cake_detail' pk=products.pk %}"> -->
+
                                  <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
                            </div>
-                           <figcaption class="info-wrap">
-                              <div class="fix-height">
-                                 <a href="{% url 'cake_detail' pk=products.pk %}"
-                                    class="title">{{products.cakename}}</a>
-                                 <div class="price-wrap mt-2">
-                                    <span class="price">{{products.price}}</span>
-                                 </div> <!-- price-wrap.// -->
-                              </div>
-                              {% if user in cake.users_liked.all %}
-                              <button class="like red"
-                                 style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
-                                 id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
-                                    class="fas fa-heart"></i></button>
-                              {% else %}
-                              <button class="like"
-                                 style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
-                                 id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
-                                    class="fas fa-heart"></i></button>
-                              {% endif %}
-                              <!-- 좋아요타입 케이크(1)로 -->
-                              <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
 
-                           </figcaption>
-                        </figure>
-                     </li>
-                  </div> <!-- col.// -->
+                           <div class="info-wrap">
+                              <div class="fix-height">
+                                 <div class="name&like" style="display:flex; justify-content: space-between;">
+                                 <a href="{% url 'cake_detail' pk=products.pk %}" class="title" style="display: flex;">
+                                    {% if products.cakename|length > 9 %}
+                                    {{ products.cakename|slice:8 }}..
+                                    {% else %}
+                                    {{ products.cakename }}
+                                    {% endif %}</a>
+                                 <div class="like-cake-but" style="display: flex;">
+                                    {% if not user.is_authenticated %}
+                                    <button class="like"
+                                       style=" margin-left: 3px; height: 35px; border:solid; border-color: lightgray;"
+                                       onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                                    {% else %}
+                                    {% if user in products.users_liked.all %}
+                                    <button class="like red"
+                                       style=" margin-left: 3px; height: 35px; border:solid; border-color: lightgray;"
+                                       id="cake{{products.id}}" onclick="LikeIt(1, {{products.id}})"><i
+                                          class="fas fa-heart"></i></button>
+                                    {% else %}
+                                    <button class="like"
+                                       style=" margin-left: 3px; height: 35px; border-color:lightgray;"
+                                       id="cake{{products.id}}" onclick="LikeIt(1, {{products.id}})"><i
+                                          class="fas fa-heart"></i></button>
+                                    {% endif %}
+                                    <!-- 좋아요타입 케이크(1)로 -->
+                                    <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+                                    {% endif %}
+                                 </div>
+                              </div>
+                              </div>
+
+
+                              <div class="price-wrap mt-2">
+                                 <span class="price">{{products.price}}</span>
+                              </div> <!-- price-wrap.// -->
+                           </div>
+
+
+                  </div>
+
+                  </figcaption>
+                  </figure>
+                  </li>
                </div>
 
                {% endif %}
@@ -2163,13 +2194,12 @@
 
             </div>
          </div>
+
          <!------------------------------------------------------------------------------------위에까지가 케이크--------------------->
-         <br><br><br><br><br>
-
-
+         <br><br><br><br>
          <div class="row">
             <div class="grid" style="width:90%; padding-left: 5%;">
-               <div class="form-inline" style="border:thin"></div>
+         
                <label>가게</label>
                {% for products in product %}
                {% if products.name %}
@@ -2179,41 +2209,62 @@
                      <li class="{{products.referred_store.locationSi}}">
                         <figure class="card card-product-grid" style="padding:0; margin: 5px 10px;">
                            <div class="img-wrap">
-                              <class= href="{% url 'store_detail' pk=products.pk %}"><img
-                                    src={{products.store_image.url}} class="img-fluid"></a>
-                                 <a class="btn-overlay" href="{% url 'store_detail' pk=products.pk %}">
-                                    <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
+                              <a href="{% url 'store_detail' pk=products.pk %}"><img src={{products.store_image.url}}
+                                    class="img-fluid"></a>
+                              <a class="btn-overlay" href="{% url 'store_detail' pk=products.pk %}"></a>
+                              <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
                            </div>
-                           <figcaption class="info-wrap">
+                           <div class="info-wrap">
                               <div class="fix-height">
-                                 <a href="{% url 'store_detail' pk=products.pk %}" class="title">{{products.name}}</a>
-                                 <div class="price-wrap mt-2">
-                                    <span class="price">{{products.price}}</span>
+                                 <div class="name&like" style="display:flex; justify-content: space-between;">
+                                 <a href="{% url 'cake_detail' pk=products.pk %}" class="title" style="display: flex;">
+                                    {% if products.name|length > 10 %}
+                                    {{ products.name|slice:8 }}..
+                                    {% else %}
+                                    {{ products.name }}
+                                    {% endif %}</a>
+                                 <div class="like-cake-but" style="display: flex;">
+                                    {% if not user.is_authenticated %}
+                                    <button class="like" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                                    {% else %}
+                                    {% if user in products.users_liked.all %}
+                                    <button class="like red"
+                                       style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
+                                       id="store{{products.id}}" onclick="LikeIt(2, {{products.id}})"><i
+                                          class="fas fa-heart"></i></button>
+                                    {% else %}
+                                    <button class="like"
+                                       style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
+                                       id="store{{products.id}}" onclick="LikeIt(2, {{products.id}})"><i
+                                          class="fas fa-heart"></i></button>
+                                    {% endif %}
+                     
+                                    {% endif %}
+         
                                  </div>
                               </div>
-                              {% if user in cake.users_liked.all %}
-                              <button class="like red"
-                                 style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
-                                 id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
-                                    class="fas fa-heart"></i></button>
-                              {% else %}
-                              <button class="like"
-                                 style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
-                                 id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
-                                    class="fas fa-heart"></i></button>
-                              {% endif %}
-                              <!-- 좋아요타입 케이크(1)로 -->
-                              <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+                              </div>
 
-                           </figcaption>
-                        </figure>
-                     </li>
+
+                              <div class="price-wrap mt-2">
+                                 <span class="price">{{products.price}}</span>
+                              </div> <!-- price-wrap.// -->
+                           </div>
+
+
                   </div>
+
+                  </figcaption>
+                  </figure>
+                  </li>
                </div>
+
                {% endif %}
                {% endfor %}
 
             </div>
+         </div>
+         <!------------------------------------------------------------------------------------------------------------------------------------------->
       </main>
 
    </div>

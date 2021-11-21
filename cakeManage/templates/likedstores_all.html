@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}좋아요한 가게{% endblock %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/liked_all.css' %}" type="text/css">{% endblock %}
+
+{% block content %}
+<!-- 모든 리뷰-->
+<div class = "liked-body">
+    <div class="liked-stores">
+        <h2 id="store-info-header">찜한 가게</h2>
+        <hr style="height: 5px;">
+        <div class="likedstore-box">
+            <div class="liked-contents">
+                {% for store in liked_stores %}
+                <div class="likedstore-card">
+                    <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}" aria-label="가게 이미지"></a>
+                    <a href="{% url 'likedstore_delete' user_pk=user.pk store_pk=store.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
+                    <br>
+                    <span>{{store.name}}</span>
+                    <br>
+                    <span>{{store.locationSi}}{{store.locationGu}}</span>
+                    <section>{{store.text|slice:"15"}}</section>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

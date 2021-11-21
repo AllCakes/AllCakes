@@ -1,0 +1,85 @@
+.liked-body{
+    padding-top: 80px;
+    height: 1600px;
+    margin-left: 20px;
+}
+
+button {
+    border-radius: 5px;
+}
+
+h2{
+    font-size: 40px;
+    text-align: left;
+    
+}
+a {
+    border-bottom: none;
+}
+
+
+
+.liked-contents {
+    display: flex;
+}
+
+.likedcake-card{
+    height: 310px;
+    width: 15%;
+    margin: 0px 0px;
+    border: solid lightgray;
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 50px;
+}
+.likedcake-card > a > img{
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+.delete-icon {
+    vertical-align: top;
+    text-align: right;
+    color: lightcoral;
+}
+
+.likedstore-card{
+    height: 310px;
+    width: 15%;
+    margin: 0px 0px;
+    border: solid lightgray;
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 50px;
+}
+.likedstore-card > a > img{
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+img {
+    border-radius: 5px;
+    width: 70%;
+}
+
+.user-liked {
+    margin-top: 100px;
+}
+
+.user-liked-text{
+    display: flex;
+    justify-content: right;
+}
+
+.button {
+    border: 2px ;
+    padding: 5px 20px;
+    border-radius: 10px;
+}
+
+.button:hover {
+    background-color: rgba(224, 224, 224, 0.15);
+    color: #ffffff;
+}
