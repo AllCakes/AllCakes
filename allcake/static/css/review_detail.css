@@ -17,9 +17,27 @@
     right: 0;
     position: absolute;
     z-index: -1;   
-  }
+}
 
+h4 {
+    text-align: left;
+    margin-left: 20px;
+}
 
+.review-manage {
+    display: flex;
+    justify-content: right;
+}
+
+#review-edit{
+    color: red;
+}
+
+#review-delete {
+    margin-left: 20px;
+    margin-right: 20px;
+    color: red;
+}
 
 .review_info{
     display: flex;
@@ -29,7 +47,7 @@
 
 .info_left{
     width: 40%;
-    padding-top: 4%;
+    padding-top: 3%;
     padding-left: 5%;
 }
 
@@ -55,38 +73,46 @@
 }
 .cake-text {
     width:100%;
+    font-size: 20px;
+    border: 8px solid lightgray;
+    border-radius: 20px;
 }
 
 .cakename, .storename{
     font-size: 28px;
     font-weight: bold;
+    margin-bottom: 3%;
 }
 .cakename{
-    margin-bottom: 5%;
+    margin-bottom: 4%;
 }
 
-.about{
+.comment{
     width: 100%;
     padding-left: 3%;
     padding-right: 3%;
+    font-size: 25px;
+
+    border: 8px solid lightgray;
+    border-radius: 20px;
 }
 
 
 .cake_order{
-    width: 50px;
+    width: 30px;
     text-align: center;
     /* font-family: 'BBTreeGB'; */
     font-size: 20px;
     text-decoration: none;
     color: black;
   
-    border-radius: 5px;
+    border-radius: 3px;
     border: 1px black solid;
     background-color: rgba(255, 255, 255, 0.363);
   
     padding: 5px 10px 5px 10px;
     margin-right: 4.5%;
-    margin-left: 80%;
+    margin-left: 30px;
     margin-bottom: 10px;
 }
 .cake_reviews{
@@ -108,13 +134,19 @@
     padding-left: 0.5%;
     font-weight: 300;
     margin-bottom: 0.5%;
-    font-size: 19px;
+    font-size: 25px;
+    margin-left: 10px;
+    display: inline;
+}
+.date {
+    display: inline;
+    text-align: right;
+    margin-left: 5%;
 }
 
 .review_rate{
     margin-bottom: 0.4%;
     padding-left: 1%;
-    color:rgb(207, 149, 176);
 }
 
 .review_content{

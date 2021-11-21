@@ -24,43 +24,34 @@
 {% endblock %}
 
 {% block content %}
-<body id="mainBody" onload="열기('{{num}}')" style="background-image:url('../static/css/images/overlay.png');background-size: 100%;">
+<body id="mainBody" onload="열기('{{num}}')" style="background-image:url('../static/css/images/overlay.png');background-repeat: no-repeat; background-size: 100%;">
 
     <!-- 대표이미지, 가게이름, 위치, 연락처, 설명, 케잌이미지 -->
 
 
     <div class="store-detail" style="padding-top:0px;flex-direction: column; justify-content: center;">
-        <!-- <div class="store-image" style="padding: 0 43%">
-            <img src="{{store.store_image.url}}" style="display: flex; flex:auto ; width:250px ; height: 250px;">
-        </div> -->
+        <div class="store-image" style="padding: 0px 0px 20px 39%">
+        <img src="{{store.store_image.url}}" style="display: flex; flex:auto ; width:250px ; height: 250px;">
+        </div>
 
-        <div class="store-text"
-            style="flex-direction: row; width: 100%; justify-content: center; padding: 2% 30% 0px 30%;text-align: center;">
-
-            <div class="store-name" style="color: black; text-align: center;margin:0px auto ;">
-                <div style=" padding: 5% 10% 10% 10%; ">
-                    <img src="{{store.store_image.url}}" style="width:75% ; height: 750%; border-radius: 10px; border:rgba(255, 245, 238, 0.733) 4px solid;">
-                </div>
-                {{store.name}}
+        <div class="store-text" style="flex-direction: row; width: 100%; justify-content: center; padding: 2% 30% 0px 30%;text-align: center;">
+            <div class="store-name" style="color: black; text-align: center;margin:0px auto">{{store.name}}
                 {% if not user.is_authenticated %}
-                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
-                    onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
                 {% else %}
                 {% if user in cake.users_liked.all %}
-                <button class="like red" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
-                    id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                <button class="like red" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                 {% else %}
-                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
-                    id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                 {% endif %}
-                <!-- 좋아요타입 가게(2)로 -->
                 {% endif %}
-
+                <!-- 좋아요타입 케이크(1)로 -->
+                <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
 
             </div>
-            <span class="store-contact">📍 연락처 : {{store.contact}}</span>
-            <section class="store-contact">📍 가게 위치 : {{store.locationSi}}시 {{store.locationGu}} </section>
-            <section class="store-des" style="text-align: center;">#
+                <span class="store-contact">📍 연락처 : {{store.contact}}</span>
+                <section class="store-contact">📍 가게 위치 : {{store.locationSi}}시 {{store.locationGu}} </section>
+                <section class="store-des" style="text-align: center;">#
                 <!--텍스트를 해쉬태그 처럼 보이게 하려고.. 감성있게 수정함..-->
                 {% for i in store.text %}
                 {{i}}
@@ -75,8 +66,6 @@
                 <p class="only-owner-can-see" style="margin-top: 10px; margin-bottom: 10px;">
                     <!-- 이하 수정은 가게 관리자만 수정 및 삭제할 수 있도록 수정할 예정 -->
                     <!-- store.owner를 확인하면 됨. 로그인한 유저이고 owner이면 내용 표출-->
-
-
                     {% if user.is_authenticated %}
                     {% if store.owner == user %}
                     <a href="{% url 'store_edit' pk=store.pk %}"><button class="edit-button">정보 수정</button></a>
@@ -95,26 +84,21 @@
                 </div>
 
 
-
-
     <div class="option-box">
         <div class="option-box-block" style="display: flex; flex: auto; text-align: center; align-content: center;">
             <!--버튼 width 에 min width 설정되어 있어서 흐르는 현상 발생했음~ 이거 없애주기 위해 스타일 적용했으니 accept change 하믄돼-->
-            <div class="buttons" style="min-width: 0px; display: flex; flex: auto; width: auto; align-items: center;">
-                <input type="button" class="열기호버" onclick="열기(0)" value="메 뉴"
-                    style="color:black;min-width: 0px; display: flex; flex: auto; width: auto;justify-content: center;"></input>
+        <div class="buttons" style="min-width: 0px; display: flex; flex: auto; width: auto; align-items: center;">
+            <input type="button" class="열기호버" onclick="열기(0)" value="메 뉴" style="color:black;min-width: 0px; display: flex; flex: auto; width: auto;justify-content: center;"></input>
 
 
-                <!--FE: button을 input으로 변경함!-->
-                <input type="button" class="열기호버" onclick="열기(1); relayout();" value="정 보"
-                    style="color:black;min-width: 0px; display: flex; flex: auto; width: auto;justify-content: center;"></input>
-                <!---->
-                <!--relayout() 함수 추가해서 지도 깨짐 방지-->
+            <!--FE: button을 input으로 변경함!-->
+            <input type="button" class="열기호버" onclick="열기(1); relayout();" value="정 보" style="color:black;min-width: 0px; display: flex; flex: auto; width: auto;justify-content: center;"></input>
+            <!---->
+            <!--relayout() 함수 추가해서 지도 깨짐 방지-->
 
-                <input type="button" class="열기호버" onclick="열기(2)" value="리 뷰"
-                    style="color:black;min-width: 0px; display: flex; flex: auto; width: auto;justify-content: center;"></input>
-            </div>
+            <input type="button" class="열기호버" onclick="열기(2)" value="리 뷰" style="color:black;min-width: 0px; display: flex; flex: auto; width: auto;justify-content: center;"></input>
         </div>
+    </div>
         <!-- 전체 케이크 리스트 -->
         <div class="items">
             <!--버튼 누르면 나오는 설명까지 하나의 div에 묶기-->
@@ -125,8 +109,7 @@
 
             <div class="cake-item">
                 <div class="cake-img">
-                    <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" width="210px"
-                            height="207px"></a><br>
+                    <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" width="210px" height="207px"></a><br>
 
                     <!-- 케이크 수정 버튼 지웠음 -->
                     <!-- 클릭 시 자세히보기로 들어감. -->
@@ -137,26 +120,11 @@
 
                 <div class="cake-body">
                     <p class="cake-name" style="display:flex; flex: auto;">{{cake.cakename}} 
-                        {% if not user.is_authenticated %}
-                        <button class="like" style=" margin-left: 2%; height: 35px;" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
-                        {% else %}
-            
-                        {% if user in cake.users_liked.all %}
-                        <button class="like red" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
-                        {% else %}
-                        <button class="like" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
-                        {% endif %}
-                        
-                        {% endif %}
-
-
-<!--
                     {% if user in cake.users_liked.all %}
                     <button class="like red" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                     {% else %}
                     <button class="like" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                     {% endif %}
--->
                     <!-- 좋아요타입 케이크(1)로 -->
                     <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
 
@@ -164,16 +132,23 @@
                     <hr>
                     <p class="cake-detail">{{cake.body}}</p>
 
-                    <section>
                     <a href="{% url 'order_submit' cake_pk=cake.pk  %}" class="order-button">주문</a>   
                     {% if user.is_authenticated %}
                     {% if store.owner == user %}
                     <a href="{% url 'cake_edit' pk=cake.pk  %}" class="order-button">케이크 수정</a>     
                     {% endif %}
                     {% endif %}    
-
-                    </p>
-
+                    {% if not user.is_authenticated %}
+                    <button class="like" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                    {% else %}
+        
+                    {% if user in cake.users_liked.all %}
+                    <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    {% else %}
+                    <button class="like" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    {% endif %}
+                    
+                    {% endif %}
                 </div>
                 </a><br>
             </div>
@@ -196,7 +171,7 @@
             </div>
 
 
-            <p class="items-header">📍 지도</p>
+             <p class="items-header">📍 지도</p>
 
             <!--FE: 지도 생각보다 많이 깨져서 한 번 봐야할 듯! => 수정했습니당! -->
 
@@ -204,7 +179,7 @@
             <div class="info-box1">
 
                 <p class="mapsize">
-                    <div id="map" style="width:100%;height:350px;"></div>
+                <div id="map" style="width:100%;height:350px;"></div>
                 </p>
 
                 <script type="text/javascript" map_api_key=settings.KAKAO_MAP_API_KEY
@@ -212,26 +187,26 @@
                 <!--map_api 키 보안처리 했습니당-->
                 <script>
                     var storeName = document.getElementsByClassName("store-name");
-                    //var maplat = parseInt(document.getElementById('maplat')); // 지도를 표시할 위도
-                    var maplat = parseFloat((document.getElementById('maplat')).innerText); // 지도를 표시할 위도
-                    //var maplon = parseInt(document.getElementById('maplon')); // 지도를 표시할 경도
-                    var maplon = parseFloat((document.getElementById('maplon')).innerText); // 지도를 표시할 경도
-                    console.log(maplat);
-                    console.log(maplon);
-                    //console.log((parseInt(maplat)));
-                    //console.log((parseInt(maplon)));                     
-                    //maplon=parseInt(maplon);
-                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                     //var maplat = parseInt(document.getElementById('maplat')); // 지도를 표시할 위도
+                     var maplat = parseFloat((document.getElementById('maplat')).innerText); // 지도를 표시할 위도
+                     //var maplon = parseInt(document.getElementById('maplon')); // 지도를 표시할 경도
+                     var maplon = parseFloat((document.getElementById('maplon')).innerText); // 지도를 표시할 경도
+                     console.log(maplat);
+                     console.log(maplon);
+                     //console.log((parseInt(maplat)));
+                     //console.log((parseInt(maplon)));                     
+                     //maplon=parseInt(maplon);
+                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                         mapOption = {
-                            center: new kakao.maps.LatLng(maplat, maplon),
+                            center: new kakao.maps.LatLng(maplat,maplon), 
                             //center: new kakao.maps.LatLng(maplat.maplon), // 지도의 중심좌표
                             // 다만 maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생 => 수정해 나갈 예정!
                             level: 3 // 지도의 확대 레벨
                         };
-                    //36.111599999,127.44999919950 & 37.558507, 126.9474058
+                        //36.111599999,127.44999919950 & 37.558507, 126.9474058
                     function setCenter() {
                         // 이동할 위도 경도 위치를 생성합니다 
-                        var moveLatLon = new kakao.maps.LatLng(maplat, maplon);
+                        var moveLatLon = new kakao.maps.LatLng(maplat,maplon);
 
                         // 지도 중심을 이동 시킵니다
                         map.setCenter(moveLatLon);
@@ -239,36 +214,35 @@
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
                     // 마커가 표시될 위치입니다 
-                    var markerPosition = new kakao.maps.LatLng(maplat,
-                    maplon); //maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생
+                    var markerPosition = new kakao.maps.LatLng(maplat,maplon);//maplat, maplon 변수가 여기에 전달되면 지도가 깨지는 현상 발생
 
-                    // 마커를 생성합니다
-                    var marker = new kakao.maps.Marker({
-                        position: markerPosition
-                    });
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                position: markerPosition
+                });
 
                     // 마커가 지도 위에 표시되도록 설정합니다
                     marker.setMap(map);
                     var markerPosition = marker.getPosition();
 
                     var iwContent =
-                        '<div style="padding:5px;">{{store.name}}<br><a href="https://map.kakao.com/link/map/{{store.name}},{{store.lat}},{{store.lon}}"  target="_blank">큰지도보기</a><a href="https://map.kakao.com/link/to/Hello World!,{{store.lat}},{{store.lon}} target="_blank">길찾기</a></div>',
+                        '<div style="padding:5px;">{{store.name}}<br><a href="https://map.kakao.com/link/map/{{store.name}},{{store.lat}},{{store.lon}}"  target="_blank">큰지도보기</a><a href="https://map.kakao.com/link/to/Hello World!,{{store.lat}},{{store.lon}} target="_blank">길찾기</a></div>', 
                         // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                        iwPosition = new kakao.maps.LatLng(maplat, maplon); //인포윈도우 표시 위치입니다
+                        iwPosition = new kakao.maps.LatLng(maplat,maplon); //인포윈도우 표시 위치입니다
 
                     // 인포윈도우를 생성합니다
                     var infowindow = new kakao.maps.InfoWindow({
                         position: iwPosition,
                         content: iwContent,
-
+                        
                     });
 
                     // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
                     infowindow.open(map, marker);
-
                     function relayout() {
                         map.relayout();
                     } // 지도 크기 변경 시 조정해주는 함수 추가
+
                 </script>
             </div>
         </div>
@@ -279,7 +253,7 @@
         <div class="items">
             <form method="POST" class="post-form" enctype="multipart/form-data">
                 {% csrf_token %}
-                <select name="sort" id="_sort" onchange="this.form.submit()">
+                <select name = "sort" id ="_sort" onchange="this.form.submit()" >
                     <option class="date" value="date">최신순</option>
                     <option class="highrate" value="highrate">별점 높은순</option>
                     <option class="lowrate" value="lowrate">별점 낮은순</option>
@@ -308,7 +282,7 @@
 
 
 
-
+                    
                     <div class="review-item2">
                         <p class="review-item2-contents">{{review.comment}}</p>
                     </div>
