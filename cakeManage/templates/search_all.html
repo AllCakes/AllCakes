@@ -518,7 +518,7 @@
                                     </div>
                                  </label>
 
-                                
+
 
 
 
@@ -631,7 +631,7 @@
                               <!--드롭바 내용 div--->
                               <div id="myDropdown4" class="dropdown-content">
                                  <!---------대전시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
-  
+
                                  <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input contentbtn"
                                        onclick="myFunction7()" name="locationGu" value="대덕구">
@@ -933,38 +933,7 @@
                         <!-----------------------7 울산 끝--------------------------->
 
 
-                        <!---------8 제주 라벨 시작-------------------------------------------------------------------------------------------------------->
-                        <label class="custom-control custom-checkbox">
-                           <input type="checkbox" class="custom-control-input " name="locationSi" value="제주">
-                           <div class="custom-control-label"><label for="경기">제주
-                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction14()"
-                                    style="color: black;"></i>
-                              </label>
-                           </div>
-                           <div class="dropdown">
-                              <!--드롭바 내용 div--->
-                              <div id="myDropdown8" class="dropdown-content">
-                                 <!---------대전시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
-                                 <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input contentbtn"
-                                       onclick="myFunction15()" name="locationGu" value="제주시">
-                                    <div class="custom-control-label"><label for="가평">제주시</label>
-                                    </div>
-                                 </label>
 
-                                 <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input contentbtn"
-                                       onclick="myFunction15()" name="locationGu" value="서귀포시">
-                                    <div class="custom-control-label"><label for="고양시">서귀포시</label>
-                                    </div>
-                                 </label>
-
-
-                                 <!---------8 제주 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
-                              </div>
-                           </div>
-                        </label>
-                        <!-----------------------8 제주 끝--------------------------->
 
                         <!---------9 세종 라벨 시작-------------------------------------------------------------------------------------------------------->
                         <label class="custom-control custom-checkbox">
@@ -1135,10 +1104,10 @@
                                     </div>
                                  </label>
 
-                                 
-                                 
+
+
                                  <label>충남</label>
-                                 
+
                                  <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input contentbtn"
                                        onclick="myFunction21()" name="locationGu" value="계룡시">
@@ -1243,9 +1212,9 @@
                                     <div class="custom-control-label"><label for="동대문구">홍성군</label>
                                     </div>
                                  </label>
-                                 
-                               
-                         
+
+
+
                                  <!---------충청도 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
                               </div>
                            </div>
@@ -1812,7 +1781,7 @@
                                     <div class="custom-control-label"><label for="동대문구">해남군</label>
                                     </div>
                                  </label>
-                                 
+
                                  <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input contentbtn"
                                        onclick="myFunction25()" name="locationGu" value="화순군">
@@ -1962,7 +1931,38 @@
                         </label>
                         <!-----------------------14 강원 끝--------------------------->
 
+                        <!---------8 제주 라벨 시작-------------------------------------------------------------------------------------------------------->
+                        <label class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input " name="locationSi" value="제주">
+                           <div class="custom-control-label"><label for="경기">제주
+                                 <i class="icon-control fa fa-chevron-down dropbtn" onclick="myFunction14()"
+                                    style="color: black;"></i>
+                              </label>
+                           </div>
+                           <div class="dropdown">
+                              <!--드롭바 내용 div--->
+                              <div id="myDropdown8" class="dropdown-content">
+                                 <!---------대전시 도들 라벨 시작-------------------------------------------------------------------------------------------------------->
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction15()" name="locationGu" value="제주시">
+                                    <div class="custom-control-label"><label for="가평">제주시</label>
+                                    </div>
+                                 </label>
 
+                                 <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input contentbtn"
+                                       onclick="myFunction15()" name="locationGu" value="서귀포시">
+                                    <div class="custom-control-label"><label for="고양시">서귀포시</label>
+                                    </div>
+                                 </label>
+
+
+                                 <!---------8 제주 도들 라벨 끝-------------------------------------------------------------------------------------------------------->
+                              </div>
+                           </div>
+                        </label>
+                        <!-----------------------8 제주 끝--------------------------->
 
                      </div> <!-- card-body.// -->
                   </div>
@@ -2113,92 +2113,109 @@
             <!----------------------------------------------------상단 토글바 끝---------------------------------------->
          </header><!-- sect-heading -->
          <div class="row">
+
+
             <div class="grid" style="width:90%; padding-left: 5%;">
+               <label>케이크</label>
                {% for products in product %}
                {% if products.cakename %}
-               <div class="product cakes col-md-4" style="display: flex; flex: auto;;">
-                  <!--cakes에서 li부분이 검색당할 것-->
-                  <li class="{{products.size}} {{products.referred_store.locationSi}} {{product.price}}">
-                     <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                           <a href="{% url 'cake_detail' pk=products.pk %}"><img src={{products.cake_image.url}}
-                                 class="img-fluid"></a>
-                           <a class="btn-overlay" href="{% url 'cake_detail' pk=products.pk %}">
-                              <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
-                        </div>
-                        <figcaption class="info-wrap">
-                           <div class="fix-height">
-                              <a href="{% url 'cake_detail' pk=products.pk %}" class="title">{{products.cakename}}</a>
-                              <div class="price-wrap mt-2">
-                                 <span class="price">{{products.price}}</span>
-                              </div> <!-- price-wrap.// -->
-                           </div>
-                           {% if user in cake.users_liked.all %}
-                           <button class="like red"
-                              style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
-                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
-                                 class="fas fa-heart"></i></button>
-                           {% else %}
-                           <button class="like"
-                              style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
-                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
-                                 class="fas fa-heart"></i></button>
-                           {% endif %}
-                           <!-- 좋아요타입 케이크(1)로 -->
-                           <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
-                           <a href="#" class="btn btn-block btn-primary"
-                              style="background-color:gray;border-color: whitesmoke;">장바구니</a>
-                        </figcaption>
-                     </figure>
-                  </li>
-               </div> <!-- col.// -->
-               {% endif %}
-               {% if products.name %}
-               <div class="product stores col-md-4">
-                  <!--stores에서 li부분이 검색당할 것-->
-                  <li class="{{products.referred_store.locationSi}}">
-                     <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                           <class= href="{% url 'store_detail' pk=products.pk %}"><img src={{products.store_image.url}}
-                                 class="img-fluid"></a>
-                              <a class="btn-overlay" href="{% url 'store_detail' pk=products.pk %}">
+               <div class="only-cake">
+                  <div class="product cakes col-md-4" style="display: flex; flex: auto;;">
+                     <!--cakes에서 li부분이 검색당할 것-->
+                     <li class="{{products.size}} {{products.referred_store.locationSi}} {{product.price}}">
+                        <figure class="card card-product-grid" style="padding:0; margin: 5px 10px;">
+                           <div class="img-wrap">
+                              <a href="{% url 'cake_detail' pk=products.pk %}"><img src={{products.cake_image.url}}
+                                    class="img-fluid"></a>
+                              <a class="btn-overlay" href="{% url 'cake_detail' pk=products.pk %}">
                                  <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
-                        </div>
-                        <figcaption class="info-wrap">
-                           <div class="fix-height">
-                              <a href="{% url 'store_detail' pk=products.pk %}" class="title">{{products.name}}</a>
-                              <div class="price-wrap mt-2">
-                                 <span class="price">{{products.price}}</span>
-                              </div>
                            </div>
-                           {% if user in cake.users_liked.all %}
-                           <button class="like red"
-                              style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
-                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
-                                 class="fas fa-heart"></i></button>
-                           {% else %}
-                           <button class="like"
-                              style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
-                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
-                                 class="fas fa-heart"></i></button>
-                           {% endif %}
-                           <!-- 좋아요타입 케이크(1)로 -->
-                           <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
-                           <a href="#" class="btn btn-block btn-primary"
-                              style="background-color:gray;border-color: whitesmoke;">장바구니</a>
-                        </figcaption>
-                     </figure>
-                  </li>
+                           <figcaption class="info-wrap">
+                              <div class="fix-height">
+                                 <a href="{% url 'cake_detail' pk=products.pk %}"
+                                    class="title">{{products.cakename}}</a>
+                                 <div class="price-wrap mt-2">
+                                    <span class="price">{{products.price}}</span>
+                                 </div> <!-- price-wrap.// -->
+                              </div>
+                              {% if user in cake.users_liked.all %}
+                              <button class="like red"
+                                 style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
+                                 id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                                    class="fas fa-heart"></i></button>
+                              {% else %}
+                              <button class="like"
+                                 style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
+                                 id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                                    class="fas fa-heart"></i></button>
+                              {% endif %}
+                              <!-- 좋아요타입 케이크(1)로 -->
+                              <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+
+                           </figcaption>
+                        </figure>
+                     </li>
+                  </div> <!-- col.// -->
                </div>
+
                {% endif %}
                {% endfor %}
 
             </div>
          </div>
+         <!------------------------------------------------------------------------------------위에까지가 케이크--------------------->
+         <br><br><br><br><br>
 
+
+         <div class="row">
+            <div class="grid" style="width:90%; padding-left: 5%;">
+               <div class="form-inline" style="border:thin"></div>
+               <label>가게</label>
+               {% for products in product %}
+               {% if products.name %}
+               <div class="only-store">
+                  <div class="product stores col-md-4">
+                     <!--stores에서 li부분이 검색당할 것-->
+                     <li class="{{products.referred_store.locationSi}}">
+                        <figure class="card card-product-grid" style="padding:0; margin: 5px 10px;">
+                           <div class="img-wrap">
+                              <class= href="{% url 'store_detail' pk=products.pk %}"><img
+                                    src={{products.store_image.url}} class="img-fluid"></a>
+                                 <a class="btn-overlay" href="{% url 'store_detail' pk=products.pk %}">
+                                    <!--<i class="fa fa-search-plus"></i>자세히보기</a>-->
+                           </div>
+                           <figcaption class="info-wrap">
+                              <div class="fix-height">
+                                 <a href="{% url 'store_detail' pk=products.pk %}" class="title">{{products.name}}</a>
+                                 <div class="price-wrap mt-2">
+                                    <span class="price">{{products.price}}</span>
+                                 </div>
+                              </div>
+                              {% if user in cake.users_liked.all %}
+                              <button class="like red"
+                                 style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
+                                 id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                                    class="fas fa-heart"></i></button>
+                              {% else %}
+                              <button class="like"
+                                 style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
+                                 id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                                    class="fas fa-heart"></i></button>
+                              {% endif %}
+                              <!-- 좋아요타입 케이크(1)로 -->
+                              <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+
+                           </figcaption>
+                        </figure>
+                     </li>
+                  </div>
+               </div>
+               {% endif %}
+               {% endfor %}
+
+            </div>
       </main>
 
    </div>
-
 
    {% endblock %}

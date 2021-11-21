@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block content %}
-<body id="mainBody" onload="열기('{{num}}')" style="background-image:url('../static/css/images/overlay.png');background-repeat: no-repeat; background-size: 100%;">
+<body id="mainBody" onload="열기('{{num}}')" style="background-image:url('../static/css/images/overlay.png');background-size: 100%;">
 
     <!-- 대표이미지, 가게이름, 위치, 연락처, 설명, 케잌이미지 -->
 
@@ -36,15 +36,28 @@
 
         <div class="store-text" style="flex-direction: row; width: 100%; justify-content: center; padding: 2% 30% 0px 30%;text-align: center;">
             <div class="store-name" style="color: black; text-align: center;margin:0px auto">{{store.name}}
-                {% if not user.is_authenticated %}
-                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
-                {% else %}
+            {% if not user.is_authenticated %}
+            <button class="like" style=" margin-left: 2%; height: 35px;" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+            {% else %}
                 {% if user in cake.users_liked.all %}
-                <button class="like red" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                <button class="like red" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                 {% else %}
-                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                <button class="like" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                {% endif %} 
+            {% endif %}
+
+               <!---- {% if not user.is_authenticated %}
+                <button class="like" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                {% else %}
+    
+                {% if user in cake.users_liked.all %}
+                <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                {% else %}
+                <button class="like" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                 {% endif %}
+                
                 {% endif %}
+            -->
                 <!-- 좋아요타입 케이크(1)로 -->
                 <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
 
@@ -66,6 +79,8 @@
                 <p class="only-owner-can-see" style="margin-top: 10px; margin-bottom: 10px;">
                     <!-- 이하 수정은 가게 관리자만 수정 및 삭제할 수 있도록 수정할 예정 -->
                     <!-- store.owner를 확인하면 됨. 로그인한 유저이고 owner이면 내용 표출-->
+
+
                     {% if user.is_authenticated %}
                     {% if store.owner == user %}
                     <a href="{% url 'store_edit' pk=store.pk %}"><button class="edit-button">정보 수정</button></a>
@@ -120,11 +135,26 @@
 
                 <div class="cake-body">
                     <p class="cake-name" style="display:flex; flex: auto;">{{cake.cakename}} 
+                        {% if not user.is_authenticated %}
+                        <button class="like" style=" margin-left: 2%; height: 35px;" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                        {% else %}
+            
+                        {% if user in cake.users_liked.all %}
+                        <button class="like red" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                        {% else %}
+                        <button class="like" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                        {% endif %}
+                        
+                        {% endif %}
+
+
+<!--
                     {% if user in cake.users_liked.all %}
                     <button class="like red" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                     {% else %}
                     <button class="like" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
                     {% endif %}
+-->
                     <!-- 좋아요타입 케이크(1)로 -->
                     <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
 
@@ -139,17 +169,7 @@
                     <a href="{% url 'cake_edit' pk=cake.pk  %}" class="order-button">케이크 수정</a>     
                     {% endif %}
                     {% endif %}    
-                    {% if not user.is_authenticated %}
-                    <button class="like" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
-                    {% else %}
-        
-                    {% if user in cake.users_liked.all %}
-                    <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
-                    {% else %}
-                    <button class="like" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
-                    {% endif %}
-                    
-                    {% endif %}
+
                     </p>
                 </div>
                 </a><br>

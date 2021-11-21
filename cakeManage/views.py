@@ -205,7 +205,6 @@ def sorting(request):
     product1=Cake.objects.all() 
     product2=Store.objects.all()
     product=[product1,product2]
-    products=list(chain(*product))
     productss=[]
     sort3 = request.GET.get('sorting',None)#name
     num=0
