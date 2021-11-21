@@ -15,6 +15,16 @@
       background-color: rgb(255, 0, 0);
    }
 </style>
+
+{% block script %}
+<!-- 좋아요 -->
+<script type="text/javascript">
+    csrf_token = '{{csrf_token}}';
+    like_url = '{% url "like" %}';
+</script>
+<script src="{% static 'js/like.js' %}" type="text/javascript"></script>
+{% endblock %}
+
 {% endblock %}
 {% block content %}
 <div class="container2" style=" width: 100%; padding-right: 10% ; padding-left: 10%;">
@@ -2133,19 +2143,25 @@
                                  <span class="price">{{products.price}}</span>
                               </div> <!-- price-wrap.// -->
                            </div>
-                           {% if user in cake.users_liked.all %}
+
+                           {% if not user.is_authenticated %}
+				               <button class="like" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                           {% else %}
+                           {% if user in products.users_liked.all %}
                            <button class="like red"
                               style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
-                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                              id="cake{{products.id}}" onclick="LikeIt(1, {{products.id}})"><i
                                  class="fas fa-heart"></i></button>
                            {% else %}
                            <button class="like"
                               style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
-                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                              id="cake{{products.id}}" onclick="LikeIt(1, {{products.id}})"><i
                                  class="fas fa-heart"></i></button>
                            {% endif %}
                            <!-- 좋아요타입 케이크(1)로 -->
                            <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+                           {% endif %}
+
                            <a href="#" class="btn btn-block btn-primary"
                               style="background-color:gray;border-color: whitesmoke;">장바구니</a>
                         </figcaption>
@@ -2171,19 +2187,25 @@
                                  <span class="price">{{products.price}}</span>
                               </div>
                            </div>
-                           {% if user in cake.users_liked.all %}
+
+                           {% if not user.is_authenticated %}
+                           <button class="like" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
+                           {% else %}
+                           {% if user in products.users_liked.all %}
                            <button class="like red"
                               style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;"
-                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                              id="store{{products.id}}" onclick="LikeIt(2, {{products.id}})"><i
                                  class="fas fa-heart"></i></button>
                            {% else %}
                            <button class="like"
                               style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);"
-                              id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
+                              id="store{{products.id}}" onclick="LikeIt(2, {{products.id}})"><i
                                  class="fas fa-heart"></i></button>
                            {% endif %}
-                           <!-- 좋아요타입 케이크(1)로 -->
+                           <!-- 좋아요타입 가게(2)로 -->
                            <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
+                           {% endif %}
+
                            <a href="#" class="btn btn-block btn-primary"
                               style="background-color:gray;border-color: whitesmoke;">장바구니</a>
                         </figcaption>

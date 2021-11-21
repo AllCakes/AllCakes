@@ -34,6 +34,10 @@ urlpatterns = [
 
     # 좋아요 기능 관련 url
     path('like', like_it, name="like"),
+    path('likedcake_delete/<int:user_pk>/<int:cake_pk>', likedcake_delete, name="likedcake_delete"),
+    path('likedstore_delete/<int:user_pk>/<int:store_pk>', likedstore_delete, name="likedstore_delete"),
+    path('likedcakes/all/<int:user_pk>', likedcakes_all, name="likedcakes_all"),
+    path('likedstores/all/<int:user_pk>', likedstores_all, name="likedstores_all"),
 
     # 리뷰 CRUD 및 별점 (R-상세보기 U-수정 D-삭제 구현 필요) (앱 새로 파야 되는지..?)
     # 리뷰 작성, 수정 시 사진 멀티업로드 구현 필요할듯  
@@ -41,6 +45,7 @@ urlpatterns = [
     path('review/delete/<int:pk>', review_delete, name="review_delete"),
     path('review/edit/<int:pk>', review_edit, name="review_edit"),
     path('review/detail/<int:review_pk>', review_detail, name="review_detail"),
+    path('review/all/<int:user_pk>', review_all, name="review_all"),
 
     # 홈에 임시로 작성한 Stores, Cakes 링크 (가게 상세페이지 들어가기 불편해서)
     path('all/stores', stores_all, name="stores_all"),

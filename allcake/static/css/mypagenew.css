@@ -11,7 +11,19 @@ button {
 h2{
     font-size: 40px;
     text-align: left;
+    
 }
+a {
+    border-bottom: none;
+}
+#navcenter{
+    color: navy;
+}
+
+#navcenter:hover{
+    color: lightblue;
+}
+
 #user-info-header {
     margin-bottom: 0%;
 }
@@ -28,6 +40,8 @@ h2{
 .review-info {
     display: flex;
 }
+
+
 
 .review-card {
     height: 420px;
@@ -51,7 +65,7 @@ h2{
     height: 310px;
     width: 15%;
     margin: 0px 0px;
-    border: solid pink;
+    border: solid lightgray;
     border-radius: 15px;
     text-align: center;
     vertical-align: middle;
@@ -59,12 +73,20 @@ h2{
 }
 .likedcake-card > a > img{
     margin-top: 10px;
+    margin-left: 15px;
 }
+
+.delete-icon {
+    vertical-align: top;
+    text-align: right;
+    color: lightcoral;
+}
+
 .likedstore-card{
     height: 310px;
     width: 15%;
     margin: 0px 0px;
-    border: solid pink;
+    border: solid lightgray;
     border-radius: 15px;
     text-align: center;
     vertical-align: middle;
@@ -72,6 +94,7 @@ h2{
 }
 .likedstore-card > a > img{
     margin-top: 10px;
+    margin-left: 15px;
 }
 
 table {
