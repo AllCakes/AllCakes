@@ -27,10 +27,11 @@ def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
     cakes = Cake.objects.order_by('-pub_date')
     reviews = Review.objects.order_by('-pub_date')[:3]
+    recentReviews = Review.objects.order_by('-pub_date')[:5]
     paginator = Paginator(cakes, 4)
     page = request.GET.get('page', 1)
     cakes = paginator.get_page(page)
-    return render(request, 'index.html', {'cakes': cakes, 'reviews': reviews})
+    return render(request, 'index.html', {'cakes': cakes, 'reviews': reviews, 'recentReviews': recentReviews})
 
 # 임시 템플릿 연결 뷰
 def stores_all(request):
@@ -204,7 +205,6 @@ def sorting(request):
     product1=Cake.objects.all() 
     product2=Store.objects.all()
     product=[product1,product2]
-    products=list(chain(*product))
     productss=[]
     sort3 = request.GET.get('sorting',None)#name
     num=0
@@ -441,7 +441,7 @@ def order_detail(request, order_pk):
 def order_all(request, user_pk):
     if request.user.pk != user_pk:
         raise ValidationError("잘못된 접근입니다.")
-    orders = Order.objects.get(user=user_pk)
+    orders = Order.objects.filter(user=user_pk)
     return render(request, 'order_all.html', {'orders':orders})
 
 # 주문 수정 U (고칠 예정)
@@ -540,16 +540,15 @@ def review_page(request, pk, orderpk):
 
 # 리뷰 삭제 D
 def review_delete(request, pk):
-    order = get_object_or_404(Order,pk = pk)
-    if request.user != order.user:
+    review = get_object_or_404(Review, pk = pk)
+    if request.user != review.user:
         raise ValidationError("잘못된 접근입니다.")
-    review = Review.objects.filter(order_id=pk)
     review.delete()
-    return redirect('mypage',user_pk=order.user_id)
+    return redirect('mypage', user_pk=request.user.pk)
 
 # 리뷰 수정 페이지 - U
 def review_edit(request, pk):
-    review = get_object_or_404(Review, order_id=pk)
+    review = get_object_or_404(Review, pk=pk)
     if request.user != review.user:
         raise ValidationError("잘못된 접근입니다.")
     if request.method == "POST":
@@ -560,7 +559,7 @@ def review_edit(request, pk):
             if(rate != None):
                 review.rate = rate
             review.save()
-            return redirect('mypage', user_pk=review.user_id)
+            return redirect('review_detail', review_pk=pk)
     else:
         form = ReviewForm(instance=review)
     return render(request, 'review_edit.html', {'form': form, 'review' : review})
@@ -883,3 +882,47 @@ def add_menu(request):
         with open(file_path, 'w', encoding="utf-8") as outfile:
             json.dump(json_data, outfile ,ensure_ascii=False, indent=4)
     return redirect('storemenu.html')
+
+def review_detail(request, review_pk):
+    review = get_object_or_404(Review, pk=review_pk)
+    return render(request, 'review_detail.html', {'review':review})
+
+def likedcake_delete(request, user_pk, cake_pk):
+    if (request.user.pk != user_pk):
+        raise ValidationError("잘못된 접근입니다.")
+    cake = get_object_or_404(Cake, pk=cake_pk)
+    if cake.users_liked.filter(id=request.user.id).exists():
+        cake.users_liked.remove(request.user)
+    else:
+        return JsonResponse({}, status=401)
+
+    return redirect('likedcakes_all', user_pk=request.user.pk)
+
+def likedstore_delete(request, user_pk, store_pk):
+    if (request.user.pk != user_pk):
+        raise ValidationError("잘못된 접근입니다.")
+    store = get_object_or_404(Store, pk=store_pk)
+    if store.users_liked.filter(id=request.user.id).exists():
+        store.users_liked.remove(request.user)
+    else:
+        return JsonResponse({}, status=401)
+
+    return redirect('likedstores_all', user_pk=request.user.pk)
+
+def review_all(request, user_pk):
+    if (request.user.pk != user_pk):
+        raise ValidationError("잘못된 접근입니다.")
+    reviews = Review.objects.filter(user=user_pk)
+    return render(request, 'review_all.html', {'reviews':reviews})
+
+def likedcakes_all(request, user_pk):
+    if (request.user.pk != user_pk):
+        raise ValidationError("잘못된 접근입니다.")
+    liked_cakes = Cake.objects.filter(users_liked=user_pk)
+    return render(request, 'likedcakes_all.html', {'liked_cakes':liked_cakes})
+
+def likedstores_all(request, user_pk):
+    if (request.user.pk != user_pk):
+        raise ValidationError("잘못된 접근입니다.")
+    liked_stores = Store.objects.filter(users_liked=user_pk)
+    return render(request, 'likedstores_all.html', {'liked_stores':liked_stores})

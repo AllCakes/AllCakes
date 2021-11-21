@@ -157,6 +157,14 @@
     font-weight: bold;
 }
 
+.색, .크림종류{
+    display: flex;
+    justify-content: space-between;
+    padding: 3%;
+    color: black;
+    border-radius: 20px;
+}
+
 #caketype{
     width: 25%;
     font-size: 20px;

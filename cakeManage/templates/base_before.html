@@ -1,5 +1,8 @@
 {% load static %}
 
+<!DOCTYPE html>
+<html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <!--부트스트랩 불러온 것-->
@@ -10,12 +13,32 @@
 
     <!--부트스트랩-->
     <!--여기까지-->
+    <!-- 별점 필요 -->
+    <script defer src="/static/js/rating.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static '/css/rating.css'%}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
+	<link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+
+
+    <!-- 아래는 탬플릿 디자인 변경 전 css -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'css/cake.css' %}">
-    <link rel="stylesheet" href="{% static 'css/order.css' %}">
+    	<!-- CSS only -->
+    {% block css %}
+    {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d5f6c310a78632612936d0ea60df74&libraries=services"></script>
+    {% block script %}
+    {% endblock %}
+
+    <script src="/static/js/isotope.pkgd.min.js"></script>
+
 </head>
 
 <body>
+
 
     <!--새로 붙여넣은 header-->
     <header>
@@ -31,14 +54,11 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
                         <!-- 리뷰는 마이페이지 참고 -->
-                        <li class="nav-item ">
+						<li class="nav-item ">
                             <a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link px-2" href="#">Reviews</a>
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link px-2" href="{% url 'search_all' %}">Search</a>
@@ -72,10 +92,10 @@
 
                             {% if not user.is_authenticated %}
                             <a class="nav-link px-2" href="#">About Us</a>
-                            {% endif %}
+                        {% endif %}
                             <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
 
-                            <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
+                        <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
                         </li>
                         <!--
                         <li class="nav-item">
@@ -87,63 +107,35 @@
                                 <button class="btn btn-secondary btn-sm" type="submit" value="r">🔍</button>
                             </form>
                         </li>   
-
-               </ul>
+					</ul>
                 -->
+
+
+                    
+
                 </div>
             </div>
         </nav>
     </header>
 
-    <br><br><br>
-    <div style="margin-top: 3%; margin-bottom: 5%;">
-<p class = "cake_title" style = "font-weight: bold; font-size: 40px" >• 케이크 메뉴 등록 •</p>
 
-    </div>
-<form method="POST" class="post-form" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <!-- <p>예시 케이크 사진을 첨부해주세요.</p> -->
-    <!-- <input type="file" name="imgs" multiple> -->
-    <br><br><br>
-    <div style = "margin-top: 5%;">
-        <h2 style = "font-weight: bold; margin-bottom: 3%;">색 선택</h2> 
-        <ul class="색" style="border: rgba(0, 0, 0, 0.747) 2px solid;  margin-bottom: 8%; "></ul>
-    </div>
-    <div><h2 style = "font-weight: bold; margin-bottom: 3%;">크림종류 선택</h2> 
-        <ul class="크림종류"style="border: rgba(0, 0, 0, 0.747) 2px solid "></ul>
-    </div>
-    <button type="submit">저장</button>
-</form>
-<script>
-    var store_col = "{{store_col}}";
-    var store_cream = "{{store_cream}}";
-    var color = "{{색}}";
-    var cream = "{{크림종류}}";
-    var color_price = "{{색가격}}";
-    var cream_price = "{{크림종류가격}}";
-</script>
-<script type="text/javascript" src="/static/js/cakeMenu.js" defer></script>
-    <footer>
-        <div class="footerContent1">
+    <!---->
+    {% block content %}
+
+    {% endblock %}
+
+    
+    <footer  style="background-color: whitesmoke; margin-top: 10%; color : darkgray">
+        <div class="footerContent1" style="color:darkgray">
             <div class="about">
                 <p class="aboutTitle">About</p>
                 <hr class="underline">
 
-                <p class="aboutContent">이 어둠을 빨간 코로 비춰줄래
-                    어디서부터 잘못된 건지
-                    온 세상이 all black black black
-                    지금 너와 난
-                    다 깨져버린 1000피스
-                    lego block block block
-                    차라리 더 어두워지면 좋겠어
-                    이 세상에 스위치가 있다면
-                    꺼버릴거야
-                    그리고 널 향한 노랠 부르겠어</p>
+                <p class="aboutContent"></p>
 
             </div>
 
-            <div class="categories">
+            <div class="categories"  style="color:darkgray">
                 <p class="categoryTitle">Categories</p>
                 <hr class="underline">
 
@@ -165,7 +157,7 @@
             </div>
 
             <div class="links">
-                <p class="linkTitle">Links</p>
+                <p class="linkTitle"  style="color:darkgray">Links</p>
                 <hr class="underline">
 
                 <li>
@@ -187,38 +179,38 @@
         <hr class="underline2">
 
 
-        <div class="footerContent2">
+        <div class="footerContent2"  style="color:darkgray">
             <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
         </div>
     </footer>
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-        </script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+</script>
 
-    <script>
-        // 현재 위치를 가져오는 getPosition 프로미스 생성
-        var getPosition = function (options) {
-            return new Promise(function (resolve, reject) {
-                var options = {
-                    enableHighAccuracy: true,
-                    maximumAge: 0,
-                    timeout: 10000
-                }
-                navigator.geolocation.getCurrentPosition(resolve, reject, options);
-            })
-        }
-        // getPosition 프로미스 실행
-        // 결과값이 있을 경우 쿠키에 정보를 저장하고, 없을 경우 Error를 Log에 찍는다
-        getPosition()
-            .then((position) => {
-                $.cookie("latitude", position.coords.latitude, { path: '/' })
-                $.cookie("longitude", position.coords.longitude, { path: '/' })
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    </script>
+<script>
+    // 현재 위치를 가져오는 getPosition 프로미스 생성
+    var getPosition = function (options) {
+      return new Promise(function (resolve, reject) {
+        var options = {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 10000
+      }
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      })
+    }
+    // getPosition 프로미스 실행
+    // 결과값이 있을 경우 쿠키에 정보를 저장하고, 없을 경우 Error를 Log에 찍는다
+    getPosition()
+      .then((position) => {
+        $.cookie("latitude", position.coords.latitude, { path: '/' })
+        $.cookie("longitude", position.coords.longitude, { path: '/' })
+      })
+      .catch((err)=> {
+        console.log(err)
+      })
+</script>
+
 </body>
-
 </html>

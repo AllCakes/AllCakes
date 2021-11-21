@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{review.user}}님의 {{review.order.referred_cake}}리뷰{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/review_detail.css' %}" type="text/css"> 
+    
+{% endblock %}
+
+{% block content %}
+
+<div id="review_detail_body">
+
+    <div class="review_info">
+        <div class="info_left">
+            <img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_yellowcake.png' %} {% endif %}" aria-label="리뷰 이미지" width="100%" style="border-radius: 2%;" alt="리뷰 이미지">
+        </div>
+        <!-- 케이크 이름, 가게 이름, 텍스트 -->
+        <div class="info_right">
+            <div class="text">
+                <div class="review-text">
+                    <p class="cakename">• CAKE : {{review.order.referred_cake.cakename}} </p>
+                    <p class="storename">• STORE : {{review.order.referred_store.name}} </p>
+                    <!-- 리뷰 수정 삭제 오른쪽 -->
+                    {% if user == review.user %}
+                    <div class="review-manage">
+                        <a id="review-edit" href="{% url 'review_edit' pk=review.pk %}">리뷰 수정</a>
+                        <a id="review-delete" href="{% url 'review_delete' pk=review.pk %}">리뷰 삭제</a>
+                    </div>
+                    {% endif %}
+                    <div class="review_rate">
+                        <span class="fa fa-star fa-2x checked"></span>
+                        <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
+                        <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
+                        <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
+                        <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
+                    </div>
+                    <p class="review_user">작성자: {{review.user.nickname}}</p>
+                    <p class="date">일시: {{review.pub_date}}</p>
+                    <br>
+                    <br>
+                    <p class="comment">{{review.comment}}</p>
+                    <a href="{% url 'store_detail' pk=review.order.referred_store.pk %}">가게 보기</a>     
+                    <a href="{% url 'order_submit' cake_pk=review.order.referred_cake.pk  %}" class="cake_order">해당 케이크 주문</a>
+                </div>
+                <hr>
+                <h4>케이크 설명</h4>
+                <div class="cake-text">
+                    <p>{{review.order.referred_cake.body}}</p>  
+                </div>
+               
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

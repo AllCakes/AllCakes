@@ -156,7 +156,7 @@
   -webkit-box-orient: vertical;
   word-wrap:break-word; 
   line-height: 1.6em;
-  height: 4.8em; 
+  height: 20px;
 }
 
 .cake-name-button{
@@ -165,7 +165,8 @@
 .cake-name {
   /* width: 60%; */
   margin-left: 5%;
-  margin-top: 25px;
+  margin-top: 5px;
+  margin-bottom: 0px;
 
   font-family: 'GongGothicMedium';
   font-size: 20px;
@@ -353,7 +354,8 @@
 
   .cake-name{
     width: 90%;
-    margin-top: 20px;
+    margin-top: 5px;
+    margin-bottom: 0px;
   }
 
 
@@ -385,8 +387,8 @@
     -webkit-box-orient: vertical;
     word-wrap: break-word;
     line-height: 1.2em;
-    height: 3.6em;
-    margin-top: 20px;
+    height: 20px;
+    margin-top: 10px;
   }
 
   .buttons input{
@@ -466,8 +468,8 @@
 
   .cake-name{
     width: 90%;
-    margin-top: 10px;
-    margin-bottom: 6px;
+    margin-top: 5px;
+    margin-bottom: 0px;
   }
 
   #detail-buttons{
@@ -505,7 +507,7 @@
     -webkit-box-orient: vertical;
     word-wrap: break-word;
     line-height: 1.2em;
-    height: 2.4em;
+    height: 20px;
   }
 
   .buttons input{
@@ -617,7 +619,8 @@
   
     .cake-name{
       width: 90%;
-      margin-top: 10px;      
+      margin-top: 5px;
+      margin-bottom: 0px;
       font-size: 15px;
     }
 
@@ -662,7 +665,7 @@
       -webkit-box-orient: vertical;
       word-wrap: break-word;
       line-height: 1.4em;
-      height: 2.5em;
+      height: 20px;
       font-size: 13.5px;
       margin-top: 0;
     }

@@ -45,8 +45,26 @@
                             <a class="nav-link px-2" href="{% url 'search_all' %}">Search</a>
                         </li>
                     </ul>
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" id="navcenter" href="#user-info-header">정보</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="navcenter" href="#order-info-header">주문내역</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="navcenter" href="#review-info-header">내 리뷰</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="navcenter" href="#cake-info-header">찜한 케이크</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="navcenter" href="#store-info-header">찜한 가게</a>
+                        </li>
+                    </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <!--로그인 or 로그아웃-->
+
                         <li class="nav-item">
                             {% if user.is_authenticated %}
                             {% if user.is_kakao == True %}
@@ -108,31 +126,28 @@
 <!-- 모든 정보가 들어가는 곳 O -->
     <div class = "body3">
         <div class="user-info">
-            <div class="user-info-text">
-                <h2> 고객 정보 </h2>
-                <a href="{% url 'edit_nickname' %}"><button>수정</button></a>
-                <a href="{% url 'delete_user' user_pk=user.pk %}"><button>탈퇴</button></a>
-            </div>
+            <h2 id="user-info-header"> 고객 정보 </h2>
             <img src="{% static 'img/allcake_whitecake.png' %}">
             <div class="users-detail">
                 <!-- 일반 로그인 시 email 정보, 닉네임 정보가 있고 
                 카카오 로그인 시 email, 닉네임, 선택적으로 생일, 성별, 연령대가 있음 
                 남자인지, 내 생일이 언제인지, 연령대는 어디인지는 유저에게 보고 싶은 정보가 아님. 
                 닉네임만 보여주고 정보 수정 눌렀을 때 닉네임만 수정하도록 하기. (나머지는 카카오 동의 철회로 구현)  -->
-                <div class="user-info-text">
+            </div>
+            <div class="user-info-text">
+                <div class="user-nickname">
                     <p>닉네임: {{user.nickname}}</p>
                 </div>
+                <a href="{% url 'view_coupon' user_pk=user.pk %}"><button>쿠폰함</button></a>
+                <a href="{% url 'edit_nickname' %}" id="edit"><button>수정</button></a>
+                <a href="{% url 'delete_user' user_pk=user.pk %}" id="delete"><button>탈퇴</button></a>
             </div>
         </div>
         <!-- 주문 내역이 리뷰 관리보다 먼저 나와야 편하지 않을까? -->
         <!-- 주문 내역 관리를 마이페이지에서 할 거면 -->
         <!-- 마이페이지에서 주문을 관리할 수 있다고 주문 끝나고 알려주기라도 해야 될 듯 함. -->
         <div class="user-order">
-            <div class="user-order-text">
-                <h2> 주문 내역 </h2>
-                <div class="info-more"><a href="{% url 'order_all' user_pk=user.pk %}"><button>더보기</button></a></div>
-                <!-- 주문 내역 전체 페이지 구현 필요 -->
-            </div>
+            <h2 id="order-info-header"> 주문 내역 </h2>
             <div class="order-info">
                 <table style="width:100%">
                     <tr>
@@ -164,83 +179,103 @@
                         {% if not order.review %}
                         <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
                         {% else %}
-                        <td><a href="{% url 'review_edit' pk=order.pk %}">리뷰 수정</a><br>
-                            <a href="{% url 'review_delete' pk=order.pk %}">리뷰 삭제</a></td>
+                        <td><a href="{% url 'review_edit' pk=order.review.pk %}">리뷰 수정</a><br>
+                            <a href="{% url 'review_delete' pk=order.review.pk %}">리뷰 삭제</a></td>
                         {% endif %}
                     </tr>
                     {% endfor %}
                 </table>
+                <div class="user-order-text">
+                    <div class="info-more"><a href="{% url 'order_all' user_pk=user.pk %}"><button>더보기</button></a></div>
+                    <!-- 주문 내역 전체 페이지 구현 필요 -->
+                </div>
                 <br><br>
                 
             </div>
         </div>
         <div class="user-review">
-            <h2> 리뷰 관리 </h2>
-            <div class="review-info" >
-                <!-- 리뷰 상세보기, 수정, 삭제 구현 아직 X -->
-                <!-- 케잌이미지, 케이크이름, 가게이름, 별점, 평가내용(15자 까지) -->
-                <!-- 이미지에 리뷰 자세히보기 링크 달아야 함. -->
-                {% for review in reviews %}
-                <div class="review-card">
-                    <a href="#"><img src="{{review.review_img.url}}" aria-label="주문한 케이크"></a>
-                    <br>
-                    <span>Cake: {{review.order.referred_cake}}</span>
-                    <br>
-                    <span>Store: {{review.order.referred_store}}</span>
-                    <br>
-                    <section>{{review.comment|slice:"15"}}</section>
-                    <span class="fa fa-star fa-2x checked"></span>
-                    <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
-                    <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
-                    <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
-                    <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
+            <h2 id="review-info-header"> 리뷰 관리 </h2>
+            <div class="review-box">
+                <div class="review-info" >
+                    <!-- 리뷰 상세보기, 수정, 삭제 구현 아직 X -->
+                    <!-- 케잌이미지, 케이크이름, 가게이름, 별점, 평가내용(15자 까지) -->
+                    <!-- 이미지에 리뷰 자세히보기 링크 달아야 함. -->
+                    {% for review in reviews %}
+                    <div class="review-card">
+                        <a href="{% url 'review_detail' review_pk=review.pk %}"><img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_bluecake.png' %} {% endif %}" aria-label="주문한 케이크"></a>
+                        <br>
+                        <span>Cake: {{review.order.referred_cake}}</span>
+                        <br>
+                        <span>Store: {{review.order.referred_store}}</span>
+                        <br>
+                        <section>{{review.comment|slice:"15"}}</section>
+                        <div class="stars">
+                            <span class="fa fa-star fa-2x checked"></span>
+                            <span class="fa fa-star fa-2x {% if review.rate > 1 %} checked {% endif %}"></span>
+                            <span class="fa fa-star fa-2x {% if review.rate > 2 %} checked {% endif %}"></span>
+                            <span class="fa fa-star fa-2x {% if review.rate > 3 %} checked {% endif %}"></span>
+                            <span class="fa fa-star fa-2x {% if review.rate > 4 %} checked {% endif %}"></span>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <div class="user-review-text">
+                    <a href="{% url 'review_all' user_pk=user.pk %}"><button>더보기</button></a> 
+                </div>
             </div>
         </div>
         <div class="user-liked">
-            <h2> 찜한</h2>
-
             <!-- 케이크 -->
             <div class="liked-cakes">
-                <div class="user-liked-text">
-                    <h2>케이크</h2>
-                    <a href=""><button>더보기</button></a> 
-                </div>
-                <div class="liked-contents">
-                    <!-- 순서대로 케이크 이미지, 케이크이름, 가게이름, 본문 -->
-                    {% for cake in liked_cakes %}
-                    <div class="each-cake">
-                        <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" aria-label="케이크 이미지"></a>
-                        <br>
-                        <span>{{cake.cakename}}</span>
-                        <br>
-                        <span>store: {{cake.referred_store}}</span>
-                        <section>설명: {{cake.body|slice:"15"}}</section>
+                <h2 id="cake-info-header">찜한 케이크</h2>
+                <hr style="height: 4px;">
+                <div class="likedcake-box">
+                    <div class="liked-contents">
+                        <!-- 순서대로 케이크 이미지, 케이크이름, 가게이름, 본문 -->
+                        {% for cake in liked_cakes %}
+                        <div class="likedcake-card">
+                            <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" aria-label="케이크 이미지"></a>
+                            <a href="{% url 'likedcake_delete' user_pk=user.pk cake_pk=cake.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
+                            <br>
+                            <span>{{cake.cakename}}</span>
+                            <br>
+                            <span>store: {{cake.referred_store}}</span>
+                            <br>
+                            <span>{{cake.referred_store.locationSi}}{{cake.referred_store.locationGu}}</span>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <div class="user-liked-text">
+                        <a href="{% url 'likedcakes_all' user_pk=user.pk %}"><button>더보기</button></a> 
+                    </div>
+                    <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
                 </div>
-                <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
             </div>
-
+            <br>
             <!-- 가게 -->
             <div class="liked-stores">
-                <div class="user-liked-text">
-                    <h2>가게</h2>
-                    <a href=""><button>더보기</button></a> 
-                </div>
-                <div class="liked-contents">
-                    <!-- 순서대로 가게이름, 이미지, 장소, 본문 -->
-                    {% for store in liked_stores %}
-                    <div class="each-store">
-                        <span>{{store.name}}</span>
-                        <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}" aria-label="가게 이미지"></a>
-                        <span>{{store.location}}</span>
-                        <section>{{store.text|slice:"15"}}</section>
+                <h2 id="store-info-header">찜한 가게</h2>
+                <hr style="height: 5px;">
+                <div class="likedstore-box">
+                    <div class="liked-contents">
+                        <!-- 순서대로 가게이름, 이미지, 장소, 본문 -->
+                        {% for store in liked_stores %}
+                        <div class="likedstore-card">
+                            <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}" aria-label="가게 이미지"></a>
+                            <a href="{% url 'likedstore_delete' user_pk=user.pk store_pk=store.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
+                            <br>
+                            <span>{{store.name}}</span>
+                            <br>
+                            <span>{{store.locationSi}}{{store.locationGu}}</span>
+                            <section>{{store.text|slice:"15"}}</section>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <div class="user-liked-text">
+                        <a href="{% url 'likedstores_all' user_pk=user.pk %}"><button>더보기</button></a> 
+                    </div>
+                    <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
                 </div>
-                <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
             </div>
         </div>
     </div>

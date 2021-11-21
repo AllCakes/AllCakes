@@ -24,6 +24,10 @@ function LikeIt(object_type, object_id) {
 
         ele.classList.toggle("red");
 }
+function NeedLogin()    {
+    alert("로그인이 필요한 서비스입니다.")
+}
+
 // function ChangeHeart() {
 //     if (this.classList.contains('red')){
 //         this.classList.remove('red');
