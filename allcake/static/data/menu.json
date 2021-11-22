@@ -9,7 +9,8 @@
                 "노랑": "/static/img/C_yellow.png",
                 "하늘": "/static/img/C_sky.png",
                 "연파랑": "/static/img/C_mildblue.png",
-                "분홍": "/static/img/C_pink.png"
+                "분홍": "/static/img/C_pink.png",
+                "검정": "/static/img/noimg.png"
             },
             "크림종류": {
                 "동글크림": "/static/img/C_cream1.png",
