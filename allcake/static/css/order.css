@@ -137,6 +137,14 @@
 }
 
 
+.색, .크림종류{
+    display: flex;
+    justify-content: space-around;
+    padding: 3%;
+    color: white;
+    border-radius: 150px;
+}
+
 
 
 .order-cream, .order-color{
@@ -148,9 +156,6 @@
     font-size: 30px;
     font-weight: bold;
 }
-
-
-
 
 .색, .크림종류{
     display: flex;

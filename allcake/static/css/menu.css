@@ -18,12 +18,14 @@
     display: flex;
     flex-wrap: wrap;
     justify-content:space-around;
+    align-content: center;
+    align-items:center;
 }
 
 .menu_boxs{
     border: gray 1px solid;
     border-radius: 20px;
-    height: 100px;
+    height: 350px;
 }
 /* 메뉴 선택하기 */
 .menu_title{

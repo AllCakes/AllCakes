@@ -7,11 +7,12 @@
 <body>
     <br><br><br><br><br>
     <h1>케이크집 리뷰작성</h1>
-    <form method="POST" class="review-form" enctype="multipart/form-data">
+    <br>
+    <form method="POST" class="review-form" style = "margin-left : 20%; margin-right:20%" enctype="multipart/form-data">
         {% csrf_token %}
         <p></p>
         주문자 : {{order.user}}</br>
-        주문날짜 : {{order.pub_date}}</br>
+        주문날짜 : {{order.pub_date}}</br><br>
         
         <!-- 별점 부분
             class fa fa-star는 별모양의 그림이고 fa-2x는 크기이다. 여기에 check라는 class를 추가하면 별모양의 색깔이 바뀐다.
@@ -35,7 +36,7 @@
                 </div>
             </div>
             {{ form.as_p }}
-        <button type="submit">저장</button>
+        <button style="border-radius: 5px;" type="submit">저장</button>
     </form>
 </body>
 {% endblock %}

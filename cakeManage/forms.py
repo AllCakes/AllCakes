@@ -11,10 +11,10 @@ class CakeForm(forms.ModelForm):
     class Meta:
         model = Cake
         fields = ['cakename', 'body', 'meta_body', 'cake_image', 'size', 'price']
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['cakename'].widget.attrs.update({'class': 'form-control','style': 'width: 100%'})
-            self.fields['body'].widget.attrs.update({'class': 'form-control','style': 'width: 100%'})
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cakename'].widget.attrs.update({'class': 'form-control','style': 'width: 100%'})
+        self.fields['body'].widget.attrs.update({'class': 'form-control','style': 'width: 100%'})
 
 class OrderForm(forms.ModelForm):
     class Meta:
@@ -31,7 +31,10 @@ class LocationSearchForm(forms.Form):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields=['comment','review_img',]
+        fields=['review_img','comment']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['review_img'].widget.attrs.update({'style': 'border-radius: 5px'})
 
 class StoreMenuForm(forms.ModelForm):
     class Meta:
