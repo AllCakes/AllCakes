@@ -22,6 +22,7 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.db.models import Count #리뷰 갯수 세기 위해서 (리뷰 많은 순 정렬)
+import random
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
@@ -31,7 +32,9 @@ def home(request):
     paginator = Paginator(cakes, 4)
     page = request.GET.get('page', 1)
     cakes = paginator.get_page(page)
-    return render(request, 'index.html', {'cakes': cakes, 'reviews': reviews, 'recentReviews': recentReviews})
+
+    rand_num = random.randint(1,8)
+    return render(request, 'index.html', {'cakes': cakes, 'reviews': reviews, 'recentReviews': recentReviews, 'rand_num': rand_num})
 
 # 임시 템플릿 연결 뷰
 def stores_all(request):
@@ -788,8 +791,6 @@ def like_it(request):
     type = int(type)
     obj_id = request.POST.get("obj_id")
     obj_id = int(obj_id)
-    print(type)
-    print(obj_id)
     if type == 1:
         try:
             obj = get_object_or_404(Cake, id=obj_id)

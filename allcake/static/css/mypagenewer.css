@@ -53,9 +53,15 @@ a {
     vertical-align: middle;
     margin-left: 50px;
 }
+.stars{
+    width: 100%;
+}
+
 .review-card > a > img{
     margin-top: 10px;
-    max-height: 150px;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
 }
 
 .liked-contents {
@@ -75,7 +81,6 @@ a {
 .likedcake-card > a > img{
     margin-top: 10px;
     margin-left: 15px;
-    max-height: 150px;
 }
 
 .delete-icon {
@@ -97,7 +102,6 @@ a {
 .likedstore-card > a > img{
     margin-top: 10px;
     margin-left: 15px;
-    max-height: 150px;
 }
 
 table {

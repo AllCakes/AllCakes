@@ -72,6 +72,47 @@ input, select, textarea {
 	appearance: none;
 }
 
+#header {
+	padding-top: 20.5%;
+	padding-bottom: 10%;
+}
+
+#search-bar{
+	border:black 3px solid;
+	color:black;
+	font-size: 15px;
+	font-weight: bold;
+	font-optical-sizing: auto;
+	width: 40%;
+	margin-left: 28%;
+}
+
+#search-bar::-webkit-input-placeholder {
+    color:black;
+    font-weight: bold;
+}
+#search-bar::-moz-placeholder {
+    color:black;
+    font-weight: bold;
+}
+#search-bar:-ms-input-placeholder {
+    color:black;
+    font-weight: bold;
+}
+#search-bar:-o-input-placeholder {
+    color:black;
+    font-weight: bold;
+} 
+
+
+
+
+#search-button {
+	width: 4%;
+	height: 5%;
+	font-size: 18px;
+}
+
 /* for like and unlike */
 .red > .fas{
 	color: red;
@@ -128,7 +169,6 @@ input, select, textarea {
 		-webkit-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
-		border-bottom: dotted 1px;
 		color: #4eb980;
 		text-decoration: none;
 	}
@@ -509,6 +549,18 @@ input, select, textarea {
 				align-items: stretch;
 			}
 
+			#search-bar{
+				font-size: 13px;
+				font-optical-sizing: auto;
+				width: 40%;
+			}
+			
+			#search-button {
+				width: 5%;
+				height: 5%;
+				font-size: 19px;
+			}
+
 				.row > * {
 					box-sizing: border-box;
 				}
@@ -747,6 +799,17 @@ input, select, textarea {
 
 		@media screen and (max-width: 1280px) {
 
+			#search-bar{
+				font-size: 12px;
+				font-optical-sizing: auto;
+				width: 40%;
+			}
+			
+			#search-button {
+				width: 6%;
+				height: 5%;
+				font-size: 18px;
+			}
 			.row {
 				display: flex;
 				flex-wrap: wrap;
@@ -991,6 +1054,18 @@ input, select, textarea {
 		}
 
 		@media screen and (max-width: 980px) {
+
+			#search-bar{
+				font-size: 11px;
+				font-optical-sizing: auto;
+				width: 40%;
+			}
+			
+			#search-button {
+				width: 6%;
+				height: 5%;
+				font-size: 15px;
+			}
 
 			.row {
 				display: flex;
@@ -1237,6 +1312,18 @@ input, select, textarea {
 
 		@media screen and (max-width: 840px) {
 
+			#search-bar{
+				font-size: 11px;
+				font-optical-sizing: auto;
+				width: 40%;
+			}
+			
+			#search-button {
+				width: 6.3%;
+				height: 5%;
+				font-size: 13px;
+			}
+
 			.row {
 				display: flex;
 				flex-wrap: wrap;
@@ -1481,6 +1568,18 @@ input, select, textarea {
 		}
 
 		@media screen and (max-width: 736px) {
+
+			#search-bar{
+				font-size: 11px;
+				font-optical-sizing: auto;
+				width: 40%;
+			}
+			
+			#search-button {
+				width: 12%;
+				height: 5%;
+				font-size: 11px;
+			}
 
 			.row {
 				display: flex;
@@ -2729,16 +2828,66 @@ input, select, textarea {
 
 /* Header */
 
-	#header {
-		background-attachment: scroll,							scroll,					fixed;
-		background-image: url("images/top-3200.svg"), url("../img/cakes.png"), url("../img/allcakes_background3.png");
-		background-position: bottom center,					center,				center;
-		background-repeat: repeat-x,						no-repeat,					repeat;
-		background-size: 3200px 460px,					contain,					contain;
-		color: rgba(255, 255, 255, 0.8);
+	.back {
 		padding: 10em 0 20em 0;
 		position: relative;
 		text-align: center;
+	}
+	.rand1{
+		background-attachment: scroll,							fixed,					scroll;
+		background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back1.png");
+		background-position: bottom center,					50% 15%,				center center;
+		background-repeat: repeat-x,						no-repeat,					repeat;
+		background-size: 3200px 460px,					contain,					contain;
+	}
+	.rand2{
+		background-attachment: scroll,							fixed,					scroll;
+		background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back2.png");
+		background-position: bottom center,					50% 15%,				center center;
+		background-repeat: repeat-x,						no-repeat,					repeat;
+		background-size: 3200px 460px,					contain,					contain;
+	}
+	.rand3{
+		background-attachment: scroll,							fixed,					scroll;
+		background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back3.png");
+		background-position: bottom center,					50% 15%,				center center;
+		background-repeat: repeat-x,						no-repeat,					repeat;
+		background-size: 3200px 460px,					contain,					contain;
+	}
+	.rand4{
+		background-attachment: scroll,							fixed,					scroll;
+		background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back4.png");
+		background-position: bottom center,					50% 15%,				center center;
+		background-repeat: repeat-x,						no-repeat,					repeat;
+		background-size: 3200px 460px,					contain,					contain;
+	}
+	.rand5{
+		background-attachment: scroll,							fixed,					scroll;
+		background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back5.png");
+		background-position: bottom center,					50% 15%,				center center;
+		background-repeat: repeat-x,						no-repeat,					repeat;
+		background-size: 3200px 460px,					contain,					contain;
+	}
+	.rand6{
+		background-attachment: scroll,							fixed,					scroll;
+		background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back6.png");
+		background-position: bottom center,					50% 15%,				center center;
+		background-repeat: repeat-x,						no-repeat,					repeat;
+		background-size: 3200px 460px,					contain,					contain;
+	}
+	.rand7{
+		background-attachment: scroll,							fixed,					scroll;
+		background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back7.png");
+		background-position: bottom center,					50% 15%,				center center;
+		background-repeat: repeat-x,						no-repeat,					repeat;
+		background-size: 3200px 460px,					contain,					contain;
+	}
+	.rand8{
+		background-attachment: scroll,							fixed,					scroll;
+		background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back8.png");
+		background-position: bottom center,					50% 15%,				center center;
+		background-repeat: repeat-x,						no-repeat,					repeat;
+		background-size: 3200px 460px,					contain,					contain;
 	}
 
 		#header:before, #header:after {
@@ -2982,6 +3131,10 @@ input, select, textarea {
 			#header {
 				padding: 8em 0 16em 0;
 			}
+			#header {
+				padding-top: 21%;
+				padding-bottom: 10%;
+			}
 
 				#header h1 {
 					font-size: 2.25em;
@@ -3046,12 +3199,54 @@ input, select, textarea {
 				}
 
 		/* Header */
+			
 
-			#header {
-				background-attachment: scroll,							scroll,							scroll;
-				background-image: url("images/top-1600.svg"), url("images/overlay.png"), url("../img/header.jpg");
-				background-size: 1600px 230px,					auto,							cover;
+			.back{
 				padding: 6em 0 12em 0;
+			}
+			#header {
+				padding-top: 22%;
+				padding-bottom: 10%;
+			}
+			.rand1{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back1.png");
+				background-size: 1600px 230px,					contain,					contain;
+			}
+			.rand2{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back2.png");
+				background-size: 1600px 230px,					contain,					contain;
+			}
+			.rand3{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back3.png");
+				background-size: 1600px 230px,					contain,					contain;
+			}
+			.rand4{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back4.png");
+				background-size: 1600px 230px,					contain,					contain;
+			}
+			.rand5{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back5.png");
+				background-size: 1600px 230px,					contain,					contain;
+			}
+			.rand6{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back6.png");
+				background-size: 1600px 230px,					contain,					contain;
+			}
+			.rand7{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back7.png");
+				background-size: 1600px 230px,					contain,					contain;
+			}
+			.rand8{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back8.png");
+				background-size: 1600px 230px,					contain,					contain;
 			}
 
 				#header:before {
@@ -3198,10 +3393,53 @@ input, select, textarea {
 
 		/* Header */
 
-			#header {
-				background-image: url("images/top-1280.svg"), url("images/overlay.png"), url("../img/header.jpg");
-				background-size: 1280px 184px,						auto,							cover;
+			
+			.back {
 				padding: 3em 0 7em 0;
+			}
+			#header {
+				padding-top: 30%;
+				padding-bottom: 10%;
+			}
+			.rand1{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back1.png");
+				background-size: 1280px 184px,					contain,					contain;
+			}
+			.rand2{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back2.png");
+				background-size: 1280px 184px,					contain,					contain;
+			}
+			.rand3{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back3.png");
+				background-size: 1280px 184px,					contain,					contain;
+			}
+			.rand4{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back4.png");
+				background-size: 1280px 184px,					contain,					contain;
+			}
+			.rand5{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back5.png");
+				background-size: 1280px 184px,					contain,					contain;
+			}
+			.rand6{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back6.png");
+				background-size: 1280px 184px,					contain,					contain;
+			}
+			.rand7{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back7.png");
+				background-size: 1280px 184px,					contain,					contain;
+			}
+			.rand8{
+				background-attachment: scroll,							fixed,					scroll;
+				background-image: url("images/top-3200.svg"), url("../img/fixed_cakes.png"), url("../img/back8.png");
+				background-size: 1280px 184px,					contain,					contain;
 			}
 
 				#header:before {
