@@ -34,8 +34,8 @@ urlpatterns = [
 
     # 좋아요 기능 관련 url
     path('like', like_it, name="like"),
-    path('likedcake_delete/<int:user_pk>/<int:cake_pk>', likedcake_delete, name="likedcake_delete"),
-    path('likedstore_delete/<int:user_pk>/<int:store_pk>', likedstore_delete, name="likedstore_delete"),
+    path('likedcake_delete/<int:user_pk>/<int:cake_pk>/<int:state>', likedcake_delete, name="likedcake_delete"),
+    path('likedstore_delete/<int:user_pk>/<int:store_pk>/<int:state>', likedstore_delete, name="likedstore_delete"),
     path('likedcakes/all/<int:user_pk>', likedcakes_all, name="likedcakes_all"),
     path('likedstores/all/<int:user_pk>', likedstores_all, name="likedstores_all"),
 
