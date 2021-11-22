@@ -370,7 +370,7 @@ def edit_nickname(request):
         if form.is_valid():
             form.save()
             user_pk = request.user.pk
-            return redirect('mypage', pk=user_pk)
+            return redirect('mypage', user_pk=user_pk)
     else:
         form = NicknameForm(instance=request.user)
     return render(request, 'edit_nickname.html', {'form':form})

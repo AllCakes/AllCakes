@@ -3609,6 +3609,10 @@ input, select, textarea {
 	  
 
 
+	  .upper-cardImg{
+		  overflow: hidden;
+	  }
+
 	  .cardImg {
 		/* transform: scale(1);
 		-webkit-transform: scale(1);
@@ -3685,6 +3689,15 @@ input, select, textarea {
 
 	  .like:hover {
 		  background-color: lightgray;
+	  }
+
+	  .upper-review-image{
+		  overflow: hidden;
+	  }
+
+	  .indexpage-review-image{
+
+
 	  }
 
 	  /*************************************************************/
