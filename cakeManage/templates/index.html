@@ -149,11 +149,10 @@
 					{% for cake in cakes %}
 					<div class="cardCake">
 
-							<a href="{% url 'cake_detail' pk=cake.pk %}" class="goDetail">
-								<div class="upper-cardImg">
-									<img src="{{cake.cake_image.url}}" class="cardImg" alt=""> </div>
+						<a href="{% url 'cake_detail' pk=cake.pk %}" class="goDetail">
+<img src="{{cake.cake_image.url}}"
+								class="cardImg" alt=""></a>
 
-							</a>
 
 						<div class="cardCake-last">
 							<div class="titleText">
@@ -196,20 +195,27 @@
 			<p class="todayHeader">오늘의 리뷰</p>
 			<hr class="underToday">
 			{% for review in reviews %}
+<<<<<<< HEAD
+            <section class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
+				<a href="{% url 'review_detail' review_pk=review.pk %}" class="image icon solid"><img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_noimage.png' %} {% endif %}" width="100%" height="100%" alt="리뷰 사진"></a>
+				<div class="content">
+					<h3></h3>
+                    <p>{{review.comment|slice:"70"}}...
+=======
 
 			<section
 				class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
-
+				
 				<a href="{% url 'review_detail' review_pk=review.pk %}" class="image icon solid">
-					<div class="upper-review-image">
-						<img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_bluecake.png' %} {% endif %}"
-							width="100%" height="100%" alt="리뷰 사진" class="indexpage-review-image"></a>
-					</div>
-
+					<img
+						src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_bluecake.png' %} {% endif %}"
+						width="100%" height="100%" alt="리뷰 사진"></a>
+				
+						
 				<div class="content" style="padding-top:2%; padding-right: 5%; padding-left: 4%;">
 					
 					<p style="font-size: 20px; font-weight: 350px; color:rgb(128, 128, 128); ">{{review.comment|slice:"70"}}...
-
+>>>>>>> 45d9e6addddd9eeb3a9eec3e90eaca0553e916ba
 					</p>
 					<br>
 					<span style="color:rgb(125, 136, 146); font-weight: bold; margin: 2%;">-{{review.user}}</span>
@@ -222,9 +228,43 @@
 
 		<!-- 여기부터 -->
 
+		<!-- 최신 리뷰는 리뷰에 조회수와 추천수 구현 후에 하기. 모델 변경 및 좋아요 js 필요-->
+		<section style="padding-top: 7%; background-color: rgba(230, 230, 230, 0.397);">
+			<header>
+				<p style="font-size: 35px; color: black;">최신 리뷰</p>
+			</header>
+			<div class="table-wrapper">
+				<table class="default">
+					<thead>
+						<tr>
+							<th>닉네임</th>
+							<th>케이크</th>
+							<th>리뷰</th>
+							<th>케이크가게</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for review in recentReviews %}
+						<!-- 최신리뷰 다섯개까지 -->
+						<tr>
+							<td>{{review.user}}</td>
+							<td><a
+									href="{% url 'cake_detail' pk=review.order.referred_cake.pk %}">{{review.order.referred_cake}}</a>
+							</td>
+							<td><a
+									href="{% url 'review_detail' review_pk=review.pk %}">{{review.comment|slice:"50"}}...</a>
+							</td>
+							<td><a
+									href="{% url 'store_detail' pk=review.order.referred_store.pk %}">{{review.order.referred_store}}</a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
 		
-
-
 
 
 		<!-- 여기까지 -->
@@ -285,7 +325,7 @@
 
 		<div class="footerContent2">
 			<p>Copyright &copy; by ALLCAKES All Right Reserved </p>
-
+			
 		</div>
 	</div>
 
@@ -299,7 +339,7 @@
 	<!-- JavaScript Bundle with Popper -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
-	</script>
+		</script>
 </body>
 
 </html>
