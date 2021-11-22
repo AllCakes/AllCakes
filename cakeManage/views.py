@@ -36,7 +36,7 @@ def home(request):
 # 임시 템플릿 연결 뷰
 def stores_all(request):
     stores= Store.objects.order_by('-pub_date')
-    return render(request, 'stores_all.html', {'stores':stores})
+    return render(request, 'stores_cpy.html', {'stores':stores})
 
 def cakes_all(request):
     cakes= Cake.objects.order_by('-pub_date')
