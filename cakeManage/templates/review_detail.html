@@ -14,7 +14,7 @@
 
     <div class="review_info">
         <div class="info_left">
-            <img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_yellowcake.png' %} {% endif %}" aria-label="리뷰 이미지" width="100%" style="border-radius: 2%;" alt="리뷰 이미지">
+            <img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_noimage.png' %} {% endif %}" aria-label="리뷰 이미지" width="100%" style="border-radius: 2%;" alt="리뷰 이미지">
         </div>
         <!-- 케이크 이름, 가게 이름, 텍스트 -->
         <div class="info_right">

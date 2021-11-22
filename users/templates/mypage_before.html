@@ -3,36 +3,19 @@
 <!DOCTYPE html>
 <html lang="ko">
 
-
 <head>
     <meta charset="UTF-8">
     <!--부트스트랩 불러온 것-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Allcakes Mypage</title>
 
-    
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static '/css/rating.css'%}">
     <link rel="stylesheet" href="{% static 'css/mypagenew.css' %}" type="text/css">
     <script defer src="/static/js/rating.js"></script>
-
-    <!--이거 추가해야 똑같이 되어서 추가한거임 accept change 하세용용-->
-           <!-- 아래는 탬플릿 디자인 변경 전 css -->
-   <!-- CSS only -->
-
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-   <script type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
-
 </head>
 
 <body class="mypage-body">
@@ -49,16 +32,15 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
                         <!-- 리뷰는 마이페이지 참고 -->
-
-         						<!--
 						<li class="nav-item ">
-							<a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
-						</li>
-						<li class="nav-item ">
-							<a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
-						</li>
-					-->               
-
+                            <a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link px-2" href="#">Reviews</a>
+                        </li>
                         <li class="nav-item ">
                             <a class="nav-link px-2" href="{% url 'search_all' %}">Search</a>
                         </li>
@@ -109,25 +91,40 @@
 
                             {% if not user.is_authenticated %}
                             <a class="nav-link px-2" href="#">About Us</a>
-                            {% endif %}
+                        {% endif %}
                             <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
 
-                            <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
+                        <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
                         </li>
+                        <!--
+                        <li class="nav-item">
+                        검색 가까운순정렬 삭제
+                            <form action="{% url 'search' %}" method="GET" class="d-flex">
+                                이유는 모르겠는데 head에 style태그 넣어서 검색바 크기 조절하면 적용이 안되어서 input 태그에 스타일 집어넣음
+                                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="q"
+                                    style="width: 200px; height: 30px; margin-top: 5px; font-family: 'SF_HambakSnow'; border-radius: 0%; border-color: black;">
+                                <button class="btn btn-secondary btn-sm" type="submit" value="r">🔍</button>
+                            </form>
+                        </li>   
+					</ul>
+                -->
+
+
+                    
 
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- 전달된 값은 user_pk값(user_pk), 최근 리뷰 4개(reviews), 진행 주문정보 모두(orders), 케이크 찜4개(liked_cakes), 가게 찜 4개(liked_stores) -->
-    <!-- 로그인된 유저와 url속 pk가 다르면 접근하지 못하게 -->
-    {% if user.pk != user_pk %}
+<!-- 전달된 값은 user_pk값(user_pk), 최근 리뷰 4개(reviews), 진행 주문정보 모두(orders), 케이크 찜4개(liked_cakes), 가게 찜 4개(liked_stores) -->
+<!-- 로그인된 유저와 url속 pk가 다르면 접근하지 못하게 -->
+{% if user.pk != user_pk %}
     <h1> 잘못된 접근입니다 (Allcakes)</h1>
 
-    {% else %}
-    <!-- 모든 정보가 들어가는 곳 O -->
-    <div class="body3">
+{% else %}
+<!-- 모든 정보가 들어가는 곳 O -->
+    <div class = "body3">
         <div class="user-info">
             <h2 id="user-info-header"> 고객 정보 </h2>
             <img src="{% static 'img/allcake_whitecake.png' %}">
@@ -157,8 +154,7 @@
                         <th>주문 번호</th>
                         <th>케이크 사진</th>
                         <th>가게 이름</th>
-                        <th>진행 상태</th>
-                        <!--진행상태 예시: 결제완료(is_paid=True), 접수완료(is_accepted=True), 픽업완료(is_active=False) -->
+                        <th>진행 상태</th> <!--진행상태 예시: 결제완료(is_paid=True), 접수완료(is_accepted=True), 픽업완료(is_active=False) -->
                         <th>주문 일시</th>
                         <th>리뷰 작성</th>
                     </tr>
@@ -168,9 +164,8 @@
                         <td>{{order.pk}}</td>
 
                         <!-- 이미지를 누르면 주문 상세로 이동함. -->
-                        <td><a href="{% url 'order_detail' order_pk=order.pk %}"><img
-                                    src="{{order.referred_cake.cake_image.url}}" aria-label="주문한 케이크"></a></td>
-
+                        <td><a href="{% url 'order_detail' order_pk=order.pk %}"><img src="{{order.referred_cake.cake_image.url}}" aria-label="주문한 케이크"></a></td>
+                        
                         <td>{{order.referred_store}}</td>
 
                         {% if order.is_paid %}
@@ -178,40 +173,36 @@
                         {% else %}
                         <td>결제미완료</td>
                         {% endif %}
-
+                        
                         <td>{{ order.order }}{{order.pub_date}}</td>
-
+                        
                         {% if not order.review %}
                         <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
                         {% else %}
                         <td><a href="{% url 'review_edit' pk=order.review.pk %}">리뷰 수정</a><br>
-                            <a href="{% url 'review_delete' pk=order.review.pk %}">리뷰 삭제</a>
-                        </td>
+                            <a href="{% url 'review_delete' pk=order.review.pk %}">리뷰 삭제</a></td>
                         {% endif %}
                     </tr>
                     {% endfor %}
                 </table>
                 <div class="user-order-text">
-                    <div class="info-more"><a href="{% url 'order_all' user_pk=user.pk %}"><button>더보기</button></a>
-                    </div>
+                    <div class="info-more"><a href="{% url 'order_all' user_pk=user.pk %}"><button>더보기</button></a></div>
                     <!-- 주문 내역 전체 페이지 구현 필요 -->
                 </div>
                 <br><br>
-
+                
             </div>
         </div>
         <div class="user-review">
             <h2 id="review-info-header"> 리뷰 관리 </h2>
             <div class="review-box">
-                <div class="review-info">
+                <div class="review-info" >
                     <!-- 리뷰 상세보기, 수정, 삭제 구현 아직 X -->
                     <!-- 케잌이미지, 케이크이름, 가게이름, 별점, 평가내용(15자 까지) -->
                     <!-- 이미지에 리뷰 자세히보기 링크 달아야 함. -->
                     {% for review in reviews %}
                     <div class="review-card">
-                        <a href="{% url 'review_detail' review_pk=review.pk %}"><img
-                                src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_bluecake.png' %} {% endif %}"
-                                aria-label="주문한 케이크"></a>
+                        <a href="{% url 'review_detail' review_pk=review.pk %}"><img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_bluecake.png' %} {% endif %}" aria-label="주문한 케이크"></a>
                         <br>
                         <span>Cake: {{review.order.referred_cake}}</span>
                         <br>
@@ -229,7 +220,7 @@
                     {% endfor %}
                 </div>
                 <div class="user-review-text">
-                    <a href="{% url 'review_all' user_pk=user.pk %}"><button>더보기</button></a>
+                    <a href="{% url 'review_all' user_pk=user.pk %}"><button>더보기</button></a> 
                 </div>
             </div>
         </div>
@@ -243,10 +234,8 @@
                         <!-- 순서대로 케이크 이미지, 케이크이름, 가게이름, 본문 -->
                         {% for cake in liked_cakes %}
                         <div class="likedcake-card">
-                            <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}"
-                                    aria-label="케이크 이미지"></a>
-                            <a href="{% url 'likedcake_delete' user_pk=user.pk cake_pk=cake.pk %}"
-                                class="delete-icon"><i class="fas fa-times"></i></a>
+                            <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" aria-label="케이크 이미지"></a>
+                            <a href="{% url 'likedcake_delete' user_pk=user.pk cake_pk=cake.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
                             <br>
                             <span>{{cake.cakename}}</span>
                             <br>
@@ -257,7 +246,7 @@
                         {% endfor %}
                     </div>
                     <div class="user-liked-text">
-                        <a href="{% url 'likedcakes_all' user_pk=user.pk %}"><button>더보기</button></a>
+                        <a href="{% url 'likedcakes_all' user_pk=user.pk %}"><button>더보기</button></a> 
                     </div>
                     <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
                 </div>
@@ -272,10 +261,8 @@
                         <!-- 순서대로 가게이름, 이미지, 장소, 본문 -->
                         {% for store in liked_stores %}
                         <div class="likedstore-card">
-                            <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}"
-                                    aria-label="가게 이미지"></a>
-                            <a href="{% url 'likedstore_delete' user_pk=user.pk store_pk=store.pk %}"
-                                class="delete-icon"><i class="fas fa-times"></i></a>
+                            <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}" aria-label="가게 이미지"></a>
+                            <a href="{% url 'likedstore_delete' user_pk=user.pk store_pk=store.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
                             <br>
                             <span>{{store.name}}</span>
                             <br>
@@ -285,14 +272,13 @@
                         {% endfor %}
                     </div>
                     <div class="user-liked-text">
-                        <a href="{% url 'likedstores_all' user_pk=user.pk %}"><button>더보기</button></a>
+                        <a href="{% url 'likedstores_all' user_pk=user.pk %}"><button>더보기</button></a> 
                     </div>
                     <!-- 내 찜한 전체 리스트 더보기 구현 필요 -->
                 </div>
             </div>
         </div>
     </div>
-    {% endif %}
+{% endif %}
 </body>
-
 </html>

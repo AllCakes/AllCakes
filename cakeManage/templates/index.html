@@ -124,14 +124,19 @@
 
 
 	<!-- Header -->
-	<div id="header">
+	<div id="header" class="back rand{{rand_num}}">
 		<i class="fa fa-birthday-cake fa-3x" aria-hidden="true"></i>
 
 		<!-- 검색창 크기 따로 css 파일에 집어넣지 않고 style태그로 집어넣음. -->
 		<form action="{% url 'search' %}" method="GET" class="d-flex">
+<<<<<<< HEAD
+			<input class="form-control me-2" id="search-bar" type="text" placeholder="(ex 마포구 생일 루피 케이크)" aria-label="Search" name="q">
+			<button class="btn btn-secondary btn-sm" id="search-button" type="submit" value="r">검색</button>
+=======
 			<input class="form-control me-2" type="text" placeholder="원하시는 케이크를 검색해보세요! (ex 마포구 생일 루피 케이크)"
 				aria-label="Search" name="q" style="border: white 2.5px solid; width: 40%; margin-left: 28%;">
 			<button class="btn btn-secondary btn-sm" type="submit" value="r" style="width: 3%; height: 4%;">검색</button>
+>>>>>>> 45d9e6addddd9eeb3a9eec3e90eaca0553e916ba
 		</form>
 	</div>
 
@@ -195,6 +200,13 @@
 			<p class="todayHeader">오늘의 리뷰</p>
 			<hr class="underToday">
 			{% for review in reviews %}
+<<<<<<< HEAD
+            <section class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
+				<a href="{% url 'review_detail' review_pk=review.pk %}" class="image icon solid"><img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_noimage.png' %} {% endif %}" width="100%" height="100%" alt="리뷰 사진"></a>
+				<div class="content">
+					<h3></h3>
+                    <p>{{review.comment|slice:"70"}}...
+=======
 
 			<section
 				class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
@@ -208,6 +220,7 @@
 				<div class="content" style="padding-top:2%; padding-right: 5%; padding-left: 4%;">
 					
 					<p style="font-size: 20px; font-weight: 350px; color:rgb(128, 128, 128); ">{{review.comment|slice:"70"}}...
+>>>>>>> 45d9e6addddd9eeb3a9eec3e90eaca0553e916ba
 					</p>
 					<br>
 					<span style="color:rgb(125, 136, 146); font-weight: bold; margin: 2%;">-{{review.user}}</span>
