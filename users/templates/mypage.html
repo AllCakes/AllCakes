@@ -142,7 +142,7 @@
                 </div>
                 <a href="{% url 'view_coupon' user_pk=user.pk %}"><button>쿠폰함</button></a>
                 <a href="{% url 'edit_nickname' %}" id="edit"><button>수정</button></a>
-                <a href="{% url 'delete_user' user_pk=user.pk %}" id="delete"><button>탈퇴</button></a>
+                <button  style="height: 30px;" onclick="delete_event();">탈퇴</button></a>
             </div>
         </div>
         <!-- 주문 내역이 리뷰 관리보다 먼저 나와야 편하지 않을까? -->
@@ -294,6 +294,15 @@
         </div>
     </div>
     {% endif %}
+    <script>
+        delete_url = '{% url "delete_user" user_pk=user.pk %}'
+        function delete_event(){
+            if(confirm("정말 탈퇴하시겠습니까?") === true){
+                window.location.href=delete_url;}
+            else{
+                return;
+            }
+        };
+    </script>
 </body>
-
 </html>

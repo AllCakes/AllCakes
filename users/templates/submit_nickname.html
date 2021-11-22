@@ -112,7 +112,7 @@
     <div id="back_nickname" style="margin:10% 10% 10% 10%; height: 500px;">
         <h1 style= "font-size: 50px; color: brown;">ALLCAKES에 오신걸 환영합니다.!!</h1>
     <h1 style="text-align: center; ">닉네임 설정</h1>
-    <br><br><br>
+    <br>
     <form action="{% url 'submit_nickname' %}" class="nickname_form" method="POST">
         {% csrf_token %} 
         {{ form.as_p }} <button style="border-radius: 5px; margin-left: 70%;" type="submit">제출</button>

@@ -86,7 +86,8 @@ function AddMenu(event, menu){
                     value: `${input_value}`,
                     img : "/static/img/noimg.png"
                 }
-            }).then(location.reload(true));
+            })
+            // .then(window.location.href=delete_url;);
         }
     }
 }
