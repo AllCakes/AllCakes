@@ -16,9 +16,14 @@
     background-size: 500px;
     opacity: 0.8;
     text-align: center;
+    border-radius: 10px;
 }
 .nickname_form{
     text-align: center;
     margin-left: 10%;
     margin-right: 10%;
+}
+
+li, ul{
+   list-style: none;
 }
