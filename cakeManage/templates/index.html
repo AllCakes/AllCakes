@@ -124,7 +124,7 @@
 
 
 	<!-- Header -->
-	<div id="header">
+	<div id="header" class="back rand{{rand_num}}">
 		<i class="fa fa-birthday-cake fa-3x" aria-hidden="true"></i>
 
 		<!-- 검색창 크기 따로 css 파일에 집어넣지 않고 style태그로 집어넣음. -->
@@ -196,6 +196,13 @@
 			<p class="todayHeader">오늘의 리뷰</p>
 			<hr class="underToday">
 			{% for review in reviews %}
+<<<<<<< HEAD
+            <section class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
+				<a href="{% url 'review_detail' review_pk=review.pk %}" class="image icon solid"><img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_noimage.png' %} {% endif %}" width="100%" height="100%" alt="리뷰 사진"></a>
+				<div class="content">
+					<h3></h3>
+                    <p>{{review.comment|slice:"70"}}...
+=======
 
 			<section
 				class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
@@ -207,9 +214,15 @@
 					</div>
 
 				<div class="content" style="padding-top:2%; padding-right: 5%; padding-left: 4%;">
+<<<<<<< HEAD
 
 					<p style="font-size: 20px; font-weight: 350px; color:rgb(128, 128, 128); ">
 						{{review.comment|slice:"70"}}...
+=======
+					
+					<p style="font-size: 20px; font-weight: 350px; color:rgb(128, 128, 128); ">{{review.comment|slice:"70"}}...
+>>>>>>> 45d9e6addddd9eeb3a9eec3e90eaca0553e916ba
+>>>>>>> fe3f27f6565b94bb13fe154c66c7439f30af2884
 					</p>
 					<br>
 					<span style="color:rgb(125, 136, 146); font-weight: bold; margin: 2%;">-{{review.user}}</span>
