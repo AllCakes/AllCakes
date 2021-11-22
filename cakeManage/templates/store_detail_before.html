@@ -40,9 +40,9 @@
                 <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" onclick="NeedLogin()"><i class="fas fa-heart"></i></button>
                 {% else %}
                 {% if user in cake.users_liked.all %}
-                <button class="like red" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                <button class="like red" style=" margin-left: 3px; height: 35px; border:solid; border-color: lightray;" id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i class="fas fa-heart"></i></button>
                 {% else %}
-                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                <button class="like" style=" margin-left: 3px; height: 35px; border-color: rgb(101, 100, 100);" id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i class="fas fa-heart"></i></button>
                 {% endif %}
                 {% endif %}
                 <!-- 좋아요타입 케이크(1)로 -->
@@ -121,9 +121,9 @@
                 <div class="cake-body">
                     <p class="cake-name" style="display:flex; flex: auto;">{{cake.cakename}} 
                     {% if user in cake.users_liked.all %}
-                    <button class="like red" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    <button class="like red" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i class="fas fa-heart"></i></button>
                     {% else %}
-                    <button class="like" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    <button class="like" style=" margin-left: 2%; height: 35px;" id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i class="fas fa-heart"></i></button>
                     {% endif %}
                     <!-- 좋아요타입 케이크(1)로 -->
                     <!-- 유저가 이미 좋아요 한 경우에는 빨간색으로 떠야 함. if문 활용 -->
@@ -143,9 +143,9 @@
                     {% else %}
         
                     {% if user in cake.users_liked.all %}
-                    <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i class="fas fa-heart"></i></button>
                     {% else %}
-                    <button class="like" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i class="fas fa-heart"></i></button>
+                    <button class="like" id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i class="fas fa-heart"></i></button>
                     {% endif %}
                     
                     {% endif %}

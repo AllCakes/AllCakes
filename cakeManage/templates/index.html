@@ -158,10 +158,10 @@
                         {% else %}
 
                         {% if user in cake.users_liked.all %}
-                        <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i
+                        <button class="like red" id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
                               class="fas fa-heart"></i></button>
                         {% else %}
-                        <button class="like" id="cake{{cake.id}}" onclick="LikeIt(1, {{cake.id}})"><i
+                        <button class="like" id="cake{{cake.id}}" onclick="LikeIt(1, `{{cake.id}}`)"><i
                               class="fas fa-heart"></i></button>
                         {% endif %}
 

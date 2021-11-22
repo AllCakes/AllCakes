@@ -3658,6 +3658,7 @@ input, select, textarea {
      .storeName {
       font-size: 0.7rem;
       font-weight: 400;
+	  margin-left: 10px;
      }
      .like {
       /*float: right;*/
