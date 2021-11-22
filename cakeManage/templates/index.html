@@ -149,10 +149,11 @@
 					{% for cake in cakes %}
 					<div class="cardCake">
 
-						<a href="{% url 'cake_detail' pk=cake.pk %}" class="goDetail">
-<img src="{{cake.cake_image.url}}"
-								class="cardImg" alt=""></a>
+							<a href="{% url 'cake_detail' pk=cake.pk %}" class="goDetail">
+								<div class="upper-cardImg">
+									<img src="{{cake.cake_image.url}}" class="cardImg" alt=""> </div>
 
+							</a>
 
 						<div class="cardCake-last">
 							<div class="titleText">
@@ -198,16 +199,17 @@
 
 			<section
 				class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
-				
+
 				<a href="{% url 'review_detail' review_pk=review.pk %}" class="image icon solid">
-					<img
-						src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_bluecake.png' %} {% endif %}"
-						width="100%" height="100%" alt="리뷰 사진"></a>
-				
-						
+					<div class="upper-review-image">
+						<img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_bluecake.png' %} {% endif %}"
+							width="100%" height="100%" alt="리뷰 사진" class="indexpage-review-image"></a>
+					</div>
+
 				<div class="content" style="padding-top:2%; padding-right: 5%; padding-left: 4%;">
-					
-					<p style="font-size: 20px; font-weight: 350px; color:rgb(128, 128, 128); ">{{review.comment|slice:"70"}}...
+
+					<p style="font-size: 20px; font-weight: 350px; color:rgb(128, 128, 128); ">
+						{{review.comment|slice:"70"}}...
 					</p>
 					<br>
 					<span style="color:rgb(125, 136, 146); font-weight: bold; margin: 2%;">-{{review.user}}</span>
@@ -256,7 +258,7 @@
 			</div>
 		</section>
 
-		
+
 
 
 		<!-- 여기까지 -->
@@ -317,7 +319,7 @@
 
 		<div class="footerContent2">
 			<p>Copyright &copy; by ALLCAKES All Right Reserved </p>
-			
+
 		</div>
 	</div>
 
@@ -331,7 +333,7 @@
 	<!-- JavaScript Bundle with Popper -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
-		</script>
+	</script>
 </body>
 
 </html>
