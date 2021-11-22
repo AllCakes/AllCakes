@@ -23,6 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.db.models import Count #리뷰 갯수 세기 위해서 (리뷰 많은 순 정렬)
 import random
+from django.urls import reverse
 
 def home(request):
     #order_by -pub_date(최신순) pub_date(오래된순)
@@ -888,7 +889,7 @@ def review_detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     return render(request, 'review_detail.html', {'review':review})
 
-def likedcake_delete(request, user_pk, cake_pk):
+def likedcake_delete(request, user_pk, cake_pk, state):
     if (request.user.pk != user_pk):
         raise ValidationError("잘못된 접근입니다.")
     cake = get_object_or_404(Cake, pk=cake_pk)
@@ -896,10 +897,15 @@ def likedcake_delete(request, user_pk, cake_pk):
         cake.users_liked.remove(request.user)
     else:
         return JsonResponse({}, status=401)
+    
+    state = int(state)
 
-    return redirect('likedcakes_all', user_pk=request.user.pk)
+    if state == 1:
+        return redirect(reverse('mypage', kwargs={'user_pk':request.user.pk}) + '#cake-info-header')
+    else:
+        return redirect('likedcakes_all', user_pk=request.user.pk)
 
-def likedstore_delete(request, user_pk, store_pk):
+def likedstore_delete(request, user_pk, store_pk, state):
     if (request.user.pk != user_pk):
         raise ValidationError("잘못된 접근입니다.")
     store = get_object_or_404(Store, pk=store_pk)
@@ -908,7 +914,12 @@ def likedstore_delete(request, user_pk, store_pk):
     else:
         return JsonResponse({}, status=401)
 
-    return redirect('likedstores_all', user_pk=request.user.pk)
+    state = int(state)
+
+    if state == 1:
+        return redirect(reverse('mypage', kwargs={'user_pk':request.user.pk}) + '#store-info-header')
+    else:
+        return redirect('likedstores_all', user_pk=request.user.pk)
 
 def review_all(request, user_pk):
     if (request.user.pk != user_pk):

@@ -196,13 +196,6 @@
 			<p class="todayHeader">오늘의 리뷰</p>
 			<hr class="underToday">
 			{% for review in reviews %}
-<<<<<<< HEAD
-            <section class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
-				<a href="{% url 'review_detail' review_pk=review.pk %}" class="image icon solid"><img src="{% if review.review_img %}{{ review.review_img.url }} {% else %} {% static 'img/allcakes_noimage.png' %} {% endif %}" width="100%" height="100%" alt="리뷰 사진"></a>
-				<div class="content">
-					<h3></h3>
-                    <p>{{review.comment|slice:"70"}}...
-=======
 
 			<section
 				class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
@@ -214,15 +207,9 @@
 					</div>
 
 				<div class="content" style="padding-top:2%; padding-right: 5%; padding-left: 4%;">
-<<<<<<< HEAD
-
-					<p style="font-size: 20px; font-weight: 350px; color:rgb(128, 128, 128); ">
-						{{review.comment|slice:"70"}}...
-=======
 					
 					<p style="font-size: 20px; font-weight: 350px; color:rgb(128, 128, 128); ">{{review.comment|slice:"70"}}...
->>>>>>> 45d9e6addddd9eeb3a9eec3e90eaca0553e916ba
->>>>>>> fe3f27f6565b94bb13fe154c66c7439f30af2884
+
 					</p>
 					<br>
 					<span style="color:rgb(125, 136, 146); font-weight: bold; margin: 2%;">-{{review.user}}</span>
@@ -235,41 +222,7 @@
 
 		<!-- 여기부터 -->
 
-		<!-- 최신 리뷰는 리뷰에 조회수와 추천수 구현 후에 하기. 모델 변경 및 좋아요 js 필요-->
-		<section style="padding-top: 7%; background-color: rgba(230, 230, 230, 0.397);">
-			<header>
-				<p style="font-size: 35px; color: black;">최신 리뷰</p>
-			</header>
-			<div class="table-wrapper">
-				<table class="default">
-					<thead>
-						<tr>
-							<th>닉네임</th>
-							<th>케이크</th>
-							<th>리뷰</th>
-							<th>케이크가게</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for review in recentReviews %}
-						<!-- 최신리뷰 다섯개까지 -->
-						<tr>
-							<td>{{review.user}}</td>
-							<td><a
-									href="{% url 'cake_detail' pk=review.order.referred_cake.pk %}">{{review.order.referred_cake}}</a>
-							</td>
-							<td><a
-									href="{% url 'review_detail' review_pk=review.pk %}">{{review.comment|slice:"50"}}...</a>
-							</td>
-							<td><a
-									href="{% url 'store_detail' pk=review.order.referred_store.pk %}">{{review.order.referred_store}}</a>
-							</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		</section>
+		
 
 
 

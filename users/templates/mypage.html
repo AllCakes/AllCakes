@@ -33,6 +33,8 @@
     
     </head>
 
+
+
 <body class="mypage-body">
     <header>
         <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white; padding-top: none; padding-bottom: 2px;" height="60px" >
@@ -124,7 +126,7 @@
 
     {% else %}
     <!-- 모든 정보가 들어가는 곳 O -->
-    <div class="body3">
+    <div class="body4">
         <div class="user-info">
             <h2 id="user-info-header"> 고객 정보 </h2>
             <img src="{% static 'img/allcake_whitecake.png' %}">
@@ -140,7 +142,7 @@
                 </div>
                 <a href="{% url 'view_coupon' user_pk=user.pk %}"><button>쿠폰함</button></a>
                 <a href="{% url 'edit_nickname' %}" id="edit"><button>수정</button></a>
-                <a href="{% url 'delete_user' user_pk=user.pk %}" id="delete"><button>탈퇴</button></a>
+                <button  style="height: 30px;" onclick="delete_event();">탈퇴</button></a>
             </div>
         </div>
         <!-- 주문 내역이 리뷰 관리보다 먼저 나와야 편하지 않을까? -->
@@ -179,9 +181,7 @@
                         <td>{{ order.order }}{{order.pub_date}}</td>
 
                         {% if not order.review %}
-                            {% if order.is_paid  %}
-                            <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
-                            {% endif %}
+                        <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
                         {% else %}
                         <td><a href="{% url 'review_edit' pk=order.review.pk %}">리뷰 수정</a><br>
                             <a href="{% url 'review_delete' pk=order.review.pk %}">리뷰 삭제</a>
@@ -244,7 +244,7 @@
                         <div class="likedcake-card">
                             <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}"
                                     aria-label="케이크 이미지"></a>
-                            <a href="{% url 'likedcake_delete' user_pk=user.pk cake_pk=cake.pk %}"
+                            <a href="{% url 'likedcake_delete' user_pk=user.pk cake_pk=cake.pk state=1 %}"
                                 class="delete-icon"><i class="fas fa-times"></i></a>
                             <br>
                             <span>{{cake.cakename}}</span>
@@ -273,7 +273,7 @@
                         <div class="likedstore-card">
                             <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}"
                                     aria-label="가게 이미지"></a>
-                            <a href="{% url 'likedstore_delete' user_pk=user.pk store_pk=store.pk %}"
+                            <a href="{% url 'likedstore_delete' user_pk=user.pk store_pk=store.pk state=1 %}"
                                 class="delete-icon"><i class="fas fa-times"></i></a>
                             <br>
                             <span>{{store.name}}</span>
@@ -292,6 +292,15 @@
         </div>
     </div>
     {% endif %}
+    <script>
+        delete_url = '{% url "delete_user" user_pk=user.pk %}'
+        function delete_event(){
+            if(confirm("정말 탈퇴하시겠습니까?") === true){
+                window.location.href=delete_url;}
+            else{
+                return;
+            }
+        };
+    </script>
 </body>
-
 </html>

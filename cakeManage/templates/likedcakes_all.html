@@ -17,7 +17,7 @@
                 {% for cake in liked_cakes %}
                 <div class="likedcake-card">
                     <a href="{% url 'cake_detail' pk=cake.pk %}"><img src="{{cake.cake_image.url}}" aria-label="케이크 이미지"></a>
-                    <a href="{% url 'likedcake_delete' user_pk=user.pk cake_pk=cake.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
+                    <a href="{% url 'likedcake_delete' user_pk=user.pk cake_pk=cake.pk state=2 %}" class="delete-icon"><i class="fas fa-times"></i></a>
                     <br>
                     <span>{{cake.cakename}}</span>
                     <br>

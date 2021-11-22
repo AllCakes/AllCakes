@@ -123,7 +123,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     birthday = models.CharField(max_length=4, blank=True, default="") # MMDD
 
     # 반드시 필요한 닉네임
-    nickname = models.CharField(verbose_name='nickname(required)', max_length=15, unique=True, blank=False, null=True)
+    nickname = models.CharField(verbose_name='', max_length=15, unique=True, blank=False, null=True)
 
     # 유저네임 필드(must be unique)
     USERNAME_FIELD = 'nickname'

@@ -16,7 +16,7 @@
                 {% for store in liked_stores %}
                 <div class="likedstore-card">
                     <a href="{% url 'store_detail' pk=store.pk %}"><img src="{{store.store_image.url}}" aria-label="가게 이미지"></a>
-                    <a href="{% url 'likedstore_delete' user_pk=user.pk store_pk=store.pk %}" class="delete-icon"><i class="fas fa-times"></i></a>
+                    <a href="{% url 'likedstore_delete' user_pk=user.pk store_pk=store.pk state=2 %}" class="delete-icon"><i class="fas fa-times"></i></a>
                     <br>
                     <span>{{store.name}}</span>
                     <br>

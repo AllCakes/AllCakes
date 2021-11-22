@@ -109,15 +109,24 @@
     <br><br><br>
     
     <!-- nav바에 가려져서 임시로 줄바꿈 br -->
-    <div id="back_nickname" style="margin:10% 10% 10% 10%; height: 500px;">
+
+
+    <div id="back_nickname" style="margin:10% 10% 10% 10%; height: 490px; align-items: center;">
         <h1 style= "font-size: 50px; color: brown;">ALLCAKES에 오신걸 환영합니다.!!</h1>
-    <h1 style="text-align: center; ">닉네임 설정</h1>
-    <br><br><br>
-    <form action="{% url 'submit_nickname' %}" class="nickname_form" method="POST">
+        <br><br>
+        <h1 style="text-align: center; ">닉네임 설정</h1><br>
+
+    <form action="{% url 'submit_nickname' %}" class="nickname_form" method="POST" style="align-items: center; margin:0px 0px; ">
+
+       
         {% csrf_token %} 
-        {{ form.as_p }} <button style="border-radius: 5px; margin-left: 70%;" type="submit">제출</button>
+        
+        {{ form.as_p }} 
+        <button class="btnn btn btn-light" style="border:black;background-color:whitesmoke;border-radius: 8px; align-items: center; margin-top: 10px;" type="submit">제출</button>
     </form>
     </div>
+
+
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
