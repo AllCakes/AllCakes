@@ -42,14 +42,20 @@ function createHTMLString(type, item, img, price) {
         return `<div id="caketype">
         <label for="${type}${item}" onclick="selectCheck('${type}${item}')">
         <input id="${type} ${type}${item}" type="checkbox" name="${type}" checked value="${item}"></label>
-        <img src="${img}" style="height : 100px"> ${item}
-        가격입력 : <input class = "${type}${item}" name="${type}price" type="text" value="${price}">
+        <img src="${img}" style="height : 100px">
+        ${item}<br/>
+
+        가격입력 : <input class = "${type}${item}" name="${type}price" type="text" value="${price}" style="width: 120px; " >
         </div>`;
     return `<div id="caketype">
     <label for="${type}${item}" onclick="selectCheck('${type}${item}')">
     <input id="${type} ${type}${item}" type="checkbox" name="${type}" value="${item}"></label>
-    <img src="${img}" style="height : 100px"> ${item}
-    가격입력 : <input class = "${type}${item}" name="${type}price" type="text" value="${price}" disabled>
+    <img src="${img}" style="height : 100px"> ${item}<br/>
+    
+    <div>
+    가격입력 : <input class = "${type}${item}" name="${type}price" type="text" value="${price}" style="width: 120px;"disabled>
+    </div>
+    
     </div>`;
 }
 

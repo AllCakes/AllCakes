@@ -37,15 +37,15 @@ function display(menu){
 // Html 문서로 만들기 
 function createHTMLString(type, item,img, num) {
     if(num == 1)
-        return `<div id="caketype" style="width: 10%; height:50px; margin : 5px 5px 5px 5px">
+        return `<div id="caketype">
         <input type="checkbox" id="${type}" name="${type}" checked value="${item}">
         <img src="${img}" style="height : 100px">
-        <div style="text-align: center; font-family: SF_IceMango">${item}</div>'
+        <div style="text-align: center;">${item}</div>
         </div>`;
-    return `<div id="caketype" style="width: 10%; height:50px; margin : 5px 5px 5px 5px">
+    return `<div id="caketype">
                 <input type="checkbox" id="${type}" name="${type}" value="${item}">
-                <img src="${img}" style="height : 100px">
-                <div style="text-align: center; font-family: SF_IceMango">${item}</div>
+                <img src="${img}" style="height : 100px;">
+                <div style="text-align: center;">${item}</div>
             </div>`;
 }
 

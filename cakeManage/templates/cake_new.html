@@ -12,6 +12,7 @@
     <!--여기까지-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/cake.css' %}">
+    <link rel="stylesheet" href="{% static 'css/order.css' %}">
 </head>
 
 <body>
@@ -95,18 +96,22 @@
     </header>
 
     <br><br><br>
-<h1 class = "cake_title">케이크 메뉴 등록</h1>
+    <div style="margin-top: 3%; margin-bottom: 5%;">
+<p class = "cake_title" style = "font-weight: bold; font-size: 40px" >• 케이크 메뉴 등록 •</p>
+
+    </div>
 <form method="POST" class="post-form" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <!-- <p>예시 케이크 사진을 첨부해주세요.</p> -->
     <!-- <input type="file" name="imgs" multiple> -->
     <br><br><br>
-    <div><h2>색 선택</h2> 
-        <ul class="색"></ul>
+    <div style = "margin-top: 5%;">
+        <h2 style = "font-weight: bold; margin-bottom: 3%;">색 선택</h2> 
+        <ul class="색" style="border: rgba(0, 0, 0, 0.747) 2px solid;  margin-bottom: 8%; "></ul>
     </div>
-    <div><h2>크림종류 선택</h2> 
-        <ul class="크림종류"></ul>
+    <div><h2 style = "font-weight: bold; margin-bottom: 3%;">크림종류 선택</h2> 
+        <ul class="크림종류"style="border: rgba(0, 0, 0, 0.747) 2px solid "></ul>
     </div>
     <button type="submit">저장</button>
 </form>

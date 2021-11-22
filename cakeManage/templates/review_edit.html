@@ -7,11 +7,12 @@
 <body>
     <br><br><br>
     <h1>리뷰 수정</h1>
-    <form method="POST" class="review_edit-form" enctype="multipart/form-data">
+    <form method="POST" class="review_edit-form" style = "margin-left : 20%; margin-right:20%" enctype="multipart/form-data">
         {% csrf_token %}
+        <p></p>
         주문자 : {{review.order.user}}<br>
         주문날짜 : {{review.order.pub_date}}<br>
-        <!-- 별점 부분 -->
+        <!-- 별점 부분 -->c
         <div class="form-group">
             <div class="input rating">
                 <div class="rating-wrapper">
@@ -28,7 +29,7 @@
                 </div>
             </div>
         {{ form.as_p }}
-        <button type="submit">저장</button>
+        <button style="border-radius: 5px;" type="submit">저장</button>
     </form>
 </body>
 {% endblock %}

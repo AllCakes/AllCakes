@@ -26,6 +26,25 @@
     	<!-- CSS only -->
     {% block css %}
     {% endblock %}
+	<script type="text/javascript">
+		csrf_token = '{{csrf_token}}';
+		like_url = '{% url "like" %}';
+	</script>
+	<script src="{% static 'js/like.js' %}" type="text/javascript"></script>
+	<link rel="stylesheet" href="{% static '/css/dropdown.css'%}">
+
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46d5f6c310a78632612936d0ea60df74&libraries=services"></script>
+
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script type="text/javascript"
@@ -40,83 +59,73 @@
 <body>
 
 
-    <!--새로 붙여넣은 header-->
-    <header>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">ALLCAKES</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
-                        <!-- 리뷰는 마이페이지 참고 -->
+ 	<!--새로 붙여넣은 header-->
+     <header id="headerr">
+		<nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white;">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/">ALLCAKES</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
+						<!-- 리뷰는 마이페이지 참고 -->
+
+						<!--
 						<li class="nav-item ">
-                            <a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link px-2" href="{% url 'search_all' %}">Search</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <!--로그인 or 로그아웃-->
-                        <li class="nav-item">
-                            {% if user.is_authenticated %}
-                            {% if user.is_kakao == True %}
-                            <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
-                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}">Logout</a>
-                            {% else %}
-                            <a class="nav-link px-2" href="{% url 'logout' %}">Logout</a>
-                            {% endif %}
-
-                            {% else %}
-                            <!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
-                            <a class="nav-link px-2" href="{% url 'login_home' %}">Login</a>
-                            {% endif %}
-                        </li>
-                        <!--로그인과 로그아웃만 뜸 -->
-
-                        <!--마이페이지 or about us-->
-                        <li class="nav-item">
-
-                            {% if user.is_authenticated %}
-                            <!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
-                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}">My Page</a>
-                            {% endif %}
-
-                            {% if not user.is_authenticated %}
-                            <a class="nav-link px-2" href="#">About Us</a>
-                        {% endif %}
-                            <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
-
-                        <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
-                        </li>
-                        <!--
-                        <li class="nav-item">
-                        검색 가까운순정렬 삭제
-                            <form action="{% url 'search' %}" method="GET" class="d-flex">
-                                이유는 모르겠는데 head에 style태그 넣어서 검색바 크기 조절하면 적용이 안되어서 input 태그에 스타일 집어넣음
-                                <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="q"
-                                    style="width: 200px; height: 30px; margin-top: 5px; font-family: 'SF_HambakSnow'; border-radius: 0%; border-color: black;">
-                                <button class="btn btn-secondary btn-sm" type="submit" value="r">🔍</button>
-                            </form>
-                        </li>   
+							<a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
+						</li>
+						<li class="nav-item ">
+							<a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
+						</li>
+					-->
+						<li class="nav-item ">
+							<a class="nav-link px-2" href="{% url 'search_all' %}">Search</a>
+						</li>
 					</ul>
-                -->
 
 
-                    
 
-                </div>
-            </div>
-        </nav>
-    </header>
+
+					<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+						<!--로그인 or 로그아웃-->
+						<li class="nav-item">
+							{% if user.is_authenticated %}
+							{% if user.is_kakao == True %}
+							<!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
+							<a class="nav-link px-2" href="{% url 'logout_with_kakao' %}">Logout</a>
+							{% else %}
+							<a class="nav-link px-2" href="{% url 'logout' %}">Logout</a>
+							{% endif %}
+
+							{% else %}
+							<!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
+							<a class="nav-link px-2" href="{% url 'login_home' %}">Login</a>
+							{% endif %}
+						</li>
+						<!--로그인과 로그아웃만 뜸 -->
+
+						<!--마이페이지 or about us-->
+						<li class="nav-item">
+
+							{% if user.is_authenticated %}
+							<!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
+							<a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}">My Page</a>
+							{% endif %}
+
+							{% if not user.is_authenticated %}
+							<a class="nav-link px-2" href="#">About Us</a>
+							{% endif %}
+				</div>
+			</div>
+		</nav>
+	</header>
+
+
+	<!-- Header -->
 
 
     <!---->
