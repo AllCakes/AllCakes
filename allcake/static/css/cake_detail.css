@@ -1,6 +1,6 @@
 #cake_detail_body{
     padding-top: 50px;
-    height: 2000px;
+    /* height: 2000px; */
 }
 
 
@@ -19,7 +19,7 @@
 }
 
 .info-left img{
-    height: 80%;
+    /* height: 80%; */
     border-radius: 50%;
 }
 
