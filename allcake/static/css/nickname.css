@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'SF_HambakSnow';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_HambakSnow.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+    font-family: 'SF_HambakSnow';
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#back_nickname{
+    background-image: url("/static/img/sample9.png");
+    background-repeat: repeat;
+    background-size: 500px;
+    opacity: 0.8;
+    text-align: center;
+}
+.nickname_form{
+    text-align: center;
+    margin-left: 10;
+    margin-right: 10%;
+}

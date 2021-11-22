@@ -195,6 +195,7 @@
 			<p class="todayHeader">오늘의 리뷰</p>
 			<hr class="underToday">
 			{% for review in reviews %}
+
 			<section
 				class="feature {% if forloop.counter == 1 or forloop.counter == 3 %}left{% else %}right{% endif %}">
 				
@@ -204,12 +205,13 @@
 						width="100%" height="100%" alt="리뷰 사진"></a>
 				
 						
-				<div class="content">
-					<h3></h3>
-					<p>{{review.comment|slice:"70"}}...
+				<div class="content" style="padding-top:2%; padding-right: 5%; padding-left: 4%;">
+					
+					<p style="font-size: 20px; font-weight: 350px; color:rgb(128, 128, 128); ">{{review.comment|slice:"70"}}...
 					</p>
 					<br>
-					<span>-{{review.user}}</span>
+					<span style="color:rgb(125, 136, 146); font-weight: bold; margin: 2%;">-{{review.user}}</span>
+
 				</div>
 			</section>
 			{% endfor %}

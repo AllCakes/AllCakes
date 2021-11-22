@@ -202,7 +202,9 @@
                         <td>{{ order.order }}{{order.pub_date}}</td>
 
                         {% if not order.review %}
-                        <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
+                            {% if order.is_paid  %}
+                            <td><a href="{% url 'review_page' pk=order.referred_cake_id orderpk=order.id %}">리뷰 작성</a></td>
+                            {% endif %}
                         {% else %}
                         <td><a href="{% url 'review_edit' pk=order.review.pk %}">리뷰 수정</a><br>
                             <a href="{% url 'review_delete' pk=order.review.pk %}">리뷰 삭제</a>

@@ -11,7 +11,7 @@ header {
 
 
 .fixed-top {
-    border-bottom: 4px solid rgba(151, 151, 151, 0.1);
+    border-bottom: 4px solid;
 }
 
 .btn-secondary {

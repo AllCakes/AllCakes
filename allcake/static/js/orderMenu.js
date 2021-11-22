@@ -90,8 +90,9 @@ function onMenuClick(event){
     const value = dataset.value;
     const key = k.split(',');
 
-    if(key === 'letter'){
+    if(key[0] === 'letter'){
         mesg = document.getElementById('id_lettering_position').value;
+        console.log(mesg)
         if(mesg == "케이크에 직접 레터링"){
             document.getElementById('letter_pos1').style.display ='none';
             document.getElementById('letter_pos2').style.display ='block';
