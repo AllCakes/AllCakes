@@ -1,6 +1,6 @@
 // JSON file 에서 fetch 작업
 function loadMenu(){
-    return fetch('/media/data/menu.json')
+    return fetch('/static/data/menu.json')
     .then(response => response.json())
     .then(json => json.menu);
 }
