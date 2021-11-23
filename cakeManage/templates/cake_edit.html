@@ -16,16 +16,16 @@
     <!--여기까지-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/cake.css' %}">
+    <link rel="stylesheet" href="{% static 'css/order.css' %}">
 </head>
 
 <body>
 
 
-    <!--새로 붙여넣은 header-->
     <header>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white;">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white; padding-top: none; padding-bottom: 2px;" height="60px" >
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">ALLCAKES</a>
+                <a class="navbar-brand" href="/" style="font-size: 20px; margin-bottom: 15px; margin-left: 13px; margin-right: 7px;">ALLCAKES</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -33,61 +33,56 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
-                        <!-- 리뷰는 마이페이지 참고 -->
+                        
+
+         						<!--
+						<li class="nav-item ">
+							<a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
+						</li>
+						<li class="nav-item ">
+							<a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
+						</li>
+					-->               
+
                         <li class="nav-item ">
-                            <a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link px-2" href="#">Reviews</a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link px-2" href="{% url 'search_all' %}">Search</a>
+                            <a class="nav-link px-2" href="{% url 'search_all' %}" style="color:rgba(0,0,0,.5);font-size: 17px; margin-left: 8px; margin-bottom: 10px; padding-top: 3px;">Search</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <!--로그인 or 로그아웃-->
+
                         <li class="nav-item">
                             {% if user.is_authenticated %}
                             {% if user.is_kakao == True %}
                             <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
-                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}">Logout</a>
+                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Logout</a>
                             {% else %}
-                            <a class="nav-link px-2" href="{% url 'logout' %}">Logout</a>
+                            <a class="nav-link px-2" href="{% url 'logout' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 7px;">Logout</a>
                             {% endif %}
 
                             {% else %}
                             <!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
-                            <a class="nav-link px-2" href="{% url 'login_home' %}">Login</a>
+                            <a class="nav-link px-2" href="{% url 'login_home' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Login</a>
                             {% endif %}
                         </li>
-                        <!--로그인과 로그아웃만 뜸 -->
-
-                        <!--마이페이지 or about us-->
                         <li class="nav-item">
 
                             {% if user.is_authenticated %}
-                            <!-- 유저가 로그인 상태이면 상단에 뜨고 클릭 시 유저 pk전달 -->
-                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}">My Page</a>
+                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 10px;">My Page</a>
                             {% endif %}
 
                             {% if not user.is_authenticated %}
                             <a class="nav-link px-2" href="#">About Us</a>
                             {% endif %}
-                            <!--✅임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
-
-                            <!--위치 검색 필터용 검색창 => 어디에 배치할 지 의논 필요!-->
                         </li>
+
                 </div>
             </div>
         </nav>
     </header>
     <br><br><br><br>
-    <h1 class = "cake_title"> 케이크 수정 </h1>
-    <form method="POST" class="post-form" enctype="multipart/form-data">
+    <h1 class = "cake_title" style="font-weight: bold;"> 케이크 수정 </h1>
+    <form method="POST" class="post-form" style = "width: 100%;" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <br><br><br>

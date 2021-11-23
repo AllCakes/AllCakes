@@ -277,9 +277,9 @@
         <!-- FE: 나중에는 리뷰 쓴 사람 아이디도 받아올 수 있게!  -->
         <!-- FE: 별점 높은 순 / 낮은 순 적용!  -->
         <div class="items">
-            <form method="POST" class="post-form" enctype="multipart/form-data">
+            <form method="POST" class="post-form" style="width: 10%;" enctype="multipart/form-data">
                 {% csrf_token %}
-                <select name="sort" id="_sort" onchange="this.form.submit()">
+                <select name="sort" id="_sort"  onchange="this.form.submit()">
                     <option class="date" value="date">최신순</option>
                     <option class="highrate" value="highrate">별점 높은순</option>
                     <option class="lowrate" value="lowrate">별점 낮은순</option>

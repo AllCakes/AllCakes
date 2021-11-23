@@ -27,41 +27,59 @@
 
 <body>
     <header>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white;">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white; padding-top: none; padding-bottom: 2px;" height="60px" >
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">ALLCAKES</a>
-
+                <a class="navbar-brand" href="/" style="font-size: 20px; margin-bottom: 15px; margin-left: 13px; margin-right: 7px;">ALLCAKES</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        
+
+         						<!--
+						<li class="nav-item ">
+							<a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
+						</li>
+						<li class="nav-item ">
+							<a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
+						</li>
+					-->               
 
                         <li class="nav-item ">
-                            <a class="nav-link px-2 active" aria-current="page" href="/">Home</a>
+                            <a class="nav-link px-2" href="{% url 'search_all' %}" style="color:rgba(0,0,0,.5);font-size: 17px; margin-left: 8px; margin-bottom: 10px; padding-top: 3px;">Search</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!--로그인 or 로그아웃-->
 
-                        <li class="nav-item ">
-                            <!-- FE: 앞에 있던 shop으로 가는 것 -->
-                            <a class="nav-link px-2" onclick="goBack()">Shop</a>
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                            {% if user.is_kakao == True %}
+                            <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
+                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Logout</a>
+                            {% else %}
+                            <a class="nav-link px-2" href="{% url 'logout' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 7px;">Logout</a>
+                            {% endif %}
+
+                            {% else %}
+                            <!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
+                            <a class="nav-link px-2" href="{% url 'login_home' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Login</a>
+                            {% endif %}
                         </li>
-
-                        <!--마이페이지, about us-->
-                        <li class="nav-item ">
+                        <li class="nav-item">
 
                             {% if user.is_authenticated %}
-
+                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 10px;">My Page</a>
                             {% endif %}
 
                             {% if not user.is_authenticated %}
                             <a class="nav-link px-2" href="#">About Us</a>
-                            <!--FE: 임시로 넣음! 링크는 연결 안 했음, 들어갈 페이지 생각해봐야함-->
                             {% endif %}
                         </li>
-                    </ul>
+
                 </div>
             </div>
         </nav>

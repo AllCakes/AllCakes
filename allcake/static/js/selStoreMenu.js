@@ -1,6 +1,6 @@
 // JSON file 에서 fetch 작업
 function loadMenu(){
-    return fetch('/static/data/menu.json')
+    return fetch('/media/data/menu.json')
     .then(response => response.json())
     .then(json => json.menu);
 }
@@ -86,8 +86,7 @@ function AddMenu(event, menu){
                     value: `${input_value}`,
                     img : "/static/img/noimg.png"
                 }
-            })
-            // .then(window.location.href=delete_url;);
+            }).then(window.location.href= document.location.href);
         }
     }
 }

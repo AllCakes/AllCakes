@@ -89,7 +89,8 @@
     </header>
 
     <br><br><br><br>
-    <div class="menu_title">메뉴 등록 (삭제시 문의) </div>
+    <div class="menu_title">메뉴 등록</div>
+    <div style="text-align: center;">메뉴 삭제시 관리자에게 별도 문의주세요!</div> 
     <div class="menu_container">
         <form method="POST" action="">
             {% csrf_token %}
@@ -111,6 +112,7 @@
     </div>
     <!-- 새로운 메뉴 추가 -->
     <div class="menu_title">메뉴 추가하기</div>
+        <div style="text-align: center;">새로운 메뉴 추가 후 미반영시 새로고침 눌러주세요 ^^</div> 
     <div class="menu_box" style="margin: 50px 200px 50px 200px;">
         <div style="margin: 50px 80px 50px 80px;">
             <h2 class="menu_font">색 추가하기</h2><br>
