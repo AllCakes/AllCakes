@@ -61,11 +61,6 @@ def search_all(request):
 def filtering(request):
 
     if request.method == "GET":
-        chkLocationSi=0
-        chkLocationGu=0
-        chkPrices=0
-        chkSizes=0
-
         cakes=Cake.objects.none() 
         stores=Store.objects.none()
 
@@ -158,48 +153,54 @@ def filtering(request):
         print(filtered_product)
 
         #가격 필터링
-        print("가격필터테스트")
+
         if price:
             chkPrices=1
             tmp_price=0
             tmp_list=[]
+            
             print(filtered_product)
             for i in filtered_product:
 
                 if (i.price < 10000):
-                    tmp_price=9999
+                    tmp_price='9999'
                 elif (i.price < 20000) :      
-                    tmp_price=10000
+                    tmp_price='10000'
                 elif(i.price <30000):
-                    tmp_price=20000
+                    tmp_price='20000'
                 elif(i.price<40000) :
-                    tmp_price=30000
+                    tmp_price='30000'
                 elif(i.price<50000):
-                    tmp_price=40000
+                    tmp_price='40000'
                 else:
-                    tmp_price=50000
+                    tmp_price='50000'
                 #가격이 price list에 존재한다면 필터링 수행ㅇ
-                if (str(tmp_price) in price):
-                    tmp_list.insert(-1,i)
-        print("filtered by price:")
-        print(filtered_product)
+                print(tmp_price)
 
-        if(not(category)):
-            if(not(locationSi)):
-                if(not(locationGu)):
-                    if(not(size)):
-                        if(not(price)):
-                            if(chkCategory==1) :
-                                    filtered_product=Cake.objects.all()
-                            else:
-                                    filtered_product=Store.objects.all()
-        print(filtered_product)
-        #카테고리, 가격, 사이즈 필터링 거친 마무리 갯수 구하기
+                if ((tmp_price) in price):
+                    tmp_list.insert(-1,i)
+            
+                    #print("filtered by price:")
+                    #print(tmp_list)
+
+            #print(filtered_product)
+            filtered_product=tmp_list
+            if(not(category)):
+                if(not(locationSi)):
+                    if(not(locationGu)):
+                        if(not(size)):
+                            if(not(price)):
+                                if(chkCategory==1) :
+                                        filtered_product=Cake.objects.all()
+                                else:
+                                        filtered_product=Store.objects.all()
+            print(filtered_product)
+            #카테고리, 가격, 사이즈 필터링 거친 마무리 갯수 구하기
         num=0
-        #기존 num 초기화하고 products 수 갱신
+            #기존 num 초기화하고 products 수 갱신
         for i in filtered_product:
             num+=1
-        return render(request, 'search_all.html', {'cakes':cakes, 'stores':stores,'product':filtered_product,'num':num})
+    return render(request, 'search_all.html', {'cakes':cakes, 'stores':stores,'product':filtered_product,'num':num})
 
 
 
@@ -642,7 +643,6 @@ def search(request):
     cake_result = Cake.objects.none()
     print(request.GET)
     if request.GET.get('q'):
-        print("hihihi")
         # 입력을 제대로 했으면
         # 'q' 값의 value를 가져와서 split으로 띄어쓰기대로 나눈다.
         query_set= request.GET.get('q').split()
@@ -786,36 +786,7 @@ class OrderImpAjaxView(View):
         else:
             return JsonResponse({}, status=401)
 
-def like_it(request):
-    type = request.POST.get("type")
-    type = int(type)
-    obj_id = request.POST.get("obj_id")
-    obj_id = int(obj_id)
-    if type == 1:
-        try:
-            obj = get_object_or_404(Cake, id=obj_id)
-        except Cake.DoesNotExist:
-            return JsonResponse({}, status=402)
-    elif type == 2:
-        obj = get_object_or_404(Store, id=obj_id)
-    else:
-        return JsonResponse({}, status=401)     #오류 상황
 
-
-    if obj.users_liked.filter(id=request.user.id).exists():
-        obj.users_liked.remove(request.user)
-        data = {
-            "like" : False
-        }
-    else:
-        obj.users_liked.add(request.user)
-        data = {
-            "like": True
-        }
-
-    # Json 응답으로 생성여부 및 생성 내용을 반환
-    return JsonResponse(data)
-    
 
 def test(request):
     return render(request, 'test.html')
@@ -885,10 +856,45 @@ def add_menu(request):
             json.dump(json_data, outfile ,ensure_ascii=False, indent=4)
     return redirect('storemenu.html')
 
+def review_all(request, user_pk):
+    if (request.user.pk != user_pk):
+        raise ValidationError("잘못된 접근입니다.")
+    reviews = Review.objects.filter(user=user_pk)
+    return render(request, 'review_all.html', {'reviews':reviews})
+
 def review_detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     return render(request, 'review_detail.html', {'review':review})
+def like_it(request):
+    type = request.POST.get("type")
+    type = int(type)
+    obj_id = request.POST.get("obj_id")
+    obj_id = int(obj_id)
+    if type == 1:
+        try:
+            obj = get_object_or_404(Cake, id=obj_id)
+        except Cake.DoesNotExist:
+            return JsonResponse({}, status=402)
+    elif type == 2:
+        obj = get_object_or_404(Store, id=obj_id)
+    else:
+        return JsonResponse({}, status=401)     #오류 상황
 
+
+    if obj.users_liked.filter(id=request.user.id).exists():
+        obj.users_liked.remove(request.user)
+        data = {
+            "like" : False
+        }
+    else:
+        obj.users_liked.add(request.user)
+        data = {
+            "like": True
+        }
+
+    # Json 응답으로 생성여부 및 생성 내용을 반환
+    return JsonResponse(data)
+    
 def likedcake_delete(request, user_pk, cake_pk, state):
     if (request.user.pk != user_pk):
         raise ValidationError("잘못된 접근입니다.")
@@ -920,12 +926,6 @@ def likedstore_delete(request, user_pk, store_pk, state):
         return redirect(reverse('mypage', kwargs={'user_pk':request.user.pk}) + '#store-info-header')
     else:
         return redirect('likedstores_all', user_pk=request.user.pk)
-
-def review_all(request, user_pk):
-    if (request.user.pk != user_pk):
-        raise ValidationError("잘못된 접근입니다.")
-    reviews = Review.objects.filter(user=user_pk)
-    return render(request, 'review_all.html', {'reviews':reviews})
 
 def likedcakes_all(request, user_pk):
     if (request.user.pk != user_pk):

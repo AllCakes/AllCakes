@@ -53,7 +53,8 @@ class Store(models.Model):
 
     # 가게 사장 user는 관리자에서 설정하도록 할 것, 이후 그 가게의 사장이면
     # Store 수정(U), Cake 등록과 수정 (CRUD) 가능하도록!
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True) # ForeignKeyField가 바라보는 값이 삭제될 때 ForeignKeyField값을 null로 바꾼다. (null=True일 때만 가능)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True) 
+    # ForeignKeyField가 바라보는 값이 삭제될 때 ForeignKeyField값을 null로 바꾼다. (null=True일 때만 가능)
 
     # 유저 모델이 아닌 다른 모델에서 필드를 추가하는 게 바람직함. (유저모델은 여러 곳에서 참조되기 때문)
     # related_name을 설정하지 않으면 위의 owner필드와 충돌이 나므로, 꼭 써줘야 됨. (두 번 이상 유저를 가리키기 때문)
