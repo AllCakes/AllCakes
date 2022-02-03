@@ -9,6 +9,8 @@ admin.site.register(Cake)
 admin.site.register(Review)
 admin.site.register(AmountCoupon)
 admin.site.register(PercentCoupon)
+admin.site.register(Menu_Color)
+admin.site.register(Menu_Cream)
 # class ReviewAdmin(admin.ModelAdmin):
 #     list_display = ['user','referred_cake','rate', 'comment']
 #     readonly_fields = ['pub_date',]

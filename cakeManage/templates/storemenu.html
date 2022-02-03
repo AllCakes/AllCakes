@@ -1,10 +1,12 @@
 {% load static %}
+<!DOCTYPE html>
 
 <head>
     <meta charset="UTF-8">
     <!--부트스트랩 불러온 것-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>{% block title %}{% endblock %}</title>
+    <!-- storemenu js -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -29,7 +31,7 @@
                         <!-- 가게 상세정보 들어갈 수 있도록 임시로 링크 달아 둔거고 -->
                         <!-- 리뷰는 마이페이지 참고 -->
 
-						<li class="nav-item ">
+                        <li class="nav-item ">
 
                             <a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
                         </li>
@@ -68,7 +70,7 @@
 
                             {% if not user.is_authenticated %}
                             <a class="nav-link px-2" href="#">About Us</a>
-                        {% endif %}
+                            {% endif %}
 
                         </li>
                         <!--
@@ -90,20 +92,51 @@
 
     <br><br><br><br>
     <div class="menu_title">메뉴 등록</div>
-    <div style="text-align: center;">메뉴 삭제시 관리자에게 별도 문의주세요!</div> 
+    <div style="text-align: center;">메뉴 삭제시 관리자에게 별도 문의주세요!</div>
     <div class="menu_container">
         <form method="POST" action="">
             {% csrf_token %}
             <div style="margin: 80px 250px 80px 250px;">
                 <h2 class="menu_font">색 선택</h2>
                 <div id="menu_items" class="색 menu_boxs">
+                    <h4 class="menu_font">이미 추가된 리스트</h4>
+                    {% for c in havecolor %}
+                    <div id="caketype">
+                        <input type="checkbox" value="{{c.id}}" checked onclick="return false">
+                        <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px;">
+                        <div style="text-align: center;">{{c.name}}</div>
+                    </div>
+                    {% endfor %}
+
                     <!-- html caketype(item) -->
+                    {% for c in color %}
+                    <div id="caketype">
+                        <input type="checkbox" id="색" name="색" value="{{c.id}}">
+                        <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px;">
+                        <div style="text-align: center;">{{c.name}}</div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div style="margin: 80px 250px 80px 250px;">
                 <h2 class="menu_font">크림종류 선택</h2>
                 <div id="menu_items" class="크림종류 menu_boxs">
-                    <!-- html caketype(item) -->
+                    <h3 class="menu_font">이미 추가된 리스트</h3>
+                    {% for c in havecream %}
+                    <div id="caketype">
+                        <input type="checkbox" value="{{c.id}}" checked>
+                        <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px;">
+                        <div style="text-align: center;">{{c.name}}</div>
+                    </div>
+                    {% endfor %}
+
+                    {% for c in cream %}
+                    <div id="caketype">
+                        <input type="checkbox" id="크림종류" name="크림종류" value="{{c.id}}">
+                        <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px;">
+                        <div style="text-align: center;">{{c.name}}</div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <button type="submit" style="margin-left: 80%;">저장</button>
@@ -112,119 +145,161 @@
     </div>
     <!-- 새로운 메뉴 추가 -->
     <div class="menu_title">메뉴 추가하기</div>
-        <div style="text-align: center;">새로운 메뉴 추가 후 미반영시 새로고침 눌러주세요 ^^</div> 
     <div class="menu_box" style="margin: 50px 200px 50px 200px;">
         <div style="margin: 50px 80px 50px 80px;">
             <h2 class="menu_font">색 추가하기</h2><br>
-            <input id="색추가" type="text">
-            <button class="AddMenu" data-key="색추가" data-value="색">추가</button>
+            <input id="색추가" name="color" type="text">
         </div>
         <div style="margin: 50px 80px 50px 80px;">
             <h2 class="menu_font">크림종류 추가하기</h2>
-            <input id="크림추가" type="text">
-            <button class="AddMenu" data-key="크림추가" data-value="크림종류">add</button>
+            <input id="크림추가" name="cream" type="text">
         </div>
+        <div class="btn AddMenuClick">추가하기</div>
     </div>
-        <script>
-            var color = "{{색}}";
-            var cream = "{{크림종류}}";
+    <footer>
+        <div class="footerContent1">
+            <div class="about">
+                <p class="aboutTitle">About</p>
+                <hr class="underline">
+
+                <p class="aboutContent">이 어둠을 빨간 코로 비춰줄래
+                    어디서부터 잘못된 건지
+                    온 세상이 all black black black
+                    지금 너와 난
+                    다 깨져버린 1000피스
+                    lego block block block
+                    차라리 더 어두워지면 좋겠어
+                    이 세상에 스위치가 있다면
+                    꺼버릴거야
+                    그리고 널 향한 노랠 부르겠어</p>
+
+            </div>
+
+            <div class="categories">
+                <p class="categoryTitle">Categories</p>
+                <hr class="underline">
+
+                <li>
+                    <a href="#" target="_blank">
+                        <ul>HOME</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>ABOUT US</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>CONTACT</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul>JOIN</ul>
+                    </a>
+
+                </li>
+            </div>
+
+            <div class="links">
+                <p class="linkTitle">Links</p>
+                <hr class="underline">
+
+                <li>
+                    <a href="#" target="_blank">
+                        <ul>CONTRIBUTE</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">ABOUT US</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">CONTACT</ul>
+                    </a>
+                    <a href="#" target="_blank">
+                        <ul a href="#">PRIVACY POLICY</ul>
+                    </a>
+                </li>
+            </div>
+        </div>
+        <hr class="underline2">
+        <div class="footerContent2">
+            <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
+        </div>
+    </footer>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
         </script>
-        <script type="text/javascript" src="/static/js/selStoreMenu.js" defer></script>
-        <footer>
-            <div class="footerContent1">
-                <div class="about">
-                    <p class="aboutTitle">About</p>
-                    <hr class="underline">
+    <script>
+        // 현재 위치를 가져오는 getPosition 프로미스 생성
+        var getPosition = function (options) {
+            return new Promise(function (resolve, reject) {
+                var options = {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 10000
+                }
+                navigator.geolocation.getCurrentPosition(resolve, reject, options);
+            })
+        }
+        // getPosition 프로미스 실행
+        // 결과값이 있을 경우 쿠키에 정보를 저장하고, 없을 경우 Error를 Log에 찍는다
+        getPosition()
+            .then((position) => {
+                $.cookie("latitude", position.coords.latitude, { path: '/' })
+                $.cookie("longitude", position.coords.longitude, { path: '/' })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    </script>
+    <script>
+        var col_name = "{{col_name}}"
+        var crm_name = "{{crm_name}}"
+        var pk = "{{pk}}"
+        const btn = document.querySelector('.AddMenuClick')
+        console.log(btn)
+        btn.addEventListener('click', add_event)
 
-                    <p class="aboutContent">이 어둠을 빨간 코로 비춰줄래
-                        어디서부터 잘못된 건지
-                        온 세상이 all black black black
-                        지금 너와 난
-                        다 깨져버린 1000피스
-                        lego block block block
-                        차라리 더 어두워지면 좋겠어
-                        이 세상에 스위치가 있다면
-                        꺼버릴거야
-                        그리고 널 향한 노랠 부르겠어</p>
+        function add_event() {
+            console.log("add event")
+            // parsing
+            var list1 = col_name.replace(/&#x27;/g, "").replaceAll(" ", "").replace("[", "").replace("]", "").split(',')
+            var list2 = crm_name.replace(/&#x27;/g, "").replaceAll(" ", "").replace("[", "").replace("]", "").split(',')
 
-                </div>
-
-                <div class="categories">
-                    <p class="categoryTitle">Categories</p>
-                    <hr class="underline">
-
-                    <li>
-                        <a href="#" target="_blank">
-                            <ul>HOME</ul>
-                        </a>
-                        <a href="#" target="_blank">
-                            <ul>ABOUT US</ul>
-                        </a>
-                        <a href="#" target="_blank">
-                            <ul>CONTACT</ul>
-                        </a>
-                        <a href="#" target="_blank">
-                            <ul>JOIN</ul>
-                        </a>
-
-                    </li>
-                </div>
-
-                <div class="links">
-                    <p class="linkTitle">Links</p>
-                    <hr class="underline">
-
-                    <li>
-                        <a href="#" target="_blank">
-                            <ul>CONTRIBUTE</ul>
-                        </a>
-                        <a href="#" target="_blank">
-                            <ul a href="#">ABOUT US</ul>
-                        </a>
-                        <a href="#" target="_blank">
-                            <ul a href="#">CONTACT</ul>
-                        </a>
-                        <a href="#" target="_blank">
-                            <ul a href="#">PRIVACY POLICY</ul>
-                        </a>
-                    </li>
-                </div>
-            </div>
-            <hr class="underline2">
-
-
-            <div class="footerContent2">
-                <p>Copyright &copy; by ALLCAKES All Right Reserved </p>
-            </div>
-        </footer>
-        <!-- JavaScript Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-            </script>
-
-        <script>
-            // 현재 위치를 가져오는 getPosition 프로미스 생성
-            var getPosition = function (options) {
-                return new Promise(function (resolve, reject) {
-                    var options = {
-                        enableHighAccuracy: true,
-                        maximumAge: 0,
-                        timeout: 10000
-                    }
-                    navigator.geolocation.getCurrentPosition(resolve, reject, options);
-                })
+            // check - 기존에 있는 메뉴인지
+            // value 가져오기
+            const newcolor = document.getElementById('색추가').value
+            const newcream = document.getElementById('크림추가').value
+            if (newcolor === "" && newcream === "") {
+                confirm("아무것도 입력되지 않았습니다.")
+                return
             }
-            // getPosition 프로미스 실행
-            // 결과값이 있을 경우 쿠키에 정보를 저장하고, 없을 경우 Error를 Log에 찍는다
-            getPosition()
-                .then((position) => {
-                    $.cookie("latitude", position.coords.latitude, { path: '/' })
-                    $.cookie("longitude", position.coords.longitude, { path: '/' })
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        </script>
+            for (i in list1) {
+                // 기존에 있다면, 팝업창 띄움
+                if (list1[i] === newcolor) {
+                    confirm(`색종류 : ${newcolor} - 같은 메뉴가 존재합니다. 재확인해주세요`)
+                    return
+                }
+            }
+            for (i in list2) {
+                // 기존에 있다면, 팝업창 띄움
+                if (list2[i] === newcream) {
+                    confirm(`크림종류 : ${newcream} - 같은 메뉴가 존재합니다. 재확인해주세요`)
+                    return
+                }
+            }
+            const e = `/add_menu/${pk}`
+            console.log(e)
+            $.ajax({
+                url : e,
+                data: {
+                    'newcolor': newcolor,
+                    'newcream': newcream
+                },
+                dataType: "json",
+                success: function (response) {
+                    confirm(response.message)
+                    window.location.reload()
+                },
+            })
+        }
+    </script>
 </body>
 
 </html>

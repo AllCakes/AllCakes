@@ -1,6 +1,7 @@
+from email import message
 from django.core import paginator
 from django.core.exceptions import ValidationError
-from django.http import request
+from django.http import HttpResponse, request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.resolvers import LocaleRegexDescriptor
 from django.utils import timezone
@@ -15,7 +16,6 @@ from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는
 from django.db import models # views에서 models.Char~ 기능 사용 위해
 import math # 현재 위치 계산 위해 추가
 from django.shortcuts import render
-# import simplejson as json #제이쿼리 사용위해 추가
 import datetime
 from itertools import chain #쿼리셋 결합 위해 추가
 from django.core import serializers
@@ -805,56 +805,97 @@ def character(request):
     context['objects_list']=post_list
     return render(request, 'character.html',context)
 
-# 검색 - 검색어 분리, 모든 쿼리 한번에!
+# 가게별 메뉴 선정
 def storemenu(request, store_pk):
     store = get_object_or_404(Store, pk=store_pk)
+    color = Menu_Color.objects.all()
+    cream = Menu_Cream.objects.all()
+
+    # 메뉴 이름
+    col_name = [c.to_string_name() for c in color]
+    crm_name = [c.to_string_name() for c in cream]
+
     if request.user != store.owner:
         raise ValidationError("잘못된 접근입니다.")
+
     if request.method == "POST":
-        color = request.POST.getlist('색')
-        cream = request.POST.getlist('크림종류')
-        if(len(color) == 0 | len(cream) == 0):
-            return render(request, 'storemenu.html')
-        Store_Menu(store = store, 색 = ','.join(color), 크림종류 = ','.join(cream)).save()
+        cols = request.POST.getlist('색')
+        crms = request.POST.getlist('크림종류')
+        for i in cols:
+            store.color.add(get_object_or_404(Menu_Color, pk=int(i)))
+        for i in crms:
+            store.cream.add(get_object_or_404(Menu_Cream, pk=int(i)))
         return redirect('store_detail', pk=store_pk)
-    return render(request, 'storemenu.html')
+    context = {
+        'color':color,
+        'cream':cream,
+        'pk':store_pk,
+        'col_name':col_name,
+        'crm_name':crm_name
+    }
+    return render(request, 'storemenu.html', context)
 
+# 가게별 메뉴 수정
 def storemenu_edit(request, store_pk):
-    store_menu = get_object_or_404(Store_Menu, store=store_pk)
-    color = set(store_menu.색.replace(" ","").split(','))
-    cream = set(store_menu.크림종류.replace(" ","").split(','))
-    print(color)
-    print(cream)
-    if request.user != store_menu.store.owner:
-        raise ValidationError("잘못된 접근입니다.")
-    if request.method == "POST":
-        form = StoreMenuForm(request.POST, instance=store_menu)
-        if form.is_valid():
-            color.update(request.POST.getlist('색'))
-            cream.update(request.POST.getlist('크림종류'))
-            menu = form.save(commit=False)
-            menu.색 =','.join(list(color))
-            menu.크림종류 = ','.join(list(cream))
-            menu.save()
-            return redirect('store_detail', pk=store_pk)
-    else:
-        form = StoreMenuForm(instance=store_menu)
-    return render(request, 'storemenu.html', {'색' : list(color), '크림종류':list(cream)})
+    store = get_object_or_404(Store, pk = store_pk)
 
-# json 파일에 menu 없을시 추가
-@csrf_exempt
-def add_menu(request):
-    file_path = './allcake/static/data/menu.json'
+    # 이미 등록한 메뉴
+    havecolor = store.color.all()
+    havecream = store.cream.all()
+    havecolorlist = store.color.values_list('pk', flat = True)
+    havecreamlist = store.cream.values_list('pk', flat = True)
+    # 아직 등록안한 메뉴
+    color = Menu_Color.objects.exclude(id__in=havecolorlist)
+    cream = Menu_Cream.objects.exclude(id__in=havecreamlist)
+    # 메뉴 이름
+    cr = Menu_Color.objects.all()
+    cm = Menu_Cream.objects.all()
+    col_name = [c.to_string_name() for c in color]
+    crm_name = [c.to_string_name() for c in cream]
+
+    if request.user != store.owner:
+        raise ValidationError("잘못된 접근입니다.")
+
     if request.method == "POST":
-        print("Ddd")
-        ty = request.POST['ty']
-        val = request.POST['value']
-        with open(file_path, "r", encoding="utf-8") as json_file:
-            json_data = json.load(json_file)
-            json_data['menu'][0][ty][val] = request.POST['img']
-        with open(file_path, 'w', encoding="utf-8") as outfile:
-            json.dump(json_data, outfile ,ensure_ascii=False, indent=4)
-    return redirect('storemenu.html')
+        cols = request.POST.getlist('색')
+        crms = request.POST.getlist('크림종류')
+        for i in cols:
+            store.color.add(get_object_or_404(Menu_Color, pk=int(i)))
+        for i in crms:
+            store.cream.add(get_object_or_404(Menu_Color, pk=int(i)))
+        return redirect('store_detail', pk=store_pk)
+    context = {
+        'color':color,
+        'cream':cream,
+        'havecolor': havecolor,
+        'havecream':havecream,
+        'pk':store_pk,
+        'col_name':col_name,
+        'crm_name':crm_name
+    }
+    return render(request, 'storemenu.html', context)
+
+# menu 없을시 추가
+def add_menu(request,store_pk):
+    store = get_object_or_404(Store, pk = store_pk)
+    if request.user != store.owner:
+        raise ValidationError("잘못된 접근입니다.")
+
+    if request.is_ajax():
+        color = request.GET['newcolor']
+        cream = request.GET['newcream']
+        if (len(color) > 0):
+            c = Menu_Color()
+            c.img = "img/noimg.png"
+            c.name = color
+            c.save()
+        if (len(cream) > 0):
+            c = Menu_Cream()
+            c.img = "img/noimg.png"
+            c.name = cream
+            c.save()
+        message = "완료되었습니다."
+        return HttpResponse(json.dumps(message), content_type='application/json')
 
 def review_all(request, user_pk):
     if (request.user.pk != user_pk):
@@ -865,6 +906,7 @@ def review_all(request, user_pk):
 def review_detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     return render(request, 'review_detail.html', {'review':review})
+
 def like_it(request):
     type = request.POST.get("type")
     type = int(type)
