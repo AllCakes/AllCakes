@@ -7,19 +7,45 @@ import datetime
 import hashlib
 from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는 구를 다르게 핸주는 옵션
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.postgres.fields import JSONField
 
 class Search(models.Model):
     검색단어 = models.CharField(max_length=30)
 
+class Menu_Color(models.Model):
+    name = models.CharField(max_length=20)
+    img = models.CharField(max_length=20)
+
+    def __str__(self):
+        return str(self.id)
+    
+    def to_string_name(self):
+        return str(self.name)
+
+class Menu_Cream(models.Model):
+    name = models.CharField(max_length=20)
+    img = models.CharField(max_length=20)
+
+    def __str__(self):
+        return str(self.id)
+
+    def to_string_name(self):
+        return str(self.name)
+
 class Store(models.Model):
     # 순서대로 가게이름, 대표이미지, 설명, 게시일자, 연락처, 가게위치(OO구)
-
     name = models.CharField(max_length=15)
     store_image = models.ImageField(upload_to='storeimages/', blank=False)
     text = models.TextField(default='', blank=True)
     meta_body = models.CharField(max_length=100, default='', verbose_name="검색을 위한 키워드(100자 이내)") # 검색을 위한 필드
     pub_date = models.DateTimeField(default=timezone.now)
     contact = models.CharField(max_length=15)
+
+    # Menu
+    color = models.ManyToManyField(Menu_Color, related_name='menu_color', blank=True)
+    cream = models.ManyToManyField(Menu_Cream, related_name='menu_color', blank=True)
+
+
     # kdy : 가격 0원으로 건드렸음
     price = models.IntegerField(default=0, validators=[MinValueValidator(0, MaxValueValidator(100000))],verbose_name="메뉴 평균 금액")
     si_choices=[
@@ -67,10 +93,8 @@ class Store(models.Model):
     # 같이 알면 좋을 것 같아서 주석 많이 달았음! 찜 구현할 때 필드랑 내용 다 삭제 해도 괜찮! 
 
     
-    lat = models.CharField(max_length=20, verbose_name="위도", default= 37.2,
-    )
-    lon = models.CharField(max_length=20, verbose_name="경도", default= 125.3,
-    )
+    lat = models.CharField(max_length=20, verbose_name="위도", default= 37.2, )
+    lon = models.CharField(max_length=20, verbose_name="경도", default= 125.3, )
 
     def __str__(self):
         return self.name
@@ -218,10 +242,6 @@ class Order(models.Model):
     def __str__(self):
         return str(self.pk)
 
-
-
-
-
 class OrderTransactionManager(models.Manager):
 
     # 주문거래 클래스 생성용 함수
@@ -285,11 +305,7 @@ class OrderTransaction(models.Model):
     class Meta:
         ordering= ['-created']
 
-
-
-
 # 리뷰 관련 정보
-
 class Review(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     # An order object can have one and only one review on each order.

@@ -80,7 +80,7 @@ function createSimLetter(num) {
 function setEventListeners() {
     const logo = document.querySelectorAll('.butn');
     for(i in logo){
-        logo[i].addEventListener('click', event => {onMenuClick(event)});
+        logo[i].addEventListener('onclick', event => {onMenuClick(event)});
     }
 }
 

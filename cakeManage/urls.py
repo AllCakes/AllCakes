@@ -78,5 +78,5 @@ urlpatterns = [
     # 맞춤형 메뉴 선택
     path('storemenu/<int:store_pk>', storemenu, name="storemenu"),
     path('storemenu_edit/<int:store_pk>', storemenu_edit, name="storemenu_edit"),
-    path('add_menu/', add_menu , name="add_menu"),
+    path('add_menu/<int:store_pk>', add_menu , name="add_menu"),
 ]
