@@ -11,6 +11,8 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- query-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
     <!--부트스트랩-->
     <!--여기까지-->
@@ -32,17 +34,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        
-
-         						<!--
-						<li class="nav-item ">
-							<a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
-						</li>
-						<li class="nav-item ">
-							<a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
-						</li>
-					-->               
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">     
 
                         <li class="nav-item ">
                             <a class="nav-link px-2" href="{% url 'search_all' %}" style="color:rgba(0,0,0,.5);font-size: 17px; margin-left: 8px; margin-bottom: 10px; padding-top: 3px;">Search</a>
@@ -86,25 +78,32 @@
         {% csrf_token %}
         {{ form.as_p }}
         <br><br><br>
-        <div>
-            <h2>색 선택</h2>
-            <ul class="색"></ul>
+        <div style="margin-top: 5%;">
+            <h2 style="font-weight: bold; margin-bottom: 3%;">색 선택</h2>
+            <ul class="색" style="border: rgba(0, 0, 0, 0.747) 2px solid;  margin-bottom: 8%; ">
+            {% for c in color %}
+                <div id="caketype">
+                    <input type="checkbox" name="color" class="menuclick colorCheck{{c.pk}}" data-key="color_{{c.name}}" value="{{c.pk}}">
+                    <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px">{{c.name}}<br>
+                    가격입력 : <input name="colprice" class="color_{{c.name}} colorInput{{c.pk}}" type="text" disabled style="width: 120px;">
+                </div>
+            {% endfor %}
+        </ul>
+
+            <h2 style="font-weight: bold; margin-bottom: 3%;">크림종류 선택</h2>
+            <ul class="크림종류" style="border: rgba(0, 0, 0, 0.747) 2px solid;  margin-bottom: 8%; ">
+            {% for c in cream %}
+                <div id="caketype">
+                    <input type="checkbox" name="cream" class="menuclick cream{{c.pk}}" data-key="cream_{{c.name}}" value="{{c.pk}}">
+                    <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px">{{c.name}}<br>
+                    가격입력 : <input name="crmprice" class="cream_{{c.name}} cream{{c.pk}}" type="text"  disabled style="width: 120px;">
+                </div>
+            {% endfor %}
+            </ul>
         </div>
-        <div>
-            <h2>크림종류 선택</h2>
-            <ul class="크림종류"></ul>
-        </div>
+        <br><br><br>
         <button type="submit">저장</button>
     </form>
-    <script>
-        var store_col = "{{store_col}}";
-        var store_cream = "{{store_cream}}";
-        var color = "{{색}}";
-        var cream = "{{크림종류}}";
-        var color_price = "{{색가격}}";
-        var cream_price = "{{크림종류가격}}";
-    </script>
-    <script type="text/javascript" src="/static/js/cakeMenu.js" defer></script>
     <footer>
         <div class="footerContent1">
             <div class="about">
@@ -200,7 +199,49 @@
                 console.log(err)
             })
     </script>
+    {{ havecolor | json_script:"havecolor"}}   
+    <script id = "havecolor" type="application/json"></script>
+    {{ havecream | json_script:"havecream"}}   
+    <script id = "havecream" type="application/json"></script>
+    <script>
+        // 이미 cake 메뉴에 추가되었던 것들 표시
+        const color_list = JSON.parse(document.getElementById("havecolor").textContent);
+        const cream_list = JSON.parse(document.getElementById("havecream").textContent);
+        // color 부분
+        const col_key = Object.keys(color_list)
+        for (var i = 0; i < col_key.length; i++){
+            const t1 = document.querySelector(`.colorCheck${col_key[i]}`)
+            const t2 = document.querySelector(`.colorInput${col_key[i]}`)
+            t2.setAttribute("value",color_list[col_key[i]])
+            t1.setAttribute("checked", true)
+        }
+        // cream 부분
+        const crm_key = Object.keys(cream_list)
+        for (var i = 0; i < crm_key.length; i++){
+            const t1 = document.querySelector(`.creamCheck${crm_key[i]}`)
+            const t2 = document.querySelector(`.creamInput${crm_key[i]}`)
+            t2.setAttribute("value",color_list[col_key[i]])
+            t1.setAttribute("checked", true)
+        }
 
+        // 체크박스 추가시 js
+        const click_list = document.querySelectorAll('.menuclick')
+        console.log(click_list)
+        for (var i = 0; i < click_list.length; i++){
+            click_list[i].addEventListener('click', event => { onMenuClick(event)});
+        }
+        function onMenuClick(event) {
+            console.log("클릭")
+            const dataset = event.target.dataset;
+            const k = dataset.key;
+            const h = document.querySelector(`.${k}`)
+            if (h.hasAttribute("disabled")) {
+                h.removeAttribute("disabled");
+            } else {
+                h.setAttribute("disabled", true);
+            }
+        }
+    </script>
 </body>
 
 </html>
