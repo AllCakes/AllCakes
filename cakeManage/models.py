@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from email.policy import default
 #from _typeshed import Self
 from users.models import User
 from django.utils import timezone
@@ -7,7 +8,6 @@ import datetime
 import hashlib
 from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는 구를 다르게 핸주는 옵션
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.postgres.fields import JSONField
 
 class Search(models.Model):
     검색단어 = models.CharField(max_length=30)
@@ -128,11 +128,8 @@ class Cake(models.Model):
     #kdy : 가격 0원으로 바꿈
     price=models.CharField(default='0원',max_length=100)
 
-    색 = models.CharField(max_length=200)
-    색가격 = models.CharField(max_length=200)
-    # 케이크 가격 선택사항
-    크림종류 = models.CharField(max_length=200)
-    크림종류가격 = models.CharField(max_length=200)
+    color = models.JSONField(default=dict)
+    cream = models.JSONField(default=dict)
 
     # 찜을 위한 필드 (임시)
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_cake", related_name="users_liked_cake")
@@ -141,6 +138,30 @@ class Cake(models.Model):
     price = models.IntegerField(default=0, validators=[MinValueValidator(0, MaxValueValidator(100000))])
     def __str__(self):
         return self.cakename
+
+    #재료 정보를 json 형식으로 저장
+    def save_color_menu(self, id, price):
+        self.color[str(id)] = price
+        self.save()
+
+    def save_cream_menu(self, id, price):
+        self.cream[str(id)] = price
+        self.save()
+
+    # checking
+    def print_color_menu(self):
+        return self.color
+
+    def print_cream_menu(self):
+        return self.cream
+    
+    def re_color_menu(self):
+        self.color = {}
+        self.save()
+    
+    def re_cream_menu(self):
+        self.cream = {}
+        self.save()
 
 # Cake와 cake_image 하나만 넣는 식으로 바꿈. CakeImage 모델 삭제
 # 이후 복수 업로드가 필요한 경우 코드 다시 돌리기.

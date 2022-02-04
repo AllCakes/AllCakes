@@ -1,4 +1,5 @@
 {% load static %}
+<!DOCTYPE html>
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +8,8 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    <!-- query-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <!--부트스트랩-->
     <!--여기까지-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
@@ -16,12 +18,13 @@
 </head>
 
 <body>
-
     <!--새로 붙여넣은 header-->
     <header>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white; padding-top: none; padding-bottom: 2px;" height="60px" >
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light"
+            style="background-color: white; padding-top: none; padding-bottom: 2px;" height="60px">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/" style="font-size: 20px; margin-bottom: 15px; margin-left: 13px; margin-right: 7px;">ALLCAKES</a>
+                <a class="navbar-brand" href="/"
+                    style="font-size: 20px; margin-bottom: 15px; margin-left: 13px; margin-right: 7px;">ALLCAKES</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -29,19 +32,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        
-
-         						<!--
-						<li class="nav-item ">
-							<a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
-						</li>
-						<li class="nav-item ">
-							<a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
-						</li>
-					-->               
 
                         <li class="nav-item ">
-                            <a class="nav-link px-2" href="{% url 'search_all' %}" style="color:rgba(0,0,0,.5);font-size: 17px; margin-left: 8px; margin-bottom: 10px; padding-top: 3px;">Search</a>
+                            <a class="nav-link px-2" href="{% url 'search_all' %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; margin-left: 8px; margin-bottom: 10px; padding-top: 3px;">Search</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -51,20 +45,25 @@
                             {% if user.is_authenticated %}
                             {% if user.is_kakao == True %}
                             <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
-                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Logout</a>
+                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Logout</a>
                             {% else %}
-                            <a class="nav-link px-2" href="{% url 'logout' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 7px;">Logout</a>
+                            <a class="nav-link px-2" href="{% url 'logout' %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 7px;">Logout</a>
                             {% endif %}
 
                             {% else %}
                             <!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
-                            <a class="nav-link px-2" href="{% url 'login_home' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Login</a>
+                            <a class="nav-link px-2" href="{% url 'login_home' %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Login</a>
                             {% endif %}
                         </li>
                         <li class="nav-item">
 
                             {% if user.is_authenticated %}
-                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 10px;">My Page</a>
+                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 10px;">My
+                                Page</a>
                             {% endif %}
 
                             {% if not user.is_authenticated %}
@@ -79,33 +78,39 @@
 
     <br><br><br>
     <div style="margin-top: 3%; margin-bottom: 5%;">
-<p class = "cake_title" style = "font-weight: bold; font-size: 40px" >• 케이크 메뉴 등록 •</p>
+        <p class="cake_title" style="font-weight: bold; font-size: 40px">• 케이크 메뉴 등록 •</p>
 
     </div>
-<form method="POST" class="post-form" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <!-- <p>예시 케이크 사진을 첨부해주세요.</p> -->
-    <!-- <input type="file" name="imgs" multiple> -->
-    <br><br><br>
-    <div style = "margin-top: 5%;">
-        <h2 style = "font-weight: bold; margin-bottom: 3%;">색 선택</h2> 
-        <ul class="색" style="border: rgba(0, 0, 0, 0.747) 2px solid;  margin-bottom: 8%; "></ul>
-    </div>
-    <div><h2 style = "font-weight: bold; margin-bottom: 3%;">크림종류 선택</h2> 
-        <ul class="크림종류"style="border: rgba(0, 0, 0, 0.747) 2px solid "></ul>
-    </div>
-    <button type="submit">저장</button>
-</form>
-<script>
-    var store_col = "{{store_col}}";
-    var store_cream = "{{store_cream}}";
-    var color = "{{색}}";
-    var cream = "{{크림종류}}";
-    var color_price = "{{색가격}}";
-    var cream_price = "{{크림종류가격}}";
-</script>
-<script type="text/javascript" src="/static/js/cakeMenu.js" defer></script>
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br><br><br>
+        <div style="margin-top: 5%;">
+            <h2 style="font-weight: bold; margin-bottom: 3%;">색 선택</h2>
+            <ul class="색" style="border: rgba(0, 0, 0, 0.747) 2px solid;  margin-bottom: 8%; ">
+            {% for c in color %}
+                <div id="caketype">
+                    <input type="checkbox" name="color" class="menuclick" data-key="color_{{c.name}}" value="{{c.pk}}">
+                    <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px">{{c.name}}<br>
+                    가격입력 : <input name="colprice" class="color_{{c.name}}" type="text" disabled style="width: 120px;">
+                </div>
+            {% endfor %}
+        </ul>
+
+            <h2 style="font-weight: bold; margin-bottom: 3%;">크림종류 선택</h2>
+            <ul class="크림종류" style="border: rgba(0, 0, 0, 0.747) 2px solid;  margin-bottom: 8%; ">
+            {% for c in cream %}
+                <div id="caketype">
+                    <input type="checkbox" name="cream" class="menuclick" data-key="cream_{{c.name}}" value="{{c.pk}}">
+                    <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px">{{c.name}}<br>
+                    가격입력 : <input name="crmprice" class="cream_{{c.name}}" type="text"  disabled style="width: 120px;">
+                </div>
+            {% endfor %}
+            </ul>
+        </div>
+        <br><br><br>
+        <button type="submit">저장</button>
+    </form>
     <footer>
         <div class="footerContent1">
             <div class="about">
@@ -200,6 +205,25 @@
             .catch((err) => {
                 console.log(err)
             })
+    </script>
+    <script defer>
+        const click_list = document.querySelectorAll('.menuclick')
+        console.log(click_list)
+        for (var i = 0; i < click_list.length; i++){
+            console.log(i)
+            click_list[i].addEventListener('click', event => { onMenuClick(event)});
+        }
+        function onMenuClick(event) {
+            console.log("클릭")
+            const dataset = event.target.dataset;
+            const k = dataset.key;
+            const h = document.querySelector(`.${k}`)
+            if (h.hasAttribute("disabled")) {
+                h.removeAttribute("disabled");
+            } else {
+                h.setAttribute("disabled", true);
+            }
+        }
     </script>
 </body>
 

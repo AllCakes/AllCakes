@@ -19,6 +19,8 @@ from django.shortcuts import render
 import datetime
 from itertools import chain #쿼리셋 결합 위해 추가
 from django.core import serializers
+# django JSONEncorder
+from django.core.serializers.json import DjangoJSONEncoder
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.db.models import Count #리뷰 갯수 세기 위해서 (리뷰 많은 순 정렬)
@@ -291,32 +293,47 @@ def store_delete(request, pk):
 # 케이크 등록 C (사장님측 UX, 관리자측이 사용할 수도..)
 def cake_new(request, pk): #가게 pk값
     store = get_object_or_404(Store, pk=pk)
-    store_menu = get_object_or_404(Store_Menu, store = store)
-    # 가게별 요청 - 선택사항 콤마로 분리
-    store_col = store_menu.색.replace(" ","").split(',')
-    store_cream = store_menu.크림종류.replace(" ","").split(',')
+    # 가게별 재료 
+    color = store.color.all()
+    cream = store.cream.all()
+    if request.user != store.owner:
+        raise ValidationError("잘못된 접근입니다.")
     if request.method == 'POST':
         form = CakeForm(request.POST, request.FILES)
         # getlist로 가져오기
-        color = request.POST.getlist('색')
-        colorPrice = request.POST.getlist('색price')
-        cream = request.POST.getlist('크림종류')
-        creamPrice = request.POST.getlist('크림종류price')
+        color = request.POST.getlist('color')
+        colorPrice = request.POST.getlist('colprice')
+        cream = request.POST.getlist('cream')
+        creamPrice = request.POST.getlist('crmprice')
+        # 조작된 경우
+        if len(color) != len(colorPrice):
+            raise ValidationError("잘못된 접근입니다.")
+        if len(cream) != len(creamPrice):
+            raise ValidationError("잘못된 접근입니다.")
         if form.is_valid():
             cake = form.save(commit=False)
             cake.author = request.user # author 저장이 필요한지?
             cake.pub_date = timezone.now()
             cake.referred_store = store
             # 케이크 메뉴 저장
-            cake.색 = ','.join(color)
-            cake.색가격 = ','.join(colorPrice)
-            cake.크림종류 = ','.join(cream)
-            cake.크림종류가격 = ','.join(creamPrice)
+            for i in range(0,len(color)):
+                print(color[i])
+                print(colorPrice[i])
+                cake.save_color_menu(color[i], colorPrice[i])
+            for i in range(0,len(cream)):
+                cake.save_cream_menu(cream[i], creamPrice[i])
+            e = cake.print_color_menu()
+            print(e)
             cake.save()
             return redirect('store_detail', pk=pk)
     else:
         form = CakeForm()
-    return render(request, 'cake_new.html', {'form': form, 'store_col':store_col, 'store_cream': store_cream})
+    context = {
+        'form': form,
+        'color': color,
+        'cream': cream
+    }
+    return render(request, 'cake_new.html', context)
 
 # 케이크 상세 R
 def cake_detail(request, pk): #cake의 pk값
@@ -325,41 +342,56 @@ def cake_detail(request, pk): #cake의 pk값
     return render(request, 'cake_detail.html',{'cake':cake, 'review':review})
 
 
-
-
 # 케이크 수정 U
 def cake_edit(request, pk): #cake의 pk값
     cake = get_object_or_404(Cake, pk=pk)
     store = get_object_or_404(Store, pk = cake.referred_store_id)
-    store_menu = get_object_or_404(Store_Menu, store = store)
-    # 가게별 요청 - 선택사항 콤마로 분리
-    store_col = store_menu.색.replace(" ","").split(',')
-    store_cream =  store_menu.크림종류.replace(" ","").split(',')
-    color = cake.색.replace(" ","").split(',')
-    cream =  cake.크림종류.replace(" ","").split(',')
-    col_price =  cake.색가격.replace(" ","").split(',')
-    cream_price =  cake.크림종류가격.replace(" ","").split(',')
+    # 가게별 재료 
+    color = store.color.all()
+    cream = store.cream.all()
+    # 이미 입력된 재료들
+    havecolor = cake.print_color_menu()
+    havecream = cake.print_cream_menu()
+
     if request.user != store.owner:
         raise ValidationError("잘못된 접근입니다.")
-    if request.method == "POST":
-        color = request.POST.getlist('색')
-        colorPrice = request.POST.getlist('색price')
-        cream = request.POST.getlist('크림종류')
-        creamPrice = request.POST.getlist('크림종류price')
+    if request.method == 'POST':
         form = CakeForm(request.POST, request.FILES, instance=cake)
+        # getlist로 가져오기
+        color = request.POST.getlist('color')
+        colorPrice = request.POST.getlist('colprice')
+        cream = request.POST.getlist('cream')
+        creamPrice = request.POST.getlist('crmprice')
+        # 조작된 경우
+        if len(color) != len(colorPrice):
+            raise ValidationError("잘못된 접근입니다.")
+        if len(cream) != len(creamPrice):
+            raise ValidationError("잘못된 접근입니다.")
+
         if form.is_valid():
             cake = form.save(commit=False)
-            # store.pub_date = timezone.now() # 게시일자(pub_date) 대신, 새로운 필드로 수정 일자를 넣는 것을 고려 
+            cake.author = request.user # author 저장이 필요한지?
+            cake.pub_date = timezone.now()
+            cake.referred_store = store
             # 케이크 메뉴 저장
-            cake.색 = ','.join(color)
-            cake.색가격 = ','.join(colorPrice)
-            cake.크림종류 = ','.join(cream)
-            cake.크림종류가격 = ','.join(creamPrice)
+            cake.re_color_menu()
+            cake.re_cream_menu()
+            for i in range(0,len(color)):
+                cake.save_color_menu(color[i], colorPrice[i])
+            for i in range(0,len(cream)):
+                cake.save_cream_menu(cream[i], creamPrice[i])
             cake.save()
             return redirect('store_detail', pk= store.pk) # 케이크 관리페이지, 혹은 일단 가게페이지로 가도록 구현
     else:
-        form = CakeForm(instance=cake)
-    return render(request, 'cake_edit.html', {'form': form,  'store_col':store_col, 'store_cream': store_cream, '색':color, '크림종류':cream, '크림종류가격': cream_price, '색가격':col_price})
+        form = CakeForm(instance = cake)
+    context = {
+        'form': form,
+        'color': color,
+        'cream': cream,
+        'havecolor':havecolor,
+        'havecream':havecream
+    }
+    return render(request, 'cake_edit.html', context)
 
 # 케이크 삭제 D
 def cake_delete(request, pk): #cake의 pk값
