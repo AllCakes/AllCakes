@@ -247,21 +247,31 @@ class Order(models.Model):
     pay_price = models.IntegerField(default= 0,validators=[MinValueValidator(0),MaxValueValidator(100000)])
     amount_coupon = models.ForeignKey(AmountCoupon, on_delete=models.SET_NULL, null=True, blank=True)
     percent_coupon = models.ForeignKey(PercentCoupon, on_delete=models.SET_NULL, null=True, blank=True)
-    # 선택사항
-
-    색 = models.CharField(max_length=15)
-    크림종류=models.CharField(max_length=15)
+    
+    # 주문 재료 선택
+    ingredient = models.JSONField(default=dict)
     원하시는도안사진첨부 = models.ImageField(null=True,upload_to='orderimages/',blank=True, verbose_name="사진 첨부(도시락케이크 선택시)")
 
     # 쿠폰 적용 전 금액, 적용 쿠폰, 최종금액
     # original_price = models.IntegerField(default=referred_cake.price)
     # amount_coupon = models.ForeignKey(AmountCoupon, on_delete=models.PROTECT, related_name='amount_coupon', null=True, blank=True)
     # percent_coupon = models.ForeignKey(PercentCoupon, on_delete=models.PROTECT, related_name='percent_coupon', null=True, blank=True)
-
-
     # total_price = models.IntegerField()
+
     def __str__(self):
         return str(self.pk)
+
+    # 재료 관련 def
+    def save_menu(self, type, id, price):
+        self.ingredient[type] = {str(id) : str(price)}
+        self.save()
+
+    def print_menu(self):
+        return self.ingredient
+    
+    def reset_menu(self):
+        self.ingredient = {}
+        self.save()
 
 class OrderTransactionManager(models.Manager):
 

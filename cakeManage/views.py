@@ -1,7 +1,8 @@
+from asyncio.windows_events import NULL
 from email import message
 from django.core import paginator
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse, request
+from django.http import HttpResponse, QueryDict, request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.resolvers import LocaleRegexDescriptor
 from django.utils import timezone
@@ -187,15 +188,11 @@ def filtering(request):
 
             #print(filtered_product)
             filtered_product=tmp_list
-            if(not(category)):
-                if(not(locationSi)):
-                    if(not(locationGu)):
-                        if(not(size)):
-                            if(not(price)):
-                                if(chkCategory==1) :
-                                        filtered_product=Cake.objects.all()
-                                else:
-                                        filtered_product=Store.objects.all()
+            if(not(category) and not(locationSi) and not(locationGu) and not(size) and not(price)):
+                if(chkCategory==1) :
+                    filtered_product=Cake.objects.all()
+                else:
+                    filtered_product=Store.objects.all()
             print(filtered_product)
             #카테고리, 가격, 사이즈 필터링 거친 마무리 갯수 구하기
         num=0
@@ -411,10 +408,24 @@ def order_new(request, cake_pk): #cake의 pk값
     # 가게별 요청 - 선택사항 콤마로 분리
     a_coupons = AmountCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
     p_coupons = PercentCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
-    색 = cake.색.replace(" ","").split(',')
-    크림종류 =  cake.크림종류.replace(" ","").split(',')
-    색가격 = cake.색가격.replace(" ","").split(',')
-    크림종류가격 = cake.크림종류가격.replace(" ","").split(',')
+    # 케이크 - 재료
+    havecolor = cake.print_color_menu()
+    havecream = cake.print_cream_menu()
+    colorObj = []
+    creamObj = []
+
+    q = Q()
+    for i in list(havecolor.keys()):
+        q.add(Q(pk = int(i)), q.OR)
+    if q:
+        colorObj = Menu_Color.objects.filter(q)
+    q = Q()
+    for i in list(havecream.keys()):
+        q.add(Q(pk = int(i)), q.OR)
+    if q != Q():
+        creamObj = Menu_Cream.objects.filter(q)
+    print(colorObj)
+    print(creamObj)
     if request.method == 'POST':
         form = OrderForm(request.POST, request.FILES)
         if form.is_valid():
@@ -424,11 +435,20 @@ def order_new(request, cake_pk): #cake의 pk값
             order.referred_cake = cake
             order.referred_store = cake.referred_store
             order.pay_price = cake.price
-            order.색 = request.POST.get('색')
-            order.크림종류 = request.POST.get('크림종류')
-            idx_col = 색.index(order.색)
-            idx_crm = 크림종류.index(order.크림종류)
-            order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+            # 정제 작업
+            color = request.POST.get('color')
+            cream = request.POST.get('cream')
+            # 재료 저장
+            color_price = 0
+            cream_price = 0
+            if color != None :
+                order.save_menu('color', color, havecolor[color])
+                color_price = havecolor[color]
+            if cream != None :
+                order.save_menu('cream', cream, havecream[cream])
+                cream_price = havecream[cream]
+            # 계산 작업
+            order.prev_price = (int(cake.price) + int(color_price) + int(cream_price))
             order.pay_price = order.prev_price
             s = request.POST.get('coupon').split("_")
             if request.POST.get('coupon') != "a_0":
@@ -444,7 +464,7 @@ def order_new(request, cake_pk): #cake의 pk값
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.amount_coupon = coupon
-                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.prev_price = int(cake.price) + int(color_price) + int(cream_price)
                         order.pay_price = int(order.prev_price) - coupon.amount
                 else:
                     # 비율쿠폰
@@ -457,7 +477,7 @@ def order_new(request, cake_pk): #cake의 pk값
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.percent_coupon = coupon
-                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.prev_price = (int(cake.price) + int(color_price) + int(cream_price))
                         order.pay_price = int(order.prev_price) * (float(100 - coupon.percent) / 100)
                     #유저의 것인지 확인 해야 함.
             order.save()
@@ -465,7 +485,17 @@ def order_new(request, cake_pk): #cake의 pk값
             return redirect('order_detail', order_pk=order.pk)
     else:
         form = OrderForm()
-    return render(request, 'order.html', {'form': form, 'cake':cake, '색':색, '색가격':색가격,'크림종류':크림종류, '크림종류가격':크림종류가격, 'a_coupons':a_coupons, 'p_coupons':p_coupons})
+    Context = {
+        'form': form,
+        'cake':cake,
+        'havecolor':havecolor,
+        'havecream':havecream,
+        'color':colorObj,
+        'cream':creamObj,
+        'a_coupons':a_coupons,
+        'p_coupons':p_coupons
+    }
+    return render(request, 'order.html', Context)
 
 # 주문 상세 R
 def order_detail(request, order_pk):
@@ -485,6 +515,8 @@ def order_all(request, user_pk):
 def order_edit(request, order_pk):
     order = get_object_or_404(Order, pk=order_pk)
     cake = get_object_or_404(Cake, pk=order.referred_cake.pk)
+    if not request.user.is_authenticated:
+        return redirect('login_home')
     if request.user != order.user:
         raise ValidationError("잘못된 접근입니다.")
     if order.is_paid:
@@ -492,20 +524,41 @@ def order_edit(request, order_pk):
     # 가게별 요청 - 선택사항 콤마로 분리
     a_coupons = AmountCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
     p_coupons = PercentCoupon.objects.filter(user=request.user).filter(is_active=True).filter(use_to__date__gt=datetime.date.today())
-    색 = cake.색.replace(" ","").split(',')
-    크림종류 =  cake.크림종류.replace(" ","").split(',')
-    색가격 = cake.색가격.replace(" ","").split(',')
-    크림종류가격 = cake.크림종류가격.replace(" ","").split(',')
+    # 케이크 재료
+    havecolor = cake.print_color_menu()
+    havecream = cake.print_cream_menu()
+    colorObj = []
+    creamObj = []
+    q = Q()
+    for i in list(havecolor.keys()):
+        q.add(Q(pk = int(i)), q.OR)
+    if q :
+        colorObj = Menu_Color.objects.filter(q)
+    q = Q()
+    for i in list(havecream.keys()):
+        q.add(Q(pk = int(i)), q.OR)
+    if q:
+        creamObj = Menu_Cream.objects.filter(q)
+    # 기존 주문 내역
     if request.method == 'POST':
         form = OrderForm(request.POST, request.FILES, instance=order)
         if form.is_valid():
             order = form.save(commit=False)
-            order.색 = request.POST.get('색')
-            order.크림종류 = request.POST.get('크림종류')
-            idx_col = 색.index(order.색)
-            idx_crm = 크림종류.index(order.크림종류)
+            # 정제 작업
+            color = request.POST.get('color')
+            cream = request.POST.get('cream')
+            # 재료 재저장
+            color_price = 0
+            cream_price = 0
+            order.reset_menu()
+            if color != None :
+                order.save_menu('color', color, havecolor[color])
+                color_price = havecolor[color]
+            if cream != None :
+                order.save_menu('cream', cream, havecream[cream])
+                cream_price = havecream[cream]
             s = request.POST.get('coupon').split("_")
-            order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+            order.prev_price = (int(cake.price) + int(color_price) + int(cream_price))
             order.pay_price = order.prev_price
             if request.POST.get('coupon') != "a_0":
                 # 쿠폰 있다 한 경우 (쿠폰이 적용 안된 경우 아무런 조치 X)
@@ -520,7 +573,7 @@ def order_edit(request, order_pk):
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.amount_coupon = coupon
-                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.prev_price =  (int(cake.price) + int(color_price) + int(cream_price))
                         order.pay_price = int(order.prev_price) - coupon.amount
                 else:
                     # 비율쿠폰
@@ -533,7 +586,7 @@ def order_edit(request, order_pk):
                         raise ValidationError("해당 쿠폰을 사용할 수 없습니다.")
                     else:
                         order.percent_coupon = coupon
-                        order.prev_price = (int(cake.price) + int(색가격[idx_col]) + int(크림종류가격[idx_crm]))
+                        order.prev_price =  (int(cake.price) + int(color_price) + int(cream_price))
                         order.pay_price = int(order.prev_price) * (float(100 - coupon.percent) / 100)
                     #유저의 것인지 확인 해야 함.
             # get 방식으로 가져와 저장
@@ -541,7 +594,19 @@ def order_edit(request, order_pk):
             return redirect('order_detail', order_pk=order.pk)
     else:
         form = OrderForm(instance=order)
-    return render(request, 'order_edit.html', {'form': form, 'order':order, 'cake':cake, '색':색, '색가격':색가격,'크림종류':크림종류, '크림종류가격':크림종류가격, 'a_coupons':a_coupons, 'p_coupons':p_coupons})
+    context = {
+        'form': form,
+        'price':order.pay_price,
+        'order': order.print_menu(),
+        'cake': cake,
+        'havecolor': havecolor,
+        'havecream': havecream,
+        'color':colorObj,
+        'cream':creamObj,
+        'a_coupons':a_coupons,
+        'p_coupons':p_coupons
+    }
+    return render(request, 'order_edit.html', context)
 
 # 주문 삭제 D
 def order_delete(request, order_pk):
@@ -894,7 +959,7 @@ def storemenu_edit(request, store_pk):
         for i in cols:
             store.color.add(get_object_or_404(Menu_Color, pk=int(i)))
         for i in crms:
-            store.cream.add(get_object_or_404(Menu_Color, pk=int(i)))
+            store.cream.add(get_object_or_404(Menu_Cream, pk=int(i)))
         return redirect('store_detail', pk=store_pk)
     context = {
         'color':color,

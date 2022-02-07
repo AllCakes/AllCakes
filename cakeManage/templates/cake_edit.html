@@ -94,9 +94,9 @@
             <ul class="크림종류" style="border: rgba(0, 0, 0, 0.747) 2px solid;  margin-bottom: 8%; ">
             {% for c in cream %}
                 <div id="caketype">
-                    <input type="checkbox" name="cream" class="menuclick cream{{c.pk}}" data-key="cream_{{c.name}}" value="{{c.pk}}">
+                    <input type="checkbox" name="cream" class="menuclick creamCheck{{c.pk}}" data-key="cream_{{c.name}}" value="{{c.pk}}">
                     <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px">{{c.name}}<br>
-                    가격입력 : <input name="crmprice" class="cream_{{c.name}} cream{{c.pk}}" type="text"  disabled style="width: 120px;">
+                    가격입력 : <input name="crmprice" class="cream_{{c.name}} creamInput{{c.pk}}" type="text"  disabled style="width: 120px;">
                 </div>
             {% endfor %}
             </ul>
@@ -207,20 +207,25 @@
         // 이미 cake 메뉴에 추가되었던 것들 표시
         const color_list = JSON.parse(document.getElementById("havecolor").textContent);
         const cream_list = JSON.parse(document.getElementById("havecream").textContent);
+        console.log(color_list)
+        console.log(cream_list)
         // color 부분
-        const col_key = Object.keys(color_list)
-        for (var i = 0; i < col_key.length; i++){
-            const t1 = document.querySelector(`.colorCheck${col_key[i]}`)
-            const t2 = document.querySelector(`.colorInput${col_key[i]}`)
-            t2.setAttribute("value",color_list[col_key[i]])
+        var c_key = Object.keys(color_list)
+        for (var i = 0; i < c_key.length; i++){
+            const t1 = document.querySelector(`.colorCheck${c_key[i]}`)
+            const t2 = document.querySelector(`.colorInput${c_key[i]}`)
+            t2.setAttribute("value",color_list[c_key[i]])
+            t2.removeAttribute("disabled")
             t1.setAttribute("checked", true)
         }
         // cream 부분
-        const crm_key = Object.keys(cream_list)
-        for (var i = 0; i < crm_key.length; i++){
-            const t1 = document.querySelector(`.creamCheck${crm_key[i]}`)
-            const t2 = document.querySelector(`.creamInput${crm_key[i]}`)
-            t2.setAttribute("value",color_list[col_key[i]])
+        c_key = Object.keys(cream_list)
+        console.log(c_key)
+        for (var i = 0; i < c_key.length; i++){
+            const t1 = document.querySelector(`.creamCheck${c_key[i]}`)
+            const t2 = document.querySelector(`.creamInput${c_key[i]}`)
+            t2.setAttribute("value",cream_list[c_key[i]])
+            t2.removeAttribute("disabled")
             t1.setAttribute("checked", true)
         }
 
