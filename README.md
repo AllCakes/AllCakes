@@ -7,6 +7,7 @@
 강현석(BE), 김동윤(BE), 위서영(FE), 함희원(BE)
 <br><br>
 ### 🌷ERD
+<img src = "./ERD.png">
 <br><br>
 ### 🌻주요기능 :
 ```
