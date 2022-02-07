@@ -1,5 +1,6 @@
 {% load static %}
-
+<!DOCTYPE html>
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -22,14 +23,13 @@
     <link rel="stylesheet" href="{% static 'css/order.css' %}">
 </head>
 
-
-
-
 <body>
     <header>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: white; padding-top: none; padding-bottom: 2px;" height="60px" >
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light"
+            style="background-color: white; padding-top: none; padding-bottom: 2px;" height="60px">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/" style="font-size: 20px; margin-bottom: 15px; margin-left: 13px; margin-right: 7px;">ALLCAKES</a>
+                <a class="navbar-brand" href="/"
+                    style="font-size: 20px; margin-bottom: 15px; margin-left: 13px; margin-right: 7px;">ALLCAKES</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -37,19 +37,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        
-
-         						<!--
-						<li class="nav-item ">
-							<a class="nav-link px-2" href="{% url 'stores_all' %}">Stores</a>
-						</li>
-						<li class="nav-item ">
-							<a class="nav-link px-2" href="{% url 'cakes_all' %}">Cakes</a>
-						</li>
-					-->               
 
                         <li class="nav-item ">
-                            <a class="nav-link px-2" href="{% url 'search_all' %}" style="color:rgba(0,0,0,.5);font-size: 17px; margin-left: 8px; margin-bottom: 10px; padding-top: 3px;">Search</a>
+                            <a class="nav-link px-2" href="{% url 'search_all' %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; margin-left: 8px; margin-bottom: 10px; padding-top: 3px;">Search</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -59,20 +50,25 @@
                             {% if user.is_authenticated %}
                             {% if user.is_kakao == True %}
                             <!-- 인증된 상태에서 카카오인 경우, 아닌 경우-->
-                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Logout</a>
+                            <a class="nav-link px-2" href="{% url 'logout_with_kakao' %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Logout</a>
                             {% else %}
-                            <a class="nav-link px-2" href="{% url 'logout' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 7px;">Logout</a>
+                            <a class="nav-link px-2" href="{% url 'logout' %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 7px;">Logout</a>
                             {% endif %}
 
                             {% else %}
                             <!-- 인증되지 않은 상태면 로그인(가입) 링크 -->
-                            <a class="nav-link px-2" href="{% url 'login_home' %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Login</a>
+                            <a class="nav-link px-2" href="{% url 'login_home' %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px;">Login</a>
                             {% endif %}
                         </li>
                         <li class="nav-item">
 
                             {% if user.is_authenticated %}
-                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}" style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 10px;">My Page</a>
+                            <a class="nav-link px-2" href="{% url 'mypage' user_pk=user.pk %}"
+                                style="color:rgba(0,0,0,.5);font-size: 17px; padding-top: 4px; margin-bottom: 10px;">My
+                                Page</a>
                             {% endif %}
 
                             {% if not user.is_authenticated %}
@@ -104,8 +100,6 @@
                                 <p class="order-fixed-user">[ 주문자 ] {{ user.nickname }}</p>
                             </div>
 
-
-
                             <div class="pickup-info">
                                 {% csrf_token %}
                                 {{ form.as_p }}
@@ -114,19 +108,48 @@
                     </div>
                     <div class="order-color">
                         <h2 class="color-pick">색 선택</h2>
-                        <ul class="색" style="border: rgba(0, 0, 0, 0.747) 2px solid "></ul>
+                        <ul class="색" style="border: rgba(0, 0, 0, 0.747) 2px solid ">
+                            {% for c in color %}
+                            <div id="caketype">
+                                <input class="butn colorData{{c.pk}}" name="color" data-key="color,{{c.name}}" type="radio" value="{{c.pk}}">
+                                <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px">
+                                <div>{{c.name}} : <ul class="color_{{c.pk}}"></ul>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </ul>
                     </div>
-
-
                     <div class="order-cream">
                         <h2 class="cream-pick">크림종류 선택</h2>
-                        <ul class="크림종류"  style="border: rgba(0, 0, 0, 0.747) 2px solid "></ul>
+                        <ul class="크림종류" style="border: rgba(0, 0, 0, 0.747) 2px solid ">
+                            {% for c in cream %}
+                            <div id="caketype">
+                                <input class="butn creamData{{c.pk}}" name="cream" data-key="cream,{{c.name}}" type="radio" value="{{c.pk}}">
+                                <img src="{% get_static_prefix %}{{c.img}}" style="height : 100px">
+                                <div>{{c.name}} : <ul class="cream_{{c.pk}}"></ul>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </ul>
                     </div>
 
                     <input type="text" name="coupon" id="coupon-pk" value="a_0" style="display:none;">
                     <div class="button-simul">
                         <button type="submit" class="order-button"> 주문하기 </button>
-                        <div class="simulation"></div>
+                        <div class="simulation">
+                            {% for c in color %}
+                            <div class="colorsel" id="color{{c.name}}" style="position:absolute; display:none">
+                                <img src =" {% if c.img != 'img/noimg.png' %} {% get_static_prefix %}{{c.img}} {% endif %}" width="400px"></div>
+                            {% endfor %}
+                            {% for c in cream %}
+                            <div class="creamsel" id="cream{{c.name}}" style="position:absolute; display:none">
+                                <img src =" {% if c.img != 'img/noimg.png' %} {% get_static_prefix %}{{c.img}} {% endif %}" width="400px"></div>
+                            {% endfor %}
+                            <div id="letter_pos1" style="position:absolute; display:none">
+                            <img src ="/static/img/letter1.png" width="400px"></div>
+                            <div id="letter_pos2" style="position:absolute; display:none">
+                            <img src ="/static/img/letter2.png" width="400px"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -159,16 +182,6 @@
 
         </div>
     </main>
-    <script>
-        var color = "{{색}}";
-        var cream = "{{크림종류}}";
-        var colorP = "{{색가격}}";
-        var creamP = "{{크림종류가격}}";
-        var choice_color = "{{order.색}}";
-        var choice_cream = "{{order.크림종류}}";
-        var total_price = "{{cake.price}}";
-    </script>
-    <script type="text/javascript" src="/static/js/orderMenu.js" defer></script>
     <script>
         function goBack() {
             window.history.back();
@@ -205,6 +218,81 @@
                 discounted_price = price;
             }
             document.getElementById('total').innerHTML = discounted_price;
+        }
+    </script>
+    {{ havecolor | json_script:"havecolor"}}
+    <script id="havecolor" type="application/json"></script>
+    {{ havecream | json_script:"havecream"}}
+    <script id="havecream" type="application/json"></script>
+    <script defer>
+        // 이미 cake 메뉴에 추가되었던 것들 표시
+        const color_list = JSON.parse(document.getElementById("havecolor").textContent);
+        const cream_list = JSON.parse(document.getElementById("havecream").textContent);
+        // color 부분
+        var c_key = Object.keys(color_list)
+        for (var i = 0; i < c_key.length; i++) {
+            const t1 = document.querySelector(`.color_${c_key[i]}`)
+            t1.innerHTML = color_list[c_key[i]] + "원"
+        }
+        // cream 부분
+        c_key = Object.keys(cream_list)
+        for (var i = 0; i < c_key.length; i++) {
+            const t1 = document.querySelector(`.cream_${c_key[i]}`)
+            t1.textContent = cream_list[c_key[i]] + "원"
+        }
+
+        function sumPrice() {
+            // 가격 계산
+            var price_cream = 0, price_color = 0;
+            var cream_query = document.querySelector('input[name="cream"]:checked');
+            var color_query = document.querySelector('input[name="color"]:checked');
+            if (cream_query) {
+                idx = cream_query.value
+                price_cream = cream_list[idx]
+            }
+            if (color_query) {
+                idx = color_query.value;
+                price_color = color_list[idx]
+            }
+
+            var total = Number("{{cake.price}}") + Number(price_color) + Number(price_cream);
+            console.log(total)
+            document.getElementById('total_price').value = total;
+        }
+    </script>
+    <script>
+        // simulation
+        const click_list = document.querySelectorAll('.butn');
+        for (var i = 0; i < click_list.length; i++){
+            click_list[i].addEventListener('click', event => { onMenuClick(event)});
+        }
+        function onMenuClick(event) {
+            const dataset = event.target.dataset;
+            const k = dataset.key;
+            const key = k.split(',');
+
+            if (key[0] === 'letter') {
+                mesg = document.getElementById('id_lettering_position').value;
+                console.log(mesg)
+                if (mesg == "케이크에 직접 레터링") {
+                    document.getElementById('letter_pos1').style.display = 'none';
+                    document.getElementById('letter_pos2').style.display = 'block';
+                }
+                else {
+                    document.getElementById('letter_pos1').style.display = 'block';
+                    document.getElementById('letter_pos2').style.display = 'none';
+                }
+            }
+            else {
+                // 나머지 닫기
+                sumPrice()
+                list = document.getElementsByClassName(`${key[0]}sel`);
+                for (i of list) {
+                    i.style.display = 'none';
+                }
+                // 그것만 열기
+                document.getElementById(`${key[0]}${key[1]}`).style.display = 'block';
+            }
         }
     </script>
 </body>

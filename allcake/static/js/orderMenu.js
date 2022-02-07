@@ -1,138 +1,102 @@
-// JSON file 에서 fetch 작업
-function loadMenu(){
-    return fetch('/static/data/menu.json')
-    .then(response => response.json())
-    .then(json => json.menu);
+// simulation
+const click_list = document.querySelectorAll('.butn');
+for (var i = 0; i < click_list.length; i++) {
+    click_list[i].addEventListener('click', event => { onMenuClick(event) });
 }
-
-// 각 json data를 html 요소로 변환
-function display(menu){
-    const sim = document.querySelector(".simulation");
-    const simStr = [];
-
-    for(type in menu[0]){
-        const container = document.querySelector(`.${type}`);
-        const str = [];
-        var list, price;
-
-        if(type === '색'){
-            list = color.replace(/&#x27;/g,"").replaceAll(" ","").replace("[","").replace("]","").split(',');
-            price = colorP.replace(/&#x27;/g,"").replaceAll(" ","").replace("[","").replace("]","").split(',');
-        }
-        else if(type === '크림종류'){
-            list = cream.replace(/&#x27;/g,"").replaceAll(" ","").replace("[","").replace("]","").split(',');
-            price = creamP.replace(/&#x27;/g,"").replaceAll(" ","").replace("[","").replace("]","").split(',');
-        }
-
-        for(i in list){ // 딸기
-            const img = menu[0][type][list[i]];   // 이미지
-            if((type == "색" && list[i] == choice_color) || (type == "크림종류" && list[i] == choice_cream)){
-                str.push(createHTMLString(type, list[i], price[i], img, 0));
-                simStr.push(createSimHTMLString(type, list[i], img, 0));
-            }
-            else{
-                str.push(createHTMLString(type, list[i], price[i], img, 1));
-                simStr.push(createSimHTMLString(type, list[i], img, 1));
-            }
-        }
-        container.innerHTML = str.join('');
-    }
-    // 레터링 부분 추가
-    simStr.push(createSimLetter(1));
-    simStr.push(createSimLetter(2));
-
-    sim.innerHTML = simStr.join('');
-}
-
-// Html 문서 
-function createHTMLString(type, item, price, img, num) {
-    if(num == 0)
-        return `<div id="caketype">
-        <input class="butn" name="${type}" data-key="${type},${item}" data-value="${price}" type="radio" checked value="${item}">
-        <img src="${img}" style="height : 100px"> ${item} : + ${price} 원
-        </div>`;
-    return `<div id="caketype">
-    <input class="butn" name="${type}" data-key="${type},${item}" data-value="${price}" type="radio" value="${item}">
-    <img src="${img}" style="height : 100px"> ${item} : + ${price} 원
-    </div>`;
-}
-
-// 시물레이션에 필요한 Html 문서 
-function createSimHTMLString(type, item, img, num) {
-    if(img === '/static/img/noimg.png'){
-        return`<div class="${type}sel" id="${type}${item}"></div>`;
-    }
-    if(num == 0){
-        return `<div class="${type}sel" id="${type}${item}" style="position:absolute; display:block">
-        <img src ="${img}" width="400px"></div>`;
-    }
-    return `<div class="${type}sel" id="${type}${item}" style="position:absolute; display:none">
-    <img src ="${img}" width="400px"></div>`;
-}
-
-// 시물레이션에 필요한 Html 문서 - 레터링 부분 
-function createSimLetter(num) {
-    return `<div id="letter_pos${num}" style="position:absolute; display:none">
-    <img src ="/static/img/letter${num}.png" width="400px"></div>`;
-}
-
-// 클릭시 이벤트
-function setEventListeners() {
-    const logo = document.querySelectorAll('.butn');
-    for(i in logo){
-        logo[i].addEventListener('onclick', event => {onMenuClick(event)});
-    }
-}
-
-function onMenuClick(event){
+function onMenuClick(event) {
     const dataset = event.target.dataset;
     const k = dataset.key;
-    const value = dataset.value;
     const key = k.split(',');
 
-    if(key[0] === 'letter'){
+    if (key[0] === 'letter') {
         mesg = document.getElementById('id_lettering_position').value;
         console.log(mesg)
-        if(mesg == "케이크에 직접 레터링"){
-            document.getElementById('letter_pos1').style.display ='none';
-            document.getElementById('letter_pos2').style.display ='block';
+        if (mesg == "케이크에 직접 레터링") {
+            document.getElementById('letter_pos1').style.display = 'none';
+            document.getElementById('letter_pos2').style.display = 'block';
         }
-        else{
-            document.getElementById('letter_pos1').style.display ='block';
-            document.getElementById('letter_pos2').style.display ='none';
+        else {
+            document.getElementById('letter_pos1').style.display = 'block';
+            document.getElementById('letter_pos2').style.display = 'none';
         }
     }
-    else{
-        calPrice();
+    else {
         // 나머지 닫기
+        sumPrice()
         list = document.getElementsByClassName(`${key[0]}sel`);
-        for(i of list){
+        for (i of list) {
             i.style.display = 'none';
         }
         // 그것만 열기
-        document.getElementById(`${key[0]}${key[1]}`).style.display ='block';
+        document.getElementById(`${key[0]}${key[1]}`).style.display = 'block';
     }
 }
-function calPrice(){
-        // 가격 계산
-        var price_cream = 0, price_color = 0;
-        var cream_list = document.querySelectorAll('input[name="크림종류"]:checked');
-        var color_list = document.querySelectorAll('input[name="색"]:checked');
-        if(cream_list[0]){
-            price_cream = cream_list[0].dataset.value;
-        }
-        if(color_list[0]){
-            price_color = color_list[0].dataset.value;
-        }
-        
-        var tol = Number(total_price) + Number(price_color) + Number(price_cream);
-        document.getElementById('total_price').value = tol;
+
+// color 부분
+var c_key = Object.keys(color_list)
+for (var i = 0; i < c_key.length; i++) {
+    const t1 = document.querySelector(`.color_${c_key[i]}`)
+    t1.innerHTML = color_list[c_key[i]] + "원"
 }
-// main
-loadMenu()
-.then(menu => {
-    display(menu)
-    calPrice()
-    setEventListeners()
-})
-.catch(console.log)
+// cream 부분
+c_key = Object.keys(cream_list)
+for (var i = 0; i < c_key.length; i++) {
+    const t1 = document.querySelector(`.cream_${c_key[i]}`)
+    t1.innerHTML = color_list[c_key[i]] + "원"
+}
+
+function sumPrice() {
+    // 가격 계산
+    var price_cream = 0, price_color = 0;
+    var cream_query = document.querySelector('input[name="cream"]:checked');
+    var color_query = document.querySelector('input[name="color"]:checked');
+    if (cream_query) {
+        idx = cream_query.value
+        price_cream = cream_list[idx]
+    }
+    if (color_query) {
+        idx = color_query.value;
+        price_color = color_list[idx]
+    }
+
+    var total = Number("{{cake.price}}") + Number(price_color) + Number(price_cream);
+    console.log(total)
+    document.getElementById('total_price').value = total;
+}
+
+function goBack() {
+    window.history.back();
+}
+
+function coupon(x) {
+    document.getElementById('coupon').style.display = x;
+}
+
+function discount() {
+    var price = document.getElementById('total_price').value;
+    console.log(price)
+    var ele = document.getElementsByName('discount');
+    var discounted_price = 0;
+    var check = 0;
+    var val = 0;
+    var pk = 0;
+
+    for (i = 0; i < ele.length; i++) {
+        if (ele[i].checked) {
+            check = 1;
+            val = ele[i].value.split(' ')[0];
+            pk = ele[i].value.split(' ')[1];
+            if (val <= 100) {
+                discounted_price = price * (100 - val) / 100;
+                document.getElementById('coupon-pk').setAttribute("value", "p_" + pk);
+            } else {
+                discounted_price = price - val;
+                document.getElementById('coupon-pk').setAttribute("value", "a_" + pk);
+            }
+        }
+    }
+    if (check == 0) {
+        discounted_price = price;
+    }
+    document.getElementById('total').innerHTML = discounted_price;
+}
