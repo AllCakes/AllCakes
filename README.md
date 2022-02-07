@@ -7,7 +7,9 @@
 강현석(BE), 김동윤(BE), 위서영(FE), 함희원(BE)
 <br><br>
 ### 🌷ERD
+
 <img src = "./ERD.png">
+
 <br><br>
 ### 🌻주요기능 :
 ```
@@ -23,14 +25,16 @@
 10. 가게 지도 기능 (카카오 MAP API)
 11. 마이페이지
 ```
-<br><br>
+<br>
+
 ### 🌼기술 stack 
 **Django / python** <br>
 **DB :** postgresql <br>
 javascript, ajax, bootstrap.. etc <br>
 **배포 :** AWS, ngnix, uwsgi <br>
 <br>
-<br>
+
 ### 🌷회의 기록
+
 : https://www.notion.so/likelionjs/b3b52e690d1f46dfbbf80142030bd127?v=de8599e4ab09443cb51bd955b267dcbd
-<br><br>
+<br>
