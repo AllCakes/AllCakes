@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 from email.policy import default
-#from _typeshed import Self
 from users.models import User
 from django.utils import timezone
 from django.db import models
@@ -44,7 +43,6 @@ class Store(models.Model):
     # Menu
     color = models.ManyToManyField(Menu_Color, related_name='menu_color', blank=True)
     cream = models.ManyToManyField(Menu_Cream, related_name='menu_color', blank=True)
-
 
     # kdy : 가격 0원으로 건드렸음
     price = models.IntegerField(default=0, validators=[MinValueValidator(0, MaxValueValidator(100000))],verbose_name="메뉴 평균 금액")
@@ -92,13 +90,11 @@ class Store(models.Model):
     users_liked = models.ManyToManyField(User, blank=True, related_query_name="users_liked_store", related_name="users_liked_store")
     # 같이 알면 좋을 것 같아서 주석 많이 달았음! 찜 구현할 때 필드랑 내용 다 삭제 해도 괜찮! 
 
-    
     lat = models.CharField(max_length=20, verbose_name="위도", default= 37.2, )
     lon = models.CharField(max_length=20, verbose_name="경도", default= 125.3, )
 
     def __str__(self):
         return self.name
-
 
 class Cake(models.Model):
     cakename = models.CharField(default='',max_length=200)
@@ -165,7 +161,6 @@ class Cake(models.Model):
 
 # Cake와 cake_image 하나만 넣는 식으로 바꿈. CakeImage 모델 삭제
 # 이후 복수 업로드가 필요한 경우 코드 다시 돌리기.
-
 # 쿠폰 클래스 금액할인, 비율할인의 두 방식
 class AmountCoupon(models.Model):
     name = models.CharField(max_length=30)
@@ -191,8 +186,7 @@ class PercentCoupon(models.Model):
     def __str__(self):
         return self.name + str(self.pk)
 
-# 주문 관련 정보
-# 글씨체, 데코레이션 추가 필요
+# 주문 관련 정보 : 글씨체, 데코레이션 추가 필요
 class Order(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE, verbose_name="주문자")
     referred_store = models.ForeignKey(Store,on_delete=models.CASCADE, verbose_name="가게")
@@ -274,7 +268,6 @@ class Order(models.Model):
         self.save()
 
 class OrderTransactionManager(models.Manager):
-
     # 주문거래 클래스 생성용 함수
     def create_new(self, order, amount, success=None, transaction_status=None):
         if not order:
@@ -315,7 +308,6 @@ class OrderTransactionManager(models.Manager):
     #         print("결제가 되지 않았습니다. from get_transaction")
     #         return None
 
-
 # 거래 정보 모델
 class OrderTransaction(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -326,8 +318,6 @@ class OrderTransaction(models.Model):
 
     success = models.BooleanField(default=False)
     transaction_status = models.CharField(max_length=220,null=True, blank=True)
-
-
     objects = OrderTransactionManager()
 
     def __str__(self):
@@ -346,15 +336,6 @@ class Review(models.Model):
     comment = models.TextField(default='', blank=True)
     rate = models.IntegerField(default=0)
     review_img = models.ImageField(null=True,upload_to='reviewimages/',blank=True, verbose_name="사진 첨부")
-
-    def __str__(self):
-        return str(self.id)
-
-# 가게별 option 설정 정보 저장
-class Store_Menu(models.Model):
-    store = models.OneToOneField(Store, on_delete=models.CASCADE)
-    색 = models.CharField(max_length=15)
-    크림종류=models.CharField(max_length=15)
 
     def __str__(self):
         return str(self.id)
