@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import widgets
 from .models import *
 
 class StoreForm(forms.ModelForm):
@@ -35,8 +34,3 @@ class ReviewForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['review_img'].widget.attrs.update({'style': 'border-radius: 5px'})
-
-class StoreMenuForm(forms.ModelForm):
-    class Meta:
-        model = Store_Menu
-        fields=[]
