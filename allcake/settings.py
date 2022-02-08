@@ -23,10 +23,6 @@ KAKAO_ADNIN_KEY = os.getenv("KAKAO_ADMIN_KEY")
 KAKAO_MAP_API_KEY = os.getenv("KAKAO_MAP_API_KEY")
 
 
-
-
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -64,6 +60,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'ckeditor_uploader',
+
+    # chat function
+    'channels',
+    'chat',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -82,7 +82,6 @@ AUTHENTICATION_BACKENDS =(
     'users.mybackend.MyBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -114,7 +113,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'allcake.wsgi.application'
 
-
+# chatting 
+ASGI_APPLICATION = 'allcake.asgi.application'
+CHANNEL_LAYERS = {
+    'default' : {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    },
+}
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

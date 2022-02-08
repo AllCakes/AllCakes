@@ -60,9 +60,9 @@ urlpatterns = [
     # path('category/',category,name="category"),
 
     # menu_views.py : 맞춤형 메뉴 선택
-    path('storemenu/<int:store_pk>', menu_views.storemenu, name="storemenu"),
-    path('storemenu_edit/<int:store_pk>', menu_views.storemenu_edit, name="storemenu_edit"),
-    path('add_menu/<int:store_pk>', menu_views.add_menu , name="add_menu"),
+    path('storemenu/<int:store_pk>', menu_views.menu_new, name="storemenu"),
+    path('storemenu_edit/<int:store_pk>', menu_views.menu_edit, name="storemenu_edit"),
+    path('add_menu/<int:store_pk>', menu_views.menu_add , name="add_menu"),
 
     # test_views.py : TEST
     # 홈에 임시로 작성한 Stores, Cakes 링크 (가게 상세페이지 들어가기 불편해서)
