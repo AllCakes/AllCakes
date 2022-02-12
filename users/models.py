@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 # AbstractUser 말고  AbstractBaseUser를 extend
 
@@ -86,6 +87,10 @@ class UserManager(BaseUserManager):
     def create_superuser(self,email, password, nickname):
         #                        이메일, 패스워드, 직원, 관리자,카카오,사장님,성별,나이대,생일, 닉네임, 카카오id
         return self._create_user(email, password, True, True, False, False, '', '', '',  nickname, '')
+
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
 
 class User(AbstractBaseUser, PermissionsMixin):
     # Null : DB와 관련되어 있다. (database-related) 주어진 데이터베이스 컬럼이 null(빈 상태) 값을 가질 것인지 아닌지를 정의한다.

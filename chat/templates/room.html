@@ -6,25 +6,40 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <h1>채팅</h1>
+    <h1>{{store.name}}님과 {{guest.name}}님의 채팅</h1>
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
+    {{ prev_messages | json_script:"prev_messages"}}
+    <script id="prev_messages" type="application/json"></script>
     <script>
-        console.log("{{name}}")
+        var currentUser = "{{user_name}}"
+        var currentUserId = "{{user_Id}}"
+        const prev_messages = JSON.parse(document.getElementById("prev_messages").textContent);
+        console.log(prev_messages)
+        // 이전 대화내용 불러오기
+        var mesg = Object.keys(prev_messages)
+        for(var i = 0; i < mesg.length; i++){
+            var idx = mesg[i]
+            console.log(prev_messages[idx])
+            document.getElementById('chat-log').value +=  (prev_messages[idx]['user_name'] +"("+prev_messages[idx]['timestamp']+") : "+prev_messages[idx]['message'] + '\n');
+        }
+
+        // 소켓만들기
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
             + '/ws/chat/'
-            + '{{store_name}}'
+            + '{{store.pk}}'
             + '/'
-            + '{{room_name}}'
+            + '{{guest.pk}}'
             + '/'
         );
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.name +" : "+ data.message + '\n');
+            console.log(data)
+            document.querySelector('#chat-log').value += (data.user_name+"("+data.timestamp+") : "+ data.message + '\n');
         };
 
         chatSocket.onclose = function(e) {
@@ -41,8 +56,11 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
+            var date = new Date()
             chatSocket.send(JSON.stringify({
-                'name': "{{name}}",
+                'user_name': currentUser,
+                'user_id' : currentUserId,
+                'timestamp': date.toLocaleString(),
                 'message': message
             }));
             messageInputDom.value = '';

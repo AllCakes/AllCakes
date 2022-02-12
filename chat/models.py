@@ -1,8 +1,5 @@
 from django.db import models
-from users.models import User
+from django.conf import settings
+from django.forms import JSONField
+from .models import *
 from cakeManage.models import *
-
-class chatRoom(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    referred_store = models.ForeignKey(Store,on_delete=models.CASCADE, verbose_name="가게")
-    
