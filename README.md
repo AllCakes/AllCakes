@@ -30,8 +30,8 @@
 
 ### 🌼기술 stack 
 **Django / python** <br>
-**DB :** postgresql <br>
-javascript, ajax, bootstrap.. etc <br>
+**DB :** postgresql, MongoDB <br>
+javascript, ajax, redis, bootstrap.. etc <br>
 **배포 :** AWS, ngnix, uwsgi <br>
 <br>
 
