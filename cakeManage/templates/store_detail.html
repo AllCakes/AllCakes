@@ -78,6 +78,7 @@
 
 
                     {% if user.is_authenticated %}
+                    <a href="{% url 'room' store_pk=store.pk user_pk=user.pk %}"><button class="edit-button">사장님과 채팅</button></a>
                     {% if store.owner == user %}
                     <a href="{% url 'store_edit' pk=store.pk %}"><button class="edit-button">정보 수정</button></a>
                     <!-- 사장은 가게 페이지에서 정보 수정 및 케이크 생성, 수정할 수 있음. 다만 가게 전체 관리페이지가 필요할듯! -->

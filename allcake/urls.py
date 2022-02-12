@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("cakeManage.urls")),
     path('users/', include("users.urls")), #kdy : 앱마다 url 관리 해줄 수 있도록 url 분리했어
+    path('chat/', include("chat.urls")),
 ]
 
 if settings.DEBUG:

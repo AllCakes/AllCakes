@@ -11,8 +11,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from email.policy import default
+from multiprocessing.connection import Client
 from pathlib import Path
-from dotenv import load_dotenv      
+from dotenv import load_dotenv
+from pymongo import MongoClient
+from .my_settings import SECRET_KEY, DATABASE
 # python-dotenv : API, AWS서버 연결 등등에 필요한 시크릿 키값을 저장할 때 쓰기 좋음.
 import os
 # .env에 있는 내용을 os environment에 불러오고, 이후 os.getenv로 가져오면 된다.
@@ -23,10 +27,6 @@ KAKAO_ADNIN_KEY = os.getenv("KAKAO_ADMIN_KEY")
 KAKAO_MAP_API_KEY = os.getenv("KAKAO_MAP_API_KEY")
 
 
-
-
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6_oy(3h3pwtnk&(i&r0u9krlp@p&=a917iqt72emcn&ek*-dl2'
+SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -64,6 +64,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'ckeditor_uploader',
+
+    # chat function
+    'channels',
+    'chat',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -82,7 +86,6 @@ AUTHENTICATION_BACKENDS =(
     'users.mybackend.MyBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -114,20 +117,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'allcake.wsgi.application'
 
+# chatting 
+ASGI_APPLICATION = 'allcake.asgi.application'
+CHANNEL_LAYERS = {
+    'default' : {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
+
+CLIENT = MongoClient()
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'allcakes',
-        'USER' : 'allcakes',
-        'PASSWORD' : 'cake2067',
-        'HOST' : 'localhost',
-        'PORT' : '',
-    }
-}
+DATABASES = DATABASE
+DATABASE_ROUTERS = [
+    'allcake.dbrouter.MultiDBRouter',
+]
 
 
 # Password validation
@@ -176,9 +181,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-
-
 
 
 # STATICFILES_DIRS = ( os.path.join('static'), )

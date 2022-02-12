@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
+from django.conf import settings
 from email.policy import default
-from users.models import User
 from django.utils import timezone
 from django.db import models
+from users.models import *
 import datetime
 import hashlib
 from django.db.models import Q,F, Case, Value, When #시 별로 나오게 하는 구를 다르게 핸주는 옵션
@@ -10,6 +11,10 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Search(models.Model):
     검색단어 = models.CharField(max_length=30)
+
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
 
 class Menu_Color(models.Model):
     name = models.CharField(max_length=20)
@@ -20,6 +25,10 @@ class Menu_Color(models.Model):
     
     def to_string_name(self):
         return str(self.name)
+    
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
 
 class Menu_Cream(models.Model):
     name = models.CharField(max_length=20)
@@ -30,6 +39,10 @@ class Menu_Cream(models.Model):
 
     def to_string_name(self):
         return str(self.name)
+
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
 
 class Store(models.Model):
     # 순서대로 가게이름, 대표이미지, 설명, 게시일자, 연락처, 가게위치(OO구)
@@ -95,6 +108,10 @@ class Store(models.Model):
 
     def __str__(self):
         return self.name
+    
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
 
 class Cake(models.Model):
     cakename = models.CharField(default='',max_length=200)
@@ -159,6 +176,10 @@ class Cake(models.Model):
         self.cream = {}
         self.save()
 
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
+
 # Cake와 cake_image 하나만 넣는 식으로 바꿈. CakeImage 모델 삭제
 # 이후 복수 업로드가 필요한 경우 코드 다시 돌리기.
 # 쿠폰 클래스 금액할인, 비율할인의 두 방식
@@ -174,6 +195,10 @@ class AmountCoupon(models.Model):
     def __str__(self):
         return self.name + str(self.pk)
 
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
+
 class PercentCoupon(models.Model):
     name = models.CharField(max_length=30)
     use_from = models.DateTimeField(auto_now_add=True) # 사용시작시간
@@ -185,6 +210,10 @@ class PercentCoupon(models.Model):
     
     def __str__(self):
         return self.name + str(self.pk)
+
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
 
 # 주문 관련 정보 : 글씨체, 데코레이션 추가 필요
 class Order(models.Model):
@@ -267,6 +296,10 @@ class Order(models.Model):
         self.ingredient = {}
         self.save()
 
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
+
 class OrderTransactionManager(models.Manager):
     # 주문거래 클래스 생성용 함수
     def create_new(self, order, amount, success=None, transaction_status=None):
@@ -308,6 +341,10 @@ class OrderTransactionManager(models.Manager):
     #         print("결제가 되지 않았습니다. from get_transaction")
     #         return None
 
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False
+
 # 거래 정보 모델
 class OrderTransaction(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -325,6 +362,8 @@ class OrderTransaction(models.Model):
     
     class Meta:
         ordering= ['-created']
+        # app_label = 'default'
+        # managed = False
 
 # 리뷰 관련 정보
 class Review(models.Model):
@@ -339,3 +378,7 @@ class Review(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+    # class Meta:
+    #     app_label = 'default'
+    #     managed = False

@@ -5,7 +5,7 @@ from ..forms import *
 import json
 
 # 가게별 메뉴 선정
-def storemenu(request, store_pk):
+def menu_new(request, store_pk):
     store = get_object_or_404(Store, pk=store_pk)
     color = Menu_Color.objects.all()
     cream = Menu_Cream.objects.all()
@@ -32,10 +32,10 @@ def storemenu(request, store_pk):
         'col_name':col_name,
         'crm_name':crm_name
     }
-    return render(request, 'storemenu.html', context)
+    return render(request, 'store_menu.html', context)
 
 # 가게별 메뉴 수정
-def storemenu_edit(request, store_pk):
+def menu_edit(request, store_pk):
     store = get_object_or_404(Store, pk = store_pk)
 
     # 이미 등록한 메뉴
@@ -72,10 +72,10 @@ def storemenu_edit(request, store_pk):
         'col_name':col_name,
         'crm_name':crm_name
     }
-    return render(request, 'storemenu.html', context)
+    return render(request, 'store_menu.html', context)
 
 # menu 없을시 추가
-def add_menu(request,store_pk):
+def menu_add(request,store_pk):
     store = get_object_or_404(Store, pk = store_pk)
     if request.user != store.owner:
         raise ValidationError("잘못된 접근입니다.")

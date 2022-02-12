@@ -24,6 +24,7 @@
 9. 주문 결제
 10. 가게 지도 기능 (카카오 MAP API)
 11. 마이페이지
+12. 채팅 기능 (channels, redis, mongoDB 사용)
 ```
 <br>
 

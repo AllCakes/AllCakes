@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from cakeManage.models import *
-from .models import User
+from .models import *
 from .forms import NicknameForm, UserSignupForm, EmailAuthenticationForm
 # for kakao login
 from django.conf import settings
