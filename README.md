@@ -39,3 +39,8 @@ javascript, ajax, redis, bootstrap.. etc <br>
 
 : https://www.notion.so/likelionjs/b3b52e690d1f46dfbbf80142030bd127?v=de8599e4ab09443cb51bd955b267dcbd
 <br>
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/76711238/169568056-7827d515-3b60-4ab3-8a07-6dd0df52ff53.gif)
+
+<br>
+![image](https://user-images.githubusercontent.com/76711238/169568546-ae8d0389-57cb-4f4a-a8e2-4d3ef63d84d5.png)
+
